@@ -343,7 +343,7 @@
             Creates an envelope that contains a single user feedback.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.Transaction)">
             <summary>
             Creates an envelope that contains a single transaction.
             </summary>
@@ -399,7 +399,7 @@
             Creates an envelope item from user feedback.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.Transaction)">
             <summary>
             Creates an envelope item from transaction.
             </summary>
@@ -993,6 +993,11 @@
             Operation.
             </summary>
         </member>
+        <member name="P:Sentry.Protocol.ITraceContext.Description">
+            <summary>
+            Description.
+            </summary>
+        </member>
         <member name="P:Sentry.Protocol.ITraceContext.Status">
             <summary>
             Status.
@@ -1138,6 +1143,9 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Protocol.Trace.Operation">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.Description">
             <inheritdoc />
         </member>
         <member name="P:Sentry.Protocol.Trace.Status">
@@ -1415,7 +1423,7 @@
             No-Op.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.DisabledHub.CaptureTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureTransaction(Sentry.Transaction)">
             <summary>
             No-Op.
             </summary>
@@ -1555,7 +1563,7 @@
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.HubAdapter.CaptureTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureTransaction(Sentry.Transaction)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -1986,6 +1994,11 @@
             <value>
             The user.
             </value>
+        </member>
+        <member name="P:Sentry.IEventLike.Platform">
+            <summary>
+            The name of the platform.
+            </summary>
         </member>
         <member name="P:Sentry.IEventLike.Release">
             <summary>
@@ -2467,6 +2480,24 @@
             <param name="exception">The exception to create the stacktrace from.</param>
             <returns>A Sentry stack trace.</returns>
         </member>
+        <member name="P:Sentry.Internal.ProcessInfo.StartupTime">
+            <summary>
+            When the code was initialized.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.ProcessInfo.BootTime">
+            <summary>
+            When the device was initialized.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.ProcessInfo.StartAccurateStartupTime">
+            <summary>
+            StartupTime is set to UtcNow in this constructor.
+            That's computationally cheap but not very precise.
+            This method will give a better precision to the StartupTime at a cost
+            of calling Process.GetCurrentProcess, on a thread pool thread.
+            </summary>
+        </member>
         <member name="M:Sentry.Internal.ReleaseLocator.GetCurrent">
             <summary>
             Attempts to locate the application release
@@ -2497,7 +2528,7 @@
             </summary>
             <param name="userFeedback">The user feedback to send to Sentry.</param>
         </member>
-        <member name="M:Sentry.ISentryClient.CaptureTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.ISentryClient.CaptureTransaction(Sentry.Transaction)">
             <summary>
             Captures a transaction.
             </summary>
@@ -2597,21 +2628,6 @@
             Span status.
             </summary>
         </member>
-        <member name="P:Sentry.ISpan.StartTimestamp">
-            <summary>
-            Start timestamp.
-            </summary>
-        </member>
-        <member name="P:Sentry.ISpan.EndTimestamp">
-            <summary>
-            End timestamp.
-            </summary>
-        </member>
-        <member name="P:Sentry.ISpan.IsFinished">
-            <summary>
-            Whether the span is finished.
-            </summary>
-        </member>
         <member name="M:Sentry.ISpan.StartChild(System.String)">
             <summary>
             Starts a child span.
@@ -2632,11 +2648,6 @@
             Finishes the span with the specified exception and automatically inferred status.
             </summary>
         </member>
-        <member name="M:Sentry.ISpan.GetTraceHeader">
-            <summary>
-            Get Sentry trace header.
-            </summary>
-        </member>
         <member name="T:Sentry.SpanExtensions">
             <summary>
             Extensions for <see cref="T:Sentry.ISpan"/>.
@@ -2652,19 +2663,34 @@
             Span metadata.
             </summary>
         </member>
-        <member name="P:Sentry.ISpanContext.Description">
+        <member name="T:Sentry.ISpanData">
             <summary>
-            Description.
+            Immutable data belonging to a span.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISpanData.StartTimestamp">
+            <summary>
+            Start timestamp.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISpanData.EndTimestamp">
+            <summary>
+            End timestamp.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISpanData.IsFinished">
+            <summary>
+            Whether the span is finished.
+            </summary>
+        </member>
+        <member name="M:Sentry.ISpanData.GetTraceHeader">
+            <summary>
+            Get Sentry trace header.
             </summary>
         </member>
         <member name="T:Sentry.ITransaction">
             <summary>
             Transaction.
-            </summary>
-        </member>
-        <member name="P:Sentry.ITransaction.EventId">
-            <summary>
-            Transaction event ID.
             </summary>
         </member>
         <member name="P:Sentry.ITransaction.Name">
@@ -2690,6 +2716,11 @@
         <member name="P:Sentry.ITransactionContext.Name">
             <summary>
             Transaction name.
+            </summary>
+        </member>
+        <member name="T:Sentry.ITransactionData">
+            <summary>
+            Immutable data belonging to a transaction.
             </summary>
         </member>
         <member name="T:Sentry.Package">
@@ -3156,6 +3187,9 @@
         <member name="P:Sentry.Scope.User">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.Scope.Platform">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.Scope.Release">
             <inheritdoc />
         </member>
@@ -3382,7 +3416,7 @@
         <member name="M:Sentry.SentryClient.CaptureUserFeedback(Sentry.UserFeedback)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SentryClient.CaptureTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.SentryClient.CaptureTransaction(Sentry.Transaction)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.FlushAsync(System.TimeSpan)">
@@ -3486,9 +3520,7 @@
             </summary>
         </member>
         <member name="P:Sentry.SentryEvent.Platform">
-            <summary>
-            The name of the platform.
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Sentry.SentryEvent.ServerName">
             <summary>
@@ -4076,13 +4108,23 @@
             Values outside of this range are invalid.
             Default value is <code>0</code>, which means tracing is disabled.
             </summary>
+            <remarks>
+            Random sampling rate is only applied to transactions that don't already
+            have a sampling decision set by other means, such as through <see cref="P:Sentry.SentryOptions.TracesSampler"/>,
+            by inheriting it from an incoming trace header, or by copying it from <see cref="T:Sentry.TransactionContext"/>.
+            </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.TracesSampler">
             <summary>
             Custom delegate that returns sample rate dynamically for a specific transaction context.
-            The delegate may also return <code>null</code> to fallback to default sample rate as
-            defined by the <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> property.
             </summary>
+            <remarks>
+            Returning <code>null</code> signals that the sampler did not reach a sampling decision.
+            In such case, if the transaction already has a sampling decision (for example, if it's
+            started from a trace header) that decision is retained.
+            Otherwise sampling decision is determined by applying the static sampling rate
+            set in <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>.
+            </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.StackTraceMode">
             <summary>
@@ -4448,7 +4490,7 @@
             <param name="comments">The user comments.</param>
             <param name="name">The optional username.</param>
         </member>
-        <member name="M:Sentry.SentrySdk.CaptureTransaction(Sentry.ITransaction)">
+        <member name="M:Sentry.SentrySdk.CaptureTransaction(Sentry.Transaction)">
             <summary>
             Captures a transaction.
             </summary>
@@ -4611,13 +4653,13 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Span.Operation">
-            <inheritdoc cref="P:Sentry.ISpan.Operation" />
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Span.Description">
-            <inheritdoc cref="P:Sentry.ISpan.Description" />
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Span.Status">
-            <inheritdoc cref="P:Sentry.ISpan.Status" />
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Span.IsSampled">
             <inheritdoc />
@@ -4637,22 +4679,15 @@
         <member name="M:Sentry.Span.SetExtra(System.String,System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Span.#ctor(Sentry.IHub,Sentry.Transaction,System.Nullable{Sentry.SpanId},System.String)">
+        <member name="M:Sentry.Span.#ctor(System.Nullable{Sentry.SpanId},System.String)">
             <summary>
-            Initializes an instance of <see cref="T:Sentry.Span"/>.
+            Initializes an instance of <see cref="T:Sentry.SpanTracer"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Span.StartChild(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Span.Finish(Sentry.SpanStatus)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Span.Finish(System.Exception,Sentry.SpanStatus)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Span.Finish(System.Exception)">
-            <inheritdoc />
+        <member name="M:Sentry.Span.#ctor(Sentry.ISpan)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.SpanTracer"/>.
+            </summary>
         </member>
         <member name="M:Sentry.Span.GetTraceHeader">
             <inheritdoc />
@@ -4660,7 +4695,7 @@
         <member name="M:Sentry.Span.WriteTo(System.Text.Json.Utf8JsonWriter)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Span.FromJson(Sentry.Transaction,System.Text.Json.JsonElement)">
+        <member name="M:Sentry.Span.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses a span from JSON.
             </summary>
@@ -4812,6 +4847,76 @@
         <member name="F:Sentry.SpanStatus.DataLoss">
             <summary>Unrecoverable data loss or corruption</summary>
         </member>
+        <member name="T:Sentry.SpanTracer">
+            <summary>
+            Transaction span tracer.
+            </summary>
+        </member>
+        <member name="P:Sentry.SpanTracer.SpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.ParentSpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.TraceId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.StartTimestamp">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.EndTimestamp">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.IsFinished">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.Operation">
+            <inheritdoc cref="P:Sentry.ISpan.Operation" />
+        </member>
+        <member name="P:Sentry.SpanTracer.Description">
+            <inheritdoc cref="P:Sentry.ISpan.Description" />
+        </member>
+        <member name="P:Sentry.SpanTracer.Status">
+            <inheritdoc cref="P:Sentry.ISpan.Status" />
+        </member>
+        <member name="P:Sentry.SpanTracer.IsSampled">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.Tags">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.SetTag(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.UnsetTag(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.Extra">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.SetExtra(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.#ctor(Sentry.IHub,Sentry.TransactionTracer,System.Nullable{Sentry.SpanId},Sentry.SentryId,System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.SpanTracer"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SpanTracer.StartChild(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.Finish(Sentry.SpanStatus)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.Finish(System.Exception,Sentry.SpanStatus)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.Finish(System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.GetTraceHeader">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.StackTraceMode">
             <summary>
             The mode which the SDK builds the stack trace.
@@ -4855,7 +4960,9 @@
             </summary>
         </member>
         <member name="P:Sentry.Transaction.EventId">
-            <inheritdoc />
+            <summary>
+            Transaction's event ID.
+            </summary>
         </member>
         <member name="P:Sentry.Transaction.SpanId">
             <inheritdoc />
@@ -4867,7 +4974,10 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Name">
-            <inheritdoc cref="P:Sentry.ITransaction.Name" />
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Transaction.Platform">
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Release">
             <inheritdoc />
@@ -4879,13 +4989,13 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Operation">
-            <inheritdoc cref="P:Sentry.ISpan.Operation" />
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Description">
-            <inheritdoc cref="P:Sentry.ISpan.Description" />
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Status">
-            <inheritdoc cref="P:Sentry.ISpan.Status" />
+            <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.IsSampled">
             <inheritdoc />
@@ -4921,17 +5031,19 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Spans">
-            <inheritdoc />
+            <summary>
+            Flat list of spans within this transaction.
+            </summary>
         </member>
         <member name="P:Sentry.Transaction.IsFinished">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Transaction.#ctor(Sentry.IHub,System.String,System.String)">
+        <member name="M:Sentry.Transaction.#ctor(System.String,System.String)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Transaction.#ctor(Sentry.IHub,Sentry.ITransactionContext)">
+        <member name="M:Sentry.Transaction.#ctor(Sentry.ITransaction)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
             </summary>
@@ -4946,21 +5058,6 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.Transaction.UnsetTag(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Transaction.StartChild(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Transaction.Finish(Sentry.SpanStatus)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Transaction.Finish(System.Exception,Sentry.SpanStatus)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Transaction.Finish(System.Exception)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Transaction.GetLastActiveSpan">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Transaction.GetTraceHeader">
@@ -4982,7 +5079,12 @@
         <member name="P:Sentry.TransactionContext.Name">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.TransactionContext.#ctor(Sentry.SpanId,System.Nullable{Sentry.SpanId},Sentry.SentryId,System.String,System.String,System.String,System.Nullable{Sentry.SpanStatus},System.Nullable{System.Boolean})">
+        <member name="P:Sentry.TransactionContext.IsParentSampled">
+            <summary>
+            Whether the parent transaction of this transaction has been sampled.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionContext.#ctor(Sentry.SpanId,System.Nullable{Sentry.SpanId},Sentry.SentryId,System.String,System.String,System.String,System.Nullable{Sentry.SpanStatus},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
             </summary>
@@ -4993,6 +5095,11 @@
             </summary>
         </member>
         <member name="M:Sentry.TransactionContext.#ctor(System.String,System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionContext.#ctor(System.String,System.String,Sentry.SentryTraceHeader)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
             </summary>
@@ -5021,6 +5128,123 @@
             <summary>
             Initializes an instance of <see cref="T:Sentry.TransactionSamplingContext"/>.
             </summary>
+        </member>
+        <member name="T:Sentry.TransactionTracer">
+            <summary>
+            Transaction tracer.
+            </summary>
+        </member>
+        <member name="P:Sentry.TransactionTracer.SpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.ParentSpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.TraceId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Name">
+            <inheritdoc cref="P:Sentry.ITransaction.Name" />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Platform">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Release">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.StartTimestamp">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.EndTimestamp">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Operation">
+            <inheritdoc cref="P:Sentry.ISpan.Operation" />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Description">
+            <inheritdoc cref="P:Sentry.ISpan.Description" />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Status">
+            <inheritdoc cref="P:Sentry.ISpan.Status" />
+        </member>
+        <member name="P:Sentry.TransactionTracer.IsSampled">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Level">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Request">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Contexts">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.User">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Environment">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Sdk">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Fingerprint">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Breadcrumbs">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Extra">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Tags">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Spans">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.IsFinished">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,System.String,System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Transaction"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,Sentry.ITransactionContext)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Transaction"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionTracer.AddBreadcrumb(Sentry.Breadcrumb)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.SetExtra(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.SetTag(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.UnsetTag(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.StartChild(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.Finish(Sentry.SpanStatus)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.Finish(System.Exception,Sentry.SpanStatus)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.Finish(System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.GetLastActiveSpan">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.GetTraceHeader">
+            <inheritdoc />
         </member>
         <member name="T:Sentry.User">
             <summary>
