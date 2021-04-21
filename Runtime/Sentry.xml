@@ -2490,14 +2490,6 @@
             When the device was initialized.
             </summary>
         </member>
-        <member name="M:Sentry.Internal.ProcessInfo.StartAccurateStartupTime">
-            <summary>
-            StartupTime is set to UtcNow in this constructor.
-            That's computationally cheap but not very precise.
-            This method will give a better precision to the StartupTime at a cost
-            of calling Process.GetCurrentProcess, on a thread pool thread.
-            </summary>
-        </member>
         <member name="M:Sentry.Internal.ReleaseLocator.GetCurrent">
             <summary>
             Attempts to locate the application release
@@ -2631,6 +2623,11 @@
         <member name="M:Sentry.ISpan.StartChild(System.String)">
             <summary>
             Starts a child span.
+            </summary>
+        </member>
+        <member name="M:Sentry.ISpan.Finish">
+            <summary>
+            Finishes the span.
             </summary>
         </member>
         <member name="M:Sentry.ISpan.Finish(Sentry.SpanStatus)">
@@ -4144,6 +4141,15 @@
             Regardless of this setting, attachments are also limited to 20mb (compressed) on Relay.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.DetectStartupTime">
+            <summary>
+            Whether the SDK should attempt to detect the app's and device's startup time.
+            </summary>
+            <remarks>
+            Note that the highest precision value relies on <see cref="M:System.Diagnostics.Process.GetCurrentProcess"/>
+            which might not be available. For example on Unity's IL2CPP.
+            </remarks>
+        </member>
         <member name="M:Sentry.SentryOptions.#ctor">
             <summary>
             Creates a new instance of <see cref="T:Sentry.SentryOptions"/>
@@ -4905,6 +4911,9 @@
         <member name="M:Sentry.SpanTracer.StartChild(System.String)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.SpanTracer.Finish">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.SpanTracer.Finish(Sentry.SpanStatus)">
             <inheritdoc />
         </member>
@@ -4939,6 +4948,32 @@
             </summary>
             <remarks>
             This mode uses <see href="https://github.com/getsentry/Ben.Demystifier">Ben Adams' Demystifier library</see>.
+            </remarks>
+        </member>
+        <member name="T:Sentry.StartupTimeDetectionMode">
+            <summary>
+            The mode of which to attempt to detect the process startup time.
+            </summary>
+        </member>
+        <member name="F:Sentry.StartupTimeDetectionMode.None">
+            <summary>
+            Disabled.
+            </summary>
+        </member>
+        <member name="F:Sentry.StartupTimeDetectionMode.Fast">
+            <summary>
+            Best effort approach that can be off by a few seconds or minutes.
+            </summary>
+            <remarks>
+            In this mode, the App startup time is assumed to be the point of which the SDK was initialized.
+            </remarks>
+        </member>
+        <member name="F:Sentry.StartupTimeDetectionMode.Best">
+            <summary>
+            Attempts to detect the startup time with the most precision.
+            </summary>
+            <remarks>
+            This can require starting work on the thread pool due to P/Invoke calls.
             </remarks>
         </member>
         <member name="T:Sentry.StreamAttachmentContent">
@@ -5229,6 +5264,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.StartChild(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.Finish">
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.Finish(Sentry.SpanStatus)">
