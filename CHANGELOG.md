@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.12
+
+- Craft Release v2
+
 ## 0.0.11
 
 - Craft Release
