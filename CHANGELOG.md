@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+
+### Fixes
+
+- Add product name to release as default ([#202](https://github.com/getsentry/sentry-unity/pull/202))
+- normalize line endings ([#204](https://github.com/getsentry/sentry-unity/pull/204))
+
 ## 0.1.0
 
 ### Features
@@ -13,6 +20,7 @@
 - Check/create directory before saving ([#196](https://github.com/getsentry/sentry-unity/pull/196))
 - Exclude SentryOptions.json from release package ([#195](https://github.com/getsentry/sentry-unity/pull/195))
 - default env and version ([#199](https://github.com/getsentry/sentry-unity/pull/199))
+- SentryEvent.ServerName forced to 'null' ([#201](https://github.com/getsentry/sentry-unity/pull/201))
 
 ## 0.0.14
 
