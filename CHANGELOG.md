@@ -1,9 +1,23 @@
 # Changelog
 
+## 0.2.0
+
+- Force 'Auto' from sentry window ([#219](https://github.com/getsentry/sentry-unity/pull/219))
+- Hub.IsEnabled check in logging integration ([#210](https://github.com/getsentry/sentry-unity/pull/210))
+
+### Features
+
+- Offline caching ([#208](https://github.com/getsentry/sentry-unity/pull/208))
+- Breadcrumb categories added ([#206](https://github.com/getsentry/sentry-unity/pull/206))
+- Bump Sentry .NET SDK 3.5.0 ([#218](https://github.com/getsentry/sentry-unity/pull/218))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#350)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.3.4...3.5.0)
+
 ## 0.1.1
 
 ### Fixes
 
+- Fallback for missing/empty product name ([#205](https://github.com/getsentry/sentry-unity/pull/205))
 - Add product name to release as default ([#202](https://github.com/getsentry/sentry-unity/pull/202))
 - normalize line endings ([#204](https://github.com/getsentry/sentry-unity/pull/204))
 
