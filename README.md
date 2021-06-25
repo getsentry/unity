@@ -8,12 +8,9 @@
 Sentry SDK for Unity
 ===========
 
-This is the [UPM](https://docs.unity3d.com/Manual/upm-ui-giturl.html) package for the Sentry SDK.
+This is the UPM package for the Sentry SDK for Unity.
 
-Install it via this url: 
-```
-https://github.com/getsentry/unity.git#x.x.x
-```
+Install it via `UPM`: `https://github.com/getsentry/unity.git#x.x.x`
 Where `x.x.x` is [the latest release](https://github.com/getsentry/unity/releases).
 
 ## Source code

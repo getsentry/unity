@@ -333,7 +333,7 @@
         <member name="M:Sentry.Protocol.Envelopes.Envelope.Dispose">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromEvent(Sentry.SentryEvent,System.Collections.Generic.IReadOnlyCollection{Sentry.Attachment})">
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromEvent(Sentry.SentryEvent,System.Collections.Generic.IReadOnlyCollection{Sentry.Attachment},Sentry.SessionUpdate)">
             <summary>
             Creates an envelope that contains a single event.
             </summary>
@@ -346,6 +346,11 @@
         <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.Transaction)">
             <summary>
             Creates an envelope that contains a single transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromSession(Sentry.SessionUpdate)">
+            <summary>
+            Creates an envelope that contains a session update.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
@@ -402,6 +407,11 @@
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.Transaction)">
             <summary>
             Creates an envelope item from transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromSession(Sentry.SessionUpdate)">
+            <summary>
+            Creates an envelope item from a session update.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromAttachment(Sentry.Attachment)">
@@ -842,8 +852,86 @@
             A formatted UTC timestamp when the system was booted.
             </summary>
             <example>
-            018-02-08T12:52:12Z
+            2018-02-08T12:52:12Z
             </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ProcessorCount">
+            <summary>
+            Number of "logical processors".
+            </summary>
+            <example>
+            8
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.CpuDescription">
+            <summary>
+            CPU description.
+            </summary>
+            <example>
+            Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ProcessorFrequency">
+            <summary>
+            Processor frequency in MHz. Note that the actual CPU frequency might vary depending on current load and power
+            conditions, especially on low-powered devices like phones and laptops. On some platforms it's not possible
+            to query the CPU frequency. Currently such platforms are iOS and WebGL.
+            </summary>
+            <example>
+            2500
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.DeviceType">
+            <summary>
+            Kind of device the application is running on.
+            </summary>
+            <example>
+            Unknown, Handheld, Console, Desktop
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.BatteryStatus">
+            <summary>
+            Status of the device's battery.
+            </summary>
+            <example>
+            Unknown, Charging, Discharging, NotCharging, Full
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.DeviceUniqueIdentifier">
+            <summary>
+            Unique device identifier. Depends on the running platform.
+            </summary>
+            <example>
+            iOS: UIDevice.identifierForVendor (UUID)
+            Android: md5 of ANDROID_ID
+            Windows Store Apps: AdvertisingManager::AdvertisingId (possible fallback to HardwareIdentification::GetPackageSpecificToken().Id)
+            Windows Standalone: hash from the concatenation of strings taken from Computer System Hardware Classes
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsVibration">
+            <summary>
+            Is vibration available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsAccelerometer">
+            <summary>
+            Is accelerometer available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsGyroscope">
+            <summary>
+            Is gyroscope available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsAudio">
+            <summary>
+            Is audio available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsLocationService">
+            <summary>
+            Is the device capable of reporting its location?
+            </summary>
         </member>
         <member name="M:Sentry.Protocol.Device.Clone">
             <summary>
@@ -954,6 +1042,39 @@
             <example>
             Full
             </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.MaxTextureSize">
+            <summary>
+            Largest size of a texture that is supported by the graphics hardware.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.GraphicsShaderLevel">
+            <summary>
+            Approximate "shader capability" level of the graphics device.
+            </summary>
+            <example>
+            Shader Model 2.0, OpenGL ES 3.0, Metal / OpenGL ES 3.1, 27 (unknown)
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsDrawCallInstancing">
+            <summary>
+            Is audio available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsRayTracing">
+            <summary>
+            Is ray tracing available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsComputeShaders">
+            <summary>
+            Are compute shaders available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsGeometryShaders">
+            <summary>
+            Are geometry shaders available on the device?
+            </summary>
         </member>
         <member name="M:Sentry.Protocol.Gpu.Clone">
             <summary>
@@ -1391,6 +1512,11 @@
             Log a info message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo``3(Sentry.Extensibility.IDiagnosticLogger,System.String,``0,``1,``2)">
+            <summary>
+            Log a info message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning(Sentry.Extensibility.IDiagnosticLogger,System.String)">
             <summary>
             Log a warning message.
@@ -1408,22 +1534,27 @@
         </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception)">
             <summary>
-            Log a warning message.
+            Log a error message.
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``1(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception,``0)">
             <summary>
-            Log a warning message.
+            Log a error message.
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``2(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception,``0,``1)">
             <summary>
-            Log a warning message.
+            Log a error message.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``3(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception,``0,``1,``2)">
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``4(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception,``0,``1,``2,``3)">
             <summary>
-            Log a warning message.
+            Log a error message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``3(Sentry.Extensibility.IDiagnosticLogger,System.Exception,System.String,``0,``1,``2)">
+            <summary>
+            Log an error message.
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogFatal(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception)">
@@ -1491,6 +1622,26 @@
             Returns null.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.StartSession">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.PauseSession">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.ResumeSession">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.EndSession(Sentry.SessionEndStatus)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.BindClient(Sentry.ISentryClient)">
             <summary>
             No-Op.
@@ -1502,6 +1653,11 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DisabledHub.CaptureTransaction(Sentry.Transaction)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureSession(Sentry.SessionUpdate)">
             <summary>
             No-Op.
             </summary>
@@ -1611,6 +1767,26 @@
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.StartSession">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.PauseSession">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.ResumeSession">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.EndSession(Sentry.SessionEndStatus)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.HubAdapter.BindClient(Sentry.ISentryClient)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
@@ -1642,6 +1818,11 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.CaptureTransaction(Sentry.Transaction)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureSession(Sentry.SessionUpdate)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -2291,6 +2472,34 @@
             Gets the Sentry trace header for the last active span.
             </summary>
         </member>
+        <member name="M:Sentry.IHub.StartSession">
+            <summary>
+            Starts a new session.
+            </summary>
+        </member>
+        <member name="M:Sentry.IHub.PauseSession">
+            <summary>
+            Pauses an active session.
+            </summary>
+        </member>
+        <member name="M:Sentry.IHub.ResumeSession">
+            <summary>
+            Resumes an active session.
+            If the session has been paused for longer than the duration of time specified in
+            <see cref="P:Sentry.SentryOptions.AutoSessionTrackingInterval"/> then the paused session is
+            ended and a new one is started instead.
+            </summary>
+        </member>
+        <member name="M:Sentry.IHub.EndSession(Sentry.SessionEndStatus)">
+            <summary>
+            Ends the currently active session.
+            </summary>
+        </member>
+        <member name="T:Sentry.IJsonSerializable">
+            <summary>
+            Sentry JsonSerializable.
+            </summary>
+        </member>
         <member name="M:Sentry.IJsonSerializable.WriteTo(System.Text.Json.Utf8JsonWriter)">
             <summary>
             Writes the object as JSON.
@@ -2378,6 +2587,29 @@
             Used for testability, calls: DateTimeOffset.UtcNow
             </remarks>
         </member>
+        <member name="T:Sentry.Infrastructure.TraceDiagnosticLogger">
+            <summary>
+            Trace logger used by the SDK to report its internal logging.
+            </summary>
+            <remarks>
+            Logger available when hooked to an IDE. It's useful when debugging apps running under IIS which have no output to Console logger.
+            </remarks>
+        </member>
+        <member name="M:Sentry.Infrastructure.TraceDiagnosticLogger.#ctor(Sentry.SentryLevel)">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.Infrastructure.TraceDiagnosticLogger"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Infrastructure.TraceDiagnosticLogger.IsEnabled(Sentry.SentryLevel)">
+            <summary>
+            Whether the logger is enabled to the defined level.
+            </summary>
+        </member>
+        <member name="M:Sentry.Infrastructure.TraceDiagnosticLogger.Log(Sentry.SentryLevel,System.String,System.Exception,System.Object[])">
+            <summary>
+            Log message with level, exception and parameters.
+            </summary>
+        </member>
         <member name="T:Sentry.Integrations.ISdkIntegration">
             <summary>
             An SDK Integration.
@@ -2435,12 +2667,6 @@
             Attempts to find a DSN string from the entry assembly's DsnAttribute.
             </summary>
             <returns>DSN string or null if none found.</returns>
-        </member>
-        <member name="P:Sentry.Internal.EnvironmentLocator.Current">
-            <summary>
-            Attempts to locate the environment the app is running in.
-            </summary>
-            <returns>The Environment name or null, if it couldn't be located.</returns>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -2568,12 +2794,6 @@
             When the device was initialized.
             </summary>
         </member>
-        <member name="M:Sentry.Internal.ReleaseLocator.GetCurrent">
-            <summary>
-            Attempts to locate the application release
-            </summary>
-            <returns>The app release or null, if it couldn't be located.</returns>
-        </member>
         <member name="T:Sentry.ISentryClient">
             <summary>
             Sentry Client interface.
@@ -2607,6 +2827,16 @@
             Instead, call <see cref="M:Sentry.ISpan.Finish(Sentry.SpanStatus)"/> on the transaction.
             </remarks>
             <param name="transaction">The transaction.</param>
+        </member>
+        <member name="M:Sentry.ISentryClient.CaptureSession(Sentry.SessionUpdate)">
+            <summary>
+            Captures a session update.
+            </summary>
+            <remarks>
+            Note: this method is NOT meant to be called from user code!
+            It will be called automatically by the SDK.
+            </remarks>
+            <param name="sessionUpdate">The update to send to Sentry.</param>
         </member>
         <member name="M:Sentry.ISentryClient.FlushAsync(System.TimeSpan)">
             <summary>
@@ -2676,6 +2906,51 @@
         <member name="M:Sentry.ISentryScopeStateProcessor.Apply(Sentry.Scope,System.Object)">
             <summary>
             Applies state onto a scope.
+            </summary>
+        </member>
+        <member name="T:Sentry.ISession">
+            <summary>
+            Session metadata.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.Id">
+            <summary>
+            Session auto-generated ID.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.DistinctId">
+            <summary>
+            Session distinct ID.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.StartTimestamp">
+            <summary>
+            Session start timestamp.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.Release">
+            <summary>
+            Release.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.Environment">
+            <summary>
+            Environment.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.IpAddress">
+            <summary>
+            IP address of the user.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.UserAgent">
+            <summary>
+            User agent.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISession.ErrorCount">
+            <summary>
+            Reported error count.
             </summary>
         </member>
         <member name="T:Sentry.ISpan">
@@ -3116,6 +3391,27 @@
             <param name="asm">The assembly to get the name and version from.</param>
             <returns>The SdkVersion.</returns>
         </member>
+        <member name="T:Sentry.ReportAssembliesMode">
+            <summary>
+            Possible modes for reporting the assemblies.
+            </summary>
+        </member>
+        <member name="F:Sentry.ReportAssembliesMode.None">
+            <summary>
+            Don't report any assemblies.
+            </summary>
+        </member>
+        <member name="F:Sentry.ReportAssembliesMode.Version">
+            <summary>
+            Report assemblies and use the assembly version to determine the version.
+            </summary>
+        </member>
+        <member name="F:Sentry.ReportAssembliesMode.InformationalVersion">
+            <summary>
+            Report assemblies and prefer the informational assembly version to determine the version. If
+            the informational assembly version is not available, fall back to the assembly version.
+            </summary>
+        </member>
         <member name="T:Sentry.Request">
             <summary>
             Sentry HTTP interface.
@@ -3492,6 +3788,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.CaptureTransaction(Sentry.Transaction)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryClient.CaptureSession(Sentry.SessionUpdate)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.FlushAsync(System.TimeSpan)">
@@ -4001,7 +4300,7 @@
             <remarks>
             This value will generally be something along the lines of the git SHA for the given project.
             If not explicitly defined via configuration or environment variable (SENTRY_RELEASE).
-            It will attempt o read it from:
+            It will attempt to read it from:
             <see cref="T:System.Reflection.AssemblyInformationalVersionAttribute"/>
             </remarks>
             <seealso href="https://docs.sentry.io/platforms/dotnet/configuration/releases/"/>
@@ -4141,6 +4440,11 @@
             Whether or not to include referenced assemblies in each event sent to sentry. Defaults to <see langword="true"/>.
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.ReportAssembliesMode">
+            <summary>
+            What mode to use for reporting referenced assemblies in each event sent to sentry. Defaults to <see cref="F:Sentry.ReportAssembliesMode.Version"/>.
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.DeduplicateMode">
             <summary>
             What modes to use for event automatic deduplication
@@ -4226,6 +4530,26 @@
             <remarks>
             Note that the highest precision value relies on <see cref="M:System.Diagnostics.Process.GetCurrentProcess"/>
             which might not be available. For example on Unity's IL2CPP.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryOptions.AutoSessionTrackingInterval">
+            <summary>
+            Determines the duration of time a session can stay paused before it's considered ended.
+            </summary>
+            <remarks>
+            Note: This interval is only taken into account when integrations support Pause and Resume.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryOptions.AutoSessionTracking">
+            <summary>
+            Whether the SDK should start a session automatically when it's initialized and
+            end the session when it's closed.
+            </summary>
+            <remarks>
+            Note: this is disabled by default in the current version, but will become
+            enabled by default in the next major version.
+            Currently this only works for release health in client mode
+            (desktop, mobile applications, but not web servers).
             </remarks>
         </member>
         <member name="M:Sentry.SentryOptions.#ctor">
@@ -4579,6 +4903,11 @@
             Captures a transaction.
             </summary>
         </member>
+        <member name="M:Sentry.SentrySdk.CaptureSession(Sentry.SessionUpdate)">
+            <summary>
+            Captures a session update.
+            </summary>
+        </member>
         <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
             <summary>
             Starts a transaction.
@@ -4621,6 +4950,18 @@
             <summary>
             Gets the Sentry trace header.
             </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartSession">
+            <inheritdoc cref="M:Sentry.IHub.StartSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.EndSession(Sentry.SessionEndStatus)">
+            <inheritdoc cref="M:Sentry.IHub.EndSession(Sentry.SessionEndStatus)"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.PauseSession">
+            <inheritdoc cref="M:Sentry.IHub.PauseSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.ResumeSession">
+            <inheritdoc cref="M:Sentry.IHub.ResumeSession"/>
         </member>
         <member name="T:Sentry.SentryThread">
             <summary>
@@ -4712,6 +5053,142 @@
         </member>
         <member name="M:Sentry.SentryValues`1.WriteTo(System.Text.Json.Utf8JsonWriter)">
             <inheritdoc />
+        </member>
+        <member name="T:Sentry.Session">
+            <summary>
+            Sentry session.
+            </summary>
+        </member>
+        <member name="P:Sentry.Session.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.DistinctId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.StartTimestamp">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.Release">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.Environment">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.IpAddress">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.UserAgent">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Session.ErrorCount">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Session.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:Sentry.Session"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Session.ReportError">
+            <summary>
+            Reports an error on the session.
+            </summary>
+        </member>
+        <member name="T:Sentry.SessionEndStatus">
+            <summary>
+            Terminal state of a session.
+            </summary>
+        </member>
+        <member name="F:Sentry.SessionEndStatus.Exited">
+            <summary>
+            Session ended normally.
+            </summary>
+        </member>
+        <member name="F:Sentry.SessionEndStatus.Crashed">
+            <summary>
+            Session ended with an unhandled exception.
+            </summary>
+        </member>
+        <member name="F:Sentry.SessionEndStatus.Abnormal">
+            <summary>
+            Session ended abnormally (e.g. device lost power).
+            </summary>
+        </member>
+        <member name="T:Sentry.SessionUpdate">
+            <summary>
+            Session update.
+            </summary>
+        </member>
+        <member name="P:Sentry.SessionUpdate.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.DistinctId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.StartTimestamp">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.Release">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.Environment">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.IpAddress">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.UserAgent">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.ErrorCount">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SessionUpdate.IsInitial">
+            <summary>
+            Whether this is the initial update.
+            </summary>
+        </member>
+        <member name="P:Sentry.SessionUpdate.Timestamp">
+            <summary>
+            Timestamp.
+            </summary>
+        </member>
+        <member name="P:Sentry.SessionUpdate.SequenceNumber">
+            <summary>
+            Sequence number.
+            </summary>
+        </member>
+        <member name="P:Sentry.SessionUpdate.Duration">
+            <summary>
+            Duration of time since the start of the session.
+            </summary>
+        </member>
+        <member name="P:Sentry.SessionUpdate.EndStatus">
+            <summary>
+            Status with which the session was ended.
+            </summary>
+        </member>
+        <member name="M:Sentry.SessionUpdate.#ctor(Sentry.SentryId,System.String,System.DateTimeOffset,System.String,System.String,System.String,System.String,System.Int32,System.Boolean,System.DateTimeOffset,System.Int32,System.Nullable{Sentry.SessionEndStatus})">
+            <summary>
+            Initializes a new instance of <see cref="T:Sentry.SessionUpdate"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SessionUpdate.#ctor(Sentry.ISession,System.Boolean,System.DateTimeOffset,System.Int32,System.Nullable{Sentry.SessionEndStatus})">
+            <summary>
+            Initializes a new instance of <see cref="T:Sentry.SessionUpdate"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SessionUpdate.#ctor(Sentry.SessionUpdate,System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:Sentry.SessionUpdate"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SessionUpdate.WriteTo(System.Text.Json.Utf8JsonWriter)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SessionUpdate.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses <see cref="T:Sentry.SessionUpdate"/> from JSON.
+            </summary>
         </member>
         <member name="T:Sentry.Span">
             <summary>

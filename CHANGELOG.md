@@ -1,9 +1,20 @@
 # Changelog
 
-## 0.2.0
+## 0.3.0
 
-- Force 'Auto' from sentry window ([#219](https://github.com/getsentry/sentry-unity/pull/219))
-- Hub.IsEnabled check in logging integration ([#210](https://github.com/getsentry/sentry-unity/pull/210))
+### Features
+
+- Sentry config is now a scriptable object ([#220](https://github.com/getsentry/sentry-unity/pull/220))
+- Unity protocol ([#234](https://github.com/getsentry/sentry-unity/pull/234))
+- Release health integration & Event-listener ([#225](https://github.com/getsentry/sentry-unity/pull/225))
+
+### Fixes
+
+- Default options values ([#241](https://github.com/getsentry/sentry-unity/pull/241))
+- Un-embedding the link.xml to fix code stripping ([#237]/(https://github.com/getsentry/sentry-unity/pull/237))
+- Setting IsEnvironmentUser to false by default ([#230](https://github.com/getsentry/sentry-unity/pull/230))
+
+## 0.2.0
 
 ### Features
 
@@ -12,6 +23,11 @@
 - Bump Sentry .NET SDK 3.5.0 ([#218](https://github.com/getsentry/sentry-unity/pull/218))
   - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#350)
   - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.3.4...3.5.0)
+
+### Fixes
+
+- Force 'Auto' from sentry window ([#219](https://github.com/getsentry/sentry-unity/pull/219))
+- Hub.IsEnabled check in logging integration ([#210](https://github.com/getsentry/sentry-unity/pull/210))
 
 ## 0.1.1
 
