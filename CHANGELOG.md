@@ -1,5 +1,17 @@
 # Changelog
 
+### Features
+
+- Main thread data ([#245](https://github.com/getsentry/sentry-unity/pull/245))
+- New config window ([#243](https://github.com/getsentry/sentry-unity/pull/243))
+- Bump Sentry .NET SDK 3.8.0 ([#255](https://github.com/getsentry/sentry-unity/pull/255))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#380)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.5.0...3.8.0)
+
+## 0.4.0
+
+- No documented changes.
+
 ## 0.3.3
 
 ### Fixes
