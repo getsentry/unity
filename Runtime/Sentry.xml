@@ -4170,6 +4170,11 @@
             Sentry SDK options
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.IsGlobalModeEnabled">
+            <summary>
+            Specifies whether to use global scope management mode.
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.ExceptionProcessors">
             <summary>
             A list of exception processors
