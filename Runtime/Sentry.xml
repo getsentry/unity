@@ -3048,6 +3048,11 @@
             Transaction name.
             </summary>
         </member>
+        <member name="P:Sentry.ITransaction.IsParentSampled">
+            <summary>
+            Whether the parent transaction of this transaction has been sampled.
+            </summary>
+        </member>
         <member name="P:Sentry.ITransaction.Spans">
             <summary>
             Flat list of spans within this transaction.
@@ -3066,6 +3071,11 @@
         <member name="P:Sentry.ITransactionContext.Name">
             <summary>
             Transaction name.
+            </summary>
+        </member>
+        <member name="P:Sentry.ITransactionContext.IsParentSampled">
+            <summary>
+            Whether the parent transaction of this transaction has been sampled.
             </summary>
         </member>
         <member name="T:Sentry.ITransactionData">
@@ -5586,6 +5596,9 @@
         <member name="P:Sentry.Transaction.Name">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.Transaction.IsParentSampled">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.Transaction.Platform">
             <inheritdoc />
         </member>
@@ -5755,6 +5768,9 @@
         </member>
         <member name="P:Sentry.TransactionTracer.Name">
             <inheritdoc cref="P:Sentry.ITransaction.Name" />
+        </member>
+        <member name="P:Sentry.TransactionTracer.IsParentSampled">
+            <inheritdoc cref="P:Sentry.ITransaction.IsParentSampled" />
         </member>
         <member name="P:Sentry.TransactionTracer.Platform">
             <inheritdoc />

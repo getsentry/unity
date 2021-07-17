@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.3
+
+### Features
+
+- Log in single line ([#262](https://github.com/getsentry/sentry-unity/pull/262))
+
+### Fixes
+
+- Bump Sentry .NET SDK 3.8.2 ([#263](https://github.com/getsentry/sentry-unity/pull/263))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#382)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.8.1...3.8.2)
+
 ## 0.4.2
 
 ### Features
