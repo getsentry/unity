@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.5.0
+
+### Features
+
+- iOS native support ([#254](https://github.com/getsentry/sentry-unity/pull/254))
+- Compile Initialization with the game ([#272](https://github.com/getsentry/sentry-unity/pull/272))
+- Native crash in sample ([#270](https://github.com/getsentry/sentry-unity/pull/270))
+- Cache, background threads and data for UnityEventProcessor ([#268](https://github.com/getsentry/sentry-unity/pull/268))
+
+### Fixes
+
+- Bump Sentry Cocoa SDK 7.2.2 ([#289](https://github.com/getsentry/sentry-unity/pull/289))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/7.2.2/CHANGELOG.md)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.2.0-beta.7...7.2.2)
+- Included NativeExample.c in sample project ([#288](https://github.com/getsentry/sentry-unity/pull/288))
+- Added attribute to SentryInitialization to prevent codestripping of Init ([#285](https://github.com/getsentry/sentry-unity/pull/285))
+- Fixed passing Sentry diagnostic level to iOS native layer ([#281](https://github.com/getsentry/sentry-unity/pull/281))
+- Fixed stuck traces sample rate slider ([#276](https://github.com/getsentry/sentry-unity/pull/276))
+- Fixed selected input field tab glitches ([#276](https://github.com/getsentry/sentry-unity/pull/276))
+- Bump Sentry .NET SDK 3.8.3 ([#269](https://github.com/getsentry/sentry-unity/pull/269))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#383)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.8.2...3.8.3)
+
 ## 0.4.3
 
 ### Features

@@ -2668,6 +2668,12 @@
             </summary>
             <returns>DSN string or null if none found.</returns>
         </member>
+        <member name="P:Sentry.Internal.Extensions.JsonExtensions.SerializerOption">
+            <summary>
+            The Json options with a preset of rules that will remove dangerous and problematic
+            data from the serialized object.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
             Default Sentry HttpClientFactory
@@ -2792,6 +2798,12 @@
         <member name="P:Sentry.Internal.ProcessInfo.BootTime">
             <summary>
             When the device was initialized.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.SentryJsonConverter">
+            <summary>
+            A converter that removes dangerous classes from being serialized,
+            and, also formats some classes like Exception and Type.
             </summary>
         </member>
         <member name="T:Sentry.ISentryClient">
