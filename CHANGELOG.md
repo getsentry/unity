@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1
+
+### Fixes
+
+- Removed editor flag checks from options validation during build process ([#295](https://github.com/getsentry/sentry-unity/pull/295))
+- By default, don't block Sentry.Init up to 2 seconds to flush events ([#291](https://github.com/getsentry/sentry-unity/pull/291))
+
 ## 0.5.0
 
 ### Features
