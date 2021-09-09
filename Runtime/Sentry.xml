@@ -2806,6 +2806,36 @@
             and, also formats some classes like Exception and Type.
             </summary>
         </member>
+        <member name="T:Sentry.IScopeObserver">
+            <summary>
+            Observer for the sync. of Scopes across SDKs.
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.AddBreadcrumb(Sentry.Breadcrumb)">
+            <summary>
+            Adds a breadcrumb.
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.SetExtra(System.String,System.Object)">
+            <summary>
+            Sets an extra.
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.SetTag(System.String,System.String)">
+            <summary>
+            Sets a tag.
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.UnsetTag(System.String)">
+            <summary>
+            Removes a tag.
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.SetUser(Sentry.User)">
+            <summary>
+            Sets the user information.
+            </summary>
+        </member>
         <member name="T:Sentry.ISentryClient">
             <summary>
             Sentry Client interface.
@@ -3748,6 +3778,13 @@
             Adds an attachment.
             </summary>
         </member>
+        <member name="M:Sentry.ScopeExtensions.LastCreatedSpan(Sentry.Scope)">
+            <summary>
+            Gets the last opened span.
+            </summary>
+            <param name="scope">The scope.</param>
+            <returns>The last span not finished or null.</returns>
+        </member>
         <member name="T:Sentry.SdkVersion">
             <summary>
             Information about the SDK to be sent with the SentryEvent.
@@ -4011,6 +4048,11 @@
             Parses from JSON.
             </summary>
         </member>
+        <member name="T:Sentry.SentryEventExtensions">
+            <summary>
+            Extension methods for <see cref="T:Sentry.SentryEvent"/>
+            </summary>
+        </member>
         <member name="T:Sentry.SentryHttpMessageHandler">
             <summary>
             Special HTTP message handler that can be used to propagate Sentry headers and other contextual information.
@@ -4195,6 +4237,17 @@
         <member name="P:Sentry.SentryOptions.IsGlobalModeEnabled">
             <summary>
             Specifies whether to use global scope management mode.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.ScopeObserver">
+            <summary>
+            A scope set outside of Sentry SDK. If set, the global parameters from the SDK's scope will be sent to the observed scope.<br/>
+            NOTE: EnableScopeSync must be set true for the scope to be synced.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.EnableScopeSync">
+            <summary>
+            If true, the SDK's scope will be synced with the observed scope.
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.ExceptionProcessors">
