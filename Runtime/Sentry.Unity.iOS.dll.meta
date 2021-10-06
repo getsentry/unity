@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: da6fc370b3c04436ebac11741d509c29
+guid: 7b1845f97d56c487bb20875e78b23bb7
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -7,7 +7,7 @@ PluginImporter:
   executionOrder: {}
   defineConstraints: []
   isPreloaded: 0
-  isOverridable: 0
+  isOverridable: 1
   isExplicitlyReferenced: 0
   validateReferences: 1
   platformData:
@@ -16,20 +16,17 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        Exclude Android: 0
-        Exclude Editor: 1
-        Exclude Linux64: 0
-        Exclude Lumin: 0
-        Exclude OSXUniversal: 0
-        Exclude WebGL: 0
-        Exclude Win: 0
-        Exclude Win64: 0
+        Exclude Android: 1
+        Exclude Editor: 0
+        Exclude Linux64: 1
+        Exclude OSXUniversal: 1
+        Exclude Win: 1
+        Exclude Win64: 1
         Exclude iOS: 0
-        Exclude tvOS: 0
   - first:
       Android: Android
     second:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: ARMv7
   - first:
@@ -40,59 +37,47 @@ PluginImporter:
   - first:
       Editor: Editor
     second:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: AnyCPU
         DefaultValueInitialized: true
         OS: AnyOS
   - first:
-      Lumin: Lumin
-    second:
-      enabled: 1
-      settings: {}
-  - first:
       Standalone: Linux64
     second:
-      enabled: 1
+      enabled: 0
       settings:
-        CPU: x86_64
+        CPU: None
   - first:
       Standalone: OSXUniversal
     second:
-      enabled: 1
+      enabled: 0
       settings:
-        CPU: x86_64
+        CPU: None
   - first:
       Standalone: Win
     second:
-      enabled: 1
+      enabled: 0
       settings:
-        CPU: x86
+        CPU: None
   - first:
       Standalone: Win64
     second:
-      enabled: 1
+      enabled: 0
       settings:
-        CPU: x86_64
+        CPU: None
   - first:
-      WebGL: WebGL
+      Windows Store Apps: WindowsStoreApps
     second:
-      enabled: 1
-      settings: {}
+      enabled: 0
+      settings:
+        CPU: AnyCPU
   - first:
       iPhone: iOS
     second:
       enabled: 1
       settings:
         AddToEmbeddedBinaries: false
-        CPU: AnyCPU
-        CompileFlags: 
-        FrameworkDependencies: 
-  - first:
-      tvOS: tvOS
-    second:
-      enabled: 1
-      settings:
         CPU: AnyCPU
         CompileFlags: 
         FrameworkDependencies: 

@@ -1,18 +1,14 @@
 using System;
 using System.Runtime.CompilerServices;
+#if ENABLE_IL2CPP || PLATFORM_IOS
 using System.Runtime.InteropServices;
+#endif
+using Sentry;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class BugFarm : MonoBehaviour
 {
-    public const bool IsIL2CPP
-#if ENABLE_IL2CPP
-        = true;
-#else
-        = false;
-#endif
-
     private void Start()
     {
         Debug.Log("Sample Start 🦋");
@@ -61,56 +57,99 @@ public class BugFarm : MonoBehaviour
 
     public void SendMessage()
     {
-        Debug.Log("🕷️🕷️🕷️ Spider message 🕷️🕷️🕷️🕷️");
+        SentrySdk.CaptureMessage("🕷️🕷️🕷️ Spider message 🕷️🕷️🕷️🕷️");
     }
 
-    public void ExceptionToString()
+    public void SetUser()
     {
-        Debug.Log("Throw/Catch, Debug.LogError: Exception.ToString!");
-
-        try
+        SentrySdk.ConfigureScope(s =>
         {
-            MethodB();
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"ExceptionToString:\n{e}");
-        }
+            s.User = new User
+            {
+                Email = "ant@farm.bug",
+                Username = "ant",
+                Id = "ant-id"
+            };
+        });
+        Debug.Log("User set: ant");
     }
 
     public void ThrowKotlin()
     {
 #if UNITY_ANDROID
-        var jo = new AndroidJavaObject("unity.of.bugs.KotlinPlugin");
-        jo.CallStatic("throw");
+        using (var jo = new AndroidJavaObject("unity.of.bugs.KotlinPlugin"))
+        {
+            jo.CallStatic("throw");
+        }
 #else
-        Debug.LogWarning("Not on Android.");
+        Debug.LogWarning("Not running on Android.");
 #endif
     }
 
     public void ThrowKotlinOnBackground()
     {
 #if UNITY_ANDROID
-        var jo = new AndroidJavaObject("unity.of.bugs.KotlinPlugin");
-        jo.CallStatic("throwOnBackgroundThread");
+        using (var jo = new AndroidJavaObject("unity.of.bugs.KotlinPlugin"))
+        {
+            jo.CallStatic("throwOnBackgroundThread");
+        }
 #else
-        Debug.LogWarning("Not on Android.");
+        Debug.LogWarning("Not running on Android.");
 #endif
     }
 
-    public void CrashNative()
+    public void ThrowCpp()
     {
-#if !UNITY_EDITOR
-        crash();
+#if ENABLE_IL2CPP
+        throw_cpp();
 #else
         Debug.Log("Requires IL2CPP. Try this on a native player.");
 #endif
     }
 
-#if !UNITY_EDITOR
-    // NativeExample.c
+    public void CrashInCpp()
+    {
+#if ENABLE_IL2CPP
+        crash_in_cpp();
+#else
+        Debug.Log("Requires IL2CPP. Try this on a native player.");
+#endif
+    }
+
+    public void CrashInC()
+    {
+#if ENABLE_IL2CPP
+        crash_in_c();
+#else
+        Debug.Log("Requires IL2CPP. Try this on a native player.");
+#endif
+    }
+
+#if ENABLE_IL2CPP
+    // CppPlugin.cpp
     [DllImport("__Internal")]
-    private static extern void crash();
+    private static extern void throw_cpp();
+    [DllImport("__Internal")]
+    private static extern void crash_in_cpp();
+
+    // CPlugin.c
+    [DllImport("__Internal")]
+    private static extern void crash_in_c();
+#endif
+
+    public void ThrowObjectiveC()
+    {
+#if PLATFORM_IOS
+        throwObjectiveC();
+#else
+        Debug.Log("Requires IL2CPP. Try this on a native player.");
+#endif
+    }
+
+#if PLATFORM_IOS
+    // ObjectiveCPlugin.m
+    [DllImport("__Internal")]
+    private static extern void throwObjectiveC();
 #endif
 
     [MethodImpl(MethodImplOptions.NoInlining)]

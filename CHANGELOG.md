@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.6.0
+
+### Features
+
+- Android Native Support ([#307](https://github.com/getsentry/sentry-unity/pull/307))
+- Android mark sessions as crashed ([#347](https://github.com/getsentry/sentry-unity/pull/347))
+- Android native bridge for scope sync ([#308](https://github.com/getsentry/sentry-unity/pull/308))
+- iOS native bridge for scope sync ([#296](https://github.com/getsentry/sentry-unity/pull/296))
+- Sample: Throw exceptions in C++ and Objective-C. C++ segfault ([#342](https://github.com/getsentry/sentry-unity/pull/342))
+- Update Unity from 2019.4.21f to 2019.4.30f ([#350](https://github.com/getsentry/sentry-unity/pull/350))
+
+### Fixes
+
+- Fixed Xcode generation with invalid or disabled SentryOptions ([#330](https://github.com/getsentry/sentry-unity/pull/330))
+- Fixed iOS support related reference resolution issue for Windows ([#325](https://github.com/getsentry/sentry-unity/pull/325))
+- Import link.xml caused an infinite loop ([#315](https://github.com/getsentry/sentry-unity/pull/315))
+- Removed unused .asmdefs which clears a warning from console ([#316](https://github.com/getsentry/sentry-unity/pull/316))
+- Don't send negative line number ([#317](https://github.com/getsentry/sentry-unity/pull/317))
+- Android SDK: re-installation of native backend through C# ([#339](https://github.com/getsentry/sentry-unity/pull/339))
+- Bump Sentry .NET SDK 3.9.3 ([#328](https://github.com/getsentry/sentry-unity/pull/328))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/3.9.3/CHANGELOG.md)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.9.0...3.9.3)
+- Bump Sentry Cocoa SDK 7.3.0 ([#328](https://github.com/getsentry/sentry-unity/pull/328))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/7.3.0/CHANGELOG.md)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.2.2...7.3.0)
+- Bump Sentry Android SDK 5.2.1 ([#359](https://github.com/getsentry/sentry-unity/pull/359))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/5.2.1/CHANGELOG.md)
+  - [diff](https://github.com/getsentry/sentry-java/compare/5.2.0-beta.3...5.2.1)
+
 ## 0.5.2
 
 ### Features

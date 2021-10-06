@@ -3162,6 +3162,12 @@
             Parses from JSON.
             </summary>
         </member>
+        <member name="M:Sentry.Package.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Package.Equals(System.Object)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.PlatformAbstractions.FrameworkInfo">
             <summary>
             Information about .NET Framework in the running machine
