@@ -1482,7 +1482,17 @@
             Calls to this class verify the level before calling the overload with object params.
             </remarks>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.Log(Sentry.SentryOptions,Sentry.SentryLevel,System.String,System.Exception,System.Object[])">
+            <summary>
+            Log an internal SDK message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug``1(Sentry.Extensibility.IDiagnosticLogger,System.String,``0)">
+            <summary>
+            Log a debug message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug``1(Sentry.SentryOptions,System.String,``0)">
             <summary>
             Log a debug message.
             </summary>
@@ -1492,7 +1502,17 @@
             Log a debug message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug``2(Sentry.SentryOptions,System.String,``0,``1)">
+            <summary>
+            Log a debug message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug(Sentry.Extensibility.IDiagnosticLogger,System.String)">
+            <summary>
+            Log a debug message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug(Sentry.SentryOptions,System.String)">
             <summary>
             Log a debug message.
             </summary>
@@ -1502,7 +1522,17 @@
             Log a info message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo(Sentry.SentryOptions,System.String)">
+            <summary>
+            Log a info message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo``1(Sentry.Extensibility.IDiagnosticLogger,System.String,``0)">
+            <summary>
+            Log a info message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo``1(Sentry.SentryOptions,System.String,``0)">
             <summary>
             Log a info message.
             </summary>
@@ -1512,7 +1542,17 @@
             Log a info message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo``2(Sentry.SentryOptions,System.String,``0,``1)">
+            <summary>
+            Log a info message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo``3(Sentry.Extensibility.IDiagnosticLogger,System.String,``0,``1,``2)">
+            <summary>
+            Log a info message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogInfo``3(Sentry.SentryOptions,System.String,``0,``1,``2)">
             <summary>
             Log a info message.
             </summary>
@@ -1522,7 +1562,17 @@
             Log a warning message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning(Sentry.SentryOptions,System.String)">
+            <summary>
+            Log a warning message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning``1(Sentry.Extensibility.IDiagnosticLogger,System.String,``0)">
+            <summary>
+            Log a warning message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning``1(Sentry.SentryOptions,System.String,``0)">
             <summary>
             Log a warning message.
             </summary>
@@ -1532,7 +1582,17 @@
             Log a warning message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning``2(Sentry.SentryOptions,System.String,``0,``1)">
+            <summary>
+            Log a warning message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception)">
+            <summary>
+            Log a error message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError(Sentry.SentryOptions,System.String,System.Exception)">
             <summary>
             Log a error message.
             </summary>
@@ -1542,7 +1602,17 @@
             Log a error message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``1(Sentry.SentryOptions,System.String,System.Exception,``0)">
+            <summary>
+            Log a error message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``2(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception,``0,``1)">
+            <summary>
+            Log a error message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``2(Sentry.SentryOptions,System.String,System.Exception,``0,``1)">
             <summary>
             Log a error message.
             </summary>
@@ -1552,12 +1622,27 @@
             Log a error message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``4(Sentry.SentryOptions,System.String,System.Exception,``0,``1,``2,``3)">
+            <summary>
+            Log a error message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``3(Sentry.Extensibility.IDiagnosticLogger,System.Exception,System.String,``0,``1,``2)">
             <summary>
             Log an error message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``3(Sentry.SentryOptions,System.Exception,System.String,``0,``1,``2)">
+            <summary>
+            Log an error message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogFatal(Sentry.Extensibility.IDiagnosticLogger,System.String,System.Exception)">
+            <summary>
+            Log a warning message.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogFatal(Sentry.SentryOptions,System.String,System.Exception)">
             <summary>
             Log a warning message.
             </summary>
