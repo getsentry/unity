@@ -1,10 +1,21 @@
 # Changelog
 
+## 0.7.0
+
+### Features
+
+- Added automated symbols upload support for Android ([#408](https://github.com/getsentry/sentry-unity/pull/408))
+- Avoid DLL conflict with other Unity packages ([#425](https://github.com/getsentry/sentry-unity/issues/425))
+
 ## 0.6.2
 
 - fix release packaging ([#417](https://github.com/getsentry/sentry-unity/pull/417))
 
 ## 0.6.1
+
+### Features
+
+- Added sentry-cli to Unity package ([#414](https://github.com/getsentry/sentry-unity/pull/414))
 
 ### Fixes
 
