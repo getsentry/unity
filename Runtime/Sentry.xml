@@ -17,7 +17,7 @@
         <member name="F:Sentry.AttachmentType.Minidump">
             <summary>
             Minidump file that creates an error event and is symbolicated.
-            The file should start with the <code>MDMP</code> magic bytes.
+            The file should start with the <c>MDMP</c> magic bytes.
             </summary>
         </member>
         <member name="F:Sentry.AttachmentType.AppleCrashReport">
@@ -142,7 +142,7 @@
             <param name="category">The category.</param>
             <param name="level">The level.</param>
         </member>
-        <member name="M:Sentry.Breadcrumb.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Breadcrumb.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Breadcrumb.FromJson(System.Text.Json.JsonElement)">
@@ -182,6 +182,19 @@
             <summary>
             Critical breadcrumb level.
             </summary>
+        </member>
+        <member name="T:Sentry.ByteAttachmentContent">
+            <summary>
+            Attachment sourced from a provided byte array.
+            </summary>
+        </member>
+        <member name="M:Sentry.ByteAttachmentContent.#ctor(System.Byte[])">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.ByteAttachmentContent"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.ByteAttachmentContent.GetStream">
+            <inheritdoc />
         </member>
         <member name="T:Sentry.Constants">
             <summary>
@@ -327,13 +340,13 @@
             Attempts to extract the value of "sentry_id" header if it's present.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.Dispose">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromEvent(Sentry.SentryEvent,System.Collections.Generic.IReadOnlyCollection{Sentry.Attachment},Sentry.SessionUpdate)">
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromEvent(Sentry.SentryEvent,Sentry.Extensibility.IDiagnosticLogger,System.Collections.Generic.IReadOnlyCollection{Sentry.Attachment},Sentry.SessionUpdate)">
             <summary>
             Creates an envelope that contains a single event.
             </summary>
@@ -388,7 +401,7 @@
             Tries to get payload length.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Dispose">
@@ -429,7 +442,7 @@
             Represents a serializable entity.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.ISerializable.SerializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+        <member name="M:Sentry.Protocol.Envelopes.ISerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <summary>
             Serializes the object to a stream.
             </summary>
@@ -449,7 +462,7 @@
             Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.JsonSerializable"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.SerializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Sentry.Protocol.Envelopes.StreamSerializable">
@@ -467,7 +480,7 @@
             Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.StreamSerializable"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.SerializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Dispose">
@@ -536,7 +549,7 @@
             Arbitrary extra data that might help the user understand the error thrown by this mechanism.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Mechanism.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.Mechanism.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Mechanism.FromJson(System.Text.Json.JsonElement)">
@@ -594,7 +607,7 @@
             The data is moved to the event level on Extra until such support is added
             </remarks>
         </member>
-        <member name="M:Sentry.Protocol.SentryException.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.SentryException.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.SentryException.FromJson(System.Text.Json.JsonElement)">
@@ -657,7 +670,7 @@
             Clones this instance.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.App.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.App.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.App.FromJson(System.Text.Json.JsonElement)">
@@ -693,7 +706,7 @@
             Clones this instance
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Browser.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.Browser.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Browser.FromJson(System.Text.Json.JsonElement)">
@@ -938,7 +951,7 @@
             Clones this instance.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Device.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.Device.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Device.FromJson(System.Text.Json.JsonElement)">
@@ -1081,7 +1094,7 @@
             Clones this instance.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Gpu.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.Gpu.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Gpu.FromJson(System.Text.Json.JsonElement)">
@@ -1183,7 +1196,7 @@
             Clones this instance
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.OperatingSystem.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.OperatingSystem.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.OperatingSystem.FromJson(System.Text.Json.JsonElement)">
@@ -1234,9 +1247,8 @@
             <summary>
             Clones this instance
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:Sentry.Protocol.Runtime.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.Runtime.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Runtime.FromJson(System.Text.Json.JsonElement)">
@@ -1280,7 +1292,7 @@
             Clones this instance.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Trace.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Protocol.Trace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Trace.FromJson(System.Text.Json.JsonElement)">
@@ -1405,7 +1417,7 @@
             In .NET this means the IL Offset within the assembly.
             </remarks>
         </member>
-        <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryStackFrame.FromJson(System.Text.Json.JsonElement)">
@@ -1431,7 +1443,7 @@
             The list of frames should be ordered by the oldest call first.
             </remarks>
         </member>
-        <member name="M:Sentry.SentryStackTrace.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryStackTrace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryStackTrace.FromJson(System.Text.Json.JsonElement)">
@@ -2585,7 +2597,7 @@
             Sentry JsonSerializable.
             </summary>
         </member>
-        <member name="M:Sentry.IJsonSerializable.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.IJsonSerializable.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <summary>
             Writes the object as JSON.
             </summary>
@@ -2770,7 +2782,6 @@
             Creates an <see cref="T:System.Net.Http.HttpClient" /> configure to call Sentry for the specified <see cref="T:Sentry.Dsn" />
             </summary>
             <param name="options">The HTTP options.</param>
-            <returns></returns>
         </member>
         <member name="T:Sentry.Internal.Http.GzipBufferedRequestBodyHandler">
             <summary>
@@ -2821,7 +2832,6 @@
             </summary>
             <param name="request">The HTTP request to compress.</param>
             <param name="cancellationToken">The cancellation token.</param>
-            <returns></returns>
             <inheritdoc />
         </member>
         <member name="T:Sentry.Internal.Http.RetryAfterHandler">
@@ -3239,7 +3249,7 @@
             <param name="name">The package name.</param>
             <param name="version">The package version.</param>
         </member>
-        <member name="M:Sentry.Package.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Package.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Package.FromJson(System.Text.Json.JsonElement)">
@@ -3274,13 +3284,11 @@
             No-op version for netstandard targets
             </summary>
             <param name="clr"></param>
-            <returns></returns>
         </member>
         <member name="M:Sentry.PlatformAbstractions.FrameworkInfo.GetInstallations">
             <summary>
             No-op version for netstandard targets
             </summary>
-            <returns></returns>
         </member>
         <member name="T:Sentry.PlatformAbstractions.FrameworkInstallation">
             <summary>
@@ -3510,7 +3518,7 @@
             Copies the items of the context while cloning the known types.
             </summary>
         </member>
-        <member name="M:Sentry.Contexts.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Contexts.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Contexts.FromJson(System.Text.Json.JsonElement)">
@@ -3644,7 +3652,7 @@
             References like <see cref="P:Sentry.Request.Data"/> could hold a mutable, non-thread-safe object.
             </remarks>
         </member>
-        <member name="M:Sentry.Request.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Request.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Request.FromJson(System.Text.Json.JsonElement)">
@@ -3795,7 +3803,7 @@
         </member>
         <member name="M:Sentry.Scope.GetSpan">
             <summary>
-            Gets the currently ongoing (not finished) span or <code>null</code> if none available.
+            Gets the currently ongoing (not finished) span or <c>null</c> if none available.
             This relies on the transactions being manually set on the scope via <see cref="P:Sentry.Scope.Transaction"/>.
             </summary>
         </member>
@@ -3905,7 +3913,7 @@
             <param name="name">The package name.</param>
             <param name="version">The package version.</param>
         </member>
-        <member name="M:Sentry.SdkVersion.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SdkVersion.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SdkVersion.FromJson(System.Text.Json.JsonElement)">
@@ -4131,17 +4139,12 @@
         <member name="M:Sentry.SentryEvent.UnsetTag(System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SentryEvent.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryEvent.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryEvent.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.SentryEventExtensions">
-            <summary>
-            Extension methods for <see cref="T:Sentry.SentryEvent"/>
             </summary>
         </member>
         <member name="T:Sentry.SentryHttpMessageHandler">
@@ -4211,7 +4214,7 @@
             Generates a new Sentry ID.
             </summary>
         </member>
-        <member name="M:Sentry.SentryId.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryId.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryId.Parse(System.String)">
@@ -4312,7 +4315,7 @@
             Coerces <see cref="T:System.String"/> into <see cref="T:Sentry.SentryMessage"/>.
             </summary>
         </member>
-        <member name="M:Sentry.SentryMessage.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryMessage.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryMessage.FromJson(System.Text.Json.JsonElement)">
@@ -4638,7 +4641,7 @@
         <member name="P:Sentry.SentryOptions.InitCacheFlushTimeout">
             <summary>
             If set to a positive value, Sentry will attempt to flush existing local event cache when initializing.
-            You can set it to <code>TimeSpan.Zero</code> to disable this feature.
+            Set to <see cref="F:System.TimeSpan.Zero"/> to disable this feature.
             This option only works if <see cref="P:Sentry.SentryOptions.CacheDirectoryPath"/> is configured as well.
             </summary>
             <remarks>
@@ -4658,10 +4661,10 @@
         <member name="P:Sentry.SentryOptions.TracesSampleRate">
             <summary>
             Indicates the percentage of the tracing data that is collected.
-            Setting this to <code>0</code> discards all trace data.
-            Setting this to <code>1.0</code> collects all trace data.
+            Setting this to <c>0</c> discards all trace data.
+            Setting this to <c>1.0</c> collects all trace data.
             Values outside of this range are invalid.
-            Default value is <code>0</code>, which means tracing is disabled.
+            Default value is <c>0</c>, which means tracing is disabled.
             </summary>
             <remarks>
             Random sampling rate is only applied to transactions that don't already
@@ -4674,7 +4677,7 @@
             Custom delegate that returns sample rate dynamically for a specific transaction context.
             </summary>
             <remarks>
-            Returning <code>null</code> signals that the sampler did not reach a sampling decision.
+            Returning <c>null</c> signals that the sampler did not reach a sampling decision.
             In such case, if the transaction already has a sampling decision (for example, if it's
             started from a trace header) that decision is retained.
             Otherwise sampling decision is determined by applying the static sampling rate
@@ -4785,7 +4788,6 @@
             </summary>
             <typeparam name="TIntegration">The type of the integration(s) to remove.</typeparam>
             <param name="options">The SentryOptions to remove the integration(s) from.</param>
-            <returns></returns>
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddExceptionFilter(Sentry.SentryOptions,Sentry.Extensibility.IExceptionFilter)">
             <summary>
@@ -5176,7 +5178,7 @@
             </summary>
             <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
         </member>
-        <member name="M:Sentry.SentryThread.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryThread.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryThread.FromJson(System.Text.Json.JsonElement)">
@@ -5232,7 +5234,7 @@
             Creates an instance from the specified <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
             </summary>
         </member>
-        <member name="M:Sentry.SentryValues`1.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SentryValues`1.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="T:Sentry.Session">
@@ -5368,7 +5370,7 @@
             Initializes a new instance of <see cref="T:Sentry.SessionUpdate"/>.
             </summary>
         </member>
-        <member name="M:Sentry.SessionUpdate.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SessionUpdate.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SessionUpdate.FromJson(System.Text.Json.JsonElement)">
@@ -5439,7 +5441,7 @@
         <member name="M:Sentry.Span.GetTraceHeader">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Span.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Span.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Span.FromJson(System.Text.Json.JsonElement)">
@@ -5510,7 +5512,7 @@
             Generates a new Sentry ID.
             </summary>
         </member>
-        <member name="M:Sentry.SpanId.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.SpanId.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SpanId.Parse(System.String)">
@@ -5842,7 +5844,7 @@
         <member name="M:Sentry.Transaction.GetTraceHeader">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Transaction.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.Transaction.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Transaction.FromJson(System.Text.Json.JsonElement)">
@@ -6080,7 +6082,7 @@
             </summary>
             <returns>The cloned user.</returns>
         </member>
-        <member name="M:Sentry.User.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.User.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.User.FromJson(System.Text.Json.JsonElement)">
@@ -6118,7 +6120,7 @@
             Initializes an instance of <see cref="T:Sentry.UserFeedback"/>.
             </summary>
         </member>
-        <member name="M:Sentry.UserFeedback.WriteTo(System.Text.Json.Utf8JsonWriter)">
+        <member name="M:Sentry.UserFeedback.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.UserFeedback.FromJson(System.Text.Json.JsonElement)">
@@ -6269,12 +6271,12 @@
             Returns true if the <paramref name="type"/> is a value tuple type.
             </summary>
         </member>
-        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsTupleElementNameAttribue(System.Attribute)">
+        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsTupleElementNameAttribute(System.Attribute)">
             <summary>
             Returns true if the given <paramref name="attribute"/> is of type <code>TupleElementNameAttribute</code>.
             </summary>
             <remarks>
-            To avoid compile-time depencency hell with System.ValueTuple, this method uses reflection and not checks statically that 
+            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection and not checks statically that 
             the given <paramref name="attribute"/> is <code>TupleElementNameAttribute</code>.
             </remarks>
         </member>
@@ -6283,7 +6285,7 @@
             Returns 'TransformNames' property value from a given <paramref name="attribute"/>.
             </summary>
             <remarks>
-            To avoid compile-time depencency hell with System.ValueTuple, this method uses reflection 
+            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection 
             instead of casting the attribute to a specific type.
             </remarks>
         </member>

@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		n1F+4TeqpWsgDwCNWwT6GjLW8Qs=
+		IKyBLn2kAJUnHiKNsR9+A2OcMLw=
 		</data>
 		<key>Headers/SentrySDK.h</key>
 		<data>
@@ -178,7 +178,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		dn17OrL0lLVL03Ignyv8EGm7s0I=
+		WiglsdqWIJUqgMX+R7egdykqY24=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -495,11 +495,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			n1F+4TeqpWsgDwCNWwT6GjLW8Qs=
+			IKyBLn2kAJUnHiKNsR9+A2OcMLw=
 			</data>
 			<key>hash2</key>
 			<data>
-			qP9429eZnKLg3ou3cjEEUXrUgahBhR5QnSBqxsMDYm4=
+			ExyNFaWZDdxz+58rjV+1l8XJdSBHMtqlIcv6OYJu8Nk=
 			</data>
 		</dict>
 		<key>Headers/SentrySDK.h</key>
