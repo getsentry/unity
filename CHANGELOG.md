@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.3
+
+### Fixes
+
+- Automated Android symbols upload now uses valid paths on Windows ([#509](https://github.com/getsentry/sentry-unity/pull/509))
+
 ## 0.9.2
 
 ### Features
@@ -9,6 +15,7 @@
 ### Fixes
 
 - Fix missing Sentry/Sentry.h ([#504](https://github.com/getsentry/sentry-unity/pull/504))
+- Automated Android symbols upload now correctly escapes sentry-cli executable path ([#507](https://github.com/getsentry/sentry-unity/pull/507))
 
 ## 0.9.1
 
