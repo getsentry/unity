@@ -401,6 +401,12 @@
             Tries to get payload length.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetFileName">
+            <summary>
+            Returns the file name or null if no name exists.
+            </summary>
+            <returns>The file name or null.</returns>
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1749,6 +1755,11 @@
             No-Op.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.CaptureTransaction(Sentry.Transaction)">
             <summary>
             No-Op.
@@ -1910,6 +1921,11 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.CaptureEvent(Sentry.SentryEvent,Sentry.Scope)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -2307,6 +2323,25 @@
             Unlocks the current scope to allow subsequent calls to <see cref="M:Sentry.ISentryScopeManager.PushScope"/> create new scopes.
             </summary>
         </member>
+        <member name="M:Sentry.HubExtensions.CaptureException(Sentry.IHub,System.Exception,System.Action{Sentry.Scope})">
+            <summary>
+            Captures the exception with a configurable scope callback.
+            </summary>
+            <param name="hub">The Sentry hub.</param>
+            <param name="ex">The exception.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event</returns>
+        </member>
+        <member name="M:Sentry.HubExtensions.CaptureMessage(Sentry.IHub,System.String,System.Action{Sentry.Scope},Sentry.SentryLevel)">
+            <summary>
+            Captures a message with a configurable scope callback.
+            </summary>
+            <param name="hub">The Sentry hub.</param>
+            <param name="message">The message to send.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <param name="level">The message level.</param>
+            <returns>The Id of the event</returns>
+        </member>
         <member name="T:Sentry.IAttachmentContent">
             <summary>
             Attachment content.
@@ -2592,6 +2627,17 @@
             Ends the currently active session.
             </summary>
         </member>
+        <member name="M:Sentry.IHub.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
+            <summary>
+            Captures an event with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="evt">The event to be captured.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns></returns>
+        </member>
         <member name="T:Sentry.IJsonSerializable">
             <summary>
             Sentry JsonSerializable.
@@ -2764,12 +2810,6 @@
             Attempts to find a DSN string from the entry assembly's DsnAttribute.
             </summary>
             <returns>DSN string or null if none found.</returns>
-        </member>
-        <member name="P:Sentry.Internal.Extensions.JsonExtensions.SerializerOption">
-            <summary>
-            The Json options with a preset of rules that will remove dangerous and problematic
-            data from the serialized object.
-            </summary>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -4369,6 +4409,11 @@
             A list of integrations to be added when the SDK is initialized.
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.BackgroundWorker">
+            <summary>
+            The worker used by the client to pass envelopes.
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.SentryScopeStateProcessor">
             <summary>
             Scope state processor.
@@ -5051,6 +5096,17 @@
             <param name="scope">The scope.</param>
             <returns>The Id of the event.</returns>
         </member>
+        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
+            <summary>
+            Captures an event with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="evt">The event.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event.</returns>
+        </member>
         <member name="M:Sentry.SentrySdk.CaptureException(System.Exception)">
             <summary>
             Captures the exception.
@@ -5058,11 +5114,34 @@
             <param name="exception">The exception.</param>
             <returns>The Id of the even.t</returns>
         </member>
+        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception,System.Action{Sentry.Scope})">
+            <summary>
+            Captures the exception with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="exception">The exception.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the even.t</returns>
+        </member>
         <member name="M:Sentry.SentrySdk.CaptureMessage(System.String,Sentry.SentryLevel)">
             <summary>
             Captures the message.
             </summary>
             <param name="message">The message to send.</param>
+            <param name="level">The message level.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureMessage(System.String,System.Action{Sentry.Scope},Sentry.SentryLevel)">
+            <summary>
+            Captures the message with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="message">The message to send.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
             <param name="level">The message level.</param>
             <returns>The Id of the event.</returns>
         </member>
