@@ -2,8 +2,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-bool CrashedLastRun() {
-    return[SentrySDK crashedLastRun];
+int CrashedLastRun() {
+    return [SentrySDK crashedLastRun] ? 1 : 0;
+}
+
+void Close() {
+    [SentrySDK close];
 }
 
 void SentryNativeBridgeAddBreadcrumb(const char* timestamp, const char* message, const char* type, const char* category, int level) {
