@@ -1426,6 +1426,13 @@
         <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.SentryStackFrame.ConfigureAppFrame(Sentry.SentryOptions)">
+            <summary>
+            Configures <see cref="P:Sentry.SentryStackFrame.InApp"/> based on the <see cref="P:Sentry.SentryOptions.InAppInclude"/> and <see cref="P:Sentry.SentryOptions.InAppExclude"/> or <paramref name="options"/>.
+            </summary>
+            <param name="options">The Sentry options.</param>
+            <remarks><see cref="P:Sentry.SentryStackFrame.InApp"/> will remain with the same value if previously set.</remarks>
+        </member>
         <member name="M:Sentry.SentryStackFrame.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses from JSON.
