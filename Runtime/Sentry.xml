@@ -222,6 +222,58 @@
             Platform key that defines an events is coming from any .NET implementation.
             </summary>
         </member>
+        <member name="T:Sentry.DebugImage">
+            <summary>
+            The Sentry Debug Meta Images interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta#debug-images"/>
+        </member>
+        <member name="P:Sentry.DebugImage.Type">
+            <summary>
+            Type of the debug image.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.ImageAddress">
+            <summary>
+            Memory address, at which the image is mounted in the virtual address space of the process.
+            Should be a string in hex representation prefixed with "0x".
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.ImageSize">
+            <summary>
+            The size of the image in virtual memory.
+            If missing, Sentry will assume that the image spans up to the next image, which might lead to invalid stack traces.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.DebugId">
+            <summary>
+            Unique debug identifier of the image.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.DebugFile">
+            <summary>
+            Path and name of the debug companion file.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.CodeId">
+            <summary>
+            Optional identifier of the code file.
+            </summary>
+        </member>
+        <member name="P:Sentry.DebugImage.CodeFile">
+            <summary>
+            The absolute path to the dynamic library or executable.
+            This helps to locate the file if it is missing on Sentry.
+            </summary>
+        </member>
+        <member name="M:Sentry.DebugImage.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.DebugImage.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
         <member name="T:Sentry.DeduplicateMode">
             <summary>
             Possible modes of dropping events that are detected to be duplicates.
@@ -343,6 +395,9 @@
         <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.Dispose">
             <inheritdoc />
         </member>
@@ -410,6 +465,9 @@
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Dispose">
             <inheritdoc />
         </member>
@@ -450,7 +508,12 @@
         </member>
         <member name="M:Sentry.Protocol.Envelopes.ISerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <summary>
-            Serializes the object to a stream.
+            Serializes the object to a stream asynchronously.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.ISerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <summary>
+            Serializes the object to a stream synchronously.
             </summary>
         </member>
         <member name="T:Sentry.Protocol.Envelopes.JsonSerializable">
@@ -471,6 +534,9 @@
         <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.Protocol.Envelopes.StreamSerializable">
             <summary>
             Represents an object which is already serialized as a stream.
@@ -487,6 +553,9 @@
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Dispose">
@@ -1423,6 +1492,14 @@
             In .NET this means the IL Offset within the assembly.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryStackFrame.AddressMode">
+            <summary>
+            Optionally changes the addressing mode. The default value is the same as
+            `"abs"` which means absolute referencing. This can also be set to
+            `"rel:DEBUG_ID"` or `"rel:IMAGE_INDEX"` to make addresses relative to an
+            object referenced by debug id or index.
+            </summary>
+        </member>
         <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -2244,9 +2321,75 @@
             <summary>
             Creates a new instance of <see cref="T:Sentry.FileAttachmentContent"/>.
             </summary>
+            <param name="filePath">The path to the file to attach.</param>
+        </member>
+        <member name="M:Sentry.FileAttachmentContent.#ctor(System.String,System.Boolean)">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.FileAttachmentContent"/>.
+            </summary>
+            <param name="filePath">The path to the file to attach.</param>
+            <param name="readFileAsynchronously">Whether to use async file I/O to read the file.</param>
         </member>
         <member name="M:Sentry.FileAttachmentContent.GetStream">
             <inheritdoc />
+        </member>
+        <member name="T:Sentry.Http.HttpTransportBase">
+            <summary>
+            Provides a base class for Sentry HTTP transports.  Used internally by the Sentry SDK,
+            but also allows for higher-level SDKs (such as Unity) to implement their own transport.
+            </summary>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.#ctor(Sentry.SentryOptions,System.Func{System.String,System.String},Sentry.Infrastructure.ISystemClock)">
+            <summary>
+            Constructor for this class.
+            </summary>
+            <param name="options">The Sentry options.</param>
+            <param name="getEnvironmentVariable">An optional method used to read environment variables.</param>
+            <param name="clock">An optional system clock - used for testing.</param>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.ProcessEnvelope(Sentry.Protocol.Envelopes.Envelope)">
+            <summary>
+            Processes an envelope before sending.
+            Repackages the original envelope discarding items that don't fit the rate limit.
+            </summary>
+            <param name="envelope">The envelope to process.</param>
+            <returns>The processed envelope, ready to be sent.</returns>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.CreateRequest(Sentry.Protocol.Envelopes.Envelope)">
+            <summary>
+            Creates an HTTP request message from an envelope.
+            </summary>
+            <param name="envelope">The envelope.</param>
+            <returns>An HTTP request message, with the proper headers and body set.</returns>
+            <exception cref="T:System.InvalidOperationException">Throws if the DSN is not set in the options.</exception>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.HandleResponse(System.Net.Http.HttpResponseMessage,Sentry.Protocol.Envelopes.Envelope)">
+            <summary>
+            Synchronously handles the response message after it is received, extracting any information from the
+            response such as rate limits, or error messages.
+            </summary>
+            <param name="response">The response message received from Sentry.</param>
+            <param name="envelope">The envelope that was being sent.</param>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.HandleResponseAsync(System.Net.Http.HttpResponseMessage,Sentry.Protocol.Envelopes.Envelope,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously handles the response message after it is received, extracting any information from the
+            response such as rate limits, or error messages.
+            </summary>
+            <param name="response">The response message received from Sentry.</param>
+            <param name="envelope">The envelope that was being sent.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+        </member>
+        <member name="M:Sentry.Http.HttpTransportBase.ReadStreamFromHttpContent(System.Net.Http.HttpContent)">
+            <summary>
+            Reads a stream from an HTTP content object.
+            </summary>
+            <param name="content">The HTTP content object to read from.</param>
+            <returns>A stream of the content.</returns>
+            <remarks>
+            This is a helper method that allows higher-level APIs to serialize content synchronously
+            without exposing our custom <see cref="T:Sentry.Internal.Http.EnvelopeHttpContent"/> type.
+            </remarks>
         </member>
         <member name="T:Sentry.Http.ISentryHttpClientFactory">
             <summary>
@@ -2880,6 +3023,18 @@
             <param name="request">The HTTP request to compress.</param>
             <param name="cancellationToken">The cancellation token.</param>
             <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.Http.HttpTransport.SendEnvelopeAsync(Sentry.Protocol.Envelopes.Envelope,System.Threading.CancellationToken)">
+            <summary>
+            Sends an envelope over this transport.
+            </summary>
+            <param name="envelope">The envelope to send.</param>
+            <param name="cancellationToken">A cancellation token.</param>
+            <remarks>
+            This method implements the overarching workflow, but all features are implemented in the base class
+            such that they can be shared with higher-level SDKs (such as Unity) that may implement their own method
+            for performing HTTP transport.
+            </remarks>
         </member>
         <member name="T:Sentry.Internal.Http.RetryAfterHandler">
             <summary>
@@ -4125,6 +4280,12 @@
             </summary>
             <see href="https://develop.sentry.dev/sdk/event-payloads/threads/"/>
         </member>
+        <member name="P:Sentry.SentryEvent.DebugImages">
+            <summary>
+            The Sentry Debug Meta Images interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta#debug-images"/>
+        </member>
         <member name="P:Sentry.SentryEvent.Modules">
             <summary>
             A list of relevant modules and their versions.
@@ -4781,6 +4942,15 @@
             enabled by default in the next major version.
             Currently this only works for release health in client mode
             (desktop, mobile applications, but not web servers).
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryOptions.UseAsyncFileIO">
+            <summary>
+            Whether the SDK should attempt to use asynchronous file I/O.
+            For example, when reading a file to use as an attachment.
+            </summary>
+            <remarks>
+            This option should rarely be disabled, but is necessary in some environments such as Unity WebGL.
             </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.CrashedLastRun">
