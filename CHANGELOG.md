@@ -1,12 +1,25 @@
 # Changelog
 
+## 0.15.0
+
+### Features
+
+- WebGL - .NET support ([#657](https://github.com/getsentry/sentry-unity/pull/657))
+
+### Fixes
+
+- Sentry no longer fails to send events in Unity 2019.4 IL2CPP builds for macOS ([#701](https://github.com/getsentry/sentry-unity/pull/701))
+- Bump Sentry Cocoa SDK 7.13.0 ([#697](https://github.com/getsentry/sentry-unity/pull/697))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/7.13.0/CHANGELOG.md)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.7.0...7.13.0)
+
 ## 0.14.0
 
 ### Features
 
 - Capture `Debug.LogError()` and `Debug.LogException()` also on background threads ([#673](https://github.com/getsentry/sentry-unity/pull/673))
-
 - Adding override for Sentry CLI URL ([#666](https://github.com/getsentry/sentry-unity/pull/666))
+- Option to automatically attach screenshots to all events ([#670](https://github.com/getsentry/sentry-unity/pull/670))
 
 ### Fixes
 
