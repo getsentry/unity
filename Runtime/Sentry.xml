@@ -426,6 +426,13 @@
             Deserializes envelope from stream.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.WithItem(Sentry.Protocol.Envelopes.EnvelopeItem)">
+            <summary>
+            Creates a new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> starting from the current one and appends the <paramref name="item"/> given.
+            </summary>
+            <param name="item">The <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> to append.</param>
+            <returns>A new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> with the same headers and items, including the new <paramref name="item"/>.</returns>
+        </member>
         <member name="T:Sentry.Protocol.Envelopes.EnvelopeItem">
             <summary>
             Envelope item.
@@ -473,27 +480,32 @@
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromEvent(Sentry.SentryEvent)">
             <summary>
-            Creates an envelope item from an event.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="event"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromUserFeedback(Sentry.UserFeedback)">
             <summary>
-            Creates an envelope item from user feedback.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sentryUserFeedback"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.Transaction)">
             <summary>
-            Creates an envelope item from transaction.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="transaction"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromSession(Sentry.SessionUpdate)">
             <summary>
-            Creates an envelope item from a session update.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sessionUpdate"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromAttachment(Sentry.Attachment)">
             <summary>
-            Creates an envelope item from attachment.
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="attachment"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromClientReport(Sentry.Internal.ClientReport)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="report"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
@@ -2924,6 +2936,11 @@
             </summary>
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Internal.ClientReport.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.Constants">
             <summary>
             Internal Constant Values.
@@ -3061,6 +3078,32 @@
             </returns>
             <inheritdoc />
         </member>
+        <member name="M:Sentry.Internal.IClientReportRecorder.RecordDiscardedEvent(Sentry.Internal.DiscardReason,Sentry.Internal.DataCategory)">
+            <summary>
+            Records one count of a discarded event, with the given <paramref name="reason"/> and <paramref name="category"/>.
+            </summary>
+            <param name="reason">The reason for the event being discarded.</param>
+            <param name="category">The data category of the event being discarded.</param>
+        </member>
+        <member name="M:Sentry.Internal.IClientReportRecorder.GenerateClientReport">
+            <summary>
+            Generates a <see cref="T:Sentry.Internal.ClientReport"/> containing counts of discarded events that have been recorded.
+            Also resets those counts to zero at the same time the report is generated.
+            </summary>
+            <returns>
+            The <see cref="T:Sentry.Internal.ClientReport"/>, as long as there is something to report.
+            Returns <c>null</c> if there were no discarded events recorded since the previous call to this method.
+            </returns>
+        </member>
+        <member name="M:Sentry.Internal.IClientReportRecorder.Load(Sentry.Internal.ClientReport)">
+            <summary>
+            Loads the current instance with the events from the provided <paramref name="report"/>.
+            </summary>
+            <remarks>
+            Useful when recovering from failures while sending client reports.
+            </remarks>
+            <param name="report">The client report to load.</param>
+        </member>
         <member name="M:Sentry.Internal.IInternalSdkIntegration.Unregister(Sentry.IHub)">
             <summary>
             Unregisters this integration with the hub.
@@ -3102,6 +3145,84 @@
             A converter that removes dangerous classes from being serialized,
             and, also formats some classes like Exception and Type.
             </summary>
+        </member>
+        <member name="T:Sentry.Internal.ThreadsafeCounterDictionary`1">
+            <summary>
+            Provides a keyed set of counters that can be incremented, read, and reset atomically.
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.Add(`0,System.Int32)">
+            <summary>
+            Atomically adds to a counter based on the key provided, creating the counter if necessary.
+            </summary>
+            <param name="key">The key of the counter to increment.</param>
+            <param name="quantity">The amount to add to the counter.</param>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.Increment(`0)">
+            <summary>
+            Atomically increments a counter based on the key provided, creating the counter if necessary.
+            </summary>
+            <param name="key">The key of the counter to increment.</param>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.ReadAndReset(`0)">
+            <summary>
+            Gets a single counter's value while atomically resetting it to zero.
+            </summary>
+            <param name="key">The key to the counter.</param>
+            <returns>The previous value of the counter.</returns>
+            <remarks>If no counter with the given key has been set, this returns zero.</remarks>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.ReadAllAndReset">
+            <summary>
+            Gets the keys and values of all of the counters while atomically resetting them to zero.
+            </summary>
+            <returns>A read-only dictionary containing the key and the previous value for each counter.</returns>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.GetEnumerator">
+            <summary>
+            Gets an enumerator over the keys and values of the counters.
+            </summary>
+            <returns>An enumerator.</returns>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Count">
+            <summary>
+            Gets the number of counters currently being tracked.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.ContainsKey(`0)">
+            <summary>
+            Tests whether or not a counter with the given key exists.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns>True if the counter exists, false otherwise.</returns>
+        </member>
+        <member name="M:Sentry.Internal.ThreadsafeCounterDictionary`1.TryGetValue(`0,System.Int32@)">
+            <summary>
+            Gets the current value of the counter specified.
+            </summary>
+            <param name="key">The key of the counter.</param>
+            <param name="value">The value of the counter, or zero if the counter does not yet exist.</param>
+            <returns>Returns <c>true</c> in all cases.</returns>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Item(`0)">
+            <summary>
+            Gets the current value of the counter specified, returning zero if the counter does not yet exist.
+            </summary>
+            <param name="key">The key of the counter.</param>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Keys">
+            <summary>
+            Gets all of the current counter keys.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.ThreadsafeCounterDictionary`1.Values">
+            <summary>
+            Gets all of the current counter values.
+            </summary>
+            <remarks>
+            Useless, but required by the IReadOnlyDictionary interface.
+            </remarks>
         </member>
         <member name="T:Sentry.IScopeObserver">
             <summary>
@@ -4552,6 +4673,16 @@
             If true, the SDK's scope will be synced with the observed scope.
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.Transport">
+            <summary>
+            This holds a reference to the current transport, when one is active.
+            If set manually before initialization, the provided transport will be used instead of the default transport.
+            </summary>
+            <remarks>
+            If <seealso cref="P:Sentry.SentryOptions.CacheDirectoryPath"/> is set, any transport set here will be wrapped in a
+            <seealso cref="T:Sentry.Internal.Http.CachingTransport"/> and used as its inner transport.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.ExceptionProcessors">
             <summary>
             A list of exception processors
@@ -4629,7 +4760,7 @@
             Whether to report the <see cref="P:System.Environment.UserName"/> as the User affected in the event.
             </summary>
             <remarks>
-            This configuration is only relevant is <see cref="P:Sentry.SentryOptions.SendDefaultPii"/> is set to true.
+            This configuration is only relevant if <see cref="P:Sentry.SentryOptions.SendDefaultPii"/> is set to true.
             In environments like server applications this is set to false in order to not report server account names as user names.
             </remarks>
         </member>
@@ -4785,6 +4916,12 @@
             Sentry on-premise without a reverse-proxy, for example, does not support 'chunked' requests.
             </remarks>
             <see href="https://github.com/getsentry/sentry-dotnet/issues/71"/>
+        </member>
+        <member name="P:Sentry.SentryOptions.SendClientReports">
+            <summary>
+            Whether to send client reports, which contain statistics about discarded events.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/client-reports/"/>
         </member>
         <member name="P:Sentry.SentryOptions.HttpProxy">
             <summary>
@@ -4993,7 +5130,8 @@
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)">
             <summary>
-            Disables the capture of errors through <see cref="E:System.AppDomain.ProcessExit"/>
+            By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
+            This method disables that behaviour.
             </summary>
             <param name="options">The SentryOptions to remove the integration from.</param>
         </member>
@@ -5027,13 +5165,33 @@
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddInAppExclude(Sentry.SentryOptions,System.String)">
             <summary>
-            Add prefix to exclude from 'InApp' stack trace list.
+            Add prefix to exclude from 'InApp' stacktrace list.
             </summary>
+            <param name="options">The SentryOptions which holds the stacktrace list.</param>
+            <param name="prefix">The string used to filter the stacktrace to be excluded from InApp.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            A <see cref="M:System.String.StartsWith(System.String)"/> is executed
+            </remarks>
+            <example>
+            'System.', 'Microsoft.'
+            </example>
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddInAppInclude(Sentry.SentryOptions,System.String)">
             <summary>
-            Add prefix to include as in 'InApp' stack trace.
+            Add prefix to include as in 'InApp' stacktrace.
             </summary>
+            <param name="options">The SentryOptions which holds the stacktrace list.</param>
+            <param name="prefix">The string used to filter the stacktrace to be included in InApp.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            A <see cref="M:System.String.StartsWith(System.String)"/> is executed
+            </remarks>
+            <example>
+            'System.CustomNamespace', 'Microsoft.Azure.App'
+            </example>
         </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddExceptionProcessor(Sentry.SentryOptions,Sentry.Extensibility.ISentryEventExceptionProcessor)">
             <summary>

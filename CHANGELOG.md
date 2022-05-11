@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.16.0
+
+### Features
+
+- macOS native crash support ([#710](https://github.com/getsentry/sentry-unity/pull/710))
+- The SentryUnityOptions now provide a method to disable the UnityLoggingIntegration ([#724](https://github.com/getsentry/sentry-unity/pull/724))
+
+### Fixes
+
+- The automated debug symbol upload now works with Unity 2021.2 and newer ([#730](https://github.com/getsentry/sentry-unity/pull/730))
+- Dropped support for Sentry options as Json ([#709](https://github.com/getsentry/sentry-unity/pull/709))
+  - If you're migrating from version 0.3.0 or older, make sure to upgrade to 0.15.0 first, as it is the last version supporting the automated conversion of the options as Json file to a Scriptable Object.
+- Bump Sentry .NET SDK 3.17.0 ([#726](https://github.com/getsentry/sentry-unity/pull/726))
+  - [changelog 3.17.0](https://github.com/getsentry/sentry-dotnet/blob/3.17.0/CHANGELOG.md)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.16.0...3.17.0)
+
 ## 0.15.0
 
 ### Features
@@ -8,6 +24,8 @@
 
 ### Fixes
 
+- The SDK no longer creates a custom link.xml ([#707](https://github.com/getsentry/sentry-unity/pull/707))
+- Fixed `DebugOnlyInEditor` only applying to the Unity logger ([#706](https://github.com/getsentry/sentry-unity/pull/706))
 - Sentry no longer fails to send events in Unity 2019.4 IL2CPP builds for macOS ([#701](https://github.com/getsentry/sentry-unity/pull/701))
 - Bump Sentry Cocoa SDK 7.13.0 ([#697](https://github.com/getsentry/sentry-unity/pull/697))
   - [changelog](https://github.com/getsentry/sentry-cocoa/blob/7.13.0/CHANGELOG.md)
