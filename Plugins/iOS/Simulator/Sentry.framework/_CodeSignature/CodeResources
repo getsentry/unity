@@ -50,7 +50,7 @@
 		</data>
 		<key>Headers/SentryEnvelope.h</key>
 		<data>
-		rgRBFisTtCtfvWcTu92WVheUtg4=
+		Jye7bmtY2uKMEyRKEExUcVySqNY=
 		</data>
 		<key>Headers/SentryEnvelopeItemType.h</key>
 		<data>
@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		aACJEKt9tcioJ58BwNWsRo5yNhc=
+		OaBM4xlj39RUrpOs/A01vwjvwxE=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		T8WOj61HWpFTUO+jUiz4oPCseDI=
+		HZXlnSLUqlQ1eEKgJLYEPAQdR7Q=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -356,11 +356,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rgRBFisTtCtfvWcTu92WVheUtg4=
+			Jye7bmtY2uKMEyRKEExUcVySqNY=
 			</data>
 			<key>hash2</key>
 			<data>
-			yZ3zI7nuRVpzHqobzkuGozrchnkLXOj92qq7DWEDUrs=
+			yxrIyiZUIpxlvIVNYXBln0gWxZVtmVZxtrZgGdU/h+4=
 			</data>
 		</dict>
 		<key>Headers/SentryEnvelopeItemType.h</key>
@@ -499,11 +499,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			aACJEKt9tcioJ58BwNWsRo5yNhc=
+			OaBM4xlj39RUrpOs/A01vwjvwxE=
 			</data>
 			<key>hash2</key>
 			<data>
-			e2SRTpMmg+xjWyG3oiPBAhgqjCDQvYqjgul8CqpiVoM=
+			1DVGzXAtnxEjrrl7IOFQKdX/UmrG/20nY0dbd9IOKPE=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
