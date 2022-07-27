@@ -153,8 +153,10 @@ NS_SWIFT_NAME(Options)
 
 /**
  * Describes the Sentry SDK and its configuration used to capture and transmit an event.
+ * This is reserved for internal use, and will be removed in a future version of the SDK.
  */
-@property (nonatomic, readonly, strong) SentrySdkInfo *sdkInfo;
+@property (nonatomic, readonly, strong) SentrySdkInfo *sdkInfo DEPRECATED_MSG_ATTRIBUTE(
+    "This property will be removed in a future version of the SDK");
 
 /**
  * The maximum size for each attachment in bytes. Default is 20 MiB / 20 * 1024 * 1024 bytes.
@@ -334,6 +336,11 @@ NS_SWIFT_NAME(Options)
  * The default value is 2 seconds.
  */
 @property (nonatomic, assign) NSTimeInterval appHangTimeoutInterval;
+
+/**
+ * When enabled, the SDK adds breadcrumbs for various system events. Default value is YES.
+ */
+@property (nonatomic, assign) BOOL enableAutoBreadcrumbTracking;
 
 @end
 

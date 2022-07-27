@@ -4,6 +4,181 @@
         <name>Sentry</name>
     </assembly>
     <members>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileColumnNumber">
+            <summary>
+                 Gets the column number in the file that contains the code that is executing. 
+                 This information is typically extracted from the debugging symbols for the executable.
+            </summary>
+            <returns>The file column number, or 0 (zero) if the file column number cannot be determined.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileLineNumber">
+            <summary>
+                Gets the line number in the file that contains the code that is executing. 
+                This information is typically extracted from the debugging symbols for the executable.
+            </summary>
+            <returns>The file line number, or 0 (zero) if the file line number cannot be determined.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileName">
+            <summary>
+                Gets the file name that contains the code that is executing. 
+                This information is typically extracted from the debugging symbols for the executable.
+            </summary>
+            <returns>The file name, or null if the file name cannot be determined.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.GetILOffset">
+            <summary>
+               Gets the offset from the start of the Microsoft intermediate language (MSIL)
+               code for the method that is executing. This offset might be an approximation
+               depending on whether or not the just-in-time (JIT) compiler is generating debugging
+               code. The generation of this debugging information is controlled by the System.Diagnostics.DebuggableAttribute.
+            </summary>
+            <returns>The offset from the start of the MSIL code for the method that is executing.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.GetMethod">
+            <summary>
+                Gets the method in which the frame is executing.
+            </summary>
+            <returns>The method in which the frame is executing.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.GetNativeOffset">
+            <summary>
+                Gets the offset from the start of the native just-in-time (JIT)-compiled code
+                for the method that is being executed. The generation of this debugging information
+                is controlled by the System.Diagnostics.DebuggableAttribute class.
+            </summary>
+            <returns>The offset from the start of the JIT-compiled code for the method that is being executed.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackFrame.ToString">
+            <summary>
+                Builds a readable representation of the stack trace.
+            </summary>
+            <returns>A readable representation of the stack trace.</returns>
+        </member>
+        <member name="P:System.Diagnostics.EnhancedStackTrace.FrameCount">
+            <summary>
+            Gets the number of frames in the stack trace.
+            </summary>
+            <returns>The number of frames in the stack trace.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackTrace.GetFrame(System.Int32)">
+            <summary>
+            Gets the specified stack frame.
+            </summary>
+            <param name="index">The index of the stack frame requested.</param>
+            <returns>The specified stack frame.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackTrace.GetFrames">
+            <summary>
+                Returns a copy of all stack frames in the current stack trace.
+            </summary>
+            <returns>
+                An array of type System.Diagnostics.StackFrame representing the function calls
+                in the stack trace.
+            </returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackTrace.ToString">
+            <summary>
+            Builds a readable representation of the stack trace.
+            </summary>
+            <returns>A readable representation of the stack trace.</returns>
+        </member>
+        <member name="M:System.Diagnostics.EnhancedStackTrace.TryGetFullPath(System.String)">
+            <summary>
+            Tries to convert a given <paramref name="filePath"/> to a full path.
+            Returns original value if the conversion isn't possible or a given path is relative.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)">
+            <summary>
+            Demystifies the given <paramref name="exception"/> and tracks the original stack traces for the whole exception tree.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.ExceptionExtensions.ToStringDemystified(System.Exception)">
+            <summary>
+            Gets demystified string representation of the <paramref name="exception"/>.
+            </summary>
+            <remarks>
+            <see cref="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)"/> method mutates the exception instance that can cause
+            issues if a system relies on the stack trace be in the specific form.
+            Unlike <see cref="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)"/> this method is pure. It calls <see cref="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)"/> first,
+            computes a demystified string representation and then restores the original state of the exception back.
+            </remarks>
+        </member>
+        <member name="T:System.Diagnostics.Internal.ReflectionHelper">
+            <summary>
+            A helper class that contains utilities methods for dealing with reflection.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsValueTuple(System.Type)">
+            <summary>
+            Returns true if the <paramref name="type"/> is a value tuple type.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsTupleElementNameAttribute(System.Attribute)">
+            <summary>
+            Returns true if the given <paramref name="attribute"/> is of type <code>TupleElementNameAttribute</code>.
+            </summary>
+            <remarks>
+            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection and not checks statically that 
+            the given <paramref name="attribute"/> is <code>TupleElementNameAttribute</code>.
+            </remarks>
+        </member>
+        <member name="M:System.Diagnostics.Internal.ReflectionHelper.GetTransformerNames(System.Attribute)">
+            <summary>
+            Returns 'TransformNames' property value from a given <paramref name="attribute"/>.
+            </summary>
+            <remarks>
+            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection 
+            instead of casting the attribute to a specific type.
+            </remarks>
+        </member>
+        <member name="M:System.Diagnostics.TypeNameHelper.GetTypeDisplayName(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Pretty print a type name.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/>.</param>
+            <param name="fullName"><c>true</c> to print a fully qualified name.</param>
+            <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
+            <returns>The pretty printed type name.</returns>
+        </member>
+        <member name="M:System.Diagnostics.TypeNameHelper.GetTypeNameForGenericType(System.Type)">
+            <summary>
+            Returns a name of given generic type without '`'.
+            </summary>
+        </member>
+        <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.Item(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.Count">
+            <inheritdoc />
+        </member>
+        <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.IsReadOnly">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Add(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Clear">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Contains(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.CopyTo(`0[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.IndexOf(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Insert(System.Int32,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Remove(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.RemoveAt(System.Int32)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.AttachmentType">
             <summary>
             Attachment type.
@@ -389,7 +564,7 @@
         </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.TryGetEventId">
             <summary>
-            Attempts to extract the value of "sentry_id" header if it's present.
+            Attempts to extract the value of "event_id" header if it's present.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
@@ -2065,8 +2240,9 @@
         </member>
         <member name="M:Sentry.Extensibility.IBackgroundWorker.EnqueueEnvelope(Sentry.Protocol.Envelopes.Envelope)">
             <summary>
-            Attempts to queue the envelope with the worker.
+            Attempts to enqueue the envelope with the worker.
             </summary>
+            <param name="envelope">The envelope to enqueue.</param>
             <returns>True of queueing was successful. Otherwise, false.</returns>
         </member>
         <member name="M:Sentry.Extensibility.IBackgroundWorker.FlushAsync(System.TimeSpan)">
@@ -2355,6 +2531,12 @@
         <member name="M:Sentry.Extensibility.SentryStackTraceFactory.DemangleAnonymousFunction(Sentry.SentryStackFrame)">
             <summary>
             Clean up function names for anonymous lambda calls.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.DemangleLambdaReturnType(Sentry.SentryStackFrame)">
+            <summary>
+            Remove return type from module in a Task with a Lambda with a return value.
+            This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
             </summary>
         </member>
         <member name="T:Sentry.FileAttachmentContent">
@@ -2929,6 +3111,14 @@
             </summary>
             <seealso cref="T:Sentry.Infrastructure.ISystemClock" />
         </member>
+        <member name="M:Sentry.Infrastructure.SystemClock.#ctor">
+            <summary>
+            Constructs a SystemClock instance.
+            </summary>
+            <remarks>
+            This constructor should have been private originally.  It will be removed in a future major version.
+            </remarks>
+        </member>
         <member name="F:Sentry.Infrastructure.SystemClock.Clock">
             <summary>
             System clock singleton.
@@ -2972,6 +3162,32 @@
             </remarks>
             <param name="hub">The hub.</param>
             <param name="options">The options.</param>
+        </member>
+        <member name="M:Sentry.Internal.BackgroundWorker.EnqueueEnvelope(Sentry.Protocol.Envelopes.Envelope)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.BackgroundWorker.EnqueueEnvelope(Sentry.Protocol.Envelopes.Envelope,System.Boolean)">
+            <summary>
+            Attempts to enqueue the envelope with the worker.
+            </summary>
+            <param name="envelope">The envelope to enqueue.</param>
+            <param name="process">
+            Whether to process the next item in the queue after enqueuing this item,
+            which may or may not be the item being enqueued.  The default is <c>true</c>.
+            Pass <c>false</c> for testing, when you want to add items to the queue without unblocking the worker.
+            After items are enqueued, use <see cref="M:Sentry.Internal.BackgroundWorker.ProcessQueuedItems(System.Int32)"/> to unblock the worker to process the items.
+            Disposing the worker will also unblock the items, which will then be processed until the shutdown timeout
+            is reached or the queue is emptied.
+            </param>
+            <returns>True of queueing was successful. Otherwise, false.</returns>
+        </member>
+        <member name="M:Sentry.Internal.BackgroundWorker.ProcessQueuedItems(System.Int32)">
+            <summary>
+            Processes the number of queued items specified.
+            Used only in testing, after calling <see cref="M:Sentry.Internal.BackgroundWorker.EnqueueEnvelope(Sentry.Protocol.Envelopes.Envelope,System.Boolean)"/>
+            when passing <c>process: false</c>.
+            </summary>
+            <param name="count">The number of items to process from the queue.</param>
         </member>
         <member name="M:Sentry.Internal.BackgroundWorker.Dispose">
             <summary>
@@ -4284,6 +4500,12 @@
             <param name="name">The package name.</param>
             <param name="version">The package version.</param>
         </member>
+        <member name="M:Sentry.SdkVersion.AddIntegration(System.String)">
+            <summary>
+            Add an integration used in the SDK.
+            </summary>
+            <param name="integration">The integrations name.</param>
+        </member>
         <member name="M:Sentry.SdkVersion.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -5034,6 +5256,12 @@
             <summary>
             Path to the root directory used for storing events locally for resilience.
             If set to <i>null</i>, caching will not be used.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.FileSystem">
+            <summary>
+            Sets the filesystem instance to use. Defaults to the actual <see cref="T:Sentry.Internal.FileSystem"/>.
+            Used for testing.
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.InitCacheFlushTimeout">
@@ -6609,181 +6837,6 @@
         <member name="M:Sentry.UserFeedback.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses from JSON.
-            </summary>
-        </member>
-        <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.Item(System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.Count">
-            <inheritdoc />
-        </member>
-        <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.IsReadOnly">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Add(`0)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Clear">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Contains(`0)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.CopyTo(`0[],System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.IndexOf(`0)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Insert(System.Int32,`0)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.Remove(`0)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Collections.Generic.Enumerable.EnumerableIList`1.RemoveAt(System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileColumnNumber">
-            <summary>
-                 Gets the column number in the file that contains the code that is executing. 
-                 This information is typically extracted from the debugging symbols for the executable.
-            </summary>
-            <returns>The file column number, or 0 (zero) if the file column number cannot be determined.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileLineNumber">
-            <summary>
-                Gets the line number in the file that contains the code that is executing. 
-                This information is typically extracted from the debugging symbols for the executable.
-            </summary>
-            <returns>The file line number, or 0 (zero) if the file line number cannot be determined.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileName">
-            <summary>
-                Gets the file name that contains the code that is executing. 
-                This information is typically extracted from the debugging symbols for the executable.
-            </summary>
-            <returns>The file name, or null if the file name cannot be determined.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.GetILOffset">
-            <summary>
-               Gets the offset from the start of the Microsoft intermediate language (MSIL)
-               code for the method that is executing. This offset might be an approximation
-               depending on whether or not the just-in-time (JIT) compiler is generating debugging
-               code. The generation of this debugging information is controlled by the System.Diagnostics.DebuggableAttribute.
-            </summary>
-            <returns>The offset from the start of the MSIL code for the method that is executing.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.GetMethod">
-            <summary>
-                Gets the method in which the frame is executing.
-            </summary>
-            <returns>The method in which the frame is executing.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.GetNativeOffset">
-            <summary>
-                Gets the offset from the start of the native just-in-time (JIT)-compiled code
-                for the method that is being executed. The generation of this debugging information
-                is controlled by the System.Diagnostics.DebuggableAttribute class.
-            </summary>
-            <returns>The offset from the start of the JIT-compiled code for the method that is being executed.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackFrame.ToString">
-            <summary>
-                Builds a readable representation of the stack trace.
-            </summary>
-            <returns>A readable representation of the stack trace.</returns>
-        </member>
-        <member name="P:System.Diagnostics.EnhancedStackTrace.FrameCount">
-            <summary>
-            Gets the number of frames in the stack trace.
-            </summary>
-            <returns>The number of frames in the stack trace.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackTrace.GetFrame(System.Int32)">
-            <summary>
-            Gets the specified stack frame.
-            </summary>
-            <param name="index">The index of the stack frame requested.</param>
-            <returns>The specified stack frame.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackTrace.GetFrames">
-            <summary>
-                Returns a copy of all stack frames in the current stack trace.
-            </summary>
-            <returns>
-                An array of type System.Diagnostics.StackFrame representing the function calls
-                in the stack trace.
-            </returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackTrace.ToString">
-            <summary>
-            Builds a readable representation of the stack trace.
-            </summary>
-            <returns>A readable representation of the stack trace.</returns>
-        </member>
-        <member name="M:System.Diagnostics.EnhancedStackTrace.TryGetFullPath(System.String)">
-            <summary>
-            Tries to convert a given <paramref name="filePath"/> to a full path.
-            Returns original value if the conversion isn't possible or a given path is relative.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)">
-            <summary>
-            Demystifies the given <paramref name="exception"/> and tracks the original stack traces for the whole exception tree.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.ExceptionExtensions.ToStringDemystified(System.Exception)">
-            <summary>
-            Gets demystified string representation of the <paramref name="exception"/>.
-            </summary>
-            <remarks>
-            <see cref="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)"/> method mutates the exception instance that can cause
-            issues if a system relies on the stack trace be in the specific form.
-            Unlike <see cref="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)"/> this method is pure. It calls <see cref="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)"/> first,
-            computes a demystified string representation and then restores the original state of the exception back.
-            </remarks>
-        </member>
-        <member name="T:System.Diagnostics.Internal.ReflectionHelper">
-            <summary>
-            A helper class that contains utilities methods for dealing with reflection.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsValueTuple(System.Type)">
-            <summary>
-            Returns true if the <paramref name="type"/> is a value tuple type.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsTupleElementNameAttribute(System.Attribute)">
-            <summary>
-            Returns true if the given <paramref name="attribute"/> is of type <code>TupleElementNameAttribute</code>.
-            </summary>
-            <remarks>
-            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection and not checks statically that 
-            the given <paramref name="attribute"/> is <code>TupleElementNameAttribute</code>.
-            </remarks>
-        </member>
-        <member name="M:System.Diagnostics.Internal.ReflectionHelper.GetTransformerNames(System.Attribute)">
-            <summary>
-            Returns 'TransformNames' property value from a given <paramref name="attribute"/>.
-            </summary>
-            <remarks>
-            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection 
-            instead of casting the attribute to a specific type.
-            </remarks>
-        </member>
-        <member name="M:System.Diagnostics.TypeNameHelper.GetTypeDisplayName(System.Type,System.Boolean,System.Boolean)">
-            <summary>
-            Pretty print a type name.
-            </summary>
-            <param name="type">The <see cref="T:System.Type"/>.</param>
-            <param name="fullName"><c>true</c> to print a fully qualified name.</param>
-            <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
-            <returns>The pretty printed type name.</returns>
-        </member>
-        <member name="M:System.Diagnostics.TypeNameHelper.GetTypeNameForGenericType(System.Type)">
-            <summary>
-            Returns a name of given generic type without '`'.
             </summary>
         </member>
         <member name="T:SentryExceptionExtensions">

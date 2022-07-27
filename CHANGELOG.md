@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.22.0
+
+### Fixes
+
+- Correctly byte-swap ELF build-ids ([#872](https://github.com/getsentry/sentry-unity/pull/872))
+- Wizard autoselects with only one option available ([#891](https://github.com/getsentry/sentry-unity/pull/891))
+- Reenabled IL2CPP line number support for mobile ([#902](https://github.com/getsentry/sentry-unity/pull/902))
+
+### Features
+
+- Added parameters to the options to control screenshot quality ([#912](https://github.com/getsentry/sentry-unity/pull/912))
+- Added highlights and info messages to editor configuration window ([#910](https://github.com/getsentry/sentry-unity/pull/910))
+- Added programmatic access to enable the experimental IL2CPP line numbers support ([#905](https://github.com/getsentry/sentry-unity/pull/905))
+- Bump Java SDK to v6.3.0 ([#887](https://github.com/getsentry/sentry-unity/pull/887), [#894](https://github.com/getsentry/sentry-unity/pull/894))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#630)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.1.4...6.3.0)
+- Bump CLI to v2.5.0 ([#889](https://github.com/getsentry/sentry-unity/pull/889), [#898](https://github.com/getsentry/sentry-unity/pull/898))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#250)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.3.1...2.5.0)
+- Bump Cocoa SDK to v7.22.0 ([#892](https://github.com/getsentry/sentry-unity/pull/892), [#909](https://github.com/getsentry/sentry-unity/pull/909))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7220)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.20.0...7.22.0)
+- Bump .NET SDK to v3.20.1 ([#907](https://github.com/getsentry/sentry-unity/pull/907), [#911](https://github.com/getsentry/sentry-unity/pull/911))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3201)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.19.0...3.20.1)
+
 ## 0.21.0
 
 ### Fixes
@@ -61,7 +87,7 @@
 
 ### Fixes
 
-- Don't report Aplication-Not-Responding while the app is in the background ([#796](https://github.com/getsentry/sentry-unity/pull/796))
+- Don't report Application-Not-Responding while the app is in the background ([#796](https://github.com/getsentry/sentry-unity/pull/796))
 
 ## 0.18.0
 

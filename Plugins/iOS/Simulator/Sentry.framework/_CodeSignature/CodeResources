@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/PrivateSentrySDKOnly.h</key>
 		<data>
-		iWtSeOaoCygQJlQTwM/7SMh1IdU=
+		4+Wp85ZL9iQfpwFVNXHMPwEFLVE=
 		</data>
 		<key>Headers/Sentry.h</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/SentryAppStartMeasurement.h</key>
 		<data>
-		LNuok8N64Pe259jsDbo7otW03wU=
+		tcKPxIbJBuDJXUVTojTREQGTDm0=
 		</data>
 		<key>Headers/SentryAttachment.h</key>
 		<data>
@@ -62,7 +62,7 @@
 		</data>
 		<key>Headers/SentryEvent.h</key>
 		<data>
-		6LRi61BdSUnwjMw9YUT3AS/dXAo=
+		05UhRPImkad0SCj3Gt/8ZyZ6YXw=
 		</data>
 		<key>Headers/SentryException.h</key>
 		<data>
@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		WKA2KiEghr35BJuRzPHWNWiPrPA=
+		7SM0CMhKQibnf5nxHIvBXveY3b8=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -126,7 +126,7 @@
 		</data>
 		<key>Headers/SentryScreenFrames.h</key>
 		<data>
-		JePlFOE9D78qNX4WwHGDvfCiuwg=
+		7A66b+14ljwMylwpXA6eOSk8ESU=
 		</data>
 		<key>Headers/SentrySdkInfo.h</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		zHa32XBybr8maiSoVM0G46oAwgY=
+		cJKaXjvBRZoB8HUqduIkN5+nk7A=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -235,11 +235,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			iWtSeOaoCygQJlQTwM/7SMh1IdU=
+			4+Wp85ZL9iQfpwFVNXHMPwEFLVE=
 			</data>
 			<key>hash2</key>
 			<data>
-			bRCmoOv8S3TIJXGsTH9/tw1LIZWMLxMCrOeeT/I0wG4=
+			Ac3MgtnX8awpuJ4t3hDKORi5RKhuu1I7EYR1wkMpg5g=
 			</data>
 		</dict>
 		<key>Headers/Sentry.h</key>
@@ -257,11 +257,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LNuok8N64Pe259jsDbo7otW03wU=
+			tcKPxIbJBuDJXUVTojTREQGTDm0=
 			</data>
 			<key>hash2</key>
 			<data>
-			WH1YZyt91HMxOXmDL+bYWmR4KuYL06kI7cFtGmpqVyU=
+			NOUBtxT8RPg4S+TysWOMvbykMtLSQXrC9yBAjYGINqE=
 			</data>
 		</dict>
 		<key>Headers/SentryAttachment.h</key>
@@ -389,11 +389,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6LRi61BdSUnwjMw9YUT3AS/dXAo=
+			05UhRPImkad0SCj3Gt/8ZyZ6YXw=
 			</data>
 			<key>hash2</key>
 			<data>
-			nPpd6CRn84BKrh3SDuclemXscLPZ3Xl/EcN0yTmsN9s=
+			bXApFtfjuFIjJPPMvPUWbOz6RPuSOZZOeYpOCJURAac=
 			</data>
 		</dict>
 		<key>Headers/SentryException.h</key>
@@ -499,11 +499,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WKA2KiEghr35BJuRzPHWNWiPrPA=
+			7SM0CMhKQibnf5nxHIvBXveY3b8=
 			</data>
 			<key>hash2</key>
 			<data>
-			9reKHGIt1aMIjSSaIfpHLgDRd1T7nf11/FTCrisF7EA=
+			Epj1RFWFyeuiJK9uJ4ddJEBda6BWhXT+XFdCvQZ7WGw=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -565,11 +565,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JePlFOE9D78qNX4WwHGDvfCiuwg=
+			7A66b+14ljwMylwpXA6eOSk8ESU=
 			</data>
 			<key>hash2</key>
 			<data>
-			nkjsJbN5fD0ARe/5Qf4hItV1QUxuReFWQhAmPPphpuA=
+			61XvKewg0VR/BMCyZ2vPdZ6ZwY1opvyT/kLaaNPCoyc=
 			</data>
 		</dict>
 		<key>Headers/SentrySdkInfo.h</key>
