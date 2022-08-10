@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		7SM0CMhKQibnf5nxHIvBXveY3b8=
+		f5Np4XWkQRjwqhanEkbjro+CF5U=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		cJKaXjvBRZoB8HUqduIkN5+nk7A=
+		eN3kiYQrEATCQMjrHaDiamNTiw8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -499,11 +499,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7SM0CMhKQibnf5nxHIvBXveY3b8=
+			f5Np4XWkQRjwqhanEkbjro+CF5U=
 			</data>
 			<key>hash2</key>
 			<data>
-			Epj1RFWFyeuiJK9uJ4ddJEBda6BWhXT+XFdCvQZ7WGw=
+			zC/ungZFsSripqT1HNdJcP7JgoXVP5gfxuSnl8KJVQw=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
