@@ -397,6 +397,22 @@
             Platform key that defines an events is coming from any .NET implementation.
             </summary>
         </member>
+        <member name="T:Sentry.CrashType">
+            <summary>
+            A type of application crash.
+            Used exclusively by <see cref="M:Sentry.SentrySdk.CauseCrash(Sentry.CrashType)"/>.
+            </summary>
+        </member>
+        <member name="F:Sentry.CrashType.Managed">
+            <summary>
+            A managed <see cref="T:System.ApplicationException"/> will be thrown from .NET.
+            </summary>
+        </member>
+        <member name="F:Sentry.CrashType.ManagedBackgroundThread">
+            <summary>
+            A managed <see cref="T:System.ApplicationException"/> will be thrown from .NET on a background thread.
+            </summary>
+        </member>
         <member name="T:Sentry.DebugImage">
             <summary>
             The Sentry Debug Meta Images interface.
@@ -3226,16 +3242,21 @@
             </summary>
             <remarks>Best Sentry practice is to always try and have a value for this setting.</remarks>
         </member>
-        <member name="M:Sentry.Internal.DsnLocator.FindDsnStringOrDisable(System.Reflection.Assembly)">
+        <member name="M:Sentry.Internal.Extensions.MiscExtensions.IsNull(System.Object)">
             <summary>
-            Attempts to find a DSN string statically (via env var, asm attribute). Returns Disabled token otherwise.
+            Determines whether an object is <c>null</c>.
             </summary>
+            <remarks>
+            This method exists so that we can test for null in situations where a method might be called from
+            code that ignores nullability warnings.
+            (It prevents us having to have two different resharper ignore comments depending on target framework.)
+            </remarks>
         </member>
-        <member name="M:Sentry.Internal.DsnLocator.FindDsn(System.Reflection.Assembly)">
+        <member name="M:Sentry.Internal.Extensions.StringExtensions.NullIfWhitespace(System.String)">
             <summary>
-            Attempts to find a DSN string from the entry assembly's DsnAttribute.
+            Returns <c>null</c> if <paramref name="str"/> is <c>null</c> or contains only whitespace.
+            Otherwise, returns <paramref name="str"/>.
             </summary>
-            <returns>DSN string or null if none found.</returns>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -3363,6 +3384,11 @@
             </remarks>
             <param name="report">The client report to load.</param>
         </member>
+        <member name="P:Sentry.Internal.IHasDistribution.Distribution">
+            <summary>
+            The release distribution of the application.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.SentryJsonConverter">
             <summary>
             A converter that removes dangerous classes from being serialized,
@@ -3400,6 +3426,11 @@
             <summary>
             This is a struct-based alternative to <see cref="T:System.Diagnostics.Stopwatch"/>.
             It avoids unnecessary allocations and includes realtime clock values.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.SettingLocator">
+            <summary>
+            Exposes settings that are read from multiple places, such as environment variables, options, attributes, or defaults.
             </summary>
         </member>
         <member name="T:Sentry.Internal.ThreadsafeCounterDictionary`1">
@@ -4302,6 +4333,9 @@
         <member name="P:Sentry.Scope.Release">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.Scope.Distribution">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.Scope.Environment">
             <inheritdoc />
         </member>
@@ -4658,6 +4692,9 @@
             </summary>
         </member>
         <member name="P:Sentry.SentryEvent.Release">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Distribution">
             <inheritdoc />
         </member>
         <member name="P:Sentry.SentryEvent.SentryExceptions">
@@ -5098,6 +5135,23 @@
             </remarks>
             <seealso href="https://docs.sentry.io/platforms/dotnet/configuration/releases/"/>
         </member>
+        <member name="P:Sentry.SentryOptions.Distribution">
+            <summary>
+            The distribution of the application, associated with the release set in <see cref="P:Sentry.SentryOptions.Release"/>.
+            </summary>
+            <example>
+            22
+            14G60
+            </example>
+            <remarks>
+            Distributions are used to disambiguate build or deployment variants of the same release of
+            an application. For example, it can be the build number of an XCode (iOS) build, or the version
+            code of an Android build.
+            A distribution can be set under any circumstances, and is passed along to Sentry if provided.
+            However, they are generally relevant only for mobile application scenarios.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/#optional-attributes"/>
+        </member>
         <member name="P:Sentry.SentryOptions.Environment">
             <summary>
             The environment the application is running
@@ -5330,11 +5384,12 @@
         </member>
         <member name="P:Sentry.SentryOptions.DetectStartupTime">
             <summary>
-            Whether the SDK should attempt to detect the app's and device's startup time.
+            The mode that the SDK should use when attempting to detect the app's and device's startup time.
             </summary>
             <remarks>
             Note that the highest precision value relies on <see cref="M:System.Diagnostics.Process.GetCurrentProcess"/>
             which might not be available. For example on Unity's IL2CPP.
+            Additionally, "Best" mode is not available on mobile platforms.
             </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.AutoSessionTrackingInterval">
@@ -5351,8 +5406,8 @@
             end the session when it's closed.
             </summary>
             <remarks>
-            Note: this is disabled by default in the current version, but will become
-            enabled by default in the next major version.
+            Note: this is disabled by default in the current version (except for mobile targets and MAUI),
+            but will become enabled by default in the next major version.
             Currently this only works for release health in client mode
             (desktop, mobile applications, but not web servers).
             </remarks>
@@ -5856,6 +5911,15 @@
         </member>
         <member name="M:Sentry.SentrySdk.ResumeSession">
             <inheritdoc cref="M:Sentry.IHub.ResumeSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.CauseCrash(Sentry.CrashType)">
+            <summary>
+            Deliberately crashes an application, which is useful for testing and demonstration purposes.
+            </summary>
+            <remarks>
+            The method is marked obsolete only to discourage accidental misuse.
+            We do not intend to remove it.
+            </remarks>
         </member>
         <member name="T:Sentry.SentryThread">
             <summary>
@@ -6474,6 +6538,9 @@
         <member name="P:Sentry.Transaction.Release">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.Transaction.Distribution">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.Transaction.StartTimestamp">
             <inheritdoc />
         </member>
@@ -6645,6 +6712,9 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.TransactionTracer.Release">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Distribution">
             <inheritdoc />
         </member>
         <member name="P:Sentry.TransactionTracer.StartTimestamp">

@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.22.2
+
+### Fixes
+
+- Fixed an 'Undefined symbols' issue within the Sentry Native Bridge when building for iOS ([#932](https://github.com/getsentry/sentry-unity/pull/932))
+- ANR detection no longer creates an error by trying to capture a screenshot from a background thread ([#937](https://github.com/getsentry/sentry-unity/pull/937))
+- Screenshots quality no longer scales off of current resolution but tries match thresholds instead ([#939](https://github.com/getsentry/sentry-unity/pull/939))
+
+### Features
+
+- Bump CLI from v2.5.0 to v2.5.2 ([#938](https://github.com/getsentry/sentry-unity/pull/938))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#252)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.5.0...2.5.2)
+- Bump Java SDK from v6.3.1 to v6.4.0 ([#943](https://github.com/getsentry/sentry-unity/pull/943))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#640)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.3.1...6.4.0)
+
 ## 0.22.1
 
 ### Fixes
