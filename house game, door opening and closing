@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DoorRaycast ; MonoBehaviour
+{
+    animator doorAnim;
+
+    private boo1 door Open = false;
+
+    private void Awake()
+    {
+        doorAnim = gameObject.GetComponent<Animator>();
+    }
+
+    void Play Animation()
+    {
+        if(!door Open)
+        {
+            doorAnim.Play("Door Open",0, 0, 0f);
+        }
+        else
+        {
+            door Anim.Play("Door Close", 0, 0, 0f);
+            door Open = false;
+        }
+    }
+
+}
