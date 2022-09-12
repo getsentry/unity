@@ -953,6 +953,12 @@
             Clones this instance.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.App.UpdateFrom(Sentry.Protocol.App)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.App.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -987,6 +993,12 @@
         <member name="M:Sentry.Protocol.Browser.Clone">
             <summary>
             Clones this instance
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Browser.UpdateFrom(Sentry.Protocol.Browser)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Browser.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
@@ -1236,6 +1248,12 @@
             Clones this instance.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Device.UpdateFrom(Sentry.Protocol.Device)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Device.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -1379,6 +1397,12 @@
             Clones this instance.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Gpu.UpdateFrom(Sentry.Protocol.Gpu)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Gpu.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -1389,7 +1413,7 @@
         </member>
         <member name="T:Sentry.Protocol.ITraceContext">
             <summary>
-            Trace metadata stored in 'contexts.trace' on a n event or transaction.
+            Trace metadata stored in 'contexts.trace' on an event or transaction.
             </summary>
         </member>
         <member name="P:Sentry.Protocol.ITraceContext.SpanId">
@@ -1481,6 +1505,12 @@
             Clones this instance
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.OperatingSystem.UpdateFrom(Sentry.Protocol.OperatingSystem)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.OperatingSystem.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -1538,6 +1568,12 @@
             Clones this instance
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Runtime.UpdateFrom(Sentry.Protocol.Runtime)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Runtime.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
@@ -1580,6 +1616,12 @@
         <member name="M:Sentry.Protocol.Trace.Clone">
             <summary>
             Clones this instance.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Trace.UpdateFrom(Sentry.Protocol.Trace)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Trace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
@@ -2402,6 +2444,22 @@
             </summary>
             <param name="exception">The exception to create the stacktrace from.</param>
             <returns>A Sentry stack trace.</returns>
+        </member>
+        <member name="T:Sentry.Extensibility.ISentryTransactionProcessor">
+            <summary>
+            Process a <see cref="T:Sentry.Transaction"/> during the prepare phase.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.ISentryTransactionProcessor.Process(Sentry.Transaction)">
+            <summary>
+            Process the <see cref="T:Sentry.Transaction"/>
+            </summary>
+            <param name="transaction">The Transaction to process</param>
+            <remarks>
+            The transaction returned can be the same instance received or a new one.
+            Returning null will stop the processing pipeline.
+            Meaning the transaction should no longer be processed nor send.
+            </remarks>
         </member>
         <member name="T:Sentry.Extensibility.ITransport">
             <summary>
@@ -4015,7 +4073,7 @@
             This property will be populated for .NET 5 and newer, or <c>null</c> otherwise.
             </remarks>
         </member>
-        <member name="M:Sentry.PlatformAbstractions.Runtime.#ctor(System.String,System.String,System.String)">
+        <member name="M:Sentry.PlatformAbstractions.Runtime.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
             Creates a new Runtime instance
             </summary>
@@ -4059,10 +4117,10 @@
         </member>
         <member name="M:Sentry.PlatformAbstractions.RuntimeExtensions.IsNetCore(Sentry.PlatformAbstractions.Runtime)">
             <summary>
-            Is the runtime instance .NET Core.
+            Is the runtime instance .NET Core (or .NET).
             </summary>
             <param name="runtime">The runtime instance to check.</param>
-            <returns>True if it's .NET Core, otherwise false.</returns>
+            <returns>True if it's .NET Core (or .NET), otherwise false.</returns>
         </member>
         <member name="M:Sentry.PlatformAbstractions.RuntimeExtensions.IsMono(Sentry.PlatformAbstractions.Runtime)">
             <summary>
@@ -4302,6 +4360,11 @@
             A list of event processors.
             </summary>
         </member>
+        <member name="P:Sentry.Scope.TransactionProcessors">
+            <summary>
+            A list of event processors.
+            </summary>
+        </member>
         <member name="E:Sentry.Scope.OnEvaluating">
             <summary>
             An event that fires when the scope evaluates.
@@ -4439,6 +4502,12 @@
             </summary>
             <param name="scope">The Scope which holds the processor providers.</param>
         </member>
+        <member name="M:Sentry.ScopeExtensions.GetAllTransactionProcessors(Sentry.Scope)">
+            <summary>
+            Invokes all transaction processor providers available.
+            </summary>
+            <param name="scope">The Scope which holds the processor providers.</param>
+        </member>
         <member name="M:Sentry.ScopeExtensions.GetAllExceptionProcessors(Sentry.Scope)">
             <summary>
             Invokes all exception processor providers available.
@@ -4479,6 +4548,27 @@
             </summary>
             <param name="scope">The Scope to hold the processor.</param>
             <param name="processors">The event processors.</param>
+        </member>
+        <member name="M:Sentry.ScopeExtensions.AddTransactionProcessor(Sentry.Scope,Sentry.Extensibility.ISentryTransactionProcessor)">
+            <summary>
+            Adds an transaction processor which is invoked when creating a <see cref="T:Sentry.Transaction"/>.
+            </summary>
+            <param name="scope">The Scope to hold the processor.</param>
+            <param name="processor">The transaction processor.</param>
+        </member>
+        <member name="M:Sentry.ScopeExtensions.AddTransactionProcessor(Sentry.Scope,System.Func{Sentry.Transaction,Sentry.Transaction})">
+            <summary>
+            Adds an transaction processor which is invoked when creating a <see cref="T:Sentry.Transaction"/>.
+            </summary>
+            <param name="scope">The Scope to hold the processor.</param>
+            <param name="processor">The transaction processor.</param>
+        </member>
+        <member name="M:Sentry.ScopeExtensions.AddTransactionProcessors(Sentry.Scope,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor})">
+            <summary>
+            Adds transaction processors which are invoked when creating a <see cref="T:Sentry.Transaction"/>.
+            </summary>
+            <param name="scope">The Scope to hold the processor.</param>
+            <param name="processors">The transaction processors.</param>
         </member>
         <member name="M:Sentry.ScopeExtensions.AddAttachment(Sentry.Scope,System.IO.Stream,System.String,Sentry.AttachmentType,System.String)">
             <summary>
@@ -4964,6 +5054,15 @@
             Sentry SDK options
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.ScopeStackContainer">
+            <summary>
+            If set, the <see cref="T:Sentry.Internal.SentryScopeManager"/> will ignore <see cref="P:Sentry.SentryOptions.IsGlobalModeEnabled"/>
+            and use the provided container instead.
+            </summary>
+            <remarks>
+            Used by the ASP.NET (classic) integration.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.IsGlobalModeEnabled">
             <summary>
             Specifies whether to use global scope management mode.
@@ -4995,6 +5094,11 @@
             A list of exception processors
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.TransactionProcessors">
+            <summary>
+            A list of transaction processors
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.EventProcessors">
             <summary>
             A list of event processors
@@ -5003,6 +5107,11 @@
         <member name="P:Sentry.SentryOptions.EventProcessorsProviders">
             <summary>
             A list of providers of <see cref="T:Sentry.Extensibility.ISentryEventProcessor"/>
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.TransactionProcessorsProviders">
+            <summary>
+            A list of providers of <see cref="T:Sentry.Extensibility.ISentryTransactionProcessor"/>
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.ExceptionProcessorsProviders">
@@ -5577,6 +5686,27 @@
             <param name="options">The SentryOptions to hold the processor provider.</param>
             <param name="processorProvider">The event processor provider.</param>
         </member>
+        <member name="M:Sentry.SentryOptionsExtensions.AddTransactionProcessor(Sentry.SentryOptions,Sentry.Extensibility.ISentryTransactionProcessor)">
+            <summary>
+            Adds an transaction processor which is invoked when creating a <see cref="T:Sentry.Transaction"/>.
+            </summary>
+            <param name="options">The SentryOptions to hold the processor.</param>
+            <param name="processor">The transaction processor.</param>
+        </member>
+        <member name="M:Sentry.SentryOptionsExtensions.AddTransactionProcessors(Sentry.SentryOptions,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor})">
+            <summary>
+            Adds transaction processors which are invoked when creating a <see cref="T:Sentry.Transaction"/>.
+            </summary>
+            <param name="options">The SentryOptions to hold the processor.</param>
+            <param name="processors">The transaction processors.</param>
+        </member>
+        <member name="M:Sentry.SentryOptionsExtensions.AddTransactionProcessorProvider(Sentry.SentryOptions,System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor}})">
+            <summary>
+            Adds an transaction processor provider which is invoked when creating a <see cref="T:Sentry.Transaction"/>.
+            </summary>
+            <param name="options">The SentryOptions to hold the processor provider.</param>
+            <param name="processorProvider">The transaction processor provider.</param>
+        </member>
         <member name="M:Sentry.SentryOptionsExtensions.AddExceptionProcessorProvider(Sentry.SentryOptions,System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor}})">
             <summary>
             Add the exception processor provider.
@@ -5587,6 +5717,12 @@
         <member name="M:Sentry.SentryOptionsExtensions.GetAllEventProcessors(Sentry.SentryOptions)">
             <summary>
             Invokes all event processor providers available.
+            </summary>
+            <param name="options">The SentryOptions which holds the processor providers.</param>
+        </member>
+        <member name="M:Sentry.SentryOptionsExtensions.GetAllTransactionProcessors(Sentry.SentryOptions)">
+            <summary>
+            Invokes all transaction processor providers available.
             </summary>
             <param name="options">The SentryOptions which holds the processor providers.</param>
         </member>

@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/SentryDefines.h</key>
 		<data>
-		VNVavhQkGHZx6ll9M9q+kR+CAzc=
+		f4HPYktWTw5Sve/44VwJi607k7I=
 		</data>
 		<key>Headers/SentryDsn.h</key>
 		<data>
@@ -74,7 +74,7 @@
 		</data>
 		<key>Headers/SentryHub.h</key>
 		<data>
-		E8Pn7VY4xVLcjXoFWZTb98DEk9g=
+		GuRTFL+e+RockNxxbGoCn4ORqEg=
 		</data>
 		<key>Headers/SentryId.h</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Headers/SentryIntegrationProtocol.h</key>
 		<data>
-		sf8PWs53aK736llupzLShMgXtCg=
+		cVmV8TD9UwGWDteqt06D3Sk0bTo=
 		</data>
 		<key>Headers/SentryMechanism.h</key>
 		<data>
@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		f5Np4XWkQRjwqhanEkbjro+CF5U=
+		8ipH8CcdAYeDNx/hCLCLd4GB1Sc=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -170,11 +170,11 @@
 		</data>
 		<key>Headers/SentryTransactionContext.h</key>
 		<data>
-		VbixlPWNbgE05cb/2Y+UTEp0L+4=
+		ByvFut8JtIy5Mt8LoURuCqS3SrQ=
 		</data>
 		<key>Headers/SentryUser.h</key>
 		<data>
-		7uw3JYxtloFxVbgSnmwxwz30h0A=
+		ff+AhuLAFVGwfRGf8y/tqTKmB5A=
 		</data>
 		<key>Headers/SentryUserFeedback.h</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		eN3kiYQrEATCQMjrHaDiamNTiw8=
+		NsaW4ftFONEQaWcvgtT+C47qojk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -206,7 +206,7 @@
 		</data>
 		<key>PrivateHeaders/SentryAutoSessionTrackingIntegration.h</key>
 		<data>
-		Ylu2J3S8YK5p+G5K/g3V1gsZ3no=
+		KMhJLjS29Kpgb9TXjbTJTnHpIPI=
 		</data>
 		<key>PrivateHeaders/SentryCrashInstallationReporter.h</key>
 		<data>
@@ -334,11 +334,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VNVavhQkGHZx6ll9M9q+kR+CAzc=
+			f4HPYktWTw5Sve/44VwJi607k7I=
 			</data>
 			<key>hash2</key>
 			<data>
-			WQfEJVpDNbYf75EyeRww+ioVGErF2a+1Z6HCvBZ2vXk=
+			08BmiNp5n7qhGnDkKpjm0xtSN6REiIrpUE5mYiMOW0M=
 			</data>
 		</dict>
 		<key>Headers/SentryDsn.h</key>
@@ -422,11 +422,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			E8Pn7VY4xVLcjXoFWZTb98DEk9g=
+			GuRTFL+e+RockNxxbGoCn4ORqEg=
 			</data>
 			<key>hash2</key>
 			<data>
-			kfhc+JywyR4CNEyYVx+dPpscQPA0SyGpy43BDR99riE=
+			Gms4zNvHGtCjMFX9uCFc/3FvfjEAVVvhmnnLEjedolw=
 			</data>
 		</dict>
 		<key>Headers/SentryId.h</key>
@@ -444,11 +444,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sf8PWs53aK736llupzLShMgXtCg=
+			cVmV8TD9UwGWDteqt06D3Sk0bTo=
 			</data>
 			<key>hash2</key>
 			<data>
-			A9GPYJBqxWI2Q8LRManJRaDzmR8GSHloxRYKF2YUosw=
+			fl2C4Wpb0AqFpXkTfgbcckfGrDpm5tUWDlZn6/g8A0g=
 			</data>
 		</dict>
 		<key>Headers/SentryMechanism.h</key>
@@ -499,11 +499,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			f5Np4XWkQRjwqhanEkbjro+CF5U=
+			8ipH8CcdAYeDNx/hCLCLd4GB1Sc=
 			</data>
 			<key>hash2</key>
 			<data>
-			zC/ungZFsSripqT1HNdJcP7JgoXVP5gfxuSnl8KJVQw=
+			EZ9Q2UOqWBtQZR/SszzqXHHiksl2h4okYqXzjO1/dxE=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -686,22 +686,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VbixlPWNbgE05cb/2Y+UTEp0L+4=
+			ByvFut8JtIy5Mt8LoURuCqS3SrQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			/cu9qYO3hFhynHa9ma2bPX2tKxxsyHBdQf+gA8tAk+A=
+			ZAV+9+rjfcXUXEgf1mTnZAK4wkBWYTaW/Ay4WjgXOa8=
 			</data>
 		</dict>
 		<key>Headers/SentryUser.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7uw3JYxtloFxVbgSnmwxwz30h0A=
+			ff+AhuLAFVGwfRGf8y/tqTKmB5A=
 			</data>
 			<key>hash2</key>
 			<data>
-			2ckn+XmLlz2ZrPL22/amADKYsWshgIg+DsbD/yrP5jY=
+			20HHP2p6Y4m9WorG8OkfoQeR9sEdirCqWcWzGkNDEvY=
 			</data>
 		</dict>
 		<key>Headers/SentryUserFeedback.h</key>
@@ -774,11 +774,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Ylu2J3S8YK5p+G5K/g3V1gsZ3no=
+			KMhJLjS29Kpgb9TXjbTJTnHpIPI=
 			</data>
 			<key>hash2</key>
 			<data>
-			/sB9E9WudxpdCq/Nd6ubp5F8wuWk54eO3zPKd6BYeJk=
+			0RoyFKFeliYzN22xK5YJJBzyCJV5/BXDJWQMOxO4jQs=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryCrashInstallationReporter.h</key>

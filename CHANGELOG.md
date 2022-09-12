@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.23.0
+
+### Fixes
+
+- Fixed a crash during startup due in connection to the Google Ads Unity package ([#953](https://github.com/getsentry/sentry-unity/pull/953))
+- The SDK failing to reinstall the backend will no longer lead to events being sent to Sentry ([#962](https://github.com/getsentry/sentry-unity/pull/962))
+
+### Features
+
+- IL2CPP line number support is enabled by default ([#963](https://github.com/getsentry/sentry-unity/pull/963))
+
+### Dependencies
+
+- Bump Java SDK from v6.4.0 to v6.4.1 ([#954](https://github.com/getsentry/sentry-unity/pull/954))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#641)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.4.0...6.4.1)
+- Bump Cocoa SDK from v7.23.0 to v7.24.1 ([#957](https://github.com/getsentry/sentry-unity/pull/957), [#961](https://github.com/getsentry/sentry-unity/pull/961))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7241)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.23.0...7.24.1)
+- Bump .NET SDK from v3.20.1-33-g76b13448 to v3.21.0 ([#958](https://github.com/getsentry/sentry-unity/pull/958))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3210)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.20.1-33-g76b13448...3.21.0)
+
 ## 0.22.2
 
 ### Fixes
