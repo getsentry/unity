@@ -1,11 +1,25 @@
 # Changelog
 
+## 0.23.1
+
+### Fixes
+
+- Don't access Unity `AnalyticsSessionInfo.userId` on unknown platforms ([#971](https://github.com/getsentry/sentry-unity/pull/971))
+- Keep previously set IL2CPP compiler arguments (i.e append instead of overwriting) ([#972](https://github.com/getsentry/sentry-unity/pull/972))
+
+### Dependencies
+
+- Bump Cocoa SDK from v7.24.1 to v7.25.0 ([#967](https://github.com/getsentry/sentry-unity/pull/967))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7250)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.24.1...7.25.0)
+
 ## 0.23.0
 
 ### Fixes
 
 - Fixed a crash during startup due in connection to the Google Ads Unity package ([#953](https://github.com/getsentry/sentry-unity/pull/953))
 - The SDK failing to reinstall the backend will no longer lead to events being sent to Sentry ([#962](https://github.com/getsentry/sentry-unity/pull/962))
+- Don't access Unity `AnalyticsSessionInfo.userId` on unknown platforms ([#971](https://github.com/getsentry/sentry-unity/pull/971))
 
 ### Features
 

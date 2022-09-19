@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/PrivateSentrySDKOnly.h</key>
 		<data>
-		4+Wp85ZL9iQfpwFVNXHMPwEFLVE=
+		JROQZD/FxMkoi0NgcYI0x486v04=
 		</data>
 		<key>Headers/Sentry.h</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/SentryDefines.h</key>
 		<data>
-		f4HPYktWTw5Sve/44VwJi607k7I=
+		7Te1cD/zqe9n/JHa+j1wpHEg7GY=
 		</data>
 		<key>Headers/SentryDsn.h</key>
 		<data>
@@ -114,7 +114,7 @@
 		</data>
 		<key>Headers/SentrySampleDecision.h</key>
 		<data>
-		0pSON41AFSNjQdNGzL6LK24/j/8=
+		J1zo/9Or5MVjDtyJPBjIv0VQdjw=
 		</data>
 		<key>Headers/SentrySamplingContext.h</key>
 		<data>
@@ -154,7 +154,7 @@
 		</data>
 		<key>Headers/SentrySpanStatus.h</key>
 		<data>
-		V0IzO5c+QXR85DjAS3c+rW+VW/o=
+		MVLJle2LW8yiLke70DzCkgCuIO4=
 		</data>
 		<key>Headers/SentryStacktrace.h</key>
 		<data>
@@ -182,7 +182,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		NsaW4ftFONEQaWcvgtT+C47qojk=
+		YO0CTrFeBqd51D8rHhUieOen5xM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -235,11 +235,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4+Wp85ZL9iQfpwFVNXHMPwEFLVE=
+			JROQZD/FxMkoi0NgcYI0x486v04=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ac3MgtnX8awpuJ4t3hDKORi5RKhuu1I7EYR1wkMpg5g=
+			uDHNSHfTaSGIQuo4OxAEc2lWk3pBolMVCfmHqJy3p1Y=
 			</data>
 		</dict>
 		<key>Headers/Sentry.h</key>
@@ -334,11 +334,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			f4HPYktWTw5Sve/44VwJi607k7I=
+			7Te1cD/zqe9n/JHa+j1wpHEg7GY=
 			</data>
 			<key>hash2</key>
 			<data>
-			08BmiNp5n7qhGnDkKpjm0xtSN6REiIrpUE5mYiMOW0M=
+			JS5gZS42t1kqAb7DjPe30DGp5RqCoVtOMKXN1FdaY8Q=
 			</data>
 		</dict>
 		<key>Headers/SentryDsn.h</key>
@@ -532,11 +532,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0pSON41AFSNjQdNGzL6LK24/j/8=
+			J1zo/9Or5MVjDtyJPBjIv0VQdjw=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZXS4ov9djDUYsAkV/ygjQuidxGbNAfgcMusk73pSSes=
+			5lAGxxAl9+j3T4BfA6I6Pm4Fqp6LrxPnpyMpU0ra/JE=
 			</data>
 		</dict>
 		<key>Headers/SentrySamplingContext.h</key>
@@ -642,11 +642,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			V0IzO5c+QXR85DjAS3c+rW+VW/o=
+			MVLJle2LW8yiLke70DzCkgCuIO4=
 			</data>
 			<key>hash2</key>
 			<data>
-			snsY7XAjjrhciDnXD69uUnHD9nkmIDAqNiCEj21R+8c=
+			JBaclFOLE0oHERLwQUmi3JQS4gUhlwqn17LFbHacrQc=
 			</data>
 		</dict>
 		<key>Headers/SentryStacktrace.h</key>
