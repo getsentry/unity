@@ -242,6 +242,32 @@
             Initializes an instance of <see cref="T:Sentry.Attachment"/>.
             </summary>
         </member>
+        <member name="T:Sentry.BaggageHeader">
+            <summary>
+            Baggage Header for dynamic sampling.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/performance/dynamic-sampling-context"/>
+            <seealso href="https://www.w3.org/TR/baggage"/>
+        </member>
+        <member name="M:Sentry.BaggageHeader.ToString">
+            <summary>
+            Creates the baggage header string based on the members of this instance.
+            </summary>
+            <returns>The baggage header string.</returns>
+        </member>
+        <member name="M:Sentry.BaggageHeader.TryParse(System.String,System.Boolean)">
+            <summary>
+            Parses a baggage header string.
+            </summary>
+            <param name="baggage">The string to parse.</param>
+            <param name="onlySentry">
+            When <c>false</c>, the resulting object includes all list members present in the baggage header string.
+            When <c>true</c>, the resulting object includes only members prefixed with <c>"sentry-"</c>.
+            </param>
+            <returns>
+            An object representing the members baggage header, or <c>null</c> if there are no members parsed.
+            </returns>
+        </member>
         <member name="T:Sentry.Breadcrumb">
             <summary>
             Series of application events.
@@ -395,6 +421,73 @@
         <member name="F:Sentry.Constants.Platform">
             <summary>
             Platform key that defines an events is coming from any .NET implementation.
+            </summary>
+        </member>
+        <member name="T:Sentry.Contexts">
+            <summary>
+            Represents Sentry's structured Context.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/" />
+        </member>
+        <member name="P:Sentry.Contexts.App">
+            <summary>
+            Describes the application.
+            </summary>
+        </member>
+        <member name="P:Sentry.Contexts.Browser">
+            <summary>
+            Describes the browser.
+            </summary>
+        </member>
+        <member name="P:Sentry.Contexts.Device">
+            <summary>
+            Describes the device.
+            </summary>
+        </member>
+        <member name="P:Sentry.Contexts.OperatingSystem">
+            <summary>
+            Defines the operating system.
+            </summary>
+            <remarks>
+            In web contexts, this is the operating system of the browser (normally pulled from the User-Agent string).
+            </remarks>
+        </member>
+        <member name="P:Sentry.Contexts.Runtime">
+            <summary>
+            This describes a runtime in more detail.
+            </summary>
+        </member>
+        <member name="P:Sentry.Contexts.Gpu">
+            <summary>
+            This describes a GPU of the device.
+            </summary>
+        </member>
+        <member name="P:Sentry.Contexts.Trace">
+            <summary>
+            This describes trace information.
+            </summary>
+        </member>
+        <member name="M:Sentry.Contexts.#ctor">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Contexts"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Contexts.Clone">
+            <summary>
+            Creates a deep clone of this context.
+            </summary>
+        </member>
+        <member name="M:Sentry.Contexts.CopyTo(Sentry.Contexts)">
+            <summary>
+            Copies the items of the context while cloning the known types.
+            </summary>
+        </member>
+        <member name="M:Sentry.Contexts.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Contexts.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
             </summary>
         </member>
         <member name="T:Sentry.CrashType">
@@ -558,1244 +651,15 @@
             Creates a new instance of <see cref="T:Sentry.DsnAttribute" />.
             </summary>
         </member>
-        <member name="T:Sentry.Protocol.Envelopes.Envelope">
+        <member name="T:Sentry.DynamicSamplingContext">
             <summary>
-            Envelope.
+            Provides the Dynamic Sampling Context for a transaction.
             </summary>
+            <seealso href="https://develop.sentry.dev/sdk/performance/dynamic-sampling-context"/>
         </member>
-        <member name="P:Sentry.Protocol.Envelopes.Envelope.Header">
+        <member name="F:Sentry.DynamicSamplingContext.Empty">
             <summary>
-            Header associated with the envelope.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Envelopes.Envelope.Items">
-            <summary>
-            Envelope items.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},System.Collections.Generic.IReadOnlyList{Sentry.Protocol.Envelopes.EnvelopeItem})">
-            <summary>
-            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.Envelope"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.TryGetEventId">
-            <summary>
-            Attempts to extract the value of "event_id" header if it's present.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromEvent(Sentry.SentryEvent,Sentry.Extensibility.IDiagnosticLogger,System.Collections.Generic.IReadOnlyCollection{Sentry.Attachment},Sentry.SessionUpdate)">
-            <summary>
-            Creates an envelope that contains a single event.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromUserFeedback(Sentry.UserFeedback)">
-            <summary>
-            Creates an envelope that contains a single user feedback.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.Transaction)">
-            <summary>
-            Creates an envelope that contains a single transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromSession(Sentry.SessionUpdate)">
-            <summary>
-            Creates an envelope that contains a session update.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromClientReport(Sentry.Internal.ClientReport)">
-            <summary>
-            Creates an envelope that contains a client report.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
-            <summary>
-            Deserializes envelope from stream.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.WithItem(Sentry.Protocol.Envelopes.EnvelopeItem)">
-            <summary>
-            Creates a new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> starting from the current one and appends the <paramref name="item"/> given.
-            </summary>
-            <param name="item">The <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> to append.</param>
-            <returns>A new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> with the same headers and items, including the new <paramref name="item"/>.</returns>
-        </member>
-        <member name="T:Sentry.Protocol.Envelopes.EnvelopeItem">
-            <summary>
-            Envelope item.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Envelopes.EnvelopeItem.Header">
-            <summary>
-            Header associated with this envelope item.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Envelopes.EnvelopeItem.Payload">
-            <summary>
-            Item payload.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},Sentry.Protocol.Envelopes.ISerializable)">
-            <summary>
-            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetType">
-            <summary>
-            Tries to get item type.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetLength">
-            <summary>
-            Tries to get payload length.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetFileName">
-            <summary>
-            Returns the file name or null if no name exists.
-            </summary>
-            <returns>The file name or null.</returns>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromEvent(Sentry.SentryEvent)">
-            <summary>
-            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="event"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromUserFeedback(Sentry.UserFeedback)">
-            <summary>
-            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sentryUserFeedback"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.Transaction)">
-            <summary>
-            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="transaction"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromSession(Sentry.SessionUpdate)">
-            <summary>
-            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sessionUpdate"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromAttachment(Sentry.Attachment)">
-            <summary>
-            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="attachment"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromClientReport(Sentry.Internal.ClientReport)">
-            <summary>
-            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="report"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
-            <summary>
-            Deserializes envelope item from stream.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Envelopes.ISerializable">
-            <summary>
-            Represents a serializable entity.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.ISerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
-            <summary>
-            Serializes the object to a stream asynchronously.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.ISerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
-            <summary>
-            Serializes the object to a stream synchronously.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Envelopes.JsonSerializable">
-            <summary>
-            Represents an object serializable in JSON format.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Envelopes.JsonSerializable.Source">
-            <summary>
-            Source object.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.#ctor(Sentry.IJsonSerializable)">
-            <summary>
-            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.JsonSerializable"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="T:Sentry.Protocol.Envelopes.StreamSerializable">
-            <summary>
-            Represents an object which is already serialized as a stream.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Envelopes.StreamSerializable.Source">
-            <summary>
-            Source stream.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.#ctor(System.IO.Stream)">
-            <summary>
-            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.StreamSerializable"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:Sentry.Protocol.Mechanism">
-            <summary>
-            Sentry Exception Mechanism.
-            </summary>
-            <remarks>
-            The exception mechanism is an optional field residing in the Exception Interface.
-            It carries additional information about the way the exception was created on the target system.
-            This includes general exception values obtained from operating system or runtime APIs, as well as mechanism-specific values.
-            </remarks>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/exception/#exception-mechanism"/>
-        </member>
-        <member name="F:Sentry.Protocol.Mechanism.HandledKey">
-            <summary>
-            Keys found inside of the Exception Dictionary to inform if the exception was handled and which mechanism tracked it.
-            </summary>
-        </member>
-        <member name="F:Sentry.Protocol.Mechanism.MechanismKey">
-            <summary>
-            Key found inside of the Exception.Data to inform if the exception which mechanism tracked it.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Mechanism.Type">
-            <summary>
-            Required unique identifier of this mechanism determining rendering and processing of the mechanism data.
-            </summary>
-            <remarks>
-            The type attribute is required to send any exception mechanism attribute,
-            even if the SDK cannot determine the specific mechanism.
-            In this case, set the type to "generic". See below for an example.
-            </remarks>
-        </member>
-        <member name="P:Sentry.Protocol.Mechanism.Description">
-            <summary>
-            Optional human readable description of the error mechanism and a possible hint on how to solve this error.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Mechanism.HelpLink">
-            <summary>
-            Optional fully qualified URL to an online help resource, possible interpolated with error parameters.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Mechanism.Handled">
-            <summary>
-            Optional flag indicating whether the exception has been handled by the user (e.g. via try..catch).
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Mechanism.Meta">
-            <summary>
-            Optional information from the operating system or runtime on the exception mechanism.
-            </summary>
-            <remarks>
-            The mechanism meta data usually carries error codes reported by the runtime or operating system,
-            along with a platform dependent interpretation of these codes.
-            SDKs can safely omit code names and descriptions for well known error codes, as it will be filled out by Sentry.
-            For proprietary or vendor-specific error codes, adding these values will give additional information to the user.
-            </remarks>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/exception/#meta-information"/>
-        </member>
-        <member name="P:Sentry.Protocol.Mechanism.Data">
-            <summary>
-            Arbitrary extra data that might help the user understand the error thrown by this mechanism.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Mechanism.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Mechanism.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.SentryException">
-            <summary>
-            Sentry Exception interface.
-            </summary>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/exception"/>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.Type">
-            <summary>
-            Exception Type.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.Value">
-            <summary>
-            The exception value.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.Module">
-            <summary>
-            The optional module, or package which the exception type lives in.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.ThreadId">
-            <summary>
-            An optional value which refers to a thread in the threads interface.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/threads/"/>
-            <seealso cref="T:Sentry.SentryThread"/>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.Stacktrace">
-            <summary>
-            Stack trace.
-            </summary>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.Mechanism">
-            <summary>
-            An optional mechanism that created this exception.
-            </summary>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/exception/#exception-mechanism"/>
-        </member>
-        <member name="P:Sentry.Protocol.SentryException.Data">
-            <summary>
-            Arbitrary extra data that related to this error
-            </summary>
-            <remarks>
-            The protocol does not yet support data at this level.
-            For this reason this property is not serialized.
-            The data is moved to the event level on Extra until such support is added
-            </remarks>
-        </member>
-        <member name="M:Sentry.Protocol.SentryException.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.SentryException.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.App">
-            <summary>
-            Describes the application.
-            </summary>
-            <remarks>
-            As opposed to the runtime, this is the actual application that
-            was running and carries meta data about the current session.
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
-        </member>
-        <member name="F:Sentry.Protocol.App.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.Identifier">
-            <summary>
-            Version-independent application identifier, often a dotted bundle ID.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.StartTime">
-            <summary>
-            Formatted UTC timestamp when the application was started by the user.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.Hash">
-            <summary>
-            Application specific device identifier.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.BuildType">
-            <summary>
-            String identifying the kind of build, e.g. testflight.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.Name">
-            <summary>
-            Human readable application name, as it appears on the platform.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.Version">
-            <summary>
-            Human readable application version, as it appears on the platform.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.App.Build">
-            <summary>
-            Internal build identifier, as it appears on the platform.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.App.Clone">
-            <summary>
-            Clones this instance.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.App.UpdateFrom(Sentry.Protocol.App)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.App.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.App.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Browser">
-            <summary>
-            Carries information about the browser or user agent for web-related errors.
-            This can either be the browser this event occurred in, or the user agent of a
-            web request that triggered the event.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
-        </member>
-        <member name="F:Sentry.Protocol.Browser.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Browser.Name">
-            <summary>
-            Display name of the browser application.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Browser.Version">
-            <summary>
-            Version string of the browser.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Browser.Clone">
-            <summary>
-            Clones this instance
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Browser.UpdateFrom(Sentry.Protocol.Browser)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Browser.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Browser.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Device">
-            <summary>
-            Describes the device that caused the event. This is most appropriate for mobile applications.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
-        </member>
-        <member name="F:Sentry.Protocol.Device.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Timezone">
-            <summary>
-            The timezone of the device.
-            </summary>
-            <example>
-            Europe/Vienna
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Name">
-            <summary>
-            The name of the device. This is typically a hostname.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Manufacturer">
-            <summary>
-            The manufacturer of the device.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Brand">
-            <summary>
-            The brand of the device.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Family">
-            <summary>
-            The family of the device.
-            </summary>
-            <remarks>
-            This is normally the common part of model names across generations.
-            </remarks>
-            <example>
-            iPhone, Samsung Galaxy
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Model">
-            <summary>
-            The model name.
-            </summary>
-            <example>
-            Samsung Galaxy S3
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ModelId">
-            <summary>
-            An internal hardware revision to identify the device exactly.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Architecture">
-            <summary>
-            The CPU architecture.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.BatteryLevel">
-            <summary>
-            If the device has a battery an integer defining the battery level (in the range 0-100).
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.IsCharging">
-            <summary>
-            True if the device is charging.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.IsOnline">
-            <summary>
-            True if the device has a internet connection.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Orientation">
-            <summary>
-            This can be a string portrait or landscape to define the orientation of a device.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.Simulator">
-            <summary>
-            A boolean defining whether this device is a simulator or an actual device.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.MemorySize">
-            <summary>
-            Total system memory available in bytes.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.FreeMemory">
-            <summary>
-            Free system memory in bytes.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.UsableMemory">
-            <summary>
-            Memory usable for the app in bytes.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.LowMemory">
-            <summary>
-            True, if the device memory is low.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.StorageSize">
-            <summary>
-            Total device storage in bytes.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.FreeStorage">
-            <summary>
-            Free device storage in bytes.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ExternalStorageSize">
-            <summary>
-            Total size of an attached external storage in bytes (e.g.: android SDK card).
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ExternalFreeStorage">
-            <summary>
-            Free size of an attached external storage in bytes (e.g.: android SDK card).
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ScreenResolution">
-            <summary>
-            The resolution of the screen.
-            </summary>
-            <example>
-            800x600
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ScreenDensity">
-            <summary>
-            The logical density of the display.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ScreenDpi">
-            <summary>
-            The screen density as dots-per-inch.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.BootTime">
-            <summary>
-            A formatted UTC timestamp when the system was booted.
-            </summary>
-            <example>
-            2018-02-08T12:52:12Z
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ProcessorCount">
-            <summary>
-            Number of "logical processors".
-            </summary>
-            <example>
-            8
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.CpuDescription">
-            <summary>
-            CPU description.
-            </summary>
-            <example>
-            Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.ProcessorFrequency">
-            <summary>
-            Processor frequency in MHz. Note that the actual CPU frequency might vary depending on current load and power
-            conditions, especially on low-powered devices like phones and laptops. On some platforms it's not possible
-            to query the CPU frequency. Currently such platforms are iOS and WebGL.
-            </summary>
-            <example>
-            2500
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.DeviceType">
-            <summary>
-            Kind of device the application is running on.
-            </summary>
-            <example>
-            Unknown, Handheld, Console, Desktop
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.BatteryStatus">
-            <summary>
-            Status of the device's battery.
-            </summary>
-            <example>
-            Unknown, Charging, Discharging, NotCharging, Full
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Device.DeviceUniqueIdentifier">
-            <summary>
-            Unique device identifier. Depends on the running platform.
-            </summary>
-            <example>
-            iOS: UIDevice.identifierForVendor (UUID)
-            Android: The generated Installation ID
-            Windows Store Apps: AdvertisingManager::AdvertisingId (possible fallback to HardwareIdentification::GetPackageSpecificToken().Id)
-            Windows Standalone: hash from the concatenation of strings taken from Computer System Hardware Classes
-            </example>
-            TODO: Investigate - Do ALL platforms now return a generated installation ID?
-                  See https://github.com/getsentry/sentry-java/pull/1455
-        </member>
-        <member name="P:Sentry.Protocol.Device.SupportsVibration">
-            <summary>
-            Is vibration available on the device?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.SupportsAccelerometer">
-            <summary>
-            Is accelerometer available on the device?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.SupportsGyroscope">
-            <summary>
-            Is gyroscope available on the device?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.SupportsAudio">
-            <summary>
-            Is audio available on the device?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Device.SupportsLocationService">
-            <summary>
-            Is the device capable of reporting its location?
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Device.Clone">
-            <summary>
-            Clones this instance.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Device.UpdateFrom(Sentry.Protocol.Device)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Device.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Device.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.DeviceOrientation">
-            <summary>
-            Defines the orientation of a device.
-            </summary>
-        </member>
-        <member name="F:Sentry.Protocol.DeviceOrientation.Portrait">
-            <summary>
-            Portrait.
-            </summary>
-        </member>
-        <member name="F:Sentry.Protocol.DeviceOrientation.Landscape">
-            <summary>
-            Landscape.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Gpu">
-            <summary>
-            Graphics device unit.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/#gpu-context"/>
-        </member>
-        <member name="F:Sentry.Protocol.Gpu.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.Name">
-            <summary>
-            The name of the graphics device.
-            </summary>
-            <example>
-            iPod touch: Apple A8 GPU
-            Samsung S7: Mali-T880
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.Id">
-            <summary>
-            The PCI Id of the graphics device.
-            </summary>
-            <remarks>
-            Combined with <see cref="P:Sentry.Protocol.Gpu.VendorId"/> uniquely identifies the GPU.
-            </remarks>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.VendorId">
-            <summary>
-            The PCI vendor Id of the graphics device.
-            </summary>
-            <remarks>
-            Combined with <see cref="P:Sentry.Protocol.Gpu.Id"/> uniquely identifies the GPU.
-            </remarks>
-            <seealso href="https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-pci-devices"/>
-            <seealso href="http://pci-ids.ucw.cz/read/PC/"/>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.VendorName">
-            <summary>
-            The vendor name reported by the graphic device.
-            </summary>
-            <example>
-            Apple, ARM, WebKit
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.MemorySize">
-            <summary>
-            Total GPU memory available in mega-bytes.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.ApiType">
-            <summary>
-            Device type.
-            </summary>
-            <remarks>The low level API used.</remarks>
-            <example>Metal, Direct3D11, OpenGLES3, PlayStation4, XboxOne</example>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.MultiThreadedRendering">
-            <summary>
-            Whether the GPU is multi-threaded rendering or not.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.Version">
-            <summary>
-            The Version of the API of the graphics device.
-            </summary>
-            <example>
-            iPod touch: Metal
-            Android: OpenGL ES 3.2 v1.r22p0-01rel0.f294e54ceb2cb2d81039204fa4b0402e
-            WebGL Windows: OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))
-            OpenGL 2.0, Direct3D 9.0c
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.NpotSupport">
-            <summary>
-            The Non-Power-Of-Two support level.
-            </summary>
-            <example>
-            Full
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.MaxTextureSize">
-            <summary>
-            Largest size of a texture that is supported by the graphics hardware.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.GraphicsShaderLevel">
-            <summary>
-            Approximate "shader capability" level of the graphics device.
-            </summary>
-            <example>
-            Shader Model 2.0, OpenGL ES 3.0, Metal / OpenGL ES 3.1, 27 (unknown)
-            </example>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.SupportsDrawCallInstancing">
-            <summary>
-            Is GPU draw call instancing supported?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.SupportsRayTracing">
-            <summary>
-            Is ray tracing available on the device?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.SupportsComputeShaders">
-            <summary>
-            Are compute shaders available on the device?
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Gpu.SupportsGeometryShaders">
-            <summary>
-            Are geometry shaders available on the device?
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Gpu.Clone">
-            <summary>
-            Clones this instance.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Gpu.UpdateFrom(Sentry.Protocol.Gpu)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Gpu.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Gpu.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.ITraceContext">
-            <summary>
-            Trace metadata stored in 'contexts.trace' on an event or transaction.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.SpanId">
-            <summary>
-            Span ID.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.ParentSpanId">
-            <summary>
-            Parent ID.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.TraceId">
-            <summary>
-            Trace ID.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.Operation">
-            <summary>
-            Operation.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.Description">
-            <summary>
-            Description.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.Status">
-            <summary>
-            Status.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.ITraceContext.IsSampled">
-            <summary>
-            Whether the span or transaction is sampled in (i.e. eligible for sending to Sentry).
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.OperatingSystem">
-            <summary>
-            Represents Sentry's context for OS.
-            </summary>
-            <remarks>
-            Defines the operating system that caused the event. In web contexts, this is the operating system of the browser (normally pulled from the User-Agent string).
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/#os-context"/>
-        </member>
-        <member name="F:Sentry.Protocol.OperatingSystem.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.OperatingSystem.Name">
-            <summary>
-            The name of the operating system.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.OperatingSystem.Version">
-            <summary>
-            The version of the operating system.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.OperatingSystem.RawDescription">
-            <summary>
-            An optional raw description that Sentry can use in an attempt to normalize OS info.
-            </summary>
-            <remarks>
-            When the system doesn't expose a clear API for <see cref="P:Sentry.Protocol.OperatingSystem.Name"/> and <see cref="P:Sentry.Protocol.OperatingSystem.Version"/>
-            this field can be used to provide a raw system info (e.g: uname)
-            </remarks>
-        </member>
-        <member name="P:Sentry.Protocol.OperatingSystem.Build">
-            <summary>
-            The internal build revision of the operating system.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.OperatingSystem.KernelVersion">
-            <summary>
-            If known, this can be an independent kernel version string. Typically
-            this is something like the entire output of the 'uname' tool.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.OperatingSystem.Rooted">
-            <summary>
-            An optional boolean that defines if the OS has been jailbroken or rooted.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.OperatingSystem.Clone">
-            <summary>
-            Clones this instance
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.OperatingSystem.UpdateFrom(Sentry.Protocol.OperatingSystem)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.OperatingSystem.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.OperatingSystem.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Runtime">
-            <summary>
-            This describes a runtime in more detail.
-            </summary>
-            <remarks>
-            Typically this context is used multiple times if multiple runtimes are involved (for instance if you have a JavaScript application running on top of JVM)
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
-        </member>
-        <member name="F:Sentry.Protocol.Runtime.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Runtime.Name">
-            <summary>
-            The name of the runtime.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Runtime.Version">
-            <summary>
-            The version identifier of the runtime.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Runtime.RawDescription">
-            <summary>
-             An optional raw description that Sentry can use in an attempt to normalize Runtime info.
-            </summary>
-            <remarks>
-            When the system doesn't expose a clear API for <see cref="P:Sentry.Protocol.Runtime.Name"/> and <see cref="P:Sentry.Protocol.Runtime.Version"/>
-            this field can be used to provide a raw system info (e.g: .NET Framework 4.7.1).
-            </remarks>
-        </member>
-        <member name="P:Sentry.Protocol.Runtime.Identifier">
-            <summary>
-            An optional .NET Runtime Identifier string.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Runtime.Build">
-            <summary>
-            An optional build number.
-            </summary>
-            <see href="https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed"/>
-        </member>
-        <member name="M:Sentry.Protocol.Runtime.Clone">
-            <summary>
-            Clones this instance
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Runtime.UpdateFrom(Sentry.Protocol.Runtime)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Runtime.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Runtime.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.Protocol.Trace">
-            <summary>
-            Trace context data.
-            </summary>
-        </member>
-        <member name="F:Sentry.Protocol.Trace.Type">
-            <summary>
-            Tells Sentry which type of context this is.
-            </summary>
-        </member>
-        <member name="P:Sentry.Protocol.Trace.SpanId">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.Protocol.Trace.ParentSpanId">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.Protocol.Trace.TraceId">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.Protocol.Trace.Operation">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.Protocol.Trace.Description">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.Protocol.Trace.Status">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.Protocol.Trace.IsSampled">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Trace.Clone">
-            <summary>
-            Clones this instance.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Trace.UpdateFrom(Sentry.Protocol.Trace)">
-            <summary>
-            Updates this instance with data from the properties in the <paramref name="source"/>,
-            unless there is already a value in the existing property.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Trace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Protocol.Trace.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses trace context from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.SentryStackFrame">
-            <summary>
-            A frame of a stacktrace.
-            </summary>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.FileName">
-            <summary>
-            The relative file path to the call.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.Function">
-            <summary>
-            The name of the function being called.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.Module">
-            <summary>
-            Platform-specific module path.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.LineNumber">
-            <summary>
-            The line number of the call.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.ColumnNumber">
-            <summary>
-            The column number of the call.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.AbsolutePath">
-            <summary>
-            The absolute path to filename.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.ContextLine">
-            <summary>
-            Source code in filename at line number.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.PreContext">
-            <summary>
-            A list of source code lines before context_line (in order) – usually [lineno - 5:lineno].
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.PostContext">
-            <summary>
-            A list of source code lines after context_line (in order) – usually [lineno + 1:lineno + 5].
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.InApp">
-            <summary>
-            Signifies whether this frame is related to the execution of the relevant code in this stacktrace.
-            </summary>
-            <example>
-            For example, the frames that might power the framework’s web server of your app are probably not relevant,
-            however calls to the framework’s library once you start handling code likely are.
-            </example>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.Vars">
-            <summary>
-            A mapping of variables which were available within this frame (usually context-locals).
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.FramesOmitted">
-            <summary>
-            Which frames were omitted, if any.
-            </summary>
-            <remarks>
-            If the list of frames is large, you can explicitly tell the system that you’ve omitted a range of frames.
-            The frames_omitted must be a single tuple two values: start and end.
-            </remarks>
-            <example>
-            If you only removed the 8th frame, the value would be (8, 9), meaning it started at the 8th frame,
-            and went until the 9th (the number of frames omitted is end-start).
-            The values should be based on a one-index.
-            </example>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.Package">
-            <summary>
-            The assembly where the code resides.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.Platform">
-            <summary>
-            This can override the platform for a single frame. Otherwise the platform of the event is assumed.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.ImageAddress">
-            <summary>
-            Optionally an address of the debug image to reference.
-            If this is set and a known image is defined by debug_meta then symbolication can take place.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.SymbolAddress">
-            <summary>
-            An optional address that points to a symbol.
-            We actually use the instruction address for symbolication but this can be used to calculate an instruction offset automatically.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.InstructionAddress">
-            <summary>
-            An optional instruction address for symbolication.<br/>
-            This should be a string with a hexadecimal number that includes a <b>0x</b> prefix.<br/>
-            If this is set and a known image is defined in the <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta/">Debug Meta Interface</see>, then symbolication can take place.<br/>
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.InstructionOffset">
-            <summary>
-            The instruction offset.
-            </summary>
-            <remarks>
-            The official docs refer to it as 'The difference between instruction address and symbol address in bytes.'
-            In .NET this means the IL Offset within the assembly.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryStackFrame.AddressMode">
-            <summary>
-            Optionally changes the addressing mode. The default value is the same as
-            `"abs"` which means absolute referencing. This can also be set to
-            `"rel:DEBUG_ID"` or `"rel:IMAGE_INDEX"` to make addresses relative to an
-            object referenced by debug id or index.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryStackFrame.ConfigureAppFrame(Sentry.SentryOptions)">
-            <summary>
-            Configures <see cref="P:Sentry.SentryStackFrame.InApp"/> based on the <see cref="P:Sentry.SentryOptions.InAppInclude"/> and <see cref="P:Sentry.SentryOptions.InAppExclude"/> or <paramref name="options"/>.
-            </summary>
-            <param name="options">The Sentry options.</param>
-            <remarks><see cref="P:Sentry.SentryStackFrame.InApp"/> will remain with the same value if previously set.</remarks>
-        </member>
-        <member name="M:Sentry.SentryStackFrame.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
-        <member name="T:Sentry.SentryStackTrace">
-            <summary>
-            Sentry Stacktrace interface.
-            </summary>
-            <remarks>
-            A stacktrace contains a list of frames, each with various bits (most optional) describing the context of that frame.
-            Frames should be sorted from oldest to newest.
-            </remarks>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
-        </member>
-        <member name="P:Sentry.SentryStackTrace.Frames">
-            <summary>
-            The list of frames in the stack.
-            </summary>
-            <remarks>
-            The list of frames should be ordered by the oldest call first.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentryStackTrace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryStackTrace.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
+            Gets an empty <see cref="T:Sentry.DynamicSamplingContext"/> that can be used to "freeze" the DSC on a transaction.
             </summary>
         </member>
         <member name="T:Sentry.Extensibility.BaseRequestPayloadExtractor">
@@ -3020,6 +1884,20 @@
             Set all items as tags.
             </summary>
         </member>
+        <member name="T:Sentry.IHasTransactionNameSource">
+            <summary>
+            Interface for transactions that implement a transaction name source.
+            </summary>
+            <remarks>
+            Ideally, this would just be implemented as part of <see cref="T:Sentry.ITransaction"/> and <see cref="T:Sentry.ITransactionContext"/>.
+            However, adding a property to a public interface is a breaking change.  We can do that in a future major version.
+            </remarks>
+        </member>
+        <member name="P:Sentry.IHasTransactionNameSource.NameSource">
+            <summary>
+            The source of the transaction name.
+            </summary>
+        </member>
         <member name="T:Sentry.IHub">
             <summary>
             SDK API contract which combines a client and scope management.
@@ -3447,7 +2325,7 @@
             The release distribution of the application.
             </summary>
         </member>
-        <member name="T:Sentry.Internal.SentryJsonConverter">
+        <member name="T:Sentry.Internal.JsonConverters.SentryJsonConverter">
             <summary>
             A converter that removes dangerous classes from being serialized,
             and, also formats some classes like Exception and Type.
@@ -4129,77 +3007,1091 @@
             <param name="runtime">The runtime instance to check.</param>
             <returns>True if it's Mono, otherwise false.</returns>
         </member>
+        <member name="M:Sentry.PlatformAbstractions.RuntimeExtensions.IsBrowserWasm(Sentry.PlatformAbstractions.Runtime)">
+            <summary>
+            Is the runtime instance Browser Web Assembly.
+            </summary>
+            <param name="runtime">The runtime instance to check.</param>
+            <returns>True if it's Browser WASM, otherwise false.</returns>
+        </member>
         <member name="M:Sentry.PlatformAbstractions.RuntimeInfo.GetRuntime">
             <summary>
             Gets the current runtime.
             </summary>
             <returns>A new instance for the current runtime</returns>
         </member>
-        <member name="T:Sentry.Contexts">
-            <summary>
-            Represents Sentry's structured Context.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/" />
-        </member>
-        <member name="P:Sentry.Contexts.App">
+        <member name="T:Sentry.Protocol.App">
             <summary>
             Describes the application.
             </summary>
+            <remarks>
+            As opposed to the runtime, this is the actual application that
+            was running and carries meta data about the current session.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
         </member>
-        <member name="P:Sentry.Contexts.Browser">
+        <member name="F:Sentry.Protocol.App.Type">
             <summary>
-            Describes the browser.
+            Tells Sentry which type of context this is.
             </summary>
         </member>
-        <member name="P:Sentry.Contexts.Device">
+        <member name="P:Sentry.Protocol.App.Identifier">
             <summary>
-            Describes the device.
+            Version-independent application identifier, often a dotted bundle ID.
             </summary>
         </member>
-        <member name="P:Sentry.Contexts.OperatingSystem">
+        <member name="P:Sentry.Protocol.App.StartTime">
             <summary>
-            Defines the operating system.
+            Formatted UTC timestamp when the application was started by the user.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.App.Hash">
+            <summary>
+            Application specific device identifier.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.App.BuildType">
+            <summary>
+            String identifying the kind of build, e.g. testflight.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.App.Name">
+            <summary>
+            Human readable application name, as it appears on the platform.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.App.Version">
+            <summary>
+            Human readable application version, as it appears on the platform.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.App.Build">
+            <summary>
+            Internal build identifier, as it appears on the platform.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.App.Clone">
+            <summary>
+            Clones this instance.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.App.UpdateFrom(Sentry.Protocol.App)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.App.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.App.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Browser">
+            <summary>
+            Carries information about the browser or user agent for web-related errors.
+            This can either be the browser this event occurred in, or the user agent of a
+            web request that triggered the event.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
+        </member>
+        <member name="F:Sentry.Protocol.Browser.Type">
+            <summary>
+            Tells Sentry which type of context this is.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Browser.Name">
+            <summary>
+            Display name of the browser application.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Browser.Version">
+            <summary>
+            Version string of the browser.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Browser.Clone">
+            <summary>
+            Clones this instance
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Browser.UpdateFrom(Sentry.Protocol.Browser)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Browser.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Browser.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Device">
+            <summary>
+            Describes the device that caused the event. This is most appropriate for mobile applications.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
+        </member>
+        <member name="F:Sentry.Protocol.Device.Type">
+            <summary>
+            Tells Sentry which type of context this is.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Timezone">
+            <summary>
+            The timezone of the device.
+            </summary>
+            <example>
+            Europe/Vienna
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Name">
+            <summary>
+            The name of the device. This is typically a hostname.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Manufacturer">
+            <summary>
+            The manufacturer of the device.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Brand">
+            <summary>
+            The brand of the device.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Family">
+            <summary>
+            The family of the device.
             </summary>
             <remarks>
-            In web contexts, this is the operating system of the browser (normally pulled from the User-Agent string).
+            This is normally the common part of model names across generations.
+            </remarks>
+            <example>
+            iPhone, Samsung Galaxy
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Model">
+            <summary>
+            The model name.
+            </summary>
+            <example>
+            Samsung Galaxy S3
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ModelId">
+            <summary>
+            An internal hardware revision to identify the device exactly.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Architecture">
+            <summary>
+            The CPU architecture.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.BatteryLevel">
+            <summary>
+            If the device has a battery an integer defining the battery level (in the range 0-100).
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.IsCharging">
+            <summary>
+            True if the device is charging.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.IsOnline">
+            <summary>
+            True if the device has a internet connection.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Orientation">
+            <summary>
+            This can be a string portrait or landscape to define the orientation of a device.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.Simulator">
+            <summary>
+            A boolean defining whether this device is a simulator or an actual device.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.MemorySize">
+            <summary>
+            Total system memory available in bytes.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.FreeMemory">
+            <summary>
+            Free system memory in bytes.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.UsableMemory">
+            <summary>
+            Memory usable for the app in bytes.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.LowMemory">
+            <summary>
+            True, if the device memory is low.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.StorageSize">
+            <summary>
+            Total device storage in bytes.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.FreeStorage">
+            <summary>
+            Free device storage in bytes.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ExternalStorageSize">
+            <summary>
+            Total size of an attached external storage in bytes (e.g.: android SDK card).
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ExternalFreeStorage">
+            <summary>
+            Free size of an attached external storage in bytes (e.g.: android SDK card).
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ScreenResolution">
+            <summary>
+            The resolution of the screen.
+            </summary>
+            <example>
+            800x600
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ScreenDensity">
+            <summary>
+            The logical density of the display.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ScreenDpi">
+            <summary>
+            The screen density as dots-per-inch.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.BootTime">
+            <summary>
+            A formatted UTC timestamp when the system was booted.
+            </summary>
+            <example>
+            2018-02-08T12:52:12Z
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ProcessorCount">
+            <summary>
+            Number of "logical processors".
+            </summary>
+            <example>
+            8
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.CpuDescription">
+            <summary>
+            CPU description.
+            </summary>
+            <example>
+            Intel(R) Core(TM)2 Quad CPU Q6600 @ 2.40GHz
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ProcessorFrequency">
+            <summary>
+            Processor frequency in MHz. Note that the actual CPU frequency might vary depending on current load and power
+            conditions, especially on low-powered devices like phones and laptops. On some platforms it's not possible
+            to query the CPU frequency. Currently such platforms are iOS and WebGL.
+            </summary>
+            <example>
+            2500
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.DeviceType">
+            <summary>
+            Kind of device the application is running on.
+            </summary>
+            <example>
+            Unknown, Handheld, Console, Desktop
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.BatteryStatus">
+            <summary>
+            Status of the device's battery.
+            </summary>
+            <example>
+            Unknown, Charging, Discharging, NotCharging, Full
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.DeviceUniqueIdentifier">
+            <summary>
+            Unique device identifier. Depends on the running platform.
+            </summary>
+            <example>
+            iOS: UIDevice.identifierForVendor (UUID)
+            Android: The generated Installation ID
+            Windows Store Apps: AdvertisingManager::AdvertisingId (possible fallback to HardwareIdentification::GetPackageSpecificToken().Id)
+            Windows Standalone: hash from the concatenation of strings taken from Computer System Hardware Classes
+            </example>
+            TODO: Investigate - Do ALL platforms now return a generated installation ID?
+                  See https://github.com/getsentry/sentry-java/pull/1455
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsVibration">
+            <summary>
+            Is vibration available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsAccelerometer">
+            <summary>
+            Is accelerometer available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsGyroscope">
+            <summary>
+            Is gyroscope available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsAudio">
+            <summary>
+            Is audio available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.SupportsLocationService">
+            <summary>
+            Is the device capable of reporting its location?
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Device.Clone">
+            <summary>
+            Clones this instance.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Device.UpdateFrom(Sentry.Protocol.Device)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Device.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Device.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.DeviceOrientation">
+            <summary>
+            Defines the orientation of a device.
+            </summary>
+        </member>
+        <member name="F:Sentry.Protocol.DeviceOrientation.Portrait">
+            <summary>
+            Portrait.
+            </summary>
+        </member>
+        <member name="F:Sentry.Protocol.DeviceOrientation.Landscape">
+            <summary>
+            Landscape.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.Envelope">
+            <summary>
+            Envelope.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Envelopes.Envelope.Header">
+            <summary>
+            Header associated with the envelope.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Envelopes.Envelope.Items">
+            <summary>
+            Envelope items.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},System.Collections.Generic.IReadOnlyList{Sentry.Protocol.Envelopes.EnvelopeItem})">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.Envelope"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.TryGetEventId">
+            <summary>
+            Attempts to extract the value of "event_id" header if it's present.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromEvent(Sentry.SentryEvent,Sentry.Extensibility.IDiagnosticLogger,System.Collections.Generic.IReadOnlyCollection{Sentry.Attachment},Sentry.SessionUpdate)">
+            <summary>
+            Creates an envelope that contains a single event.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromUserFeedback(Sentry.UserFeedback)">
+            <summary>
+            Creates an envelope that contains a single user feedback.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.Transaction)">
+            <summary>
+            Creates an envelope that contains a single transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromSession(Sentry.SessionUpdate)">
+            <summary>
+            Creates an envelope that contains a session update.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromClientReport(Sentry.Internal.ClientReport)">
+            <summary>
+            Creates an envelope that contains a client report.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Deserializes envelope from stream.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.WithItem(Sentry.Protocol.Envelopes.EnvelopeItem)">
+            <summary>
+            Creates a new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> starting from the current one and appends the <paramref name="item"/> given.
+            </summary>
+            <param name="item">The <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> to append.</param>
+            <returns>A new <see cref="T:Sentry.Protocol.Envelopes.Envelope"/> with the same headers and items, including the new <paramref name="item"/>.</returns>
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.EnvelopeItem">
+            <summary>
+            Envelope item.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Envelopes.EnvelopeItem.Header">
+            <summary>
+            Header associated with this envelope item.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Envelopes.EnvelopeItem.Payload">
+            <summary>
+            Item payload.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},Sentry.Protocol.Envelopes.ISerializable)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetType">
+            <summary>
+            Tries to get item type.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetLength">
+            <summary>
+            Tries to get payload length.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.TryGetFileName">
+            <summary>
+            Returns the file name or null if no name exists.
+            </summary>
+            <returns>The file name or null.</returns>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromEvent(Sentry.SentryEvent)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="event"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromUserFeedback(Sentry.UserFeedback)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sentryUserFeedback"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromTransaction(Sentry.Transaction)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="transaction"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromSession(Sentry.SessionUpdate)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sessionUpdate"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromAttachment(Sentry.Attachment)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="attachment"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromClientReport(Sentry.Internal.ClientReport)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="report"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Deserializes envelope item from stream.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.ISerializable">
+            <summary>
+            Represents a serializable entity.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.ISerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <summary>
+            Serializes the object to a stream asynchronously.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.ISerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <summary>
+            Serializes the object to a stream synchronously.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.JsonSerializable">
+            <summary>
+            Represents an object serializable in JSON format.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Envelopes.JsonSerializable.Source">
+            <summary>
+            Source object.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.#ctor(Sentry.IJsonSerializable)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.JsonSerializable"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.JsonSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.StreamSerializable">
+            <summary>
+            Represents an object which is already serialized as a stream.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Envelopes.StreamSerializable.Source">
+            <summary>
+            Source stream.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.StreamSerializable"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.StreamSerializable.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.Protocol.Gpu">
+            <summary>
+            Graphics device unit.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/#gpu-context"/>
+        </member>
+        <member name="F:Sentry.Protocol.Gpu.Type">
+            <summary>
+            Tells Sentry which type of context this is.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.Name">
+            <summary>
+            The name of the graphics device.
+            </summary>
+            <example>
+            iPod touch: Apple A8 GPU
+            Samsung S7: Mali-T880
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.Id">
+            <summary>
+            The PCI Id of the graphics device.
+            </summary>
+            <remarks>
+            Combined with <see cref="P:Sentry.Protocol.Gpu.VendorId"/> uniquely identifies the GPU.
             </remarks>
         </member>
-        <member name="P:Sentry.Contexts.Runtime">
+        <member name="P:Sentry.Protocol.Gpu.VendorId">
+            <summary>
+            The PCI vendor Id of the graphics device.
+            </summary>
+            <remarks>
+            Combined with <see cref="P:Sentry.Protocol.Gpu.Id"/> uniquely identifies the GPU.
+            </remarks>
+            <seealso href="https://docs.microsoft.com/en-us/windows-hardware/drivers/install/identifiers-for-pci-devices"/>
+            <seealso href="http://pci-ids.ucw.cz/read/PC/"/>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.VendorName">
+            <summary>
+            The vendor name reported by the graphic device.
+            </summary>
+            <example>
+            Apple, ARM, WebKit
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.MemorySize">
+            <summary>
+            Total GPU memory available in mega-bytes.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.ApiType">
+            <summary>
+            Device type.
+            </summary>
+            <remarks>The low level API used.</remarks>
+            <example>Metal, Direct3D11, OpenGLES3, PlayStation4, XboxOne</example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.MultiThreadedRendering">
+            <summary>
+            Whether the GPU is multi-threaded rendering or not.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.Version">
+            <summary>
+            The Version of the API of the graphics device.
+            </summary>
+            <example>
+            iPod touch: Metal
+            Android: OpenGL ES 3.2 v1.r22p0-01rel0.f294e54ceb2cb2d81039204fa4b0402e
+            WebGL Windows: OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))
+            OpenGL 2.0, Direct3D 9.0c
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.NpotSupport">
+            <summary>
+            The Non-Power-Of-Two support level.
+            </summary>
+            <example>
+            Full
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.MaxTextureSize">
+            <summary>
+            Largest size of a texture that is supported by the graphics hardware.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.GraphicsShaderLevel">
+            <summary>
+            Approximate "shader capability" level of the graphics device.
+            </summary>
+            <example>
+            Shader Model 2.0, OpenGL ES 3.0, Metal / OpenGL ES 3.1, 27 (unknown)
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsDrawCallInstancing">
+            <summary>
+            Is GPU draw call instancing supported?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsRayTracing">
+            <summary>
+            Is ray tracing available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsComputeShaders">
+            <summary>
+            Are compute shaders available on the device?
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Gpu.SupportsGeometryShaders">
+            <summary>
+            Are geometry shaders available on the device?
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Gpu.Clone">
+            <summary>
+            Clones this instance.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Gpu.UpdateFrom(Sentry.Protocol.Gpu)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Gpu.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Gpu.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.ITraceContext">
+            <summary>
+            Trace metadata stored in 'contexts.trace' on an event or transaction.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.SpanId">
+            <summary>
+            Span ID.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.ParentSpanId">
+            <summary>
+            Parent ID.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.TraceId">
+            <summary>
+            Trace ID.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.Operation">
+            <summary>
+            Operation.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.Description">
+            <summary>
+            Description.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.Status">
+            <summary>
+            Status.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.IsSampled">
+            <summary>
+            Whether the span or transaction is sampled in (i.e. eligible for sending to Sentry).
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Mechanism">
+            <summary>
+            Sentry Exception Mechanism.
+            </summary>
+            <remarks>
+            The exception mechanism is an optional field residing in the Exception Interface.
+            It carries additional information about the way the exception was created on the target system.
+            This includes general exception values obtained from operating system or runtime APIs, as well as mechanism-specific values.
+            </remarks>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/exception/#exception-mechanism"/>
+        </member>
+        <member name="F:Sentry.Protocol.Mechanism.HandledKey">
+            <summary>
+            Keys found inside of the Exception Dictionary to inform if the exception was handled and which mechanism tracked it.
+            </summary>
+        </member>
+        <member name="F:Sentry.Protocol.Mechanism.MechanismKey">
+            <summary>
+            Key found inside of the Exception.Data to inform if the exception which mechanism tracked it.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Mechanism.Type">
+            <summary>
+            Required unique identifier of this mechanism determining rendering and processing of the mechanism data.
+            </summary>
+            <remarks>
+            The type attribute is required to send any exception mechanism attribute,
+            even if the SDK cannot determine the specific mechanism.
+            In this case, set the type to "generic". See below for an example.
+            </remarks>
+        </member>
+        <member name="P:Sentry.Protocol.Mechanism.Description">
+            <summary>
+            Optional human readable description of the error mechanism and a possible hint on how to solve this error.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Mechanism.HelpLink">
+            <summary>
+            Optional fully qualified URL to an online help resource, possible interpolated with error parameters.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Mechanism.Handled">
+            <summary>
+            Optional flag indicating whether the exception has been handled by the user (e.g. via try..catch).
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Mechanism.Meta">
+            <summary>
+            Optional information from the operating system or runtime on the exception mechanism.
+            </summary>
+            <remarks>
+            The mechanism meta data usually carries error codes reported by the runtime or operating system,
+            along with a platform dependent interpretation of these codes.
+            SDKs can safely omit code names and descriptions for well known error codes, as it will be filled out by Sentry.
+            For proprietary or vendor-specific error codes, adding these values will give additional information to the user.
+            </remarks>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/exception/#meta-information"/>
+        </member>
+        <member name="P:Sentry.Protocol.Mechanism.Data">
+            <summary>
+            Arbitrary extra data that might help the user understand the error thrown by this mechanism.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Mechanism.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Mechanism.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.OperatingSystem">
+            <summary>
+            Represents Sentry's context for OS.
+            </summary>
+            <remarks>
+            Defines the operating system that caused the event. In web contexts, this is the operating system of the browser (normally pulled from the User-Agent string).
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/#os-context"/>
+        </member>
+        <member name="F:Sentry.Protocol.OperatingSystem.Type">
+            <summary>
+            Tells Sentry which type of context this is.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.OperatingSystem.Name">
+            <summary>
+            The name of the operating system.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.OperatingSystem.Version">
+            <summary>
+            The version of the operating system.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.OperatingSystem.RawDescription">
+            <summary>
+            An optional raw description that Sentry can use in an attempt to normalize OS info.
+            </summary>
+            <remarks>
+            When the system doesn't expose a clear API for <see cref="P:Sentry.Protocol.OperatingSystem.Name"/> and <see cref="P:Sentry.Protocol.OperatingSystem.Version"/>
+            this field can be used to provide a raw system info (e.g: uname)
+            </remarks>
+        </member>
+        <member name="P:Sentry.Protocol.OperatingSystem.Build">
+            <summary>
+            The internal build revision of the operating system.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.OperatingSystem.KernelVersion">
+            <summary>
+            If known, this can be an independent kernel version string. Typically
+            this is something like the entire output of the 'uname' tool.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.OperatingSystem.Rooted">
+            <summary>
+            An optional boolean that defines if the OS has been jailbroken or rooted.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.OperatingSystem.Clone">
+            <summary>
+            Clones this instance
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.OperatingSystem.UpdateFrom(Sentry.Protocol.OperatingSystem)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.OperatingSystem.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.OperatingSystem.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Runtime">
             <summary>
             This describes a runtime in more detail.
             </summary>
+            <remarks>
+            Typically this context is used multiple times if multiple runtimes are involved (for instance if you have a JavaScript application running on top of JVM)
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/contexts/"/>
         </member>
-        <member name="P:Sentry.Contexts.Gpu">
+        <member name="F:Sentry.Protocol.Runtime.Type">
             <summary>
-            This describes a GPU of the device.
+            Tells Sentry which type of context this is.
             </summary>
         </member>
-        <member name="P:Sentry.Contexts.Trace">
+        <member name="P:Sentry.Protocol.Runtime.Name">
             <summary>
-            This describes trace information.
+            The name of the runtime.
             </summary>
         </member>
-        <member name="M:Sentry.Contexts.#ctor">
+        <member name="P:Sentry.Protocol.Runtime.Version">
             <summary>
-            Initializes an instance of <see cref="T:Sentry.Contexts"/>.
+            The version identifier of the runtime.
             </summary>
         </member>
-        <member name="M:Sentry.Contexts.Clone">
+        <member name="P:Sentry.Protocol.Runtime.RawDescription">
             <summary>
-            Creates a deep clone of this context.
+             An optional raw description that Sentry can use in an attempt to normalize Runtime info.
+            </summary>
+            <remarks>
+            When the system doesn't expose a clear API for <see cref="P:Sentry.Protocol.Runtime.Name"/> and <see cref="P:Sentry.Protocol.Runtime.Version"/>
+            this field can be used to provide a raw system info (e.g: .NET Framework 4.7.1).
+            </remarks>
+        </member>
+        <member name="P:Sentry.Protocol.Runtime.Identifier">
+            <summary>
+            An optional .NET Runtime Identifier string.
             </summary>
         </member>
-        <member name="M:Sentry.Contexts.CopyTo(Sentry.Contexts)">
+        <member name="P:Sentry.Protocol.Runtime.Build">
             <summary>
-            Copies the items of the context while cloning the known types.
+            An optional build number.
+            </summary>
+            <see href="https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed"/>
+        </member>
+        <member name="M:Sentry.Protocol.Runtime.Clone">
+            <summary>
+            Clones this instance
             </summary>
         </member>
-        <member name="M:Sentry.Contexts.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+        <member name="M:Sentry.Protocol.Runtime.UpdateFrom(Sentry.Protocol.Runtime)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Runtime.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.Contexts.FromJson(System.Text.Json.JsonElement)">
+        <member name="M:Sentry.Protocol.Runtime.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.SentryException">
+            <summary>
+            Sentry Exception interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/exception"/>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.Type">
+            <summary>
+            Exception Type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.Value">
+            <summary>
+            The exception value.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.Module">
+            <summary>
+            The optional module, or package which the exception type lives in.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.ThreadId">
+            <summary>
+            An optional value which refers to a thread in the threads interface.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/threads/"/>
+            <seealso cref="T:Sentry.SentryThread"/>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.Stacktrace">
+            <summary>
+            Stack trace.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.Mechanism">
+            <summary>
+            An optional mechanism that created this exception.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/exception/#exception-mechanism"/>
+        </member>
+        <member name="P:Sentry.Protocol.SentryException.Data">
+            <summary>
+            Arbitrary extra data that related to this error
+            </summary>
+            <remarks>
+            The protocol does not yet support data at this level.
+            For this reason this property is not serialized.
+            The data is moved to the event level on Extra until such support is added
+            </remarks>
+        </member>
+        <member name="M:Sentry.Protocol.SentryException.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.SentryException.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Trace">
+            <summary>
+            Trace context data.
+            </summary>
+        </member>
+        <member name="F:Sentry.Protocol.Trace.Type">
+            <summary>
+            Tells Sentry which type of context this is.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Trace.SpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.ParentSpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.TraceId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.Operation">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.Description">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.Status">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Protocol.Trace.IsSampled">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Trace.Clone">
+            <summary>
+            Clones this instance.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Trace.UpdateFrom(Sentry.Protocol.Trace)">
+            <summary>
+            Updates this instance with data from the properties in the <paramref name="source"/>,
+            unless there is already a value in the existing property.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Trace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Trace.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses trace context from JSON.
             </summary>
         </member>
         <member name="T:Sentry.Reflection.AssemblyExtensions">
@@ -5066,6 +4958,8 @@
         <member name="P:Sentry.SentryOptions.IsGlobalModeEnabled">
             <summary>
             Specifies whether to use global scope management mode.
+            Should be <c>true</c> for client applications and <c>false</c> for server applications.
+            The default is <c>false</c>. The default for Blazor WASM, MAUI, and Mobile apps is <c>true</c>.
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.ScopeObserver">
@@ -5192,7 +5086,8 @@
         </member>
         <member name="P:Sentry.SentryOptions.AttachStacktrace">
             <summary>
-            Whether to send the stack trace of a event captured without an exception
+            Whether to send the stack trace of a event captured without an exception.
+            As of version 3.22.0, the default is <c>true</c>.
             </summary>
             <remarks>
             Append stack trace of the call to the SDK to capture a message or event without Exception
@@ -5230,9 +5125,13 @@
         </member>
         <member name="P:Sentry.SentryOptions.Release">
             <summary>
-            The release version of the application.
+            The release information for the application.
+            Can be anything, but generally should be either a semantic version string in the format
+            <c>package@version</c> or <c>package@version+build</c>, or a commit SHA from a version control system.
             </summary>
             <example>
+            MyApp@1.2.3
+            MyApp@1.2.3+foo
             721e41770371db95eee98ca2707686226b993eda
             14.1.16.32451
             </example>
@@ -5473,6 +5372,19 @@
             set in <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.TracePropagationTargets">
+            <summary>
+            A customizable list of <see cref="T:Sentry.TracePropagationTarget"/> objects, each containing either a
+            substring or regular expression pattern that can be used to control which outgoing HTTP requests
+            will have the <c>sentry-trace</c> and <c>baggage</c> headers propagated, for purposes of distributed tracing.
+            The default value contains a single value of <c>.*</c>, which matches everything.
+            To disable propagation completely, clear this collection or set it to an empty collection.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/performance/#tracepropagationtargets"/>
+            <remarks>
+            Adding an item to the default list will clear the <c>.*</c> value automatically.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.StackTraceMode">
             <summary>
             ATTENTION: This option will change how issues are grouped in Sentry!
@@ -5541,6 +5453,19 @@
             The default behaviour is to only log <see cref="P:System.AggregateException.InnerExceptions"/> and not include the root <see cref="T:System.AggregateException"/>.
             Set KeepAggregateException to true to include the root <see cref="T:System.AggregateException"/>.
             </summary>
+        </member>
+        <member name="M:Sentry.SentryOptions.AddJsonConverter(System.Text.Json.Serialization.JsonConverter)">
+            <summary>
+            Adds a <see cref="T:System.Text.Json.Serialization.JsonConverter"/> to be used when serializing or deserializing
+            objects to JSON with this SDK.  For example, when custom context data might use
+            a data type that requires custom serialization logic.
+            </summary>
+            <param name="converter">The <see cref="T:System.Text.Json.Serialization.JsonConverter"/> to add.</param>
+            <remarks>
+            This currently modifies a static list, so will affect any instance of the Sentry SDK.
+            If that becomes problematic, we will have to refactor all serialization code to be
+            able to accept an instance of <see cref="T:Sentry.SentryOptions"/>.
+            </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.NetworkStatusListener">
             <summary>
@@ -5998,6 +5923,11 @@
             Starts a transaction.
             </summary>
         </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},Sentry.DynamicSamplingContext)">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
         <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext)">
             <summary>
             Starts a transaction.
@@ -6056,6 +5986,172 @@
             The method is marked obsolete only to discourage accidental misuse.
             We do not intend to remove it.
             </remarks>
+        </member>
+        <member name="T:Sentry.SentryStackFrame">
+            <summary>
+            A frame of a stacktrace.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.FileName">
+            <summary>
+            The relative file path to the call.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.Function">
+            <summary>
+            The name of the function being called.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.Module">
+            <summary>
+            Platform-specific module path.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.LineNumber">
+            <summary>
+            The line number of the call.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.ColumnNumber">
+            <summary>
+            The column number of the call.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.AbsolutePath">
+            <summary>
+            The absolute path to filename.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.ContextLine">
+            <summary>
+            Source code in filename at line number.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.PreContext">
+            <summary>
+            A list of source code lines before context_line (in order) – usually [lineno - 5:lineno].
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.PostContext">
+            <summary>
+            A list of source code lines after context_line (in order) – usually [lineno + 1:lineno + 5].
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.InApp">
+            <summary>
+            Signifies whether this frame is related to the execution of the relevant code in this stacktrace.
+            </summary>
+            <example>
+            For example, the frames that might power the framework’s web server of your app are probably not relevant,
+            however calls to the framework’s library once you start handling code likely are.
+            </example>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.Vars">
+            <summary>
+            A mapping of variables which were available within this frame (usually context-locals).
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.FramesOmitted">
+            <summary>
+            Which frames were omitted, if any.
+            </summary>
+            <remarks>
+            If the list of frames is large, you can explicitly tell the system that you’ve omitted a range of frames.
+            The frames_omitted must be a single tuple two values: start and end.
+            </remarks>
+            <example>
+            If you only removed the 8th frame, the value would be (8, 9), meaning it started at the 8th frame,
+            and went until the 9th (the number of frames omitted is end-start).
+            The values should be based on a one-index.
+            </example>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.Package">
+            <summary>
+            The assembly where the code resides.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.Platform">
+            <summary>
+            This can override the platform for a single frame. Otherwise the platform of the event is assumed.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.ImageAddress">
+            <summary>
+            Optionally an address of the debug image to reference.
+            If this is set and a known image is defined by debug_meta then symbolication can take place.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.SymbolAddress">
+            <summary>
+            An optional address that points to a symbol.
+            We actually use the instruction address for symbolication but this can be used to calculate an instruction offset automatically.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.InstructionAddress">
+            <summary>
+            An optional instruction address for symbolication.<br/>
+            This should be a string with a hexadecimal number that includes a <b>0x</b> prefix.<br/>
+            If this is set and a known image is defined in the <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta/">Debug Meta Interface</see>, then symbolication can take place.<br/>
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.InstructionOffset">
+            <summary>
+            The instruction offset.
+            </summary>
+            <remarks>
+            The official docs refer to it as 'The difference between instruction address and symbol address in bytes.'
+            In .NET this means the IL Offset within the assembly.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.AddressMode">
+            <summary>
+            Optionally changes the addressing mode. The default value is the same as
+            `"abs"` which means absolute referencing. This can also be set to
+            `"rel:DEBUG_ID"` or `"rel:IMAGE_INDEX"` to make addresses relative to an
+            object referenced by debug id or index.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryStackFrame.ConfigureAppFrame(Sentry.SentryOptions)">
+            <summary>
+            Configures <see cref="P:Sentry.SentryStackFrame.InApp"/> based on the <see cref="P:Sentry.SentryOptions.InAppInclude"/> and <see cref="P:Sentry.SentryOptions.InAppExclude"/> or <paramref name="options"/>.
+            </summary>
+            <param name="options">The Sentry options.</param>
+            <remarks><see cref="P:Sentry.SentryStackFrame.InApp"/> will remain with the same value if previously set.</remarks>
+        </member>
+        <member name="M:Sentry.SentryStackFrame.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.SentryStackTrace">
+            <summary>
+            Sentry Stacktrace interface.
+            </summary>
+            <remarks>
+            A stacktrace contains a list of frames, each with various bits (most optional) describing the context of that frame.
+            Frames should be sorted from oldest to newest.
+            </remarks>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/stacktrace/"/>
+        </member>
+        <member name="P:Sentry.SentryStackTrace.Frames">
+            <summary>
+            The list of frames in the stack.
+            </summary>
+            <remarks>
+            The list of frames should be ordered by the oldest call first.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryStackTrace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryStackTrace.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
         </member>
         <member name="T:Sentry.SentryThread">
             <summary>
@@ -6643,6 +6739,39 @@
         <member name="M:Sentry.StreamAttachmentContent.GetStream">
             <inheritdoc />
         </member>
+        <member name="T:Sentry.TracePropagationTarget">
+            <summary>
+            Provides a pattern that can be used to identify which destinations will have <c>sentry-trace</c> and
+            <c>baggage</c> headers propagated to, for purposes of distributed tracing.
+            The pattern can either be a substring or a regular expression.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/performance/#tracepropagationtargets"/>
+        </member>
+        <member name="M:Sentry.TracePropagationTarget.#ctor(System.String,System.StringComparison)">
+            <summary>
+            Constructs a <see cref="T:Sentry.TracePropagationTarget"/> instance that will match when the provided
+            <paramref name="substringOrRegexPattern"/> is either found as a substring within the outgoing request URL,
+            or matches as a regular expression pattern against the outgoing request URL.
+            </summary>
+            <param name="substringOrRegexPattern">The substring or regular expression pattern to match on.</param>
+            <param name="comparison">The string comparison type to use when matching.</param>
+        </member>
+        <member name="M:Sentry.TracePropagationTarget.#ctor(System.Text.RegularExpressions.Regex)">
+            <summary>
+            Constructs a <see cref="T:Sentry.TracePropagationTarget"/> instance that will match when the provided
+            <paramref name="regex"/> object matches the outgoing request URL.
+            </summary>
+            <param name="regex"></param>
+            <remarks>
+            Use this constructor when you need to control the regular expression matching options.
+            We recommend setting at least <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled"/> for performance, and
+            <see cref="F:System.Text.RegularExpressions.RegexOptions.CultureInvariant"/> (unless you have culture-specific matching needs).
+            The <see cref="M:Sentry.TracePropagationTarget.#ctor(System.String,System.StringComparison)"/> constructor sets these by default.
+            </remarks>
+        </member>
+        <member name="M:Sentry.TracePropagationTarget.ToString">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.Transaction">
             <summary>
             Sentry performance transaction.
@@ -6663,6 +6792,9 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Transaction.NameSource">
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.IsParentSampled">
@@ -6693,6 +6825,9 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.IsSampled">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.Transaction.SampleRate">
             <inheritdoc />
         </member>
         <member name="P:Sentry.Transaction.Level">
@@ -6738,6 +6873,11 @@
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
             </summary>
         </member>
+        <member name="M:Sentry.Transaction.#ctor(System.String,System.String,Sentry.TransactionNameSource)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Transaction"/>.
+            </summary>
+        </member>
         <member name="M:Sentry.Transaction.#ctor(Sentry.ITransaction)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
@@ -6774,9 +6914,17 @@
         <member name="P:Sentry.TransactionContext.Name">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.TransactionContext.NameSource">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.TransactionContext.IsParentSampled">
             <summary>
             Whether the parent transaction of this transaction has been sampled.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionContext.#ctor(Sentry.SpanId,System.Nullable{Sentry.SpanId},Sentry.SentryId,System.String,System.String,System.String,System.Nullable{Sentry.SpanStatus},System.Nullable{System.Boolean},System.Nullable{System.Boolean},Sentry.TransactionNameSource)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
             </summary>
         </member>
         <member name="M:Sentry.TransactionContext.#ctor(Sentry.SpanId,System.Nullable{Sentry.SpanId},Sentry.SentryId,System.String,System.String,System.String,System.Nullable{Sentry.SpanStatus},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
@@ -6799,14 +6947,109 @@
             Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
             </summary>
         </member>
+        <member name="M:Sentry.TransactionContext.#ctor(System.String,System.String,Sentry.SentryTraceHeader,Sentry.TransactionNameSource)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
+            </summary>
+        </member>
         <member name="M:Sentry.TransactionContext.#ctor(System.String,System.String)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
             </summary>
         </member>
+        <member name="M:Sentry.TransactionContext.#ctor(System.String,System.String,Sentry.TransactionNameSource)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.TransactionContext"/>.
+            </summary>
+        </member>
+        <member name="T:Sentry.TransactionNameSource">
+            <summary>
+            Transaction source.
+            This information is required by dynamic sampling. Contains information about how the name
+            of the transaction was determined. This will be used by the server to decide whether or not
+            to scrub identifiers from the transaction name, or replace the entire name with a placeholder.
+            The source should only be set by integrations and not by developers directly
+            https://develop.sentry.dev/sdk/event-payloads/transaction/#transaction-annotations
+            </summary>
+        </member>
+        <member name="F:Sentry.TransactionNameSource.Custom">
+            <summary>
+            User-defined name.
+            </summary>
+            <example>
+              <list type="bullet">
+                <item>my_transaction</item>
+              </list>
+            </example>
+        </member>
+        <member name="F:Sentry.TransactionNameSource.Url">
+            <summary>
+            Raw URL, potentially containing identifiers.
+            </summary>
+            <example>
+              <list type="bullet">
+                <item>/auth/login/john123/</item>
+                <item>GET /auth/login/john123/</item>
+              </list>
+            </example>
+        </member>
+        <member name="F:Sentry.TransactionNameSource.Route">
+            <summary>
+            Parametrized URL / route
+            </summary>
+            <example>
+              <list type="bullet">
+                <item>/auth/login/:userId/</item>
+                <item>GET /auth/login/{user}/</item>
+              </list>
+            </example>
+        </member>
+        <member name="F:Sentry.TransactionNameSource.View">
+            <summary>
+            Name of the view handling the request.
+            </summary>
+            <example>
+              <list type="bullet">
+                <item>UserListView</item>
+              </list>
+            </example>
+        </member>
+        <member name="F:Sentry.TransactionNameSource.Component">
+            <summary>
+            Named after a software component, such as a function or class name.
+            </summary>
+            <example>
+              <list type="bullet">
+                <item>AuthLogin.login</item>
+                <item>LoginActivity.login_button</item>
+              </list>
+            </example>
+        </member>
+        <member name="F:Sentry.TransactionNameSource.Task">
+            <summary>
+            Name of a background task
+            </summary>
+            <example>
+              <list type="bullet">
+                <item>sentry.tasks.do_something</item>
+              </list>
+            </example>
+        </member>
+        <member name="M:Sentry.TransactionNameSourceExtensions.IsHighQuality(Sentry.TransactionNameSource)">
+            <summary>
+            Determines if the <paramref name="transactionNameSource"/> is considered "high quality"
+            for purposes of dynamic sampling.
+            </summary>
+            <remarks>
+            Currently, only <see cref="F:Sentry.TransactionNameSource.Url"/> is considered low quality,
+            and the others are high quality, but this may change in the future.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/performance/dynamic-sampling-context/#note-on-low-quality-transaction-names"/>
+        </member>
         <member name="T:Sentry.TransactionSamplingContext">
             <summary>
-            Context used by a dynamic sampler to determine whether a transaction should be sampled.
+            Context information passed into a <see cref="P:Sentry.SentryOptions.TracesSampler"/> function,
+            which can be used to determine whether a transaction should be sampled.
             </summary>
         </member>
         <member name="P:Sentry.TransactionSamplingContext.TransactionContext">
@@ -6841,6 +7084,9 @@
         <member name="P:Sentry.TransactionTracer.Name">
             <inheritdoc cref="P:Sentry.ITransaction.Name" />
         </member>
+        <member name="P:Sentry.TransactionTracer.NameSource">
+            <inheritdoc cref="P:Sentry.IHasTransactionNameSource.NameSource" />
+        </member>
         <member name="P:Sentry.TransactionTracer.IsParentSampled">
             <inheritdoc cref="P:Sentry.ITransaction.IsParentSampled" />
         </member>
@@ -6869,6 +7115,9 @@
             <inheritdoc cref="P:Sentry.ISpan.Status" />
         </member>
         <member name="P:Sentry.TransactionTracer.IsSampled">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.SampleRate">
             <inheritdoc />
         </member>
         <member name="P:Sentry.TransactionTracer.Level">
@@ -6912,9 +7161,14 @@
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
             </summary>
         </member>
-        <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,Sentry.ITransactionContext)">
+        <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,System.String,System.String,Sentry.TransactionNameSource)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,Sentry.ITransactionContext)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.TransactionTracer"/>.
             </summary>
         </member>
         <member name="M:Sentry.TransactionTracer.AddBreadcrumb(Sentry.Breadcrumb)">
@@ -6956,37 +7210,30 @@
             </summary>
             <see href="https://develop.sentry.dev/sdk/event-payloads/user/"/>
         </member>
-        <member name="P:Sentry.User.Email">
-            <summary>
-            The email address of the user.
-            </summary>
-            <value>
-            The user's email address.
-            </value>
-        </member>
         <member name="P:Sentry.User.Id">
             <summary>
             The unique ID of the user.
             </summary>
-            <value>
-            The unique identifier.
-            </value>
-        </member>
-        <member name="P:Sentry.User.IpAddress">
-            <summary>
-            The IP of the user.
-            </summary>
-            <value>
-            The user's IP address.
-            </value>
         </member>
         <member name="P:Sentry.User.Username">
             <summary>
             The username of the user.
             </summary>
-            <value>
-            The user's username.
-            </value>
+        </member>
+        <member name="P:Sentry.User.Email">
+            <summary>
+            The email address of the user.
+            </summary>
+        </member>
+        <member name="P:Sentry.User.IpAddress">
+            <summary>
+            The IP address of the user.
+            </summary>
+        </member>
+        <member name="P:Sentry.User.Segment">
+            <summary>
+            The segment the user belongs to.
+            </summary>
         </member>
         <member name="P:Sentry.User.Other">
             <summary>

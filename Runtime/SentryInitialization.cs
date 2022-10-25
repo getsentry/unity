@@ -15,6 +15,7 @@
 #endif
 
 using System;
+using Sentry.Extensibility;
 #if UNITY_2020_3_OR_NEWER
 using System.Buffers;
 using System.Runtime.InteropServices;
@@ -40,13 +41,25 @@ namespace Sentry.Unity
 {
     public static class SentryInitialization
     {
+        public const string StartupTransactionOperation = "app.start";
+        public static ISpan InitSpan;
+        private const string InitSpanOperation = "runtime.init";
+        public static ISpan SubSystemRegistrationSpan;
+        private const string SubSystemSpanOperation = "runtime.init.subsystem";
+
+#if SENTRY_WEBGL
+        // On WebGL SubsystemRegistration is too early for the UnityWebRequestTransport and errors with 'URI empty'
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+#else
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+#endif
         public static void Init()
         {
             var sentryUnityInfo = new SentryUnityInfo();
             var options = ScriptableSentryUnityOptions.LoadSentryUnityOptions(sentryUnityInfo);
-            if (options.ShouldInitializeSdk())
+            if (options != null && options.ShouldInitializeSdk())
             {
+                SentryIntegrations.Configure(options);
                 Exception nativeInitException = null;
 
                 try
@@ -77,6 +90,23 @@ namespace Sentry.Unity
                 {
                     SentrySdk.CaptureException(nativeInitException);
                 }
+
+#if !SENTRY_WEBGL
+                if (options.TracesSampleRate > 0.0f)
+                {
+                    options.DiagnosticLogger?.LogInfo("Creating '{0}' transaction for runtime initialization.",
+                        StartupTransactionOperation);
+
+                    var runtimeStartTransaction =
+                        SentrySdk.StartTransaction("runtime.initialization", StartupTransactionOperation);
+                    SentrySdk.ConfigureScope(scope => scope.Transaction = runtimeStartTransaction);
+
+                    options.DiagnosticLogger?.LogDebug("Creating '{0}' span.", InitSpanOperation);
+                    InitSpan = runtimeStartTransaction.StartChild(InitSpanOperation, "runtime initialization");
+                    options.DiagnosticLogger?.LogDebug("Creating '{0}' span.", SubSystemSpanOperation);
+                    SubSystemRegistrationSpan = InitSpan.StartChild(SubSystemSpanOperation, "subsystem registration");
+                }
+#endif
             }
         }
     }
