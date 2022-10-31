@@ -1854,6 +1854,50 @@
             Sets the extra key-value pairs to the object.
             </summary>
         </member>
+        <member name="T:Sentry.IHasMeasurements">
+            <summary>
+            Interface for transactions that can keep track of measurements.
+            </summary>
+            <remarks>
+            Ideally, this would just be implemented as part of <see cref="T:Sentry.ITransactionData"/>.
+            However, adding a property to a public interface is a breaking change.  We can do that in a future major version.
+            </remarks>
+        </member>
+        <member name="P:Sentry.IHasMeasurements.Measurements">
+            <summary>
+            The measurements that have been set on the transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.IHasMeasurements.SetMeasurement(System.String,Sentry.Protocol.Measurement)">
+            <summary>
+            Sets a measurement on the transaction.
+            </summary>
+            <param name="name">The name of the measurement.</param>
+            <param name="measurement">The measurement.</param>
+        </member>
+        <member name="T:Sentry.MeasurementExtensions">
+            <summary>
+            Extensions for <see cref="T:Sentry.IHasMeasurements"/>
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.Int32,Sentry.MeasurementUnit)">
+            <summary>
+            Sets a measurement on the transaction.
+            </summary>
+            <param name="transaction">The transaction.</param>
+            <param name="name">The name of the measurement.</param>
+            <param name="value">The value of the measurement.</param>
+            <param name="unit">The optional unit of the measurement.</param>
+        </member>
+        <member name="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.Int64,Sentry.MeasurementUnit)">
+            <inheritdoc cref="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.Int32,Sentry.MeasurementUnit)" />
+        </member>
+        <member name="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.UInt64,Sentry.MeasurementUnit)">
+            <inheritdoc cref="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.Int32,Sentry.MeasurementUnit)" />
+        </member>
+        <member name="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.Double,Sentry.MeasurementUnit)">
+            <inheritdoc cref="M:Sentry.MeasurementExtensions.SetMeasurement(Sentry.ITransactionData,System.String,System.Int32,Sentry.MeasurementUnit)" />
+        </member>
         <member name="T:Sentry.IHasTags">
             <summary>
             Implemented by objects that contain a map of tags.
@@ -2691,6 +2735,11 @@
             Starts a child span.
             </summary>
         </member>
+        <member name="M:Sentry.SpanExtensions.GetTransaction(Sentry.ISpan)">
+            <summary>
+            Gets the transaction that this span belongs to.
+            </summary>
+        </member>
         <member name="T:Sentry.ISpanContext">
             <summary>
             Span metadata.
@@ -2764,6 +2813,206 @@
         <member name="T:Sentry.ITransactionData">
             <summary>
             Immutable data belonging to a transaction.
+            </summary>
+        </member>
+        <member name="T:Sentry.MeasurementUnit">
+            <summary>
+            The unit of measurement of a metric value.
+            </summary>
+            <seealso href="https://getsentry.github.io/relay/relay_metrics/enum.MetricUnit.html"/>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.None">
+            <summary>
+            A special measurement unit that is used for measurements that have no natural unit.
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.Custom(System.String)">
+            <summary>
+            Creates a custom measurement unit.
+            </summary>
+            <param name="name">The name of the custom measurement unit. It will be converted to lower case.</param>
+            <returns>The custom measurement unit.</returns>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.ToString">
+            <summary>
+            Returns the string representation of the measurement unit, as it will be sent to Sentry.
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.Equals(Sentry.MeasurementUnit)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.MeasurementUnit.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.MeasurementUnit.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.MeasurementUnit.op_Equality(Sentry.MeasurementUnit,Sentry.MeasurementUnit)">
+            <summary>
+            Returns true if the operands are equal.
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.op_Inequality(Sentry.MeasurementUnit,Sentry.MeasurementUnit)">
+            <summary>
+            Returns true if the operands are not equal.
+            </summary>
+        </member>
+        <member name="T:Sentry.MeasurementUnit.Duration">
+            <summary>
+            A time duration unit
+            </summary>
+            <seealso href="https://getsentry.github.io/relay/relay_metrics/enum.DurationUnit.html"/>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Nanosecond">
+            <summary>
+            Nanosecond unit (10^-9 seconds)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Microsecond">
+            <summary>
+            Microsecond unit (10^-6 seconds)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Millisecond">
+            <summary>
+            Millisecond unit (10^-3 seconds)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Second">
+            <summary>
+            Second unit
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Minute">
+            <summary>
+            Minute unit (60 seconds)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Hour">
+            <summary>
+            Hour unit (3,600 seconds)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Day">
+            <summary>
+            Day unit (86,400 seconds)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Duration.Week">
+            <summary>
+            Week unit (604,800 seconds)
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.op_Implicit(Sentry.MeasurementUnit.Duration)~Sentry.MeasurementUnit">
+            <summary>
+            Implicitly casts a <see cref="T:Sentry.MeasurementUnit.Duration"/> to a <see cref="T:Sentry.MeasurementUnit"/>.
+            </summary>
+        </member>
+        <member name="T:Sentry.MeasurementUnit.Fraction">
+            <summary>
+            A fraction unit
+            </summary>
+            <seealso href="https://getsentry.github.io/relay/relay_metrics/enum.FractionUnit.html"/>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Fraction.Ratio">
+            <summary>
+            Floating point fraction of 1.
+            A ratio of 1.0 equals 100%.
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Fraction.Percent">
+            <summary>
+            Ratio expressed as a fraction of 100.
+            100% equals a ratio of 1.0.
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.op_Implicit(Sentry.MeasurementUnit.Fraction)~Sentry.MeasurementUnit">
+            <summary>
+            Implicitly casts a <see cref="T:Sentry.MeasurementUnit.Fraction"/> to a <see cref="T:Sentry.MeasurementUnit"/>.
+            </summary>
+        </member>
+        <member name="T:Sentry.MeasurementUnit.Information">
+            <summary>
+            An information size unit
+            </summary>
+            <seealso href="https://getsentry.github.io/relay/relay_metrics/enum.InformationUnit.html"/>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Bit">
+            <summary>
+            Bit unit (1/8 of byte)
+            </summary>
+            <remarks>
+            Some computer systems may have a different number of bits per byte.
+            </remarks>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Byte">
+            <summary>
+            Byte unit
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Kilobyte">
+            <summary>
+            Kilobyte unit (10^3 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Kibibyte">
+            <summary>
+            Kibibyte unit (2^10 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Megabyte">
+            <summary>
+            Megabyte unit (10^6 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Mebibyte">
+            <summary>
+            Mebibyte unit (2^20 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Gigabyte">
+            <summary>
+            Gigabyte unit (10^9 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Gibibyte">
+            <summary>
+            Gibibyte unit (2^30 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Terabyte">
+            <summary>
+            Terabyte unit (10^12 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Tebibyte">
+            <summary>
+            Tebibyte unit (2^40 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Petabyte">
+            <summary>
+            Petabyte unit (10^15 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Pebibyte">
+            <summary>
+            Pebibyte unit (2^50 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Exabyte">
+            <summary>
+            Exabyte unit (10^18 bytes)
+            </summary>
+        </member>
+        <member name="F:Sentry.MeasurementUnit.Information.Exbibyte">
+            <summary>
+            Exbibyte unit (2^60 bytes)
+            </summary>
+        </member>
+        <member name="M:Sentry.MeasurementUnit.op_Implicit(Sentry.MeasurementUnit.Information)~Sentry.MeasurementUnit">
+            <summary>
+            Implicitly casts a <see cref="T:Sentry.MeasurementUnit.Information"/> to a <see cref="T:Sentry.MeasurementUnit"/>.
             </summary>
         </member>
         <member name="T:Sentry.Package">
@@ -3424,6 +3673,11 @@
             Attempts to extract the value of "event_id" header if it's present.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.TryGetEventId(Sentry.Extensibility.IDiagnosticLogger)">
+            <summary>
+            Attempts to extract the value of "event_id" header if it's present.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -3782,6 +4036,29 @@
         <member name="P:Sentry.Protocol.ITraceContext.IsSampled">
             <summary>
             Whether the span or transaction is sampled in (i.e. eligible for sending to Sentry).
+            </summary>
+        </member>
+        <member name="T:Sentry.Protocol.Measurement">
+            <summary>
+            A measurement, containing a numeric value and a unit.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Measurement.Value">
+            <summary>
+            The numeric value of the measurement.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Measurement.Unit">
+            <summary>
+            The unit of measurement.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Measurement.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Measurement.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
             </summary>
         </member>
         <member name="T:Sentry.Protocol.Mechanism">
@@ -6865,6 +7142,9 @@
             Flat list of spans within this transaction.
             </summary>
         </member>
+        <member name="P:Sentry.Transaction.Measurements">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.Transaction.IsFinished">
             <inheritdoc />
         </member>
@@ -6893,6 +7173,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.Transaction.UnsetTag(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Transaction.SetMeasurement(System.String,Sentry.Protocol.Measurement)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Transaction.GetTraceHeader">
@@ -7153,6 +7436,9 @@
         <member name="P:Sentry.TransactionTracer.Spans">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.TransactionTracer.Measurements">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.TransactionTracer.IsFinished">
             <inheritdoc />
         </member>
@@ -7181,6 +7467,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.UnsetTag(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.SetMeasurement(System.String,Sentry.Protocol.Measurement)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.StartChild(System.String)">
