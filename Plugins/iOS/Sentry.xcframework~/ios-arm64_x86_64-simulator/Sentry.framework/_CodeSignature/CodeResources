@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/Sentry.h</key>
 		<data>
-		ga0qo5gP1lqqgmWRD/qVeqhO16Q=
+		i+TFk3hTchSx0cEslU5t5qNgqtY=
 		</data>
 		<key>Headers/SentryAppStartMeasurement.h</key>
 		<data>
@@ -62,7 +62,7 @@
 		</data>
 		<key>Headers/SentryEvent.h</key>
 		<data>
-		rGNVmh2uoFZGoPJExjOT2NhZgSE=
+		1j6h7pywaMytAQFrJWuoLv8Qdco=
 		</data>
 		<key>Headers/SentryException.h</key>
 		<data>
@@ -71,6 +71,10 @@
 		<key>Headers/SentryFrame.h</key>
 		<data>
 		GdG5ZHenGo7pdb3c5f5bjqAdpq4=
+		</data>
+		<key>Headers/SentryHttpStatusCodeRange.h</key>
+		<data>
+		1TXYQG8bcvvCtXFJQ1nsSHSvW7s=
 		</data>
 		<key>Headers/SentryHub.h</key>
 		<data>
@@ -106,11 +110,15 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		WMy5WOSDBnA+46GN53c9e3HO/8E=
+		nOpsx0s4xX6Ory3ncrTdfhWGBU4=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
 		TiyJO1tS9klTs0LGUjgsSyIPkbc=
+		</data>
+		<key>Headers/SentryRequest.h</key>
+		<data>
+		/g7YXDwZpNdt4gsueFHvbUAuc5o=
 		</data>
 		<key>Headers/SentrySDK.h</key>
 		<data>
@@ -162,7 +170,7 @@
 		</data>
 		<key>Headers/SentryStacktrace.h</key>
 		<data>
-		FG/tGcOh/IMD4tarnZcfnlQAdFU=
+		R9KlLrz/yqMNFQ9/RwUqiKYjXrE=
 		</data>
 		<key>Headers/SentryThread.h</key>
 		<data>
@@ -186,7 +194,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		7Pvpjm4Wy+qX0+IA+5rt3aWNB5w=
+		2PRb6PGwXcpO3H26iNxqRE9H83Q=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -198,7 +206,7 @@
 		</data>
 		<key>PrivateHeaders/NSDate+SentryExtras.h</key>
 		<data>
-		C4tFh6nwpaVOjBU9s7KQx6GF4f8=
+		NcwgpJBHRmCBIVH3Ms4JwD51SYQ=
 		</data>
 		<key>PrivateHeaders/NSDictionary+SentrySanitize.h</key>
 		<data>
@@ -226,7 +234,7 @@
 		</data>
 		<key>PrivateHeaders/SentryLog.h</key>
 		<data>
-		GuJJsUD8Xu1kGHdbKL4MZZyOVlo=
+		rJKc3sgeSdldA+LfNMazhgP8RLc=
 		</data>
 		<key>PrivateHeaders/SentryRequestOperation.h</key>
 		<data>
@@ -250,11 +258,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ga0qo5gP1lqqgmWRD/qVeqhO16Q=
+			i+TFk3hTchSx0cEslU5t5qNgqtY=
 			</data>
 			<key>hash2</key>
 			<data>
-			MLg35HfgZyB8oJg+tvE2u9SSLS+YBgMuEKx1+AAaRKA=
+			zS9HHrApBwTVGtvy1D9dkWOfw9Yf7RoUdvLw2GkIra8=
 			</data>
 		</dict>
 		<key>Headers/SentryAppStartMeasurement.h</key>
@@ -393,11 +401,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rGNVmh2uoFZGoPJExjOT2NhZgSE=
+			1j6h7pywaMytAQFrJWuoLv8Qdco=
 			</data>
 			<key>hash2</key>
 			<data>
-			NHNfDEL81R0GjvWqGCo5mkNYIL+oLA11yWmbaDfwgrs=
+			VOdleOwjvd5p8zK+r7iSJyflo6/9UKJq5j71sRIlrd8=
 			</data>
 		</dict>
 		<key>Headers/SentryException.h</key>
@@ -420,6 +428,17 @@
 			<key>hash2</key>
 			<data>
 			REXRMD6alp1OBZQGdv37aO62knSQTpmFtm2yaDkaaC4=
+			</data>
+		</dict>
+		<key>Headers/SentryHttpStatusCodeRange.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1TXYQG8bcvvCtXFJQ1nsSHSvW7s=
+			</data>
+			<key>hash2</key>
+			<data>
+			R5Cr2MleamEQ6ee7GTLJ2h+GOumeTCPfGewKdfcLlVY=
 			</data>
 		</dict>
 		<key>Headers/SentryHub.h</key>
@@ -514,11 +533,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			WMy5WOSDBnA+46GN53c9e3HO/8E=
+			nOpsx0s4xX6Ory3ncrTdfhWGBU4=
 			</data>
 			<key>hash2</key>
 			<data>
-			519neB+nKi9i//bxJN0cVDa3N4oTHMZ/pvPK0e8IP18=
+			6TuKLeDGUN5PNrwrb8IHl29WByX6lx8bh91MX7i1mlY=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -530,6 +549,17 @@
 			<key>hash2</key>
 			<data>
 			XVInFpArRUOZoA7H7uz30kx3is41KFz84+ZsomD+3lo=
+			</data>
+		</dict>
+		<key>Headers/SentryRequest.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			/g7YXDwZpNdt4gsueFHvbUAuc5o=
+			</data>
+			<key>hash2</key>
+			<data>
+			wtbrW2SRZvIOHJ6x7T6Q3GisNUxbDzs0uAx6PNBVREk=
 			</data>
 		</dict>
 		<key>Headers/SentrySDK.h</key>
@@ -668,11 +698,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FG/tGcOh/IMD4tarnZcfnlQAdFU=
+			R9KlLrz/yqMNFQ9/RwUqiKYjXrE=
 			</data>
 			<key>hash2</key>
 			<data>
-			rL6yhSPbHZOJ/v3SwSV5SFnPl90FGSP0d6Y/Vfh3WuU=
+			mHTI/vzhmo+sI18YBzU3lzliR4aPPKRvXg6DZ7T6QXM=
 			</data>
 		</dict>
 		<key>Headers/SentryThread.h</key>
@@ -756,11 +786,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			C4tFh6nwpaVOjBU9s7KQx6GF4f8=
+			NcwgpJBHRmCBIVH3Ms4JwD51SYQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			psfJHlB55jO/cOJCwEJJdj+sAIdRBPHdhsdaodygdHw=
+			O2HS+Zxc2Dx4Dicl7rCOwtFRhnsK7OQMfuwO4wJAO0U=
 			</data>
 		</dict>
 		<key>PrivateHeaders/NSDictionary+SentrySanitize.h</key>
@@ -833,11 +863,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			GuJJsUD8Xu1kGHdbKL4MZZyOVlo=
+			rJKc3sgeSdldA+LfNMazhgP8RLc=
 			</data>
 			<key>hash2</key>
 			<data>
-			ptXqyeetG5+KP4rrkyjecxtwAO4CDohbQgD6PJFs4Vc=
+			WZE8zImRGTTcMHWfKLXWYi3ztGoUh+uK9m0fmCa4xWA=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryRequestOperation.h</key>

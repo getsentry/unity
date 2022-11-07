@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.25.1
+
+### Fixes
+
+- Resolved conflicting dependencies for Mono.Cecil ([#1064](https://github.com/getsentry/sentry-unity/pull/1064))
+
+### Dependencies
+
+- Bump .NET SDK from v3.23.0 to v3.23.1 ([#1062](https://github.com/getsentry/sentry-unity/pull/1062))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3231)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.23.0...3.23.1)
+- Bump CLI from v2.8.0 to v2.8.1 ([#1061](https://github.com/getsentry/sentry-unity/pull/1061))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#281)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.8.0...2.8.1)
+- Bump Cocoa SDK from v7.29.0 to v7.30.0 ([#1067](https://github.com/getsentry/sentry-unity/pull/1067))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7300)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/v7.29.0...7.30.0)
+
 ## 0.25.0
 
 ### Fixes
