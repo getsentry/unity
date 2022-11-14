@@ -4,13 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/PrivateSentrySDKOnly.h</key>
-		<data>
-		LOPFaUJfDdWoCc/lDA/DxYC3OAU=
-		</data>
 		<key>Headers/Sentry.h</key>
 		<data>
-		i+TFk3hTchSx0cEslU5t5qNgqtY=
+		ZjiSI1xLwvrkiVTYy79LZQG15Ts=
 		</data>
 		<key>Headers/SentryAppStartMeasurement.h</key>
 		<data>
@@ -182,7 +178,7 @@
 		</data>
 		<key>Headers/SentryTransactionContext.h</key>
 		<data>
-		ByvFut8JtIy5Mt8LoURuCqS3SrQ=
+		XYyIipTXEjskb9NSuTprI1oywac=
 		</data>
 		<key>Headers/SentryUser.h</key>
 		<data>
@@ -194,7 +190,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		2PRb6PGwXcpO3H26iNxqRE9H83Q=
+		se6o4tjr0HALLmtjh8OyS2mEqys=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -211,6 +207,10 @@
 		<key>PrivateHeaders/NSDictionary+SentrySanitize.h</key>
 		<data>
 		wP6pGmzYKremjC6jxXGu2TNMjyo=
+		</data>
+		<key>PrivateHeaders/PrivateSentrySDKOnly.h</key>
+		<data>
+		ZBVmzioZZHZGkvaUMlBUWB0asWU=
 		</data>
 		<key>PrivateHeaders/SentryAsynchronousOperation.h</key>
 		<data>
@@ -243,26 +243,15 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/PrivateSentrySDKOnly.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LOPFaUJfDdWoCc/lDA/DxYC3OAU=
-			</data>
-			<key>hash2</key>
-			<data>
-			HCp9Lk31mdMgR2uRmOuO1PIJ6A8q6ByEo5FvHSfAzIE=
-			</data>
-		</dict>
 		<key>Headers/Sentry.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			i+TFk3hTchSx0cEslU5t5qNgqtY=
+			ZjiSI1xLwvrkiVTYy79LZQG15Ts=
 			</data>
 			<key>hash2</key>
 			<data>
-			zS9HHrApBwTVGtvy1D9dkWOfw9Yf7RoUdvLw2GkIra8=
+			vKe2KjzGrc1cd2chOGsHgJRpxORPBGfiUb4kASdWPtM=
 			</data>
 		</dict>
 		<key>Headers/SentryAppStartMeasurement.h</key>
@@ -731,11 +720,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ByvFut8JtIy5Mt8LoURuCqS3SrQ=
+			XYyIipTXEjskb9NSuTprI1oywac=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZAV+9+rjfcXUXEgf1mTnZAK4wkBWYTaW/Ay4WjgXOa8=
+			0/p+wr8TjeiUBw0XhyAQG1Y9bNNtFBJwrgikD0O1wJ4=
 			</data>
 		</dict>
 		<key>Headers/SentryUser.h</key>
@@ -802,6 +791,17 @@
 			<key>hash2</key>
 			<data>
 			kEngLuOsP3foq2ezf+dogyUUdS6QHGLznn1TTfRVHVM=
+			</data>
+		</dict>
+		<key>PrivateHeaders/PrivateSentrySDKOnly.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZBVmzioZZHZGkvaUMlBUWB0asWU=
+			</data>
+			<key>hash2</key>
+			<data>
+			lsLcUtFAtUHzeG3IXyjsLCMqIwM2/55HF8hj4JtgYJc=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryAsynchronousOperation.h</key>

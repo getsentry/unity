@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.26.0
+
+### Features
+
+- Added Unity version to event context ([#1072](https://github.com/getsentry/sentry-unity/pull/1072))
+- Add build-time `ScriptableOptionsConfiguration` scripting interface to support changing settings for native integrations and CLI ([#1046](https://github.com/getsentry/sentry-unity/pull/1046))
+
+### Fixes
+
+- Auto Instrumentation now correctly resolves prebuilt assemblies ([#1066](https://github.com/getsentry/sentry-unity/pull/1066))
+- Newly created `ScriptableOptionsConfiguration` script not being set in editor window UI ([#1046](https://github.com/getsentry/sentry-unity/pull/1046))
+
+### Dependencies
+
+- Bump Cocoa SDK from v7.30.1 to v7.30.2 ([#1075](https://github.com/getsentry/sentry-unity/pull/1075))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7302)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/7.30.1...7.30.2)
+
 ## 0.25.1
 
 ### Fixes
@@ -14,9 +32,12 @@
 - Bump CLI from v2.8.0 to v2.8.1 ([#1061](https://github.com/getsentry/sentry-unity/pull/1061))
   - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#281)
   - [diff](https://github.com/getsentry/sentry-cli/compare/2.8.0...2.8.1)
-- Bump Cocoa SDK from v7.29.0 to v7.30.0 ([#1067](https://github.com/getsentry/sentry-unity/pull/1067))
-  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7300)
-  - [diff](https://github.com/getsentry/sentry-cocoa/compare/v7.29.0...7.30.0)
+- Bump Cocoa SDK from v7.29.0 to v7.30.1 ([#1067](https://github.com/getsentry/sentry-unity/pull/1067), [#1069](https://github.com/getsentry/sentry-unity/pull/1069))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/master/CHANGELOG.md#7301)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/v7.29.0...7.30.1)
+- Bump Java SDK from v6.6.0 to v6.7.0 ([#1070](https://github.com/getsentry/sentry-unity/pull/1070))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#670)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.6.0...6.7.0)
 
 ## 0.25.0
 
