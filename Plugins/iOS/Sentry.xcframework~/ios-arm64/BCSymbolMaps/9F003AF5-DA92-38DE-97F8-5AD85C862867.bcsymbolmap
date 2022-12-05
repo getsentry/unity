@@ -61,7 +61,7 @@ ___36-[SentryCrashScopeObserver setTags:]_block_invoke
 ___43-[SentryCrashScopeObserver setFingerprint:]_block_invoke
 ___43-[SentryCrashScopeObserver setFingerprint:]_block_invoke.22
 -[SentryCrashScopeObserver setLevel:]
--[SentryCrashScopeObserver addBreadcrumb:]
+-[SentryCrashScopeObserver addSerializedBreadcrumb:]
 -[SentryCrashScopeObserver clearBreadcrumbs]
 -[SentryCrashScopeObserver clear]
 -[SentryCrashScopeObserver syncScope:syncToSentryCrash:]
@@ -108,8 +108,9 @@ __destroy_helper_block_e8_32s
 __copy_helper_block_e8_32s
 __36-[SentryCrashScopeObserver setUser:]_block_invoke
 -[SentryAppStartMeasurement initWithType:appStartTimestamp:duration:runtimeInitTimestamp:didFinishLaunchingTimestamp:]
--[SentryAppStartMeasurement initWithType:appStartTimestamp:duration:runtimeInitTimestamp:moduleInitializationTimestamp:didFinishLaunchingTimestamp:]
+-[SentryAppStartMeasurement initWithType:isPreWarmed:appStartTimestamp:duration:runtimeInitTimestamp:moduleInitializationTimestamp:didFinishLaunchingTimestamp:]
 -[SentryAppStartMeasurement type]
+-[SentryAppStartMeasurement isPreWarmed]
 -[SentryAppStartMeasurement duration]
 -[SentryAppStartMeasurement appStartTimestamp]
 -[SentryAppStartMeasurement runtimeInitTimestamp]
@@ -118,6 +119,7 @@ __36-[SentryCrashScopeObserver setUser:]_block_invoke
 -[SentryAppStartMeasurement .cxx_destruct]
 __OBJC_METACLASS_RO_$_SentryAppStartMeasurement
 __OBJC_$_INSTANCE_METHODS_SentryAppStartMeasurement
+_OBJC_IVAR_$_SentryAppStartMeasurement._isPreWarmed
 _OBJC_IVAR_$_SentryAppStartMeasurement._type
 _OBJC_IVAR_$_SentryAppStartMeasurement._duration
 _OBJC_IVAR_$_SentryAppStartMeasurement._appStartTimestamp
@@ -318,6 +320,14 @@ sentrycrash__hook_rebind_symbols
 rebind_symbols_for_image
 prepend_rebindings
 sentrycrash__hook_rebind_symbols_image
+-[NSMutableDictionary(Sentry) mergeEntriesFromDictionary:]
+___58-[NSMutableDictionary(Sentry) mergeEntriesFromDictionary:]_block_invoke
+___block_descriptor_40_e8_32s_e15_v32?0816^B24l
+__OBJC_$_CATEGORY_INSTANCE_METHODS_NSMutableDictionary_$_Sentry
+__OBJC_$_CATEGORY_NSMutableDictionary_$_Sentry
+/Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/NSMutableDictionary+Sentry.m
+Sources/Sentry/NSMutableDictionary+Sentry.m
+__58-[NSMutableDictionary(Sentry) mergeEntriesFromDictionary:]_block_invoke
 -[SentryClientReport initWithDiscardedEvents:]
 -[SentryClientReport serialize]
 -[SentryClientReport timestamp]
@@ -373,7 +383,7 @@ __destroy_helper_block_e8_32s40s
 __copy_helper_block_e8_32s40b
 __62-[SentryQueueableRequestManager addRequest:completionHandler:]_block_invoke
 +[SentryAppStartTracker load]
--[SentryAppStartTracker initWithCurrentDateProvider:dispatchQueueWrapper:appStateManager:sysctl:]
+-[SentryAppStartTracker initWithCurrentDateProvider:dispatchQueueWrapper:appStateManager:sysctl:enablePreWarmedAppStartTracking:]
 -[SentryAppStartTracker isActivePrewarmAvailable]
 -[SentryAppStartTracker start]
 -[SentryAppStartTracker buildAppStartMeasurement]
@@ -399,6 +409,8 @@ ___49-[SentryAppStartTracker buildAppStartMeasurement]_block_invoke
 -[SentryAppStartTracker setWasInBackground:]
 -[SentryAppStartTracker didFinishLaunchingTimestamp]
 -[SentryAppStartTracker setDidFinishLaunchingTimestamp:]
+-[SentryAppStartTracker enablePreWarmedAppStartTracking]
+-[SentryAppStartTracker setEnablePreWarmedAppStartTracking:]
 -[SentryAppStartTracker .cxx_destruct]
 ___clang_at_available_requires_core_foundation_framework
 _runtimeInit
@@ -408,15 +420,15 @@ _OBJC_SELECTOR_REFERENCES_.20
 _OBJC_SELECTOR_REFERENCES_.22
 _OBJC_SELECTOR_REFERENCES_.24
 _OBJC_CLASSLIST_REFERENCES_$_.26
-_OBJC_CLASSLIST_REFERENCES_$_.39
-_OBJC_CLASSLIST_REFERENCES_$_.40
+_OBJC_CLASSLIST_REFERENCES_$_.42
 ___block_descriptor_40_e8_32s_e5_v8?0l
 _buildAppStartMeasurement.once
-_OBJC_SELECTOR_REFERENCES_.43
+_OBJC_SELECTOR_REFERENCES_.45
 __OBJC_$_CLASS_METHODS_SentryAppStartTracker
 __OBJC_METACLASS_RO_$_SentryAppStartTracker
 __OBJC_$_INSTANCE_METHODS_SentryAppStartTracker
 _OBJC_IVAR_$_SentryAppStartTracker._wasInBackground
+_OBJC_IVAR_$_SentryAppStartTracker._enablePreWarmedAppStartTracking
 _OBJC_IVAR_$_SentryAppStartTracker._currentDate
 _OBJC_IVAR_$_SentryAppStartTracker._previousAppState
 _OBJC_IVAR_$_SentryAppStartTracker._dispatchQueue
@@ -576,11 +588,12 @@ ___33-[SentryOutOfMemoryTracker start]_block_invoke
 -[SentryOutOfMemoryTracker fileManager]
 -[SentryOutOfMemoryTracker setFileManager:]
 -[SentryOutOfMemoryTracker .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.89
-_OBJC_CLASSLIST_REFERENCES_$_.90
 _OBJC_CLASSLIST_REFERENCES_$_.91
 _OBJC_CLASSLIST_REFERENCES_$_.92
 _OBJC_CLASSLIST_REFERENCES_$_.93
+_OBJC_CLASSLIST_REFERENCES_$_.94
+_OBJC_CLASSLIST_REFERENCES_$_.95
+_OBJC_CLASSLIST_REFERENCES_$_.96
 __OBJC_METACLASS_RO_$_SentryOutOfMemoryTracker
 __OBJC_$_INSTANCE_METHODS_SentryOutOfMemoryTracker
 _OBJC_IVAR_$_SentryOutOfMemoryTracker._options
@@ -594,6 +607,8 @@ __OBJC_CLASS_RO_$_SentryOutOfMemoryTracker
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryOutOfMemoryTracker.m
 Sources/Sentry/SentryOutOfMemoryTracker.m
 __33-[SentryOutOfMemoryTracker start]_block_invoke
+NSMakeRange
+/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
 -[SentryNetworkTrackingIntegration installWithOptions:]
 -[SentryNetworkTrackingIntegration integrationOptions]
 -[SentryNetworkTrackingIntegration uninstall]
@@ -626,11 +641,11 @@ __57+[SentryNetworkTrackingIntegration swizzleURLSessionTask]_block_invoke
 -[SentryClient captureMessage:withScope:]
 -[SentryClient captureException:]
 -[SentryClient captureException:withScope:]
--[SentryClient captureException:withSession:withScope:]
+-[SentryClient captureException:withScope:incrementSessionErrors:]
 -[SentryClient buildExceptionEvent:]
 -[SentryClient captureError:]
 -[SentryClient captureError:withScope:]
--[SentryClient captureError:withSession:withScope:]
+-[SentryClient captureError:withScope:incrementSessionErrors:]
 -[SentryClient buildErrorEvent:]
 -[SentryClient captureCrashEvent:withScope:]
 -[SentryClient captureCrashEvent:withSession:withScope:]
@@ -719,8 +734,8 @@ _OBJC_CLASSLIST_REFERENCES_$_.124
 _OBJC_CLASSLIST_REFERENCES_$_.125
 _OBJC_CLASSLIST_REFERENCES_$_.126
 _OBJC_CLASSLIST_REFERENCES_$_.127
-_OBJC_CLASSLIST_REFERENCES_$_.132
-_OBJC_CLASSLIST_REFERENCES_$_.135
+_OBJC_CLASSLIST_REFERENCES_$_.128
+_OBJC_CLASSLIST_REFERENCES_$_.133
 _OBJC_CLASSLIST_REFERENCES_$_.136
 _OBJC_CLASSLIST_REFERENCES_$_.137
 _OBJC_CLASSLIST_REFERENCES_$_.138
@@ -732,15 +747,15 @@ _OBJC_CLASSLIST_REFERENCES_$_.143
 _OBJC_CLASSLIST_REFERENCES_$_.148
 _OBJC_CLASSLIST_REFERENCES_$_.153
 _OBJC_CLASSLIST_REFERENCES_$_.156
-_OBJC_CLASSLIST_REFERENCES_$_.169
-_OBJC_CLASSLIST_REFERENCES_$_.174
-_OBJC_CLASSLIST_REFERENCES_$_.175
-_OBJC_CLASSLIST_REFERENCES_$_.178
-_OBJC_CLASSLIST_REFERENCES_$_.179
+_OBJC_CLASSLIST_REFERENCES_$_.171
+_OBJC_CLASSLIST_REFERENCES_$_.176
+_OBJC_CLASSLIST_REFERENCES_$_.177
+_OBJC_CLASSLIST_REFERENCES_$_.180
+_OBJC_CLASSLIST_REFERENCES_$_.181
 ___block_descriptor_40_e8_32s_e29_v16?0"NSMutableDictionary"8l
-_OBJC_CLASSLIST_REFERENCES_$_.207
+_OBJC_CLASSLIST_REFERENCES_$_.209
 ___block_descriptor_32_e29_v16?0"NSMutableDictionary"8l
-___block_literal_global.226
+___block_literal_global.228
 __OBJC_METACLASS_RO_$_SentryClient
 __OBJC_$_INSTANCE_METHODS_SentryClient
 _OBJC_IVAR_$_SentryClient._options
@@ -1140,6 +1155,7 @@ ___48+[SentrySerialization baggageEncodedDictionary:]_block_invoke
 +[SentrySerialization levelFromData:]
 _OBJC_CLASSLIST_REFERENCES_$_.34
 _OBJC_CLASSLIST_REFERENCES_$_.35
+_OBJC_CLASSLIST_REFERENCES_$_.40
 _OBJC_CLASSLIST_REFERENCES_$_.53
 _OBJC_CLASSLIST_REFERENCES_$_.60
 _OBJC_CLASSLIST_REFERENCES_$_.61
@@ -1149,7 +1165,7 @@ _OBJC_CLASSLIST_REFERENCES_$_.74
 _OBJC_CLASSLIST_REFERENCES_$_.77
 _OBJC_CLASSLIST_REFERENCES_$_.78
 _OBJC_CLASSLIST_REFERENCES_$_.79
-_OBJC_CLASSLIST_REFERENCES_$_.94
+_OBJC_CLASSLIST_REFERENCES_$_.90
 _OBJC_CLASSLIST_REFERENCES_$_.97
 _OBJC_CLASSLIST_REFERENCES_$_.106
 __OBJC_$_CLASS_METHODS_SentrySerialization
@@ -1157,8 +1173,6 @@ __OBJC_METACLASS_RO_$_SentrySerialization
 __OBJC_CLASS_RO_$_SentrySerialization
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentrySerialization.m
 Sources/Sentry/SentrySerialization.m
-NSMakeRange
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
 __48+[SentrySerialization baggageEncodedDictionary:]_block_invoke
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryDataCategoryMapper.m
 nameForSentryDataCategory
@@ -1175,7 +1189,7 @@ ___36+[SentryCrashWrapper sharedInstance]_block_invoke
 -[SentryCrashWrapper isSimulatorBuild]
 -[SentryCrashWrapper isApplicationInForeground]
 -[SentryCrashWrapper installAsyncHooks]
--[SentryCrashWrapper close]
+-[SentryCrashWrapper uninstallAsyncHooks]
 -[SentryCrashWrapper systemInfo]
 ___32-[SentryCrashWrapper systemInfo]_block_invoke
 -[SentryCrashWrapper freeMemorySize]
@@ -1310,7 +1324,6 @@ initializeIDs
 -[SentryTransportAdapter options]
 -[SentryTransportAdapter setOptions:]
 -[SentryTransportAdapter .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.42
 _OBJC_CLASSLIST_REFERENCES_$_.43
 __OBJC_METACLASS_RO_$_SentryTransportAdapter
 __OBJC_$_INSTANCE_METHODS_SentryTransportAdapter
@@ -1458,6 +1471,7 @@ _OBJC_CLASSLIST_REFERENCES_$_.83
 _OBJC_CLASSLIST_REFERENCES_$_.84
 _OBJC_CLASSLIST_REFERENCES_$_.85
 _OBJC_CLASSLIST_REFERENCES_$_.86
+_OBJC_CLASSLIST_REFERENCES_$_.89
 __OBJC_$_CLASS_METHODS_SentryUIEventTracker
 __OBJC_METACLASS_RO_$_SentryUIEventTracker
 __OBJC_$_INSTANCE_METHODS_SentryUIEventTracker
@@ -1592,6 +1606,7 @@ ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_19
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_20
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_21
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_22
+___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_23
 -[SentryOptions sdkInfo]
 -[SentryOptions setBool:block:]
 -[SentryOptions addInAppInclude:]
@@ -1666,6 +1681,8 @@ ___25-[SentryOptions isBlock:]_block_invoke_2
 -[SentryOptions setEnableUserInteractionTracing:]
 -[SentryOptions idleTimeout]
 -[SentryOptions setIdleTimeout:]
+-[SentryOptions enablePreWarmedAppStartTracking]
+-[SentryOptions setEnablePreWarmedAppStartTracking:]
 -[SentryOptions enableNetworkTracking]
 -[SentryOptions setEnableNetworkTracking:]
 -[SentryOptions enableFileIOTracking]
@@ -1704,6 +1721,7 @@ ___25-[SentryOptions isBlock:]_block_invoke_2
 -[SentryOptions defaultTracesSampleRate]
 -[SentryOptions defaultProfilesSampleRate]
 -[SentryOptions .cxx_destruct]
+_OBJC_CLASSLIST_REFERENCES_$_.39
 _OBJC_CLASSLIST_REFERENCES_$_.56
 _OBJC_CLASSLIST_REFERENCES_$_.69
 _OBJC_CLASSLIST_REFERENCES_$_.72
@@ -1715,15 +1733,15 @@ __OBJC_$_PROTOCOL_METHOD_TYPES_NSURLSessionDelegate
 __OBJC_PROTOCOL_$_NSURLSessionDelegate
 __OBJC_LABEL_PROTOCOL_$_NSURLSessionDelegate
 __OBJC_PROTOCOL_REFERENCE_$_NSURLSessionDelegate
-_OBJC_CLASSLIST_REFERENCES_$_.226
-_OBJC_CLASSLIST_REFERENCES_$_.227
 _OBJC_CLASSLIST_REFERENCES_$_.228
 _OBJC_CLASSLIST_REFERENCES_$_.229
+_OBJC_CLASSLIST_REFERENCES_$_.230
+_OBJC_CLASSLIST_REFERENCES_$_.231
 _isBlock:.blockClass
 _isBlock:.onceToken
-___block_literal_global.231
-___block_literal_global.232
-_OBJC_CLASSLIST_REFERENCES_$_.233
+___block_literal_global.233
+___block_literal_global.234
+_OBJC_CLASSLIST_REFERENCES_$_.235
 __OBJC_$_CLASS_METHODS_SentryOptions
 __OBJC_METACLASS_RO_$_SentryOptions
 __OBJC_$_INSTANCE_METHODS_SentryOptions
@@ -1741,6 +1759,7 @@ _OBJC_IVAR_$_SentryOptions._enableUIViewControllerTracking
 _OBJC_IVAR_$_SentryOptions._attachScreenshot
 _OBJC_IVAR_$_SentryOptions._attachViewHierarchy
 _OBJC_IVAR_$_SentryOptions._enableUserInteractionTracing
+_OBJC_IVAR_$_SentryOptions._enablePreWarmedAppStartTracking
 _OBJC_IVAR_$_SentryOptions._enableNetworkTracking
 _OBJC_IVAR_$_SentryOptions._enableFileIOTracking
 _OBJC_IVAR_$_SentryOptions._enableSwizzling
@@ -1788,6 +1807,7 @@ Sources/Sentry/SentryOptions.m
 Sources/Sentry/Public/SentryOptions.h
 __25-[SentryOptions isBlock:]_block_invoke_2
 __25-[SentryOptions isBlock:]_block_invoke
+__50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_23
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_22
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_21
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_20
@@ -1823,6 +1843,9 @@ Sources/Sentry/SentryByteCountFormatter.m
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryError.m
 NSErrorFromSentryError
 Sources/Sentry/SentryError.m
+_SentryError
+NSErrorFromSentryErrorWithException
+NSErrorFromSentryErrorWithUnderlyingError
 -[SentryAppStartTrackingIntegration installWithOptions:]
 -[SentryAppStartTrackingIntegration integrationOptions]
 -[SentryAppStartTrackingIntegration uninstall]
@@ -1997,7 +2020,6 @@ _OBJC_IVAR_$_SentryCrashReportFilterPipeline._filters
 __OBJC_$_INSTANCE_VARIABLES_SentryCrashReportFilterPipeline
 __OBJC_$_PROP_LIST_SentryCrashReportFilterPipeline
 __OBJC_CLASS_RO_$_SentryCrashReportFilterPipeline
-_OBJC_CLASSLIST_REFERENCES_$_.95
 _OBJC_CLASSLIST_REFERENCES_$_.98
 __OBJC_$_CLASS_METHODS_SentryCrashReportFilterObjectForKey
 __OBJC_CLASS_PROTOCOLS_$_SentryCrashReportFilterObjectForKey
@@ -2267,12 +2289,14 @@ ___destroy_helper_block_e8_32s40s48r56r
 _SENTRY_NETWORK_REQUEST_TRACKER_SPAN
 ___block_descriptor_64_e8_32s40s48r56r_e22_v16?0"<SentrySpan>"8l
 _OBJC_CLASSLIST_REFERENCES_$_.105
+_OBJC_CLASSLIST_REFERENCES_$_.132
 _OBJC_CLASSLIST_REFERENCES_$_.145
 _OBJC_CLASSLIST_REFERENCES_$_.146
 _OBJC_CLASSLIST_REFERENCES_$_.151
 _OBJC_CLASSLIST_REFERENCES_$_.152
 _OBJC_CLASSLIST_REFERENCES_$_.165
-_OBJC_CLASSLIST_REFERENCES_$_.176
+_OBJC_CLASSLIST_REFERENCES_$_.174
+_OBJC_CLASSLIST_REFERENCES_$_.175
 __OBJC_$_CLASS_METHODS_SentryNetworkTracker
 __OBJC_$_CLASS_PROP_LIST_SentryNetworkTracker
 __OBJC_METACLASS_RO_$_SentryNetworkTracker
@@ -2460,6 +2484,7 @@ sentrycrashcm_notifyFatalExceptionCaptured
 sentrycrashcm_getActiveMonitors
 sentrycrashcm_setActiveMonitors
 setMonitorEnabled
+sentrycrashcm_getEventCallback
 sentrycrashcm_setEventCallback
 -[SentryScreenshot appScreenshots]
 ___34-[SentryScreenshot appScreenshots]_block_invoke
@@ -2510,8 +2535,10 @@ __34-[SentryScreenshot appScreenshots]_block_invoke
 -[SentryHub captureMessage:withScope:]
 -[SentryHub captureError:]
 -[SentryHub captureError:withScope:]
+___36-[SentryHub captureError:withScope:]_block_invoke
 -[SentryHub captureException:]
 -[SentryHub captureException:withScope:]
+___40-[SentryHub captureException:withScope:]_block_invoke
 -[SentryHub captureUserFeedback:]
 -[SentryHub addBreadcrumb:]
 -[SentryHub getClient]
@@ -2520,6 +2547,10 @@ __34-[SentryScreenshot appScreenshots]_block_invoke
 -[SentryHub configureScope:]
 -[SentryHub isIntegrationInstalled:]
 -[SentryHub hasIntegration:]
+-[SentryHub addInstalledIntegration:name:]
+-[SentryHub removeAllIntegrations]
+-[SentryHub installedIntegrations]
+-[SentryHub installedIntegrationNames]
 -[SentryHub setUser:]
 -[SentryHub captureEnvelope:]
 -[SentryHub updateSessionState:]
@@ -2537,17 +2568,16 @@ __34-[SentryScreenshot appScreenshots]_block_invoke
 -[SentryHub setProfilesSampler:]
 -[SentryHub currentDateProvider]
 -[SentryHub setCurrentDateProvider:]
--[SentryHub installedIntegrations]
 -[SentryHub setInstalledIntegrations:]
--[SentryHub installedIntegrationNames]
 -[SentryHub setInstalledIntegrationNames:]
 -[SentryHub .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.87
 _OBJC_CLASSLIST_REFERENCES_$_.88
-_OBJC_CLASSLIST_REFERENCES_$_.96
+___block_descriptor_40_e8_32s_e20_"SentrySession"8?0l
 __OBJC_METACLASS_RO_$_SentryHub
 __OBJC_$_INSTANCE_METHODS_SentryHub
 _OBJC_IVAR_$_SentryHub._sessionLock
+_OBJC_IVAR_$_SentryHub._integrationsLock
 _OBJC_IVAR_$_SentryHub._session
 _OBJC_IVAR_$_SentryHub._client
 _OBJC_IVAR_$_SentryHub._scope
@@ -2563,6 +2593,8 @@ __OBJC_CLASS_RO_$_SentryHub
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryHub.m
 Sources/Sentry/SentryHub.m
 Sources/Sentry/Public/SentryHub.h
+__40-[SentryHub captureException:withScope:]_block_invoke
+__36-[SentryHub captureError:withScope:]_block_invoke
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Tools/SentryCrashCPU_x86_32.c
 +[SentryNoOpSpan shared]
 ___24+[SentryNoOpSpan shared]_block_invoke
@@ -2723,9 +2755,6 @@ sentrycrashcpu_currentArch
 _onCrash
 _g_installed
 _g_monitoring
-_g_consoleLogPath
-_g_shouldPrintPreviousLog
-_g_shouldAddConsoleLogToReport
 _g_saveScreenShot
 _g_saveViewHierarchy
 _g_lastCrashReportFilePath
@@ -2747,16 +2776,14 @@ sentrycrash_reportUserException
 sentrycrash_setSaveViewHierarchy
 sentrycrash_setSaveScreenshots
 sentrycrash_setMaxReportCount
-sentrycrash_setPrintPreviousLog
-sentrycrash_setAddConsoleLogToReport
 sentrycrash_setCrashNotifyCallback
 sentrycrash_setDoNotIntrospectClasses
 sentrycrash_setIntrospectMemory
 sentrycrash_setUserInfoJSON
+sentrycrash_uninstall
 sentrycrash_setMonitoring
 onCrash
 sentrycrash_install
-printPreviousLog
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Tools/SentryCrashSymbolicator.c
 sentrycrashsymbolicator_symbolicate
 Sources/SentryCrash/Recording/Tools/SentryCrashSymbolicator.c
@@ -2813,30 +2840,32 @@ _setEnabled
 _addContextualInfoToEvent
 _handleExceptions
 _restoreExceptionPorts
-_uninstallExceptionHandler
 _isEnabled
+_g_primaryMachThread
+_g_secondaryMachThread
 _sentrycrashcm_machexception_getAPI.api
 _g_isEnabled
+_g_isInstalled
 _g_primaryEventID
 _g_secondaryEventID
 _g_previousExceptionPorts
 _g_exceptionPort
 _g_secondaryPThread
-_g_secondaryMachThread
 _g_primaryPThread
-_g_primaryMachThread
 _g_isHandlingCrash
 _g_monitorContext
 _g_stackCursor
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_MachException.c
 Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_MachException.c
-uninstallExceptionHandler
 restoreExceptionPorts
 handleExceptions
 signalForMachException
 machExceptionForSignal
 installExceptionHandler
+uninstallExceptionHandler
 sentrycrashcm_machexception_getAPI
+sentrycrashcm_hasReservedThreads
+sentrycrashcm_isReservedThread
 _setField
 _scope
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryScopeSyncC.c
@@ -2993,7 +3022,7 @@ _appStartMeasurementRead
 _OBJC_CLASSLIST_REFERENCES_$_.75
 _OBJC_CLASSLIST_REFERENCES_$_.76
 ___block_descriptor_40_e8_32s_e22_v16?0"<SentrySpan>"8l
-_OBJC_CLASSLIST_REFERENCES_$_.130
+_OBJC_CLASSLIST_REFERENCES_$_.129
 __OBJC_$_CLASS_METHODS_SentryTracer
 __OBJC_CLASS_PROTOCOLS_$_SentryTracer
 __OBJC_METACLASS_RO_$_SentryTracer
@@ -3224,6 +3253,47 @@ __OBJC_CLASS_RO_$_SentryTransaction
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryTransaction.m
 Sources/Sentry/SentryTransaction.m
 Sources/Sentry/include/SentryTransaction.h
+-[SentryOutOfMemoryScopeObserver initWithMaxBreadcrumbs:fileManager:]
+-[SentryOutOfMemoryScopeObserver dealloc]
+-[SentryOutOfMemoryScopeObserver deleteFiles]
+-[SentryOutOfMemoryScopeObserver switchFileHandle]
+-[SentryOutOfMemoryScopeObserver store:]
+-[SentryOutOfMemoryScopeObserver addSerializedBreadcrumb:]
+-[SentryOutOfMemoryScopeObserver clear]
+-[SentryOutOfMemoryScopeObserver clearBreadcrumbs]
+-[SentryOutOfMemoryScopeObserver setContext:]
+-[SentryOutOfMemoryScopeObserver setDist:]
+-[SentryOutOfMemoryScopeObserver setEnvironment:]
+-[SentryOutOfMemoryScopeObserver setExtras:]
+-[SentryOutOfMemoryScopeObserver setFingerprint:]
+-[SentryOutOfMemoryScopeObserver setLevel:]
+-[SentryOutOfMemoryScopeObserver setTags:]
+-[SentryOutOfMemoryScopeObserver setUser:]
+-[SentryOutOfMemoryScopeObserver fileManager]
+-[SentryOutOfMemoryScopeObserver setFileManager:]
+-[SentryOutOfMemoryScopeObserver fileHandle]
+-[SentryOutOfMemoryScopeObserver setFileHandle:]
+-[SentryOutOfMemoryScopeObserver maxBreadcrumbs]
+-[SentryOutOfMemoryScopeObserver setMaxBreadcrumbs:]
+-[SentryOutOfMemoryScopeObserver breadcrumbCounter]
+-[SentryOutOfMemoryScopeObserver setBreadcrumbCounter:]
+-[SentryOutOfMemoryScopeObserver activeFilePath]
+-[SentryOutOfMemoryScopeObserver setActiveFilePath:]
+-[SentryOutOfMemoryScopeObserver .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_.28
+__OBJC_CLASS_PROTOCOLS_$_SentryOutOfMemoryScopeObserver
+__OBJC_METACLASS_RO_$_SentryOutOfMemoryScopeObserver
+__OBJC_$_INSTANCE_METHODS_SentryOutOfMemoryScopeObserver
+_OBJC_IVAR_$_SentryOutOfMemoryScopeObserver._fileManager
+_OBJC_IVAR_$_SentryOutOfMemoryScopeObserver._fileHandle
+_OBJC_IVAR_$_SentryOutOfMemoryScopeObserver._maxBreadcrumbs
+_OBJC_IVAR_$_SentryOutOfMemoryScopeObserver._breadcrumbCounter
+_OBJC_IVAR_$_SentryOutOfMemoryScopeObserver._activeFilePath
+__OBJC_$_INSTANCE_VARIABLES_SentryOutOfMemoryScopeObserver
+__OBJC_$_PROP_LIST_SentryOutOfMemoryScopeObserver
+__OBJC_CLASS_RO_$_SentryOutOfMemoryScopeObserver
+/Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryOutOfMemoryScopeObserver.m
+Sources/Sentry/SentryOutOfMemoryScopeObserver.m
 -[SentryMechanismMeta init]
 -[SentryMechanismMeta serialize]
 -[SentryMechanismMeta signal]
@@ -3458,7 +3528,6 @@ ___52-[SentryAppStateManager updateAppStateInBackground:]_block_invoke
 -[SentryAppStateManager buildCurrentAppState]
 -[SentryAppStateManager loadPreviousAppState]
 -[SentryAppStateManager storeCurrentAppState]
--[SentryAppStateManager deleteAppState]
 -[SentryAppStateManager options]
 -[SentryAppStateManager setOptions:]
 -[SentryAppStateManager crashWrapper]
@@ -3655,7 +3724,8 @@ ___63-[SentryCrashReportConverter enhanceValueFromCrashInfoMessage:]_block_invok
 -[SentryCrashReportConverter .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.38
 _OBJC_CLASSLIST_REFERENCES_$_.81
-_OBJC_CLASSLIST_REFERENCES_$_.128
+_OBJC_CLASSLIST_REFERENCES_$_.135
+_OBJC_CLASSLIST_REFERENCES_$_.169
 _OBJC_SELECTOR_REFERENCES_.177
 ___block_literal_global.180
 _OBJC_CLASSLIST_REFERENCES_$_.187
@@ -3699,6 +3769,7 @@ sentrycrashccd_getThreadName
 sentrycrashccd_getAllThreads
 sentrycrashccd_unfreeze
 sentrycrashccd_freeze
+sentrycrashccd_hasThreadStarted
 sentrycrashccd_close
 monitorCachedData
 updateThreadList
@@ -3831,6 +3902,7 @@ nameForSentrySessionStatus
 +[PrivateSentrySDKOnly setFramesTrackingMeasurementHybridSDKMode:]
 +[PrivateSentrySDKOnly isFramesTrackingRunning]
 +[PrivateSentrySDKOnly currentScreenFrames]
++[PrivateSentrySDKOnly captureScreenshots]
 _OBJC_CLASSLIST_REFERENCES_$_.70
 __onAppStartMeasurementAvailable
 __appStartMeasurementHybridSDKMode
@@ -4230,7 +4302,6 @@ _OBJC_SELECTOR_REFERENCES_.95
 _OBJC_CLASSLIST_REFERENCES_$_.100
 _installationToken
 _OBJC_SELECTOR_REFERENCES_.114
-_OBJC_CLASSLIST_REFERENCES_$_.177
 _OBJC_CLASSLIST_REFERENCES_$_.182
 ___block_descriptor_32_e21_v16?0"SentryScope"8l
 _OBJC_IVAR_$_SentryCrashIntegration._options
@@ -4298,6 +4369,7 @@ _OBJC_SELECTOR_REFERENCES_.134
 _OBJC_SELECTOR_REFERENCES_.137
 _OBJC_CLASSLIST_REFERENCES_$_.205
 _OBJC_CLASSLIST_REFERENCES_$_.214
+_OBJC_CLASSLIST_REFERENCES_$_.227
 ___block_descriptor_56_ea8_32s40s_e29_v32?0"NSDictionary"8Q16^B24l
 ___block_descriptor_48_ea8_32s40s_e29_v32?0"NSDictionary"8Q16^B24l
 _OBJC_CLASSLIST_REFERENCES_$_.278
@@ -4431,7 +4503,9 @@ ___29+[SentryCrash sharedInstance]_block_invoke
 -[SentryCrash setDoNotIntrospectClasses:]
 -[SentryCrash setMaxReportCount:]
 -[SentryCrash systemInfo]
+-[SentryCrash setSentryNSNotificationCenterWrapper:]
 -[SentryCrash install]
+-[SentryCrash uninstall]
 -[SentryCrash sendAllReportsWithCompletion:]
 ___44-[SentryCrash sendAllReportsWithCompletion:]_block_invoke
 -[SentryCrash deleteAllReports]
@@ -4455,7 +4529,6 @@ ___34-[SentryCrash getAttachmentPaths:]_block_invoke
 -[SentryCrash reportWithID:]
 -[SentryCrash reportWithIntID:]
 -[SentryCrash allReports]
--[SentryCrash setAddConsoleLogToReport:]
 -[SentryCrash setPrintPreviousLog:]
 -[SentryCrash applicationDidBecomeActive]
 -[SentryCrash applicationWillResignActive]
@@ -4477,22 +4550,25 @@ ___34-[SentryCrash getAttachmentPaths:]_block_invoke
 -[SentryCrash doNotIntrospectClasses]
 -[SentryCrash demangleLanguages]
 -[SentryCrash setDemangleLanguages:]
--[SentryCrash addConsoleLogToReport]
--[SentryCrash printPreviousLog]
 -[SentryCrash maxReportCount]
 -[SentryCrash uncaughtExceptionHandler]
 -[SentryCrash setUncaughtExceptionHandler:]
 -[SentryCrash currentSnapshotUserReportedExceptionHandler]
 -[SentryCrash setCurrentSnapshotUserReportedExceptionHandler:]
+-[SentryCrash printPreviousLog]
+-[SentryCrash monitoringWhenUninstalled]
+-[SentryCrash setMonitoringWhenUninstalled:]
+-[SentryCrash monitoringFromUninstalledToRestore]
+-[SentryCrash setMonitoringFromUninstalledToRestore:]
+-[SentryCrash notificationCenter]
+-[SentryCrash setNotificationCenter:]
 -[SentryCrash .cxx_destruct]
 _getBundleName
-_OBJC_CLASSLIST_REFERENCES_$_.9
-_OBJC_CLASSLIST_REFERENCES_$_.10
-_OBJC_SELECTOR_REFERENCES_.77
-_OBJC_SELECTOR_REFERENCES_.79
-_OBJC_SELECTOR_REFERENCES_.81
-_OBJC_SELECTOR_REFERENCES_.83
-_OBJC_SELECTOR_REFERENCES_.85
+_OBJC_SELECTOR_REFERENCES_.105
+_OBJC_SELECTOR_REFERENCES_.107
+_OBJC_SELECTOR_REFERENCES_.109
+_OBJC_SELECTOR_REFERENCES_.111
+_OBJC_SELECTOR_REFERENCES_.113
 ___block_descriptor_48_e8_32s40bs_e32_v28?0"NSArray"8B16"NSError"20l
 ___block_descriptor_40_e8_32bs_e32_v28?0"NSArray"8B16"NSError"20l
 ___block_descriptor_48_e8_32s40s_e15_v32?08Q16^B24l
@@ -4501,12 +4577,13 @@ __OBJC_METACLASS_RO_$_SentryCrash
 __OBJC_$_INSTANCE_METHODS_SentryCrash
 _OBJC_IVAR_$_SentryCrash._introspectMemory
 _OBJC_IVAR_$_SentryCrash._catchZombies
-_OBJC_IVAR_$_SentryCrash._addConsoleLogToReport
 _OBJC_IVAR_$_SentryCrash._printPreviousLog
+_OBJC_IVAR_$_SentryCrash._monitoringFromUninstalledToRestore
 _OBJC_IVAR_$_SentryCrash._deleteBehaviorAfterSendAll
 _OBJC_IVAR_$_SentryCrash._monitoring
 _OBJC_IVAR_$_SentryCrash._demangleLanguages
 _OBJC_IVAR_$_SentryCrash._maxReportCount
+_OBJC_IVAR_$_SentryCrash._monitoringWhenUninstalled
 _OBJC_IVAR_$_SentryCrash._sink
 _OBJC_IVAR_$_SentryCrash._userInfo
 _OBJC_IVAR_$_SentryCrash._onCrash
@@ -4515,13 +4592,15 @@ _OBJC_IVAR_$_SentryCrash._basePath
 _OBJC_IVAR_$_SentryCrash._doNotIntrospectClasses
 _OBJC_IVAR_$_SentryCrash._uncaughtExceptionHandler
 _OBJC_IVAR_$_SentryCrash._currentSnapshotUserReportedExceptionHandler
+_OBJC_IVAR_$_SentryCrash._notificationCenter
 __OBJC_$_INSTANCE_VARIABLES_SentryCrash
 __OBJC_$_PROP_LIST_SentryCrash
 __OBJC_CLASS_RO_$_SentryCrash
-_OBJC_CLASSLIST_REFERENCES_$_.252
+_OBJC_CLASSLIST_REFERENCES_$_.293
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/SentryCrash.m
 getBundleName
 Sources/SentryCrash/Recording/SentryCrash.m
+Sources/SentryCrash/Recording/SentryCrash.h
 __34-[SentryCrash getAttachmentPaths:]_block_invoke
 __40-[SentryCrash sendReports:onCompletion:]_block_invoke
 __44-[SentryCrash sendAllReportsWithCompletion:]_block_invoke
@@ -5202,6 +5281,7 @@ __58-[SentryUIViewControllerSwizzling swizzleUIViewController]_block_invoke
 __78-[SentryUIViewControllerSwizzling swizzleUIViewControllersOfClassesInImageOf:]_block_invoke
 -[SentryOutOfMemoryTrackingIntegration init]
 -[SentryOutOfMemoryTrackingIntegration installWithOptions:]
+___59-[SentryOutOfMemoryTrackingIntegration installWithOptions:]_block_invoke
 -[SentryOutOfMemoryTrackingIntegration integrationOptions]
 -[SentryOutOfMemoryTrackingIntegration uninstall]
 -[SentryOutOfMemoryTrackingIntegration anrDetected]
@@ -5217,7 +5297,7 @@ ___50-[SentryOutOfMemoryTrackingIntegration anrStopped]_block_invoke
 -[SentryOutOfMemoryTrackingIntegration appStateManager]
 -[SentryOutOfMemoryTrackingIntegration setAppStateManager:]
 -[SentryOutOfMemoryTrackingIntegration .cxx_destruct]
-___block_literal_global.100
+___block_literal_global.102
 _OBJC_IVAR_$_SentryOutOfMemoryTrackingIntegration._tracker
 _OBJC_IVAR_$_SentryOutOfMemoryTrackingIntegration._anrTracker
 _OBJC_IVAR_$_SentryOutOfMemoryTrackingIntegration._testConfigurationFilePath
@@ -5232,6 +5312,7 @@ __OBJC_CLASS_RO_$_SentryOutOfMemoryTrackingIntegration
 Sources/Sentry/SentryOutOfMemoryTrackingIntegration.m
 __50-[SentryOutOfMemoryTrackingIntegration anrStopped]_block_invoke
 __51-[SentryOutOfMemoryTrackingIntegration anrDetected]_block_invoke
+__59-[SentryOutOfMemoryTrackingIntegration installWithOptions:]_block_invoke
 -[SentryPerformanceTrackingIntegration installWithOptions:]
 -[SentryPerformanceTrackingIntegration integrationOptions]
 -[SentryPerformanceTrackingIntegration swizzling]
@@ -5391,8 +5472,6 @@ __OBJC_CLASS_RO_$_SentryRetryAfterHeaderParser
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryRetryAfterHeaderParser.m
 Sources/Sentry/SentryRetryAfterHeaderParser.m
 _getThreadList
-_g_reservedThreadsCount
-_g_reservedThreads
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Tools/SentryCrashMachineContext.c
 sentrycrashmc_hasValidExceptionRegisters
 Sources/SentryCrash/Recording/Tools/SentryCrashMachineContext.c
@@ -5404,9 +5483,7 @@ sentrycrashmc_indexOfThread
 sentrycrashmc_getThreadAtIndex
 sentrycrashmc_getThreadCount
 sentrycrashmc_resumeEnvironment
-isThreadInList
 sentrycrashmc_suspendEnvironment
-sentrycrashmc_addReservedThread
 sentrycrashmc_getContextForSignal
 isStackOverflow
 getThreadList
@@ -5943,6 +6020,9 @@ ___87-[SentryFileManager initWithOptions:andCurrentDateProvider:dispatchQueueWra
 -[SentryFileManager storeDictionary:toPath:]
 -[SentryFileManager storeAppState:]
 -[SentryFileManager moveAppStateToPreviousAppState]
+-[SentryFileManager moveBreadcrumbsToPreviousBreadcrumbs]
+-[SentryFileManager moveState:toPreviousState:]
+-[SentryFileManager readPreviousBreadcrumbs]
 -[SentryFileManager readAppState]
 -[SentryFileManager readPreviousAppState]
 -[SentryFileManager readAppStateFrom:]
@@ -5955,6 +6035,14 @@ ___87-[SentryFileManager initWithOptions:andCurrentDateProvider:dispatchQueueWra
 -[SentryFileManager createDirectoryIfNotExists:didFailWithError:]
 -[SentryFileManager sentryPath]
 -[SentryFileManager setSentryPath:]
+-[SentryFileManager breadcrumbsFilePathOne]
+-[SentryFileManager setBreadcrumbsFilePathOne:]
+-[SentryFileManager breadcrumbsFilePathTwo]
+-[SentryFileManager setBreadcrumbsFilePathTwo:]
+-[SentryFileManager previousBreadcrumbsFilePathOne]
+-[SentryFileManager setPreviousBreadcrumbsFilePathOne:]
+-[SentryFileManager previousBreadcrumbsFilePathTwo]
+-[SentryFileManager setPreviousBreadcrumbsFilePathTwo:]
 -[SentryFileManager currentDateProvider]
 -[SentryFileManager setCurrentDateProvider:]
 -[SentryFileManager basePath]
@@ -5981,11 +6069,15 @@ ___87-[SentryFileManager initWithOptions:andCurrentDateProvider:dispatchQueueWra
 -[SentryFileManager setMaxEnvelopes:]
 -[SentryFileManager delegate]
 -[SentryFileManager .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.107
+_OBJC_SELECTOR_REFERENCES_.77
 __OBJC_$_CLASS_METHODS_SentryFileManager
 __OBJC_METACLASS_RO_$_SentryFileManager
 __OBJC_$_INSTANCE_METHODS_SentryFileManager
 _OBJC_IVAR_$_SentryFileManager._sentryPath
+_OBJC_IVAR_$_SentryFileManager._breadcrumbsFilePathOne
+_OBJC_IVAR_$_SentryFileManager._breadcrumbsFilePathTwo
+_OBJC_IVAR_$_SentryFileManager._previousBreadcrumbsFilePathOne
+_OBJC_IVAR_$_SentryFileManager._previousBreadcrumbsFilePathTwo
 _OBJC_IVAR_$_SentryFileManager._currentDateProvider
 _OBJC_IVAR_$_SentryFileManager._basePath
 _OBJC_IVAR_$_SentryFileManager._eventsPath
@@ -6067,7 +6159,6 @@ __OBJC_METACLASS_RO_$_sentrycrashobjc_DeepSearchP5EM1B9
 __OBJC_CLASS_RO_$_sentrycrashobjc_DeepSearchP5EM1B9
 _OBJC_SELECTOR_REFERENCES_.11
 _OBJC_SELECTOR_REFERENCES_.18
-_OBJC_SELECTOR_REFERENCES_.28
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Reporting/Filters/Tools/Container+SentryDeepSearch.m
 parentOfDeepKey
 Sources/SentryCrash/Reporting/Filters/Tools/Container+SentryDeepSearch.m
@@ -6150,6 +6241,7 @@ Sources/Sentry/Public/SentryMeasurementUnit.h
 -[SentryCrashInstallation initWithRequiredProperties:]
 -[SentryCrashInstallation dealloc]
 -[SentryCrashInstallation crashHandlerData]
+-[SentryCrashInstallation g_crashHandlerData]
 -[SentryCrashInstallation reportFieldForProperty:]
 -[SentryCrashInstallation reportFieldForProperty:setKey:]
 -[SentryCrashInstallation reportFieldForProperty:setValue:]
@@ -6160,6 +6252,7 @@ Sources/Sentry/Public/SentryMeasurementUnit.h
 -[SentryCrashInstallation setOnCrash:]
 -[SentryCrashInstallation install]
 _crashCallback
+-[SentryCrashInstallation uninstall]
 -[SentryCrashInstallation sendAllReportsWithCompletion:]
 -[SentryCrashInstallation addPreFilter:]
 -[SentryCrashInstallation sink]
@@ -6357,7 +6450,6 @@ i_sentrycrashlog_logC
 writeFmtArgsToLog
 writeToLog
 i_sentrycrashlog_logCBasic
-sentrycrashlog_clearLogFile
 writeFmtToLog
 sentrycrashlog_setLogFilename
 setLogFD
@@ -6449,6 +6541,8 @@ Sources/Sentry/UIView+Sentry.m
 -[SentryEvent setRequest:]
 -[SentryEvent isCrashEvent]
 -[SentryEvent setIsCrashEvent:]
+-[SentryEvent serializedBreadcrumbs]
+-[SentryEvent setSerializedBreadcrumbs:]
 -[SentryEvent .cxx_destruct]
 __OBJC_CLASS_PROTOCOLS_$_SentryEvent
 __OBJC_METACLASS_RO_$_SentryEvent
@@ -6481,6 +6575,7 @@ _OBJC_IVAR_$_SentryEvent._stacktrace
 _OBJC_IVAR_$_SentryEvent._debugMeta
 _OBJC_IVAR_$_SentryEvent._breadcrumbs
 _OBJC_IVAR_$_SentryEvent._request
+_OBJC_IVAR_$_SentryEvent._serializedBreadcrumbs
 __OBJC_$_INSTANCE_VARIABLES_SentryEvent
 __OBJC_$_PROP_LIST_SentryEvent
 __OBJC_CLASS_RO_$_SentryEvent

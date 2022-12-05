@@ -2567,9 +2567,9 @@
         </member>
         <member name="M:Sentry.ISentryClient.FlushAsync(System.TimeSpan)">
             <summary>
-            Flushes events queued up.
+            Flushes the queue of captured events until the timeout is reached.
             </summary>
-            <param name="timeout">How long to wait for flush to finish.</param>
+            <param name="timeout">The amount of time allowed for flushing.</param>
             <returns>A task to await for the flush operation.</returns>
         </member>
         <member name="T:Sentry.ISentryScopeManager">
@@ -4894,6 +4894,34 @@
             <param name="comments">The user comments.</param>
             <param name="name">The optional username.</param>
         </member>
+        <member name="M:Sentry.SentryClientExtensions.Flush(Sentry.ISentryClient)">
+            <summary>
+            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
+            is reached.
+            </summary>
+            <param name="client">The Sentry client.</param>
+            <remarks>
+            Blocks synchronously. Prefer <see cref="M:Sentry.SentryClientExtensions.FlushAsync(Sentry.ISentryClient)"/> in async code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryClientExtensions.Flush(Sentry.ISentryClient,System.TimeSpan)">
+            <summary>
+            Flushes the queue of captured events until the timeout is reached.
+            </summary>
+            <param name="client">The Sentry client.</param>
+            <param name="timeout">The amount of time allowed for flushing.</param>
+            <remarks>
+            Blocks synchronously. Prefer <see cref="M:Sentry.ISentryClient.FlushAsync(System.TimeSpan)"/> in async code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryClientExtensions.FlushAsync(Sentry.ISentryClient)">
+            <summary>
+            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
+            is reached.
+            </summary>
+            <param name="client">The Sentry client.</param>
+            <returns>A task to await for the flush operation.</returns>
+        </member>
         <member name="T:Sentry.SentryEvent">
             <summary>
             An event to be sent to Sentry.
@@ -5499,6 +5527,14 @@
             Even though default settings say 2 seconds, closing the SDK would block for 50ms.
             </example>
         </member>
+        <member name="P:Sentry.SentryOptions.FlushTimeout">
+            <summary>
+            How long to wait for flush operations to finish. Defaults to 2 seconds.
+            </summary>
+            <remarks>
+            When using the <c>Sentry.NLog</c> integration, the default is increased to 15 seconds.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.DecompressionMethods">
             <summary>
             Decompression methods accepted
@@ -5788,6 +5824,12 @@
             </summary>
             <param name="options">The SentryOptions to remove the integration from.</param>
         </member>
+        <member name="M:Sentry.SentryOptionsExtensions.DisableUnobservedTaskExceptionCapture(Sentry.SentryOptions)">
+            <summary>
+            Disables the capture of errors through <see cref="E:System.Threading.Tasks.TaskScheduler.UnobservedTaskException"/>.
+            </summary>
+            <param name="options">The SentryOptions to remove the integration from.</param>
+        </member>
         <member name="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)">
             <summary>
             By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
@@ -6000,10 +6042,37 @@
             </remarks>
             <returns>An object that should be disposed when the application terminates.</returns>
         </member>
+        <member name="M:Sentry.SentrySdk.Flush">
+            <summary>
+            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
+            is reached.
+            </summary>
+            <remarks>
+            Blocks synchronously. Prefer <see cref="M:Sentry.SentrySdk.FlushAsync"/> in async code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.Flush(System.TimeSpan)">
+            <summary>
+            Flushes the queue of captured events until the timeout is reached.
+            </summary>
+            <param name="timeout">The amount of time allowed for flushing.</param>
+            <remarks>
+            Blocks synchronously. Prefer <see cref="M:Sentry.SentrySdk.FlushAsync(System.TimeSpan)"/> in async code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.FlushAsync">
+            <summary>
+            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
+            is reached.
+            </summary>
+            <returns>A task to await for the flush operation.</returns>
+        </member>
         <member name="M:Sentry.SentrySdk.FlushAsync(System.TimeSpan)">
             <summary>
-            Flushes events queued up.
+            Flushes the queue of captured events until the timeout is reached.
             </summary>
+            <param name="timeout">The amount of time allowed for flushing.</param>
+            <returns>A task to await for the flush operation.</returns>
         </member>
         <member name="M:Sentry.SentrySdk.Close">
             <summary>

@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/SentryAppStartMeasurement.h</key>
 		<data>
-		n9L1znjKjvm+fymGR9RTiT3HcL4=
+		+fmTR5Mxfk/G1nqTIDqDrR8ra/o=
 		</data>
 		<key>Headers/SentryAttachment.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Headers/SentryError.h</key>
 		<data>
-		9XwMZttf2UJakZvYAEtgEFezH0Q=
+		3G+b0CUMzSLBAXlW/8opizxJtCA=
 		</data>
 		<key>Headers/SentryEvent.h</key>
 		<data>
@@ -106,7 +106,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		nOpsx0s4xX6Ory3ncrTdfhWGBU4=
+		ORAq6N3Kk1SDCIiKzXBDoWp9Jyw=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -190,7 +190,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		se6o4tjr0HALLmtjh8OyS2mEqys=
+		OO9PPbeBaaEzVp1Jq2DUPr59HAg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -210,7 +210,7 @@
 		</data>
 		<key>PrivateHeaders/PrivateSentrySDKOnly.h</key>
 		<data>
-		ZBVmzioZZHZGkvaUMlBUWB0asWU=
+		RhKg53y5+o7+j06o5EQCqn7OGyQ=
 		</data>
 		<key>PrivateHeaders/SentryAsynchronousOperation.h</key>
 		<data>
@@ -258,11 +258,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			n9L1znjKjvm+fymGR9RTiT3HcL4=
+			+fmTR5Mxfk/G1nqTIDqDrR8ra/o=
 			</data>
 			<key>hash2</key>
 			<data>
-			1keMuf/9FNZfcBKFUWOPrLWFRUT5ANCX44TRh7sbDhs=
+			0QNJ1pPgmZhZzkADTgT9edhu8kD1jPUp9CcsgG2PeBI=
 			</data>
 		</dict>
 		<key>Headers/SentryAttachment.h</key>
@@ -379,11 +379,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9XwMZttf2UJakZvYAEtgEFezH0Q=
+			3G+b0CUMzSLBAXlW/8opizxJtCA=
 			</data>
 			<key>hash2</key>
 			<data>
-			yKTMD4yFj3uHkY8TSKOfdiLhkCn4aXtbCzSZn3GRzqY=
+			QQMl4yy5Q8wpUCcFX0ql4Xb8C6meWdmRZKlS53l0OJ4=
 			</data>
 		</dict>
 		<key>Headers/SentryEvent.h</key>
@@ -522,11 +522,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nOpsx0s4xX6Ory3ncrTdfhWGBU4=
+			ORAq6N3Kk1SDCIiKzXBDoWp9Jyw=
 			</data>
 			<key>hash2</key>
 			<data>
-			6TuKLeDGUN5PNrwrb8IHl29WByX6lx8bh91MX7i1mlY=
+			gT5hmfamu/zjGAq0U8L9ZysVvB5o1s5PsdigVyKGsPI=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -797,11 +797,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZBVmzioZZHZGkvaUMlBUWB0asWU=
+			RhKg53y5+o7+j06o5EQCqn7OGyQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			lsLcUtFAtUHzeG3IXyjsLCMqIwM2/55HF8hj4JtgYJc=
+			vJNNMdJrd53BWGieliYHvlS/GLvpus3sULBFqzbkTlQ=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryAsynchronousOperation.h</key>
