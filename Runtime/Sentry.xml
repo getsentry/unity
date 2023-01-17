@@ -534,6 +534,11 @@
             Unique debug identifier of the image.
             </summary>
         </member>
+        <member name="P:Sentry.DebugImage.DebugChecksum">
+            <summary>
+            Checksum of the companion debug file.
+            </summary>
+        </member>
         <member name="P:Sentry.DebugImage.DebugFile">
             <summary>
             Path and name of the debug companion file.
@@ -1417,66 +1422,6 @@
             <param name="exception">The exception to create the stacktrace from.</param>
             <returns>A Sentry stack trace.</returns>
         </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.CreateStackTrace(System.Exception)">
-            <summary>
-            Creates a s<see cref="T:System.Diagnostics.StackTrace"/> from the <see cref="T:System.Exception"/>.
-            </summary>
-            <param name="exception">The exception.</param>
-            <returns>A StackTrace.</returns>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.Create(System.Diagnostics.StackTrace,System.Boolean)">
-            <summary>
-            Creates a <see cref="T:Sentry.SentryStackTrace"/> from the <see cref="T:System.Diagnostics.StackTrace"/>.
-            </summary>
-            <param name="stackTrace">The stack trace.</param>
-            <param name="isCurrentStackTrace">Whether this is the current stack trace.</param>
-            <returns>SentryStackTrace</returns>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.CreateFrames(System.Diagnostics.StackTrace,System.Boolean)">
-            <summary>
-            Creates an enumerator of <see cref="T:Sentry.SentryStackFrame"/> from a <see cref="T:System.Diagnostics.StackTrace"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.CreateFrame(System.Diagnostics.StackFrame,System.Boolean)">
-            <summary>
-            Create a <see cref="T:Sentry.SentryStackFrame"/> from a <see cref="T:System.Diagnostics.StackFrame"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.InternalCreateFrame(System.Diagnostics.StackFrame,System.Boolean)">
-            <summary>
-            Default the implementation of CreateFrame.
-            </summary>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.GetMethod(System.Diagnostics.StackFrame)">
-            <summary>
-            Get a <see cref="T:System.Reflection.MethodBase"/> from <see cref="T:System.Diagnostics.StackFrame"/>.
-            </summary>
-            <param name="stackFrame">The <see cref="T:System.Diagnostics.StackFrame"/></param>.
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.DemangleAsyncFunctionName(Sentry.SentryStackFrame)">
-            <summary>
-            Clean up function and module names produced from `async` state machine calls.
-            </summary>
-            <para>
-            When the Microsoft cs.exe compiler compiles some modern C# features,
-            such as async/await calls, it can create synthetic function names that
-            do not match the function names in the original source code. Here we
-            reverse some of these transformations, so that the function and module
-            names that appears in the Sentry UI will match the function and module
-            names in the original source-code.
-            </para>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.DemangleAnonymousFunction(Sentry.SentryStackFrame)">
-            <summary>
-            Clean up function names for anonymous lambda calls.
-            </summary>
-        </member>
-        <member name="M:Sentry.Extensibility.SentryStackTraceFactory.DemangleLambdaReturnType(Sentry.SentryStackFrame)">
-            <summary>
-            Remove return type from module in a Task with a Lambda with a return value.
-            This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
-            </summary>
-        </member>
         <member name="T:Sentry.FileAttachmentContent">
             <summary>
             Attachment sourced from the file system.
@@ -2222,6 +2167,50 @@
             </summary>
             <remarks>Best Sentry practice is to always try and have a value for this setting.</remarks>
         </member>
+        <member name="T:Sentry.Internal.DebugStackTrace">
+            <summary>
+            Sentry Stacktrace with debug images.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.DebugStackTrace.CreateFrames(System.Diagnostics.StackTrace,System.Boolean)">
+            <summary>
+            Creates an enumerator of <see cref="T:Sentry.SentryStackFrame"/> from a <see cref="T:System.Diagnostics.StackTrace"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.DebugStackTrace.CreateFrame(System.Diagnostics.StackFrame)">
+            <summary>
+            Create a <see cref="T:Sentry.SentryStackFrame"/> from a <see cref="T:System.Diagnostics.StackFrame"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.DebugStackTrace.InternalCreateFrame(System.Diagnostics.StackFrame,System.Boolean)">
+            <summary>
+            Default the implementation of CreateFrame.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.DebugStackTrace.DemangleAsyncFunctionName(Sentry.SentryStackFrame)">
+            <summary>
+            Clean up function and module names produced from `async` state machine calls.
+            </summary>
+            <para>
+            When the Microsoft cs.exe compiler compiles some modern C# features,
+            such as async/await calls, it can create synthetic function names that
+            do not match the function names in the original source code. Here we
+            reverse some of these transformations, so that the function and module
+            names that appears in the Sentry UI will match the function and module
+            names in the original source-code.
+            </para>
+        </member>
+        <member name="M:Sentry.Internal.DebugStackTrace.DemangleAnonymousFunction(Sentry.SentryStackFrame)">
+            <summary>
+            Clean up function names for anonymous lambda calls.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.DebugStackTrace.DemangleLambdaReturnType(Sentry.SentryStackFrame)">
+            <summary>
+            Remove return type from module in a Task with a Lambda with a return value.
+            This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
+            </summary>
+        </member>
         <member name="M:Sentry.Internal.Extensions.MiscExtensions.IsNull(System.Object)">
             <summary>
             Determines whether an object is <c>null</c>.
@@ -2374,23 +2363,6 @@
             A converter that removes dangerous classes from being serialized,
             and, also formats some classes like Exception and Type.
             </summary>
-        </member>
-        <member name="T:Sentry.Internal.MonoSentryStackTraceFactory">
-            <summary>
-            Mono factory to <see cref="T:Sentry.SentryStackTrace" /> from an <see cref="T:System.Exception" />.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.MonoSentryStackTraceFactory.#ctor(Sentry.SentryOptions)">
-            <summary>
-            Creates an instance of <see cref="T:Sentry.Internal.MonoSentryStackTraceFactory"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.MonoSentryStackTraceFactory.Create(System.Exception)">
-            <summary>
-            Creates a <see cref="T:Sentry.SentryStackTrace" /> from the optional <see cref="T:System.Exception" />.
-            </summary>
-            <param name="exception">The exception to create the stacktrace from.</param>
-            <returns>A Sentry stack trace.</returns>
         </member>
         <member name="P:Sentry.Internal.ProcessInfo.StartupTime">
             <summary>
@@ -2739,6 +2711,15 @@
             <summary>
             Gets the transaction that this span belongs to.
             </summary>
+        </member>
+        <member name="M:Sentry.SpanExtensions.GetDbParentSpan(Sentry.ISpan)">
+            <summary>
+            Gets the parent span for database operations. This is the last active non-database span, which might be the
+            transaction root, or it might be some other child span of the transaction (such as a web request).
+            </summary>
+            <remarks>
+            Used by EF, EF Core, and SQLClient integrations.
+            </remarks>
         </member>
         <member name="T:Sentry.ISpanContext">
             <summary>
@@ -5791,6 +5772,13 @@
             because MAUI assemblies are not strong-named.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.InitNativeSdks">
+            <summary>
+            Controls whether the native SDKs (Android, Cocoa, etc.) will be initialized (when applicable).
+            Should be set <c>false</c> (disabled) only when testing, and then only if the test initializes the managed SDK.
+            Defaults to <c>true</c> (enabled).
+            </summary>
+        </member>
         <member name="M:Sentry.SentryOptions.#ctor">
             <summary>
             Creates a new instance of <see cref="T:Sentry.SentryOptions"/>
@@ -6456,6 +6444,14 @@
             `"abs"` which means absolute referencing. This can also be set to
             `"rel:DEBUG_ID"` or `"rel:IMAGE_INDEX"` to make addresses relative to an
             object referenced by debug id or index.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryStackFrame.FunctionId">
+            <summary>
+            The optional Function Id.<br/>
+            This is derived from the `MetadataToken`, and should be the record id
+            of a `MethodDef`.<br/>
+            This should be a string with a hexadecimal number that includes a <b>0x</b> prefix.<br/>
             </summary>
         </member>
         <member name="M:Sentry.SentryStackFrame.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
