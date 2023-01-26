@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.28.1
+
+### Fixes
+
+- Fixed conflicting default name for scriptable options configuration scripts ([#1146](https://github.com/getsentry/sentry-unity/pull/1146))
+
+### Dependencies
+
+- Bump Java SDK from v6.11.0 to v6.12.1 ([#1143](https://github.com/getsentry/sentry-unity/pull/1143))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#6121)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.11.0...6.12.1)
+- Bump .NET SDK from v3.26.0 to v3.26.2 ([#1142](https://github.com/getsentry/sentry-unity/pull/1142), [#1152](https://github.com/getsentry/sentry-unity/pull/1152))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3262)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.26.0...3.26.2)
+
 ## 0.28.0
 
 ### Breaking Changes

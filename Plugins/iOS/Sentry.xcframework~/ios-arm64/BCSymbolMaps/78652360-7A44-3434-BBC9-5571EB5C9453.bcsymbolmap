@@ -32,9 +32,9 @@ _OBJC_IVAR_$_SentryMessage._params
 __OBJC_$_INSTANCE_VARIABLES_SentryMessage
 __OBJC_$_PROP_LIST_SentryMessage
 __OBJC_CLASS_RO_$_SentryMessage
-Apple clang version 14.0.0 (clang-1400.0.29.102)
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk
-iPhoneOS16.0.sdk
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+iPhoneOS16.2.sdk
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryMessage.m
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa
 Sources/Sentry/SentryMessage.m
@@ -462,10 +462,10 @@ __OBJC_$_INSTANCE_VARIABLES_SentryDispatchQueueWrapper
 __OBJC_CLASS_RO_$_SentryDispatchQueueWrapper
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryDispatchQueueWrapper.m
 Sources/Sentry/SentryDispatchQueueWrapper.m
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/dispatch/once.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/dispatch/once.h
 __50-[SentryDispatchQueueWrapper dispatchAfter:block:]_block_invoke
 dispatch_get_main_queue
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/dispatch/queue.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/dispatch/queue.h
 __55-[SentryDispatchQueueWrapper dispatchAsyncOnMainQueue:]_block_invoke
 __copy_helper_block_e8_32b
 __53-[SentryDispatchQueueWrapper dispatchAsyncWithBlock:]_block_invoke
@@ -608,7 +608,7 @@ __OBJC_CLASS_RO_$_SentryOutOfMemoryTracker
 Sources/Sentry/SentryOutOfMemoryTracker.m
 __33-[SentryOutOfMemoryTracker start]_block_invoke
 NSMakeRange
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
 -[SentryNetworkTrackingIntegration installWithOptions:]
 -[SentryNetworkTrackingIntegration integrationOptions]
 -[SentryNetworkTrackingIntegration uninstall]
@@ -781,7 +781,7 @@ __50-[SentryClient removeExtraDeviceContextFromEvent:]_block_invoke
 __47-[SentryClient applyExtraDeviceContextToEvent:]_block_invoke_2
 __47-[SentryClient applyExtraDeviceContextToEvent:]_block_invoke
 UIDeviceOrientationIsPortrait
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIDevice.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIDevice.h
 __43-[SentryClient applyCultureContextToEvent:]_block_invoke
 __40-[SentryClient applyPermissionsToEvent:]_block_invoke
 +[SentryCrashDefaultMachineContextWrapper load]
@@ -928,12 +928,12 @@ __OBJC_CLASS_RO_$_SentryTransactionContext
 Sources/Sentry/SentryTransactionContext.mm
 Sources/Sentry/Public/SentryTransactionContext.h
 ~unique_ptr
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__memory/unique_ptr.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/unique_ptr.h
 reset
 operator()
 operator->
 first
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__memory/compressed_pair.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/compressed_pair.h
 __get
 ___getDurationNs_block_invoke
 _getDurationNs.cold.1
@@ -979,28 +979,28 @@ __ZTSNSt3__120__shared_ptr_emplaceIN6sentry9profiling19ThreadMetadataCacheENS_9a
 __ZTINSt3__120__shared_ptr_emplaceIN6sentry9profiling19ThreadMetadataCacheENS_9allocatorIS3_EEEE
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentrySamplingProfiler.cpp
 _ZNSt3__1L14__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEPFPvjj13mach_timespecNS_10shared_ptrIN6sentry9profiling19ThreadMetadataCacheEEENS_8functionIFvRKNSB_9BacktraceEEEERNS_6atomicIyEENSE_IFvvEEEEjjS8_SD_SJ_NS_17reference_wrapperISL_EESO_EEEEES7_S7_.cold.2
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/thread
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/thread
 _ZNSt3__1L14__thread_proxyINS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEPFPvjj13mach_timespecNS_10shared_ptrIN6sentry9profiling19ThreadMetadataCacheEEENS_8functionIFvRKNSB_9BacktraceEEEERNS_6atomicIyEENSE_IFvvEEEEjjS8_SD_SJ_NS_17reference_wrapperISL_EESO_EEEEES7_S7_.cold.1
 function
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__functional/function.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__functional/function.h
 __value_func
 __as_base
 ~tuple
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/tuple
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/tuple
 ~__tuple_impl
 ~__tuple_leaf
 ~shared_ptr
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__memory/shared_ptr.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/shared_ptr.h
 ~function
 ~__value_func
 __thread_proxy<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, void *(*)(unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::atomic<unsigned long long> &, std::__1::function<void ()>), unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::reference_wrapper<std::__1::atomic<unsigned long long> >, std::__1::function<void ()> > >
 __thread_execute<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, void *(*)(unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::atomic<unsigned long long> &, std::__1::function<void ()>), unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::reference_wrapper<std::__1::atomic<unsigned long long> >, std::__1::function<void ()>, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL, 8UL>
 __invoke<void *(*)(unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::atomic<unsigned long long> &, std::__1::function<void ()>), unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::reference_wrapper<std::__1::atomic<unsigned long long> >, std::__1::function<void ()> >
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/type_traits
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/type_traits
 __release_shared
 __libcpp_atomic_refcount_decrement<long>
 operator std::atomic<unsigned long long> &
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__functional/reference_wrapper.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__functional/reference_wrapper.h
 shared_ptr
 get<8UL, std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, void *(*)(unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::atomic<unsigned long long> &, std::__1::function<void ()>), unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::reference_wrapper<std::__1::atomic<unsigned long long> >, std::__1::function<void ()> >
 get
@@ -1012,7 +1012,7 @@ get<2UL, std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delet
 get<1UL, std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, void *(*)(unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::atomic<unsigned long long> &, std::__1::function<void ()>), unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::reference_wrapper<std::__1::atomic<unsigned long long> >, std::__1::function<void ()> >
 set_pointer
 __libcpp_tls_set
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__threading_support
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__threading_support
 release
 unique_ptr<true, void>
 __compressed_pair<std::__1::tuple<std::__1::unique_ptr<std::__1::__thread_struct, std::__1::default_delete<std::__1::__thread_struct> >, void *(*)(unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::atomic<unsigned long long> &, std::__1::function<void ()>), unsigned int, unsigned int, mach_timespec, std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache>, std::__1::function<void (const sentry::profiling::Backtrace &)>, std::__1::reference_wrapper<std::__1::atomic<unsigned long long> >, std::__1::function<void ()> > *&, std::__1::__default_init_tag>
@@ -1033,7 +1033,7 @@ unique_ptr
 __compressed_pair<std::__1::__thread_struct *, std::__1::default_delete<std::__1::__thread_struct> >
 __compressed_pair_elem<std::__1::__thread_struct *, void>
 __decay_copy<std::__1::reference_wrapper<std::__1::atomic<unsigned long long> > >
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__utility/__decay_copy.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__utility/__decay_copy.h
 __decay_copy<std::__1::function<void ()> &>
 __decay_copy<std::__1::function<void (const sentry::profiling::Backtrace &)> &>
 __decay_copy<std::__1::shared_ptr<sentry::profiling::ThreadMetadataCache> &>
@@ -1042,12 +1042,12 @@ __libcpp_atomic_refcount_increment<long>
 __decay_copy<mach_timespec &>
 __decay_copy<unsigned int &>
 ~__vector_base
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/vector
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/vector
 deallocate
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__memory/allocator_traits.h
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__memory/allocator.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/allocator_traits.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/allocator.h
 __libcpp_deallocate
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/new
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/new
 __do_deallocate_handle_size<>
 __libcpp_operator_delete<void *>
 clear
@@ -1058,7 +1058,7 @@ destroy
 Sources/Sentry/include/SentryThreadMetadataCache.hpp
 ~ThreadMetadata
 ~basic_string
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/string
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/string
 __get_long_pointer
 __is_long
 destroy<const sentry::profiling::QueueMetadata, void>
@@ -1073,11 +1073,11 @@ samplingThreadCleanup
 Sources/Sentry/SentrySamplingProfiler.cpp
 numSamples
 load
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/atomic
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/atomic
 __cxx_atomic_load<unsigned long long>
 isSampling
 ~lock_guard
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__mutex_base
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__mutex_base
 lock_guard
 samplingThreadMain
 fetch_add
@@ -1096,7 +1096,7 @@ stopSampling
 ~weak_ptr
 SamplingProfiler
 duration_cast<std::__1::chrono::duration<long long, std::__1::ratio<1, 1000000000> >, float, std::__1::ratio<1, 1> >
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/chrono
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/chrono
 operator/<float, std::__1::ratio<1, 1>, unsigned int>
 atomic
 __atomic_base
@@ -1114,7 +1114,7 @@ __vector_base
 __shared_weak_count
 __shared_count
 __allocation_guard<std::__1::allocator<sentry::profiling::ThreadMetadataCache> >
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__memory/allocation_guard.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/allocation_guard.h
 allocate
 __libcpp_allocate
 __libcpp_operator_new<unsigned long>
@@ -1342,7 +1342,7 @@ __ZNSt12length_errorC1EPKc
 __ZNKSt3__113__vector_baseIKN6sentry9profiling13QueueMetadataENS_9allocatorIS4_EEE20__throw_length_errorEv
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryThreadMetadataCache.cpp
 ~__split_buffer
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__split_buffer
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__split_buffer
 __split_buffer
 __compressed_pair<std::nullptr_t, std::__1::allocator<const sentry::profiling::QueueMetadata> &>
 __compressed_pair_elem<std::__1::allocator<const sentry::profiling::QueueMetadata> &, void>
@@ -1350,15 +1350,15 @@ __compressed_pair_elem<std::nullptr_t, void>
 __throw_length_error
 __swap_out_circular_buffer
 swap<const sentry::profiling::QueueMetadata *>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__utility/swap.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__utility/swap.h
 __end_cap
 __construct_backward_with_exception_guarantees<std::__1::allocator<const sentry::profiling::QueueMetadata>, const sentry::profiling::QueueMetadata *>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/memory
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/memory
 construct<const sentry::profiling::QueueMetadata, const sentry::profiling::QueueMetadata, void>
 construct<const sentry::profiling::QueueMetadata, const sentry::profiling::QueueMetadata>
 QueueMetadata
 length_error
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/stdexcept
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/stdexcept
 __compressed_pair<std::nullptr_t, std::__1::allocator<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair> &>
 __compressed_pair_elem<std::__1::allocator<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair> &, void>
 swap<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair *>
@@ -1380,9 +1380,9 @@ __construct_one_at_end<const sentry::profiling::QueueMetadata>
 ~_ConstructTransaction
 metadataForQueue
 operator==<const sentry::profiling::QueueMetadata *>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__iterator/wrap_iter.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__iterator/wrap_iter.h
 find_if<std::__1::__wrap_iter<const sentry::profiling::QueueMetadata *>, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryThreadMetadataCache.cpp:72:13)>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__algorithm/find_if.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__algorithm/find_if.h
 operator!=<const sentry::profiling::QueueMetadata *>
 operator++
 cend
@@ -1398,9 +1398,9 @@ resize
 isSentryOwnedThreadName
 rfind
 __str_rfind<char, unsigned long, std::__1::char_traits<char>, 18446744073709551615UL>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__string
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__string
 __find_end<bool (*)(char, char), const char *, const char *>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__algorithm/find_end.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__algorithm/find_end.h
 eq
 data
 __get_pointer
@@ -2668,7 +2668,7 @@ _ZL21CPPExceptionTerminatev.cold.1
 Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_CPPException.cpp
 CPPExceptionTerminate
 name
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/typeinfo
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/typeinfo
 __type_name_to_string
 isEnabled
 setEnabled
@@ -3971,7 +3971,7 @@ destroy<std::__1::unique_ptr<sentry::profiling::ThreadHandle, std::__1::default_
 enumerateBacktracesForAllThreads
 Sources/Sentry/SentryBacktrace.cpp
 ~pair
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__utility/pair.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__utility/pair.h
 ~Backtrace
 Sources/Sentry/include/SentryBacktrace.hpp
 operator!=<const std::__1::unique_ptr<sentry::profiling::ThreadHandle, std::__1::default_delete<sentry::profiling::ThreadHandle> > *>
@@ -4422,7 +4422,7 @@ operator==
 __eq
 __is_type_name_unique
 __call<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:452:13) &, const sentry::profiling::Backtrace &>
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/c++/v1/__functional/invoke.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__functional/invoke.h
 __invoke<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:452:13) &, const sentry::profiling::Backtrace &>
 operator()<const sentry::profiling::Backtrace>
 destroy_deallocate
@@ -5924,7 +5924,7 @@ sentrycrashjson_addJSONFromFile
 decodeElement
 isFPChar
 isspace
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/_ctype.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/_ctype.h
 __istype
 sentrycrashjson_decode
 sentrycrashjson_endEncode
@@ -5945,7 +5945,7 @@ sentrycrashjson_addStringElement
 sentrycrashjson_addIntegerElement
 sentrycrashjson_addFloatingPointElement
 __inline_isnand
-/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/usr/include/math.h
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/math.h
 sentrycrashjson_addBooleanElement
 sentrycrashjson_addRawJSONData
 addQuotedEscapedString
