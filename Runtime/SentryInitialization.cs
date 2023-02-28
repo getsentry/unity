@@ -92,7 +92,7 @@ namespace Sentry.Unity
                 }
 
 #if !SENTRY_WEBGL
-                if (options.TracesSampleRate > 0.0f)
+                if (options.TracesSampleRate > 0.0f && options.AutoStartupTraces)
                 {
                     options.DiagnosticLogger?.LogInfo("Creating '{0}' transaction for runtime initialization.",
                         StartupTransactionOperation);
@@ -130,21 +130,6 @@ namespace Sentry.Unity
 #else
                false;
 #endif
-        }
-
-        public string Platform
-        {
-            get =>
-#if UNITY_IOS || UNITY_STANDALONE_OSX
-                "macho"
-#elif UNITY_ANDROID || UNITY_STANDALONE_LINUX
-                "elf"
-#elif UNITY_STANDALONE_WIN
-                "pe"
-#else
-                "unknown"
-#endif
-            ;
         }
 
         public Il2CppMethods Il2CppMethods => _il2CppMethods;

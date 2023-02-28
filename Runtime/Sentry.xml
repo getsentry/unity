@@ -5772,6 +5772,14 @@
             because MAUI assemblies are not strong-named.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.AssemblyReader">
+            <summary>
+            Allows integrations to provide a custom assembly reader.
+            </summary>
+            <remarks>
+            This is for Sentry use only, and can change without a major version bump.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.InitNativeSdks">
             <summary>
             Controls whether the native SDKs (Android, Cocoa, etc.) will be initialized (when applicable).
@@ -6469,6 +6477,34 @@
             Parses from JSON.
             </summary>
         </member>
+        <member name="T:Sentry.InstructionAddressAdjustment">
+            <summary>
+            Instruction Address Adjustments
+            </summary>
+        </member>
+        <member name="F:Sentry.InstructionAddressAdjustment.Auto">
+            <summary>
+            Symbolicator will use the `"all_but_first"` strategy **unless** the event has a crashing `signal`
+            attribute and the Stack Trace has a `registers` map, and the instruction pointer register (`rip` / `pc`)
+            does not match the first frame. In that case, `"all"` frames will be adjusted.
+            </summary>
+        </member>
+        <member name="F:Sentry.InstructionAddressAdjustment.All">
+            <summary>
+            All frames of the stack trace will be adjusted, subtracting one instruction with (or `1`) from the
+            incoming `instruction_addr` before symbolication.
+            </summary>
+        </member>
+        <member name="F:Sentry.InstructionAddressAdjustment.AllButFirst">
+            <summary>
+            All frames but the first (in callee to caller / child to parent direction) should be adjusted.
+            </summary>
+        </member>
+        <member name="F:Sentry.InstructionAddressAdjustment.None">
+            <summary>
+            No adjustment will be applied whatsoever.
+            </summary>
+        </member>
         <member name="T:Sentry.SentryStackTrace">
             <summary>
             Sentry Stacktrace interface.
@@ -6485,6 +6521,14 @@
             </summary>
             <remarks>
             The list of frames should be ordered by the oldest call first.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryStackTrace.AddressAdjustment">
+            <summary>
+            The optional instruction address adjustment.
+            </summary>
+            <remarks>
+            Tells the symbolicator if and what adjustment for is needed.
             </remarks>
         </member>
         <member name="M:Sentry.SentryStackTrace.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
