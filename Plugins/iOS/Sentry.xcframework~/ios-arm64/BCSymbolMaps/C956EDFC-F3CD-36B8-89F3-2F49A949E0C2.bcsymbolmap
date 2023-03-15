@@ -494,6 +494,8 @@ ___37+[SentryFramesTracker sharedInstance]_block_invoke
 -[SentryFramesTracker displayLinkWrapper]
 -[SentryFramesTracker previousFrameTimestamp]
 -[SentryFramesTracker setPreviousFrameTimestamp:]
+-[SentryFramesTracker previousFrameSystemTimestamp]
+-[SentryFramesTracker setPreviousFrameSystemTimestamp:]
 -[SentryFramesTracker frozenFrameTimestamps]
 -[SentryFramesTracker setFrozenFrameTimestamps:]
 -[SentryFramesTracker slowFrameTimestamps]
@@ -518,6 +520,7 @@ _OBJC_IVAR_$_SentryFramesTracker._frozenFrames
 _OBJC_IVAR_$_SentryFramesTracker._isRunning
 _OBJC_IVAR_$_SentryFramesTracker._displayLinkWrapper
 _OBJC_IVAR_$_SentryFramesTracker._previousFrameTimestamp
+_OBJC_IVAR_$_SentryFramesTracker._previousFrameSystemTimestamp
 _OBJC_IVAR_$_SentryFramesTracker._frozenFrameTimestamps
 _OBJC_IVAR_$_SentryFramesTracker._slowFrameTimestamps
 _OBJC_IVAR_$_SentryFramesTracker._frameRateTimestamps
@@ -653,9 +656,10 @@ __57+[SentryNetworkTrackingIntegration swizzleURLSessionTask]_block_invoke.26
 __57+[SentryNetworkTrackingIntegration swizzleURLSessionTask]_block_invoke_2
 __57+[SentryNetworkTrackingIntegration swizzleURLSessionTask]_block_invoke
 -[SentryClient initWithOptions:]
--[SentryClient initWithOptions:dispatchQueue:]
--[SentryClient initWithOptions:fileManager:]
--[SentryClient initWithOptions:transportAdapter:fileManager:threadInspector:random:crashWrapper:deviceWrapper:locale:timezone:]
+-[SentryClient initWithOptions:dispatchQueue:deleteOldEnvelopeItems:]
+-[SentryClient initWithOptions:fileManager:deleteOldEnvelopeItems:]
+-[SentryClient initWithOptions:fileManager:deleteOldEnvelopeItems:transportAdapter:]
+-[SentryClient initWithOptions:transportAdapter:fileManager:deleteOldEnvelopeItems:threadInspector:random:crashWrapper:deviceWrapper:locale:timezone:]
 -[SentryClient captureMessage:]
 -[SentryClient captureMessage:withScope:]
 -[SentryClient captureException:]
@@ -962,11 +966,10 @@ operator->
 first
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/compressed_pair.h
 __get
-_getDurationNs.cold.1
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryTime.mm
-getDurationNs.cold.1
-Sources/Sentry/SentryTime.mm
 getDurationNs
+Sources/Sentry/SentryTime.mm
+orderedChronologically
 getAbsoluteTime
 timeIntervalToNanoseconds
 -[SentryHttpStatusCodeRange initWithMin:max:]
@@ -1151,6 +1154,19 @@ __OBJC_$_CATEGORY_INSTANCE_METHODS_NSData_$_Sentry
 __OBJC_$_CATEGORY_NSData_$_Sentry
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/NSData+Sentry.m
 Sources/Sentry/NSData+Sentry.m
+-[SentryMXExceptionParams handled]
+-[SentryMXExceptionParams setHandled:]
+-[SentryMXExceptionParams level]
+-[SentryMXExceptionParams setLevel:]
+-[SentryMXExceptionParams exceptionValue]
+-[SentryMXExceptionParams setExceptionValue:]
+-[SentryMXExceptionParams exceptionType]
+-[SentryMXExceptionParams setExceptionType:]
+-[SentryMXExceptionParams exceptionMechanism]
+-[SentryMXExceptionParams setExceptionMechanism:]
+-[SentryMXExceptionParams timeStampBegin]
+-[SentryMXExceptionParams setTimeStampBegin:]
+-[SentryMXExceptionParams .cxx_destruct]
 -[SentryMetricKitIntegration installWithOptions:]
 -[SentryMetricKitIntegration integrationOptions]
 -[SentryMetricKitIntegration uninstall]
@@ -1158,8 +1174,12 @@ Sources/Sentry/NSData+Sentry.m
 -[SentryMetricKitIntegration didReceiveCpuExceptionDiagnostic:callStackTree:timeStampBegin:timeStampEnd:]
 -[SentryMetricKitIntegration didReceiveDiskWriteExceptionDiagnostic:callStackTree:timeStampBegin:timeStampEnd:]
 -[SentryMetricKitIntegration didReceiveHangDiagnostic:callStackTree:timeStampBegin:timeStampEnd:]
--[SentryMetricKitIntegration captureMXEvent:handled:level:exceptionValue:exceptionType:exceptionMechanism:timeStampBegin:]
--[SentryMetricKitIntegration createEvent:level:exceptionValue:exceptionType:exceptionMechanism:]
+-[SentryMetricKitIntegration captureMXEvent:params:]
+-[SentryMetricKitIntegration buildAndCaptureMXEventFor:params:]
+-[SentryMetricKitIntegration getFirstUnprocessedSubFrames:processedFrameAddresses:]
+___83-[SentryMetricKitIntegration getFirstUnprocessedSubFrames:processedFrameAddresses:]_block_invoke
+-[SentryMetricKitIntegration captureEventNotPerThread:params:]
+-[SentryMetricKitIntegration createEvent:]
 -[SentryMetricKitIntegration convertToSentryThreads:]
 -[SentryMetricKitIntegration convertMXFramesToSentryStacktrace:]
 -[SentryMetricKitIntegration extractDebugMetaFromMXCallStacks:]
@@ -1168,18 +1188,37 @@ Sources/Sentry/NSData+Sentry.m
 -[SentryMetricKitIntegration setMetricKitManager:]
 -[SentryMetricKitIntegration measurementFormatter]
 -[SentryMetricKitIntegration setMeasurementFormatter:]
+-[SentryMetricKitIntegration inAppLogic]
+-[SentryMetricKitIntegration setInAppLogic:]
 -[SentryMetricKitIntegration .cxx_destruct]
 -[SentryEvent(MetricKit) isMetricKitEvent]
-_OBJC_CLASSLIST_REFERENCES_$_.85
-_OBJC_CLASSLIST_REFERENCES_$_.86
-_OBJC_CLASSLIST_REFERENCES_$_.89
-_OBJC_CLASSLIST_REFERENCES_$_.100
-_OBJC_CLASSLIST_REFERENCES_$_.105
-_OBJC_CLASSLIST_REFERENCES_$_.106
-_OBJC_CLASSLIST_REFERENCES_$_.108
-_OBJC_CLASSLIST_REFERENCES_$_.109
+__OBJC_METACLASS_RO_$_SentryMXExceptionParams
+__OBJC_$_INSTANCE_METHODS_SentryMXExceptionParams
+_OBJC_IVAR_$_SentryMXExceptionParams._handled
+_OBJC_IVAR_$_SentryMXExceptionParams._level
+_OBJC_IVAR_$_SentryMXExceptionParams._exceptionValue
+_OBJC_IVAR_$_SentryMXExceptionParams._exceptionType
+_OBJC_IVAR_$_SentryMXExceptionParams._exceptionMechanism
+_OBJC_IVAR_$_SentryMXExceptionParams._timeStampBegin
+__OBJC_$_INSTANCE_VARIABLES_SentryMXExceptionParams
+__OBJC_$_PROP_LIST_SentryMXExceptionParams
+__OBJC_CLASS_RO_$_SentryMXExceptionParams
+_OBJC_CLASSLIST_REFERENCES_$_.130
+_OBJC_CLASSLIST_REFERENCES_$_.131
+_OBJC_CLASSLIST_REFERENCES_$_.134
+_OBJC_CLASSLIST_REFERENCES_$_.149
+_OBJC_CLASSLIST_REFERENCES_$_.150
+_OBJC_CLASSLIST_REFERENCES_$_.152
+_OBJC_CLASSLIST_REFERENCES_$_.153
+___block_descriptor_40_e8_32s_e61_B24?0"_TtC13SentryPrivate13SentryMXFrame"8"NSDictionary"16l
+_OBJC_CLASSLIST_REFERENCES_$_.156
+_OBJC_CLASSLIST_REFERENCES_$_.158
+_OBJC_CLASSLIST_REFERENCES_$_.159
+_OBJC_CLASSLIST_REFERENCES_$_.161
+_OBJC_CLASSLIST_REFERENCES_$_.162
 _OBJC_IVAR_$_SentryMetricKitIntegration._metricKitManager
 _OBJC_IVAR_$_SentryMetricKitIntegration._measurementFormatter
+_OBJC_IVAR_$_SentryMetricKitIntegration._inAppLogic
 __OBJC_$_PROTOCOL_INSTANCE_METHODS__TtP13SentryPrivate23SentryMXManagerDelegate_
 __OBJC_$_PROTOCOL_METHOD_TYPES__TtP13SentryPrivate23SentryMXManagerDelegate_
 __OBJC_PROTOCOL_$__TtP13SentryPrivate23SentryMXManagerDelegate_
@@ -1197,6 +1236,7 @@ __OBJC_$_CATEGORY_SentryEvent_$_MetricKit
 Sources/Sentry/SentryMetricKitIntegration.m
 sentry_formatHexAddress
 Sources/Sentry/include/SentryHexAddressFormatter.h
+__83-[SentryMetricKitIntegration getFirstUnprocessedSubFrames:processedFrameAddresses:]_block_invoke
 -[SentryUIEventTrackingIntegration installWithOptions:]
 -[SentryUIEventTrackingIntegration integrationOptions]
 -[SentryUIEventTrackingIntegration uninstall]
@@ -1232,6 +1272,7 @@ _OBJC_CLASSLIST_REFERENCES_$_.68
 _OBJC_CLASSLIST_REFERENCES_$_.69
 _OBJC_CLASSLIST_REFERENCES_$_.91
 _OBJC_CLASSLIST_REFERENCES_$_.99
+_OBJC_CLASSLIST_REFERENCES_$_.108
 __OBJC_$_CLASS_METHODS_SentrySerialization
 __OBJC_METACLASS_RO_$_SentrySerialization
 __OBJC_CLASS_RO_$_SentrySerialization
@@ -1537,6 +1578,8 @@ ___block_descriptor_64_e8_32s40s48s56r_e22_v16?0"<SentrySpan>"8l
 _OBJC_CLASSLIST_REFERENCES_$_.90
 ___block_descriptor_40_e8_32s_e22_v16?0"SentryTracer"8l
 ___block_descriptor_40_e8_32s_e36_v40?0"NSString"81624"UIEvent"32l
+_OBJC_CLASSLIST_REFERENCES_$_.100
+_OBJC_CLASSLIST_REFERENCES_$_.106
 __OBJC_$_CLASS_METHODS_SentryUIEventTracker
 __OBJC_METACLASS_RO_$_SentryUIEventTracker
 __OBJC_$_INSTANCE_METHODS_SentryUIEventTracker
@@ -1645,8 +1688,8 @@ __30-[SentryANRTracker detectANRs]_block_invoke
 -[SentryOptions validateOptions:didFailWithError:]
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_2
-___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke.93
-___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_2.98
+___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke.96
+___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_2.101
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_3
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_4
 ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_5
@@ -1674,7 +1717,9 @@ ___50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_24
 -[SentryOptions addInAppExclude:]
 -[SentryOptions setSampleRate:]
 -[SentryOptions isValidSampleRate:]
+-[SentryOptions setEnableTracing:]
 -[SentryOptions setTracesSampleRate:]
+-[SentryOptions setTracesSampler:]
 -[SentryOptions isValidTracesSampleRate:]
 -[SentryOptions isTracingEnabled]
 -[SentryOptions isValidProfilesSampleRate:]
@@ -1750,9 +1795,9 @@ ___25-[SentryOptions isBlock:]_block_invoke_2
 -[SentryOptions setEnableNetworkTracking:]
 -[SentryOptions enableFileIOTracing]
 -[SentryOptions setEnableFileIOTracing:]
+-[SentryOptions enableTracing]
 -[SentryOptions tracesSampleRate]
 -[SentryOptions tracesSampler]
--[SentryOptions setTracesSampler:]
 -[SentryOptions inAppIncludes]
 -[SentryOptions inAppExcludes]
 -[SentryOptions urlSessionDelegate]
@@ -1789,25 +1834,26 @@ ___25-[SentryOptions isBlock:]_block_invoke_2
 _OBJC_CLASSLIST_REFERENCES_$_.45
 _OBJC_CLASSLIST_REFERENCES_$_.48
 _OBJC_CLASSLIST_REFERENCES_$_.57
-_OBJC_CLASSLIST_REFERENCES_$_.73
-_OBJC_CLASSLIST_REFERENCES_$_.76
+_OBJC_CLASSLIST_REFERENCES_$_.75
+_OBJC_CLASSLIST_REFERENCES_$_.78
 ___block_descriptor_32_e25_B24?08"NSDictionary"16l
 ___block_descriptor_40_e8_32s_e8_v12?0B8l
+_OBJC_CLASSLIST_REFERENCES_$_.85
 __OBJC_$_PROTOCOL_REFS_NSURLSessionDelegate
 __OBJC_$_PROTOCOL_INSTANCE_METHODS_OPT_NSURLSessionDelegate
 __OBJC_$_PROTOCOL_METHOD_TYPES_NSURLSessionDelegate
 __OBJC_PROTOCOL_$_NSURLSessionDelegate
 __OBJC_LABEL_PROTOCOL_$_NSURLSessionDelegate
 __OBJC_PROTOCOL_REFERENCE_$_NSURLSessionDelegate
-_OBJC_CLASSLIST_REFERENCES_$_.234
 _isBlock:.blockClass
 _isBlock:.onceToken
-___block_literal_global.236
-___block_literal_global.237
-_OBJC_CLASSLIST_REFERENCES_$_.238
+___block_literal_global.240
+___block_literal_global.241
+_OBJC_CLASSLIST_REFERENCES_$_.242
 __OBJC_$_CLASS_METHODS_SentryOptions
 __OBJC_METACLASS_RO_$_SentryOptions
 __OBJC_$_INSTANCE_METHODS_SentryOptions
+_OBJC_IVAR_$_SentryOptions._enableTracingManual
 _OBJC_IVAR_$_SentryOptions._debug
 _OBJC_IVAR_$_SentryOptions._enabled
 _OBJC_IVAR_$_SentryOptions._enableCrashHandler
@@ -1825,6 +1871,7 @@ _OBJC_IVAR_$_SentryOptions._enableUserInteractionTracing
 _OBJC_IVAR_$_SentryOptions._enablePreWarmedAppStartTracing
 _OBJC_IVAR_$_SentryOptions._enableNetworkTracking
 _OBJC_IVAR_$_SentryOptions._enableFileIOTracing
+_OBJC_IVAR_$_SentryOptions._enableTracing
 _OBJC_IVAR_$_SentryOptions._enableSwizzling
 _OBJC_IVAR_$_SentryOptions._enableCoreDataTracing
 _OBJC_IVAR_$_SentryOptions._enableProfiling
@@ -1894,8 +1941,8 @@ __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_6
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_5
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_4
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_3
-__50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_2.98
-__50-[SentryOptions validateOptions:didFailWithError:]_block_invoke.93
+__50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_2.101
+__50-[SentryOptions validateOptions:didFailWithError:]_block_invoke.96
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke_2
 __50-[SentryOptions validateOptions:didFailWithError:]_block_invoke
 -[SentryEnvelopeItemHeader initWithType:length:]
@@ -2256,14 +2303,6 @@ __OBJC_CLASS_RO_$_SentryCrashDoctor
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/SentryCrashDoctor.m
 Sources/SentryCrash/Recording/SentryCrashDoctor.m
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Tools/SentryCrashCPU_x86_64.c
--[SentryProcessInfoWrapper processDirectoryPath]
--[SentryProcessInfoWrapper processPath]
-__OBJC_METACLASS_RO_$_SentryProcessInfoWrapper
-__OBJC_$_INSTANCE_METHODS_SentryProcessInfoWrapper
-__OBJC_$_PROP_LIST_SentryProcessInfoWrapper
-__OBJC_CLASS_RO_$_SentryProcessInfoWrapper
-/Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProcessInfoWrapper.m
-Sources/Sentry/SentryProcessInfoWrapper.m
 -[SentrySpanContext initWithOperation:]
 -[SentrySpanContext initWithOperation:sampled:]
 -[SentrySpanContext initWithTraceId:spanId:parentId:operation:sampled:]
@@ -2384,10 +2423,10 @@ ___destroy_helper_block_e8_32s40s48r56r
 -[SentryNetworkTracker setIsCaptureFailedRequestsEnabled:]
 _SENTRY_NETWORK_REQUEST_TRACKER_SPAN
 ___block_descriptor_64_e8_32s40s48r56r_e22_v16?0"<SentrySpan>"8l
+_OBJC_CLASSLIST_REFERENCES_$_.109
 _OBJC_CLASSLIST_REFERENCES_$_.135
 _OBJC_CLASSLIST_REFERENCES_$_.144
 _OBJC_CLASSLIST_REFERENCES_$_.145
-_OBJC_CLASSLIST_REFERENCES_$_.149
 _OBJC_CLASSLIST_REFERENCES_$_.155
 _OBJC_CLASSLIST_REFERENCES_$_.168
 _OBJC_CLASSLIST_REFERENCES_$_.177
@@ -2681,6 +2720,7 @@ ___40-[SentryHub captureException:withScope:]_block_invoke
 -[SentryHub errorsBeforeSession]
 -[SentryHub setErrorsBeforeSession:]
 -[SentryHub .cxx_destruct]
+_OBJC_CLASSLIST_REFERENCES_$_.89
 ___block_descriptor_40_e8_32s_e20_"SentrySession"8?0l
 __OBJC_METACLASS_RO_$_SentryHub
 __OBJC_$_INSTANCE_METHODS_SentryHub
@@ -3082,6 +3122,8 @@ ___34-[SentryTracer startDeadlineTimer]_block_invoke
 -[SentryTracer hasUnfinishedChildSpansToWaitFor]
 -[SentryTracer finishInternal]
 ___30-[SentryTracer finishInternal]_block_invoke
+-[SentryTracer captureTransactionWithProfile:]
+___46-[SentryTracer captureTransactionWithProfile:]_block_invoke
 -[SentryTracer trimEndTimestamp]
 -[SentryTracer toTransaction]
 -[SentryTracer getAppStartMeasurement]
@@ -3112,6 +3154,10 @@ ___30-[SentryTracer finishInternal]_block_invoke
 -[SentryTracer setTimerWrapper:]
 -[SentryTracer deadlineTimer]
 -[SentryTracer setDeadlineTimer:]
+-[SentryTracer isProfiling]
+-[SentryTracer setIsProfiling:]
+-[SentryTracer startSystemTime]
+-[SentryTracer setStartSystemTime:]
 -[SentryTracer .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.87
 _appStartMeasurementLock
@@ -3125,17 +3171,20 @@ _OBJC_IVAR_$_SentryTracer._startTimeChanged
 _OBJC_IVAR_$_SentryTracer.initTotalFrames
 _OBJC_IVAR_$_SentryTracer.initSlowFrames
 _OBJC_IVAR_$_SentryTracer.initFrozenFrames
+_OBJC_IVAR_$_SentryTracer._isProfiling
+_OBJC_IVAR_$_SentryTracer._startSystemTime
 _OBJC_IVAR_$_SentryTracer._idleTimeoutBlock
 ___block_descriptor_40_e8_32w_e5_v8?0l
 ___block_descriptor_40_e8_32w_e17_v16?0"NSTimer"8l
+_OBJC_CLASSLIST_REFERENCES_$_.105
 _OBJC_IVAR_$_SentryTracer._traceContext
 _OBJC_IVAR_$_SentryTracer._hub
-_OBJC_SELECTOR_REFERENCES_.119
+_OBJC_SELECTOR_REFERENCES_.118
 _OBJC_IVAR_$_SentryTracer._finishStatus
-_OBJC_SELECTOR_REFERENCES_.132
+_OBJC_SELECTOR_REFERENCES_.131
 ___block_descriptor_40_e8_32s_e22_v16?0"<SentrySpan>"8l
-_OBJC_CLASSLIST_REFERENCES_$_.165
-_OBJC_CLASSLIST_REFERENCES_$_.172
+_OBJC_CLASSLIST_REFERENCES_$_.167
+_OBJC_CLASSLIST_REFERENCES_$_.174
 _OBJC_IVAR_$_SentryTracer._transactionContext
 _OBJC_IVAR_$_SentryTracer._finishCallback
 _OBJC_IVAR_$_SentryTracer._delegate
@@ -3153,6 +3202,7 @@ __OBJC_CLASS_RO_$_SentryTracer
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryTracer.m
 Sources/Sentry/SentryTracer.m
 Sources/Sentry/include/SentryTracer.h
+__46-[SentryTracer captureTransactionWithProfile:]_block_invoke
 __30-[SentryTracer finishInternal]_block_invoke
 __34-[SentryTracer startDeadlineTimer]_block_invoke
 __destroy_helper_block_e8_32w
@@ -3253,9 +3303,8 @@ sentryLevelFromLogLevel
 -[SentrySpan frames]
 -[SentrySpan setFrames:]
 -[SentrySpan .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.67
-_OBJC_CLASSLIST_REFERENCES_$_.74
-_OBJC_CLASSLIST_REFERENCES_$_.83
+_OBJC_CLASSLIST_REFERENCES_$_.58
+_OBJC_CLASSLIST_REFERENCES_$_.72
 __OBJC_$_PROTOCOL_REFS_SentrySpan
 __OBJC_$_PROTOCOL_INSTANCE_METHODS_SentrySpan
 __OBJC_$_PROP_LIST_SentrySpan
@@ -3280,7 +3329,7 @@ _OBJC_IVAR_$_SentrySpan._startTimestamp
 _OBJC_IVAR_$_SentrySpan._tracer
 _OBJC_IVAR_$_SentrySpan._frames
 __OBJC_$_INSTANCE_VARIABLES_SentrySpan
-__OBJC_$_PROP_LIST_SentrySpan.265
+__OBJC_$_PROP_LIST_SentrySpan.263
 __OBJC_CLASS_RO_$_SentrySpan
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentrySpan.m
 Sources/Sentry/SentrySpan.m
@@ -3357,7 +3406,6 @@ Sources/Sentry/SentryConcurrentRateLimitsDictionary.m
 -[SentryTransaction setSpans:]
 -[SentryTransaction .cxx_destruct]
 _OBJC_SELECTOR_REFERENCES_.70
-_OBJC_CLASSLIST_REFERENCES_$_.78
 _OBJC_IVAR_$_SentryTransaction._trace
 _OBJC_IVAR_$_SentryTransaction._spans
 __OBJC_METACLASS_RO_$_SentryTransaction
@@ -3498,7 +3546,10 @@ _OBJC_CLASSLIST_REFERENCES_$_.49
 ___block_descriptor_40_e8_32w_e21_v20?0B8"NSString"12l
 _OBJC_SELECTOR_REFERENCES_.61
 ___block_descriptor_48_e8_32s40w_e5_v8?0l
+_OBJC_CLASSLIST_REFERENCES_$_.67
+_OBJC_CLASSLIST_REFERENCES_$_.76
 _OBJC_CLASSLIST_REFERENCES_$_.77
+_OBJC_CLASSLIST_REFERENCES_$_.86
 ___block_descriptor_56_e8_32s40s48w_e39_v24?0"NSHTTPURLResponse"8"NSError"16l
 __OBJC_$_PROTOCOL_REFS_SentryTransport
 __OBJC_$_PROTOCOL_INSTANCE_METHODS_SentryTransport
@@ -3805,6 +3856,7 @@ Sources/Sentry/SentryRequestOperation.m
 __68-[SentryRequestOperation initWithSession:request:completionHandler:]_block_invoke
 +[SentryLog configure:diagnosticLevel:]
 +[SentryLog logWithMessage:andLevel:]
++[SentryLog willLogAtLevel:]
 +[SentryLog setLogOutput:]
 +[SentryLog logOutput]
 +[SentryLog isDebug]
@@ -3860,7 +3912,7 @@ ___63-[SentryCrashReportConverter enhanceValueFromCrashInfoMessage:]_block_invok
 -[SentryCrashReportConverter inAppLogic]
 -[SentryCrashReportConverter setInAppLogic:]
 -[SentryCrashReportConverter .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.162
+_OBJC_CLASSLIST_REFERENCES_$_.83
 _OBJC_CLASSLIST_REFERENCES_$_.169
 _OBJC_SELECTOR_REFERENCES_.177
 ___block_literal_global.180
@@ -4037,7 +4089,6 @@ Sources/Sentry/SentryNSTimerWrapper.m
 +[PrivateSentrySDKOnly currentScreenFrames]
 +[PrivateSentrySDKOnly captureScreenshots]
 +[PrivateSentrySDKOnly captureViewHierarchy]
-_OBJC_CLASSLIST_REFERENCES_$_.75
 __onAppStartMeasurementAvailable
 __appStartMeasurementHybridSDKMode
 __framesTrackingMeasurementHybridSDKMode
@@ -4155,6 +4206,7 @@ sentrycrashthread_self
 -[SentryANRTrackingIntegration installWithOptions:]
 -[SentryANRTrackingIntegration integrationOptions]
 -[SentryANRTrackingIntegration uninstall]
+-[SentryANRTrackingIntegration dealloc]
 -[SentryANRTrackingIntegration anrDetected]
 ___43-[SentryANRTrackingIntegration anrDetected]_block_invoke
 -[SentryANRTrackingIntegration anrStopped]
@@ -4163,6 +4215,7 @@ ___43-[SentryANRTrackingIntegration anrDetected]_block_invoke
 -[SentryANRTrackingIntegration options]
 -[SentryANRTrackingIntegration setOptions:]
 -[SentryANRTrackingIntegration .cxx_destruct]
+_OBJC_SELECTOR_REFERENCES_.86
 ___block_descriptor_32_e29_v32?0"SentryThread"8Q16^B24l
 _OBJC_IVAR_$_SentryANRTrackingIntegration._tracker
 _OBJC_IVAR_$_SentryANRTrackingIntegration._options
@@ -4388,7 +4441,6 @@ ___47-[SentryBreadcrumbTracker swizzleViewDidAppear]_block_invoke_2
 -[SentryBreadcrumbTracker setSwizzleWrapper:]
 -[SentryBreadcrumbTracker .cxx_destruct]
 ___block_descriptor_32_e24_v16?0"NSNotification"8l
-_OBJC_CLASSLIST_REFERENCES_$_.58
 ___block_descriptor_40_e8_32s_e24_v16?0"NSNotification"8l
 ___block_descriptor_32_e36_v40?0"NSString"81624"UIEvent"32l
 ___block_literal_global.88
@@ -4409,6 +4461,14 @@ __44-[SentryBreadcrumbTracker swizzleSendAction]_block_invoke
 __61-[SentryBreadcrumbTracker trackApplicationUIKitNotifications]_block_invoke.79
 __61-[SentryBreadcrumbTracker trackApplicationUIKitNotifications]_block_invoke_2
 __61-[SentryBreadcrumbTracker trackApplicationUIKitNotifications]_block_invoke
+__GLOBAL__sub_I_SentryTracerConcurrency.mm
+__ZL18_gInFlightTraceIDs
+/Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryTracerConcurrency.mm
+_GLOBAL__sub_I_SentryTracerConcurrency.mm
+Sources/Sentry/SentryTracerConcurrency.mm
+__cxx_global_var_init
+stopTrackingTracerWithID
+trackTracerWithID
 -[SentryCrashIntegration init]
 -[SentryCrashIntegration initWithCrashAdapter:andDispatchQueueWrapper:]
 -[SentryCrashIntegration installWithOptions:]
@@ -4457,32 +4517,45 @@ Sources/Sentry/SentryCrashIntegration.m
 __48-[SentryCrashIntegration currentLocaleDidChange]_block_invoke
 __40-[SentryCrashIntegration configureScope]_block_invoke
 __43-[SentryCrashIntegration startCrashHandler]_block_invoke
+-[SentrySample absoluteTimestamp]
+-[SentrySample setAbsoluteTimestamp:]
+-[SentrySample stackIndex]
+-[SentrySample setStackIndex:]
+-[SentrySample threadID]
+-[SentrySample setThreadID:]
+-[SentrySample queueAddress]
+-[SentrySample setQueueAddress:]
+-[SentrySample .cxx_destruct]
 ___parseBacktraceSymbolsFunctionName_block_invoke
-____Z19processFrameRendersP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEyy_block_invoke
-___copy_helper_block_ea8_32s
-___destroy_helper_block_ea8_32s
-____Z17processFrameRatesP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEy_block_invoke
-+[SentryProfiler initialize]
--[SentryProfiler init]
-+[SentryProfiler startForSpanID:hub:]
-+[SentryProfiler startForSpanID:hub:timeoutInterval:]
-+[SentryProfiler stopProfilingSpan:]
-+[SentryProfiler dropTransaction:]
-+[SentryProfiler linkTransaction:]
+____Z19processFrameRendersP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEP17SentryTransaction_block_invoke
+___copy_helper_block_ea8_32s40s
+___destroy_helper_block_ea8_32s40s
+____Z17processFrameRatesP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEP17SentryTransaction_block_invoke
+____Z39serializedSamplesWithRelativeTimestampsP7NSArrayIP12SentrySampleEP17SentryTransaction_block_invoke
+-[SentryProfiler initWithHub:]
++[SentryProfiler startWithHub:]
++[SentryProfiler stop]
 +[SentryProfiler isRunning]
++[SentryProfiler createProfilingEnvelopeItemForTransaction:]
 +[SentryProfiler useSystemWrapper:]
 +[SentryProfiler useProcessInfoWrapper:]
 +[SentryProfiler useTimerWrapper:]
 +[SentryProfiler useFramesTracker:]
-+[SentryProfiler captureEnvelopeIfFinished:spanID:]
++[SentryProfiler slicedSamples:transaction:]
+___44+[SentryProfiler slicedSamples:transaction:]_block_invoke
+___copy_helper_block_ea8_32s
+___destroy_helper_block_ea8_32s
+___44+[SentryProfiler slicedSamples:transaction:]_block_invoke.239
++[SentryProfiler logSlicingFailureWithArray:transaction:start:]
 +[SentryProfiler timeoutAbort]
 +[SentryProfiler backgroundAbort]
 +[SentryProfiler stopProfilerForReason:]
 -[SentryProfiler startMetricProfiler]
 -[SentryProfiler start]
--[SentryProfiler addTransaction:]
 -[SentryProfiler stop]
--[SentryProfiler captureEnvelope]
++[SentryProfiler serializeBasicProfileInfo:profileDuration:profileID:platform:]
++[SentryProfiler serializeInfoForTransaction:profileDuration:]
++[SentryProfiler envelopeItemForProfileData:profileID:]
 -[SentryProfiler isRunning]
 -[SentryProfiler .cxx_destruct]
 -[SentryProfiler .cxx_construct]
@@ -4503,37 +4576,48 @@ __ZNKSt3__110__function6__funcIZ23-[SentryProfiler start]E3$_0NS_9allocatorIS2_E
 __ZNSt3__122__compressed_pair_elemIZ23-[SentryProfiler start]E3$_0Li0ELb0EEC2IJRKS1_EJLm0EEEENS_21piecewise_construct_tENS_5tupleIJDpT_EEENS_15__tuple_indicesIJXspT0_EEEE
 __ZNSt3__110__function12__alloc_funcIZ23-[SentryProfiler start]E3$_0NS_9allocatorIS2_EEFvRKN6sentry9profiling9BacktraceEEE7destroyEv
 __GLOBAL__sub_I_SentryProfiler.mm
+__OBJC_METACLASS_RO_$_SentrySample
+__OBJC_$_INSTANCE_METHODS_SentrySample
+_OBJC_IVAR_$_SentrySample._absoluteTimestamp
+_OBJC_IVAR_$_SentrySample._stackIndex
+_OBJC_IVAR_$_SentrySample._threadID
+_OBJC_IVAR_$_SentrySample._queueAddress
+__OBJC_$_INSTANCE_VARIABLES_SentrySample
+__OBJC_$_PROP_LIST_SentrySample
+__OBJC_CLASS_RO_$_SentrySample
 __ZZ33parseBacktraceSymbolsFunctionNameE5regex
 __ZZ33parseBacktraceSymbolsFunctionNameE9onceToken
-___block_descriptor_56_ea8_32s_e29_v32?0"NSDictionary"8Q16^B24l
-___block_descriptor_48_ea8_32s_e29_v32?0"NSDictionary"8Q16^B24l
-_OBJC_SELECTOR_REFERENCES_.156
-_OBJC_SELECTOR_REFERENCES_.159
-_OBJC_CLASSLIST_REFERENCES_$_.176
-_OBJC_CLASSLIST_REFERENCES_$_.190
-_OBJC_CLASSLIST_REFERENCES_$_.219
-_OBJC_CLASSLIST_REFERENCES_$_.228
-_OBJC_CLASSLIST_REFERENCES_$_.277
-_OBJC_CLASSLIST_REFERENCES_$_.280
-_OBJC_CLASSLIST_REFERENCES_$_.281
-_OBJC_CLASSLIST_REFERENCES_$_.282
-_OBJC_CLASSLIST_REFERENCES_$_.283
+_OBJC_CLASSLIST_REFERENCES_$_.129
+___block_descriptor_48_ea8_32s40s_e29_v32?0"NSDictionary"8Q16^B24l
+___block_descriptor_48_ea8_32s40s_e29_v32?0"SentrySample"8Q16^B24l
+_OBJC_CLASSLIST_REFERENCES_$_.191
+_OBJC_SELECTOR_REFERENCES_.196
+_OBJC_CLASSLIST_REFERENCES_$_.197
+_OBJC_SELECTOR_REFERENCES_.199
+_OBJC_CLASSLIST_REFERENCES_$_.222
+_OBJC_CLASSLIST_REFERENCES_$_.235
+___block_descriptor_40_ea8_32s_e29_B32?0"SentrySample"8Q16^B24l
+_OBJC_CLASSLIST_REFERENCES_$_.255
+_OBJC_CLASSLIST_REFERENCES_$_.256
+_OBJC_CLASSLIST_REFERENCES_$_.257
+_OBJC_CLASSLIST_REFERENCES_$_.258
+_OBJC_CLASSLIST_REFERENCES_$_.263
+_OBJC_CLASSLIST_REFERENCES_$_.288
+_OBJC_CLASSLIST_REFERENCES_$_.323
+_OBJC_CLASSLIST_REFERENCES_$_.326
+_OBJC_CLASSLIST_REFERENCES_$_.327
 __OBJC_$_CLASS_METHODS_SentryProfiler
 __OBJC_METACLASS_RO_$_SentryProfiler
 __OBJC_$_INSTANCE_METHODS_SentryProfiler
-_OBJC_IVAR_$_SentryProfiler._profile
+_OBJC_IVAR_$_SentryProfiler._profileData
 _OBJC_IVAR_$_SentryProfiler._startTimestamp
 _OBJC_IVAR_$_SentryProfiler._startDate
-_OBJC_IVAR_$_SentryProfiler._endTimestamp
 _OBJC_IVAR_$_SentryProfiler._endDate
 _OBJC_IVAR_$_SentryProfiler._profiler
 _OBJC_IVAR_$_SentryProfiler._metricProfiler
 _OBJC_IVAR_$_SentryProfiler._debugImageProvider
 _OBJC_IVAR_$_SentryProfiler._mainThreadID
-_OBJC_IVAR_$_SentryProfiler._spansInFlight
-_OBJC_IVAR_$_SentryProfiler._transactions
 _OBJC_IVAR_$_SentryProfiler._truncationReason
-_OBJC_IVAR_$_SentryProfiler._frameInfo
 _OBJC_IVAR_$_SentryProfiler._timeoutTimer
 _OBJC_IVAR_$_SentryProfiler._hub
 __OBJC_$_INSTANCE_VARIABLES_SentryProfiler
@@ -4550,11 +4634,10 @@ __ZTIZ23-[SentryProfiler start]E3$_0
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm
 _GLOBAL__sub_I_SentryProfiler.mm
 Sources/Sentry/SentryProfiler.mm
-__cxx_global_var_init
 ~__compressed_pair
 ~__compressed_pair_elem
 ~
-__compressed_pair_elem<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &, 0UL>
+__compressed_pair_elem<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &, 0UL>
 _ZZ23-[SentryProfiler start]EN3$_0C1ERKS_
 _ZZ23-[SentryProfiler start]EN3$_0C2ERKS_
 target_type
@@ -4563,17 +4646,17 @@ __target
 operator==
 __eq
 __is_type_name_unique
-__call<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &, const sentry::profiling::Backtrace &>
+__call<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &, const sentry::profiling::Backtrace &>
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__functional/invoke.h
-__invoke<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &, const sentry::profiling::Backtrace &>
+__invoke<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &, const sentry::profiling::Backtrace &>
 operator()<const sentry::profiling::Backtrace>
 destroy_deallocate
 __clone
 __func
 __alloc_func
-__compressed_pair<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &, const std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13)> &>
-forward_as_tuple<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &>
-__compressed_pair<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &, std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13)> &&>
+__compressed_pair<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &, const std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9)> &>
+forward_as_tuple<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &>
+__compressed_pair<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &, std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9)> &&>
 ~__func
 ~__alloc_func
 __create_with_control_block<sentry::profiling::SamplingProfiler, std::__1::__shared_ptr_emplace<sentry::profiling::SamplingProfiler, std::__1::allocator<sentry::profiling::SamplingProfiler> > >
@@ -4587,24 +4670,31 @@ expired
 use_count
 __libcpp_relaxed_load<long>
 operator==<sentry::profiling::SamplingProfiler>
+serializedUnsigned64BitInteger
 profilerTruncationReasonName
-make_shared<sentry::profiling::SamplingProfiler, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13), const int &, void>
-allocate_shared<sentry::profiling::SamplingProfiler, std::__1::allocator<sentry::profiling::SamplingProfiler>, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13), const int &, void>
-__shared_ptr_emplace<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13), const int &>
-function<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13), void>
-__value_func<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13), void>
-__value_func<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13), std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13)> >
-__compressed_pair<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &&, std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13)> &&>
-__compressed_pair_elem<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:566:13) &&, 0UL>
+make_shared<sentry::profiling::SamplingProfiler, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9), const int &, void>
+allocate_shared<sentry::profiling::SamplingProfiler, std::__1::allocator<sentry::profiling::SamplingProfiler>, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9), const int &, void>
+__shared_ptr_emplace<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9), const int &>
+function<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9), void>
+__value_func<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9), void>
+__value_func<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9), std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9)> >
+__compressed_pair<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &&, std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9)> &&>
+__compressed_pair_elem<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:717:9) &&, 0UL>
 _ZZ23-[SentryProfiler start]EN3$_0C1EOS_
 _ZZ23-[SentryProfiler start]EN3$_0C2EOS_
 __allocation_guard<std::__1::allocator<sentry::profiling::SamplingProfiler> >
 operator!=<sentry::profiling::SamplingProfiler>
-___Z17processFrameRatesP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEy_block_invoke
-processFrameRates
+__44+[SentryProfiler slicedSamples:transaction:]_block_invoke.239
 __destroy_helper_block_ea8_32s
 __copy_helper_block_ea8_32s
-___Z19processFrameRendersP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEyy_block_invoke
+__44+[SentryProfiler slicedSamples:transaction:]_block_invoke
+___Z39serializedSamplesWithRelativeTimestampsP7NSArrayIP12SentrySampleEP17SentryTransaction_block_invoke
+serializedSamplesWithRelativeTimestamps
+___Z17processFrameRatesP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEP17SentryTransaction_block_invoke
+processFrameRates
+__destroy_helper_block_ea8_32s40s
+__copy_helper_block_ea8_32s40s
+___Z19processFrameRendersP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEP17SentryTransaction_block_invoke
 processFrameRenders
 processBacktrace
 operator[]
@@ -4613,6 +4703,7 @@ operator!=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::a
 empty
 __parseBacktraceSymbolsFunctionName_block_invoke
 parseBacktraceSymbolsFunctionName
+Sources/Sentry/include/SentryProfiler+Test.h
 -[SentryAsynchronousOperation init]
 -[SentryAsynchronousOperation start]
 -[SentryAsynchronousOperation cancel]
@@ -4739,7 +4830,6 @@ _OBJC_IVAR_$_SentryCrash._notificationCenter
 __OBJC_$_INSTANCE_VARIABLES_SentryCrash
 __OBJC_$_PROP_LIST_SentryCrash
 __OBJC_CLASS_RO_$_SentryCrash
-_OBJC_CLASSLIST_REFERENCES_$_.288
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/SentryCrash.m
 getBundleName
 Sources/SentryCrash/Recording/SentryCrash.m
@@ -4812,6 +4902,8 @@ __OBJC_METACLASS_RO_$_SentryTransportFactory
 __OBJC_CLASS_RO_$_SentryTransportFactory
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryTransportFactory.m
 Sources/Sentry/SentryTransportFactory.m
+-[SentryNSProcessInfoWrapper processDirectoryPath]
+-[SentryNSProcessInfoWrapper processPath]
 -[SentryNSProcessInfoWrapper processorCount]
 __OBJC_METACLASS_RO_$_SentryNSProcessInfoWrapper
 __OBJC_$_INSTANCE_METHODS_SentryNSProcessInfoWrapper
@@ -4965,7 +5057,6 @@ Sources/Sentry/SentrySDK.m
 -[SentryScope observers]
 -[SentryScope setObservers:]
 -[SentryScope .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.72
 __OBJC_CLASS_PROTOCOLS_$_SentryScope
 __OBJC_METACLASS_RO_$_SentryScope
 __OBJC_$_INSTANCE_METHODS_SentryScope
@@ -5135,13 +5226,18 @@ __OBJC_CLASS_RO_$_SentryTracesSampler
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryTracesSampler.m
 Sources/Sentry/SentryTracesSampler.m
 Sources/Sentry/include/SentryTracesSampler.h
--[SentryMetricProfiler initWithProfileStartTime:processInfoWrapper:systemWrapper:timerWrapper:]
+-[SentryMetricReading value]
+-[SentryMetricReading setValue:]
+-[SentryMetricReading absoluteTimestamp]
+-[SentryMetricReading setAbsoluteTimestamp:]
+-[SentryMetricReading .cxx_destruct]
+-[SentryMetricProfiler initWithProcessInfoWrapper:systemWrapper:timerWrapper:]
 -[SentryMetricProfiler dealloc]
 -[SentryMetricProfiler start]
 -[SentryMetricProfiler stop]
--[SentryMetricProfiler serialize]
-__ZN12_GLOBAL__N_116serializedValuesEP7NSArrayIP12NSDictionaryIP8NSStringS3_EES3_
-___33-[SentryMetricProfiler serialize]_block_invoke
+-[SentryMetricProfiler serializeForTransaction:]
+__ZN12_GLOBAL__N_133serializeValuesWithNormalizedTimeEP7NSArrayIP19SentryMetricReadingEP8NSStringP17SentryTransaction
+___48-[SentryMetricProfiler serializeForTransaction:]_block_invoke
 -[SentryMetricProfiler registerSampler]
 ___39-[SentryMetricProfiler registerSampler]_block_invoke
 ___copy_helper_block_ea8_32w
@@ -5149,10 +5245,17 @@ ___destroy_helper_block_ea8_32w
 -[SentryMetricProfiler recordMemoryFootprint]
 -[SentryMetricProfiler recordCPUPercentagePerCore]
 ___50-[SentryMetricProfiler recordCPUPercentagePerCore]_block_invoke
--[SentryMetricProfiler metricEntryForValue:]
+-[SentryMetricProfiler metricReadingForValue:]
 -[SentryMetricProfiler .cxx_destruct]
-_OBJC_SELECTOR_REFERENCES_.29
-___block_descriptor_40_ea8_32s_e41_v32?0"NSNumber"8"NSMutableArray"16^B24l
+____ZN12_GLOBAL__N_133serializeValuesWithNormalizedTimeEP7NSArrayIP19SentryMetricReadingEP8NSStringP17SentryTransaction_block_invoke
+__OBJC_METACLASS_RO_$_SentryMetricReading
+__OBJC_$_INSTANCE_METHODS_SentryMetricReading
+_OBJC_IVAR_$_SentryMetricReading._value
+_OBJC_IVAR_$_SentryMetricReading._absoluteTimestamp
+__OBJC_$_INSTANCE_VARIABLES_SentryMetricReading
+__OBJC_$_PROP_LIST_SentryMetricReading
+__OBJC_CLASS_RO_$_SentryMetricReading
+___block_descriptor_48_ea8_32s40s_e41_v32?0"NSNumber"8"NSMutableArray"16^B24l
 ___block_descriptor_40_ea8_32w_e17_v16?0"NSTimer"8l
 ___block_descriptor_40_ea8_32s_e25_v32?0"NSNumber"8Q16^B24l
 __OBJC_METACLASS_RO_$_SentryMetricProfiler
@@ -5163,17 +5266,18 @@ _OBJC_IVAR_$_SentryMetricProfiler._systemWrapper
 _OBJC_IVAR_$_SentryMetricProfiler._timerWrapper
 _OBJC_IVAR_$_SentryMetricProfiler._cpuUsage
 _OBJC_IVAR_$_SentryMetricProfiler._memoryFootprint
-_OBJC_IVAR_$_SentryMetricProfiler._profileStartTime
 __OBJC_$_INSTANCE_VARIABLES_SentryMetricProfiler
 __OBJC_CLASS_RO_$_SentryMetricProfiler
+___block_descriptor_48_ea8_32s40s_e36_v32?0"SentryMetricReading"8Q16^B24l
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryMetricProfiler.mm
+___ZN12_GLOBAL__N_133serializeValuesWithNormalizedTimeEP7NSArrayIP19SentryMetricReadingEP8NSStringP17SentryTransaction_block_invoke
 Sources/Sentry/SentryMetricProfiler.mm
 __50-[SentryMetricProfiler recordCPUPercentagePerCore]_block_invoke
 __destroy_helper_block_ea8_32w
 __copy_helper_block_ea8_32w
 __39-[SentryMetricProfiler registerSampler]_block_invoke
-__33-[SentryMetricProfiler serialize]_block_invoke
-serializedValues
+__48-[SentryMetricProfiler serializeForTransaction:]_block_invoke
+serializeValuesWithNormalizedTime
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Tools/SentryCrashDate.c
 sentrycrashdate_utcStringFromTimestamp
 Sources/SentryCrash/Recording/Tools/SentryCrashDate.c
@@ -6762,6 +6866,10 @@ Sources/Sentry/UIView+Sentry.m
 -[SentryEvent setIsCrashEvent:]
 -[SentryEvent serializedBreadcrumbs]
 -[SentryEvent setSerializedBreadcrumbs:]
+-[SentryEvent startSystemTime]
+-[SentryEvent setStartSystemTime:]
+-[SentryEvent endSystemTime]
+-[SentryEvent setEndSystemTime:]
 -[SentryEvent .cxx_destruct]
 __OBJC_CLASS_PROTOCOLS_$_SentryEvent
 __OBJC_METACLASS_RO_$_SentryEvent
@@ -6795,11 +6903,14 @@ _OBJC_IVAR_$_SentryEvent._debugMeta
 _OBJC_IVAR_$_SentryEvent._breadcrumbs
 _OBJC_IVAR_$_SentryEvent._request
 _OBJC_IVAR_$_SentryEvent._serializedBreadcrumbs
+_OBJC_IVAR_$_SentryEvent._startSystemTime
+_OBJC_IVAR_$_SentryEvent._endSystemTime
 __OBJC_$_INSTANCE_VARIABLES_SentryEvent
 __OBJC_$_PROP_LIST_SentryEvent
 __OBJC_CLASS_RO_$_SentryEvent
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryEvent.m
 Sources/Sentry/SentryEvent.m
+Sources/Sentry/include/SentryEvent+Private.h
 Sources/Sentry/Public/SentryEvent.h
 __OBJC_METACLASS_RO_$_SentryCrashExceptionApplication
 __OBJC_CLASS_RO_$_SentryCrashExceptionApplication

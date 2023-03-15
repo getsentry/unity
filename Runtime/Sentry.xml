@@ -212,6 +212,11 @@
             During event ingestion, the last logs are extracted into event breadcrumbs.
             </summary>
         </member>
+        <member name="F:Sentry.AttachmentType.ViewHierarchy">
+            <summary>
+            A JSON attachment containing the View Hierarchy
+            </summary>
+        </member>
         <member name="T:Sentry.Attachment">
             <summary>
             Sentry attachment.
@@ -5475,6 +5480,16 @@
             should not be sent at all, return null from the callback.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.BeforeSendTransaction">
+            <summary>
+            A callback to invoke before sending a transaction to Sentry
+            </summary>
+            <remarks>
+            The return of this transaction will be sent to Sentry. This allows the application
+            a chance to inspect and/or modify the transaction before it's sent. If the transaction
+            should not be sent at all, return null from the callback.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.BeforeBreadcrumb">
             <summary>
             A callback invoked when a breadcrumb is about to be stored.
@@ -5640,13 +5655,50 @@
             If the key already exists in the event, it will not be overwritten by a default tag.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.IsTracingEnabled">
+            <summary>
+            Indicates whether tracing is enabled, via any combination of
+            <see cref="P:Sentry.SentryOptions.EnableTracing"/>, <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>, or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.EnableTracing">
+            <summary>
+            Simplified option for enabling or disabling tracing.
+            <list type="table">
+              <listheader>
+                <term>Value</term>
+                <description>Effect</description>
+              </listheader>
+              <item>
+                <term><c>true</c></term>
+                <description>
+                  Tracing is enabled. <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> or <see cref="P:Sentry.SentryOptions.TracesSampler"/> will be used if set,
+                  or 100% sample rate will be used otherwise.
+                </description>
+              </item>
+              <item>
+                <term><c>false</c></term>
+                <description>
+                  Tracing is disabled, regardless of <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
+                </description>
+              </item>
+              <item>
+                <term><c>null</c></term>
+                <description>
+                  <b>The default setting.</b>
+                  Tracing is enabled only if <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> or <see cref="P:Sentry.SentryOptions.TracesSampler"/> are set.
+                </description>
+              </item>
+            </list>
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.TracesSampleRate">
             <summary>
             Indicates the percentage of the tracing data that is collected.
-            Setting this to <c>0</c> discards all trace data.
+            Setting this to <c>0.0</c> discards all trace data.
             Setting this to <c>1.0</c> collects all trace data.
             Values outside of this range are invalid.
-            Default value is <c>0</c>, which means tracing is disabled.
+            The default value is either <c>0.0</c> or <c>1.0</c>, depending on the <see cref="P:Sentry.SentryOptions.EnableTracing"/> property.
             </summary>
             <remarks>
             Random sampling rate is only applied to transactions that don't already
@@ -5759,6 +5811,19 @@
             This currently modifies a static list, so will affect any instance of the Sentry SDK.
             If that becomes problematic, we will have to refactor all serialization code to be
             able to accept an instance of <see cref="T:Sentry.SentryOptions"/>.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryOptions.JsonPreserveReferences">
+            <summary>
+            When <c>true</c>, if an object being serialized to JSON contains references to other objects, and the
+            serialized object graph exceed the maximum allowable depth, the object will instead be serialized using
+            <see cref="P:System.Text.Json.Serialization.ReferenceHandler.Preserve"/> (from System.Text.Json) - which adds <c>$id</c> and <c>$ref</c>
+            metadata to the JSON.  When <c>false</c>, an object graph exceeding the maximum depth will be truncated.
+            The default value is <c>true</c>.
+            </summary>
+            <remarks>
+            This option applies only to complex objects being added to Sentry events as contexts or extras, which do not
+            implement <see cref="T:Sentry.IJsonSerializable"/>.
             </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.NetworkStatusListener">
@@ -7688,6 +7753,70 @@
         <member name="M:Sentry.UserFeedback.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.ViewHierarchy">
+            <summary>
+            Sentry View Hierarchy.
+            </summary>
+        </member>
+        <member name="P:Sentry.ViewHierarchy.RenderingSystem">
+            <summary>
+            The rendering system this view hierarchy is capturing.
+            </summary>
+        </member>
+        <member name="P:Sentry.ViewHierarchy.Windows">
+            <summary>
+            The elements or windows within the view hierarchy.
+            </summary>
+        </member>
+        <member name="M:Sentry.ViewHierarchy.#ctor(System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.ViewHierarchy"/>
+            </summary>
+            <param name="renderingSystem">The rendering system</param>
+        </member>
+        <member name="M:Sentry.ViewHierarchy.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.ViewHierarchyAttachment">
+            <summary>
+            Sentry View Hierarchy attachment.
+            </summary>
+        </member>
+        <member name="M:Sentry.ViewHierarchyAttachment.#ctor(Sentry.IAttachmentContent)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.ViewHierarchyAttachment"/>.
+            </summary>
+            /// <param name="content">The view hierarchy attachment</param>
+        </member>
+        <member name="T:Sentry.ViewHierarchyNode">
+            <summary>
+            Sentry View Hierarchy Node
+            </summary>
+        </member>
+        <member name="P:Sentry.ViewHierarchyNode.Type">
+            <summary>
+            The type of the element represented by this node.
+            </summary>
+        </member>
+        <member name="P:Sentry.ViewHierarchyNode.Children">
+            <summary>
+            The child nodes
+            </summary>
+        </member>
+        <member name="M:Sentry.ViewHierarchyNode.#ctor(System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.ViewHierarchyNode"/>
+            </summary>
+            <param name="type">The type of node</param>
+        </member>
+        <member name="M:Sentry.ViewHierarchyNode.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.ViewHierarchyNode.WriteAdditionalProperties(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <summary>
+            Gets automatically called and writes additional properties during <see cref="M:Sentry.ViewHierarchyNode.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)"/>
             </summary>
         </member>
         <member name="T:SentryExceptionExtensions">
