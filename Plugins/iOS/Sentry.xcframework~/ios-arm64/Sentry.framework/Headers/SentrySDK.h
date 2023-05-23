@@ -269,9 +269,23 @@ SENTRY_NO_INIT
 + (void)endSession;
 
 /**
- * This forces a crash, useful to test the @c SentryCrash integration
+ * This forces a crash, useful to test the @c SentryCrash integration.
+ *
+ * @note The SDK can't report a crash when a debugger is attached. Your application needs to run
+ * without a debugger attached to capture the crash and send it to Sentry the next time you launch
+ * your application.
  */
 + (void)crash;
+
+/**
+ * Reports to the ongoing UIViewController transaction
+ * that the screen contents are fully loaded and displayed,
+ * which will create a new span.
+ *
+ * For more information see our documentation:
+ * https://docs.sentry.io/platforms/cocoa/performance/instrumentation/automatic-instrumentation/#time-to-full-display
+ */
++ (void)reportFullyDisplayed;
 
 /**
  * Waits synchronously for the SDK to flush out all queued and cached items for up to the specified
