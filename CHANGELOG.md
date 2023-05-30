@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.4.0
+
+### Fixes
+
+- Updated sample configure callback to use the new `BeforeSend`methods that allow the use of `Hints` ([#1341](https://github.com/getsentry/sentry-unity/pull/1341))
+- Updated the Sentry CLI command to upload debug symbols ([#1336](https://github.com/getsentry/sentry-unity/pull/1336))
+
+### Feature
+
+- Added automatic filtering of `BadGatewayExceptions` originating from Unity telemetry on the native iOS layer ([#1345](https://github.com/getsentry/sentry-unity/pull/1345))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.7.2 to v8.7.3 ([#1342](https://github.com/getsentry/sentry-unity/pull/1342))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#873)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.7.2...8.7.3)
+- Bump Java SDK from v6.18.1 to v6.20.0 ([#1344](https://github.com/getsentry/sentry-unity/pull/1344))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#6200)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.18.1...6.20.0)
+
 ## 1.3.0
 
 ### Fixes

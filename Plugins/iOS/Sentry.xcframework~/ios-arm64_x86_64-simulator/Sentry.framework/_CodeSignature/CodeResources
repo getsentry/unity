@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/SentryDebugImageProvider.h</key>
 		<data>
-		oQYVHKuUTU9KEnKs7uyR6V6Xhck=
+		y9AIpXdx7gX6EBGIVBeK2OlSYcs=
 		</data>
 		<key>Headers/SentryDebugMeta.h</key>
 		<data>
@@ -178,15 +178,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		muEHKZwmL6xZwIOTyuPg/T1HdKc=
+		0gwE7HcloafdKXwhLHSyK02XsVM=
 		</data>
 		<key>Modules/Sentry.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		jKqpYQPwwA1muYdKqf1bu2afcvo=
+		k2TV23iswISojZYowO8jqliVDt8=
 		</data>
 		<key>Modules/Sentry.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		C+wGY+9AHz/dTqZqM9CMpqUYYc4=
+		LtBWY/Py4ofEkSfa3YrP8DU9cYI=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -246,7 +246,7 @@
 		</data>
 		<key>PrivateHeaders/PrivateSentrySDKOnly.h</key>
 		<data>
-		uM+pIlRG0IssiupXLkZJtMPL0bw=
+		BfaHTtgOtun+lZvBtIO17UlLOi0=
 		</data>
 		<key>PrivateHeaders/PrivatesHeader.h</key>
 		<data>
@@ -357,7 +357,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tdeB38r24/Ie6b+zRTuwtj4sh8vxOZ/Xp9CmYo5zw+0=
+			hMgkw3mKhEbIBiP5A9irkZPxFNHbZYChGS40StuTdpI=
 			</data>
 		</dict>
 		<key>Headers/SentryDebugMeta.h</key>
@@ -616,14 +616,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ocbOyg0qwMbWGuRUoxtVP8QWfAZ5W+w34zjj/GvN3/o=
+			iWM9bb/s9ASXFXCSiWXCLt4zNJSrdxU8qLeCQ+0lIbs=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nchUQnQbwmTMiLMtU0ouvphj/ykb4v+8uZfeiLdmm5k=
+			vf71UEG+Bma9RQu2uz2zzRQx6M06kh5QxiOD+PV2RI8=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
@@ -728,7 +728,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			yY6g1eTDHAQnJ6m7Wzeypq1pbm6/LhOUggnJF2i642E=
+			uZXoGCAMap4zISn5/cllSR4U4qQFZu9T3vgXmD/DEB8=
 			</data>
 		</dict>
 		<key>PrivateHeaders/PrivatesHeader.h</key>
