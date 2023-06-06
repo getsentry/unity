@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.sentry",
+    "module": "sentry-android",
+    "version": "6.21.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.1.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.sentry",
+          "module": "sentry-android-core",
+          "version": {
+            "requires": "6.21.0"
+          }
+        },
+        {
+          "group": "io.sentry",
+          "module": "sentry-android-ndk",
+          "version": {
+            "requires": "6.21.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sentry-android-6.21.0.aar",
+          "url": "sentry-android-6.21.0.aar",
+          "size": 2998,
+          "sha512": "7aea9f974b1d2adc5d1a64e686a65e3ef177399af49080629bee69c67c5a3a2d093de60802873e258cdee03ea7112fecf82fb765d52b825ed4b7c41ae013ef24",
+          "sha256": "5858a2346b5396f068ffe2af2a625f9f658e274bdf7a2eefa956d33488472f5a",
+          "sha1": "99c10df7eba6774df4d5f715949292b823f858d0",
+          "md5": "fb97bc72cd3374e1e968a7b74ac9d041"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.sentry",
+          "module": "sentry-android-core",
+          "version": {
+            "requires": "6.21.0"
+          }
+        },
+        {
+          "group": "io.sentry",
+          "module": "sentry-android-ndk",
+          "version": {
+            "requires": "6.21.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sentry-android-6.21.0.aar",
+          "url": "sentry-android-6.21.0.aar",
+          "size": 2998,
+          "sha512": "7aea9f974b1d2adc5d1a64e686a65e3ef177399af49080629bee69c67c5a3a2d093de60802873e258cdee03ea7112fecf82fb765d52b825ed4b7c41ae013ef24",
+          "sha256": "5858a2346b5396f068ffe2af2a625f9f658e274bdf7a2eefa956d33488472f5a",
+          "sha1": "99c10df7eba6774df4d5f715949292b823f858d0",
+          "md5": "fb97bc72cd3374e1e968a7b74ac9d041"
+        }
+      ]
+    }
+  ]
+}
