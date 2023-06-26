@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.sentry",
+    "module": "sentry-android-ndk",
+    "version": "6.24.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.1.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "io.sentry",
+          "module": "sentry",
+          "version": {
+            "requires": "6.24.0"
+          }
+        },
+        {
+          "group": "io.sentry",
+          "module": "sentry-android-core",
+          "version": {
+            "requires": "6.24.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sentry-android-ndk-6.24.0.aar",
+          "url": "sentry-android-ndk-6.24.0.aar",
+          "size": 1633848,
+          "sha512": "6b82de1346901f295d800f80993b5e3907a768fc5f451cba9adffd9d453fa188167592d53e7d5f80936aecb74d555310e3b4218ab394ad6610150c2ab129c3a7",
+          "sha256": "66d7a48543e2d62fa516448d30a73d118becb52dbcc2bc181f20080604cd5ead",
+          "sha1": "8fabcd1e37f62472ee978b34ade41698a619cdb2",
+          "md5": "ee6227fc2107a6abd6e85588ee47ba53"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.sentry",
+          "module": "sentry",
+          "version": {
+            "requires": "6.24.0"
+          }
+        },
+        {
+          "group": "io.sentry",
+          "module": "sentry-android-core",
+          "version": {
+            "requires": "6.24.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sentry-android-ndk-6.24.0.aar",
+          "url": "sentry-android-ndk-6.24.0.aar",
+          "size": 1633848,
+          "sha512": "6b82de1346901f295d800f80993b5e3907a768fc5f451cba9adffd9d453fa188167592d53e7d5f80936aecb74d555310e3b4218ab394ad6610150c2ab129c3a7",
+          "sha256": "66d7a48543e2d62fa516448d30a73d118becb52dbcc2bc181f20080604cd5ead",
+          "sha1": "8fabcd1e37f62472ee978b34ade41698a619cdb2",
+          "md5": "ee6227fc2107a6abd6e85588ee47ba53"
+        }
+      ]
+    }
+  ]
+}

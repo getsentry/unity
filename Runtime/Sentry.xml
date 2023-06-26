@@ -4183,15 +4183,9 @@
             https://github.com/microsoft/perfview/blob/050c303943e74ff51ce584b2717e578d96684e85/src/FastSerialization/GrowableArray.cs
             </remarks>
         </member>
-        <member name="M:Sentry.Internal.GrowableArray`1.#ctor">
-            <summary>
-            Create an empty growable array.
-            </summary>
-        </member>
         <member name="M:Sentry.Internal.GrowableArray`1.#ctor(System.Int32)">
             <summary>
-            Create a growable array with the given initial size it will grow as needed.  There is also the
-            default constructor that assumes initialSize of 0 (and does not actually allocate the array.
+            Create a growable array with the given initial size it will grow as needed.
             </summary>
             <param name="initialSize"></param>
         </member>
@@ -9710,6 +9704,12 @@
         </member>
         <member name="M:Sentry.SpanTracer.StartChild(System.String)">
             <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.Unfinish">
+            <summary>
+            Used to mark a span as unfinished when it was previously marked as finished. This allows us to reuse spans for
+            DB Connections that get reused by the underlying connection pool
+            </summary>
         </member>
         <member name="M:Sentry.SpanTracer.Finish">
             <inheritdoc />
