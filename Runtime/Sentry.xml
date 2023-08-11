@@ -2617,6 +2617,16 @@
             Returns null.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.GetBaggage">
+            <summary>
+            Returns null.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
+            <summary>
+            Returns null.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.StartSession">
             <summary>
             No-Op.
@@ -2762,6 +2772,11 @@
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},Sentry.DynamicSamplingContext)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.HubAdapter.BindException(System.Exception,Sentry.ISpan)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
@@ -2773,6 +2788,16 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.GetTraceHeader">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.GetBaggage">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3826,8 +3851,21 @@
         </member>
         <member name="M:Sentry.IHub.GetTraceHeader">
             <summary>
-            Gets the Sentry trace header for the last active span.
+            Gets the Sentry trace header that allows tracing across services
             </summary>
+        </member>
+        <member name="M:Sentry.IHub.GetBaggage">
+            <summary>
+            Gets the Sentry baggage header that allows tracing across services
+            </summary>
+        </member>
+        <member name="M:Sentry.IHub.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
+            <summary>
+            Continues a trace based on HTTP header values.
+            </summary>
+            <remarks>
+            If no "sentry-trace" header is provided a random trace ID and span ID is created.
+            </remarks>
         </member>
         <member name="M:Sentry.IHub.StartSession">
             <summary>
@@ -4017,6 +4055,21 @@
         <member name="M:Sentry.Infrastructure.TraceDiagnosticLogger.LogMessage(System.String)">
             <inheritdoc />
         </member>
+        <member name="T:Sentry.Instrumenter">
+            <summary>
+            Describes which approach is used to create spans.
+            </summary>
+        </member>
+        <member name="F:Sentry.Instrumenter.Sentry">
+            <summary>
+            Spans are instrumented via the Sentry SDK.
+            </summary>
+        </member>
+        <member name="F:Sentry.Instrumenter.OpenTelemetry">
+            <summary>
+            Spans are instrumented via OpenTelemetry.
+            </summary>
+        </member>
         <member name="T:Sentry.Integrations.ISdkIntegration">
             <summary>
             An SDK Integration.
@@ -4148,6 +4201,12 @@
             code that ignores nullability warnings.
             (It prevents us having to have two different resharper ignore comments depending on target framework.)
             </remarks>
+        </member>
+        <member name="T:Sentry.Internal.Extensions.PEDebugImageData">
+            <summary>
+            The subset of information about a DebugImage that we can obtain from a PE file.
+            This rest of the information is obtained from the Module.
+            </summary>
         </member>
         <member name="M:Sentry.Internal.Extensions.StringExtensions.NullIfWhitespace(System.String)">
             <summary>
@@ -4407,6 +4466,14 @@
             The release distribution of the application.
             </summary>
         </member>
+        <member name="M:Sentry.Internal.ILSpy.ModuleExtensions.GetNameOrScopeName(System.Reflection.Module)">
+            <summary>
+            The Module.Name for Modules that are embedded in SingleFileApps will be null
+            or &lt;Unknown&gt;, in that case we can use Module.ScopeName instead
+            </summary>
+            <param name="module">A Module instance</param>
+            <returns>module.Name, if this is available. module.ScopeName otherwise</returns>
+        </member>
         <member name="T:Sentry.Internal.ITransactionProfilerFactory">
             <summary>
             Factory to create/attach profilers when a transaction starts.
@@ -4436,6 +4503,16 @@
             <summary>
             A converter that removes dangerous classes from being serialized,
             and, also formats some classes like Exception and Type.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.NoOpSpan">
+            <summary>
+            Span class to use when we can't return null but a request to create a span couldn't be completed.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.NoOpTransaction">
+            <summary>
+            Transaction class to use when we can't return null but a request to create a transaction couldn't be completed.
             </summary>
         </member>
         <member name="T:Sentry.Internal.PiiExtensions">
@@ -7937,9 +8014,20 @@
             An optional web proxy
             </summary>
         </member>
+        <member name="F:Sentry.SentryOptions._createClientHandler">
+            <summary>
+            private field to hold the <see cref="P:Sentry.SentryOptions.CreateHttpClientHandler"/>, since a typecheck or cast won't work here.
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.CreateHttpClientHandler">
             <summary>
             Creates the inner most <see cref="T:System.Net.Http.HttpClientHandler"/>.
+            Deprecated in favor of <see cref="P:Sentry.SentryOptions.CreateHttpMessageHandler"/>.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.CreateHttpMessageHandler">
+            <summary>
+            Creates the inner most <see cref="T:System.Net.Http.HttpMessageHandler"/>.
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.ConfigureClient">
@@ -8198,6 +8286,16 @@
         <member name="P:Sentry.SentryOptions.CrashedLastRun">
             <summary>
             Delegate which is used to check whether the application crashed during last run.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.Instrumenter">
+            <summary>
+            <para>
+                Gets the <see cref="P:Sentry.SentryOptions.Instrumenter"/> used to create spans.
+            </para>
+            <para>
+                Defaults to <see cref="F:Sentry.Instrumenter.Sentry"/>
+            </para>
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.KeepAggregateException">
@@ -8963,8 +9061,21 @@
         </member>
         <member name="M:Sentry.SentrySdk.GetTraceHeader">
             <summary>
-            Gets the Sentry trace header.
+            Gets the Sentry trace header of the parent that allows tracing across services
             </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.GetBaggage">
+            <summary>
+            Gets the Sentry "baggage" header that allows tracing across services
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
+            <summary>
+            Continues a trace based on HTTP header values.
+            </summary>
+            <remarks>
+            If no "sentry-trace" header is provided a random trace ID and span ID is created.
+            </remarks>
         </member>
         <member name="M:Sentry.SentrySdk.StartSession">
             <inheritdoc cref="M:Sentry.IHub.StartSession"/>
@@ -9526,6 +9637,11 @@
         <member name="P:Sentry.SpanContext.IsSampled">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.SpanContext.Instrumenter">
+            <summary>
+            Identifies which instrumentation is being used.
+            </summary>
+        </member>
         <member name="M:Sentry.SpanContext.#ctor(Sentry.SpanId,System.Nullable{Sentry.SpanId},Sentry.SentryId,System.String,System.String,System.Nullable{Sentry.SpanStatus},System.Nullable{System.Boolean})">
             <summary>
             Initializes an instance of <see cref="T:Sentry.SpanContext"/>.
@@ -9678,6 +9794,14 @@
         </member>
         <member name="P:Sentry.SpanTracer.Status">
             <inheritdoc cref="P:Sentry.ISpan.Status" />
+        </member>
+        <member name="P:Sentry.SpanTracer.IsSentryRequest">
+            <summary>
+            Used by the Sentry.OpenTelemetry.SentrySpanProcessor to mark a span as a Sentry request. Ideally we wouldn't
+            create these spans but since we can't avoid doing that, once we detect that it's a Sentry request we mark it
+            as such so that we can filter it when the transaction finishes and the TransactionTracer gets converted into
+            a Transaction.
+            </summary>
         </member>
         <member name="P:Sentry.SpanTracer.IsSampled">
             <inheritdoc />
@@ -10230,7 +10354,9 @@
             <inheritdoc />
         </member>
         <member name="P:Sentry.TransactionTracer.SampleRate">
-            <inheritdoc />
+            <summary>
+            The sample rate used for this transaction.
+            </summary>
         </member>
         <member name="P:Sentry.TransactionTracer.Level">
             <inheritdoc />
@@ -10271,6 +10397,14 @@
         <member name="P:Sentry.TransactionTracer.IsFinished">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.TransactionTracer.IsSentryRequest">
+            <summary>
+            Used by the Sentry.OpenTelemetry.SentrySpanProcessor to mark a transaction as a Sentry request. Ideally we wouldn't
+            create this transaction but since we can't avoid doing that, once we detect that it's a Sentry request we mark it
+            as such so that we can prevent finishing the transaction tracer when idle timeout elapses and the TransactionTracer gets converted into
+            a Transaction.
+            </summary>
+        </member>
         <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,System.String,System.String)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.Transaction"/>.
@@ -10282,6 +10416,11 @@
             </summary>
         </member>
         <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,Sentry.ITransactionContext)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.TransactionTracer"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.TransactionTracer.#ctor(Sentry.IHub,Sentry.ITransactionContext,System.Nullable{System.TimeSpan})">
             <summary>
             Initializes an instance of <see cref="T:Sentry.TransactionTracer"/>.
             </summary>

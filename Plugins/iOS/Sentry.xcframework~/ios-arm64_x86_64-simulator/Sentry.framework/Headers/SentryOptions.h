@@ -246,7 +246,7 @@ NS_SWIFT_NAME(Options)
  */
 @property (nonatomic, assign) BOOL enablePreWarmedAppStartTracing;
 
-#endif
+#endif // SENTRY_HAS_UIKIT
 
 /**
  * When enabled, the SDK tracks performance for HTTP requests if auto performance tracking and
@@ -388,7 +388,7 @@ NS_SWIFT_NAME(Options)
 @property (nonatomic, assign) BOOL enableProfiling DEPRECATED_MSG_ATTRIBUTE(
     "Use profilesSampleRate or profilesSampler instead. This property will be removed in a future "
     "version of the SDK");
-#endif
+#endif // SENTRY_TARGET_PROFILING_SUPPORTED
 
 /**
  * Whether to send client reports, which contain statistics about discarded events.
@@ -468,7 +468,7 @@ NS_SWIFT_NAME(Options)
 @property (nonatomic, assign) BOOL enableMetricKit API_AVAILABLE(
     ios(15.0), macos(12.0), macCatalyst(15.0)) API_UNAVAILABLE(tvos, watchos);
 
-#endif
+#endif // SENTRY_HAS_METRIC_KIT
 
 /**
  * @warning This is an experimental feature and may still have bugs.
@@ -480,7 +480,7 @@ NS_SWIFT_NAME(Options)
  * finished with @c DeadlineExceeded status.
  * @note Default value is `NO`.
  */
-@property (nonatomic) BOOL enableTimeToFullDisplay;
+@property (nonatomic) BOOL enableTimeToFullDisplayTracing;
 
 /**
  * @warning This is an experimental feature and may still have bugs.

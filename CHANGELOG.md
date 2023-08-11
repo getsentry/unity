@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.5.1
+
+### Fixes
+
+- Resolved the internal dependency issue with the Android SDK that lead to build time issues like `runtime.jar is missing` and `ClassNotFoundException` during runtime ([#1417](https://github.com/getsentry/sentry-unity/pull/1417))
+- The SDK now handles proguardfiles sections indicated by both `consumerProguardFiles` and `proguardFiles` ([#1401](https://github.com/getsentry/sentry-unity/pull/1401))
+
+### Dependencies
+
+- Bump CLI from v2.19.1 to v2.20.4 ([#1387](https://github.com/getsentry/sentry-unity/pull/1387), [#1388](https://github.com/getsentry/sentry-unity/pull/1388), [#1405](https://github.com/getsentry/sentry-unity/pull/1405), [#1408](https://github.com/getsentry/sentry-unity/pull/1408), [#1410](https://github.com/getsentry/sentry-unity/pull/1410), [#1412](https://github.com/getsentry/sentry-unity/pull/1412))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2204)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.19.1...2.20.4)
+- Bump Java SDK from v6.24.0 to v6.27.0 ([#1390](https://github.com/getsentry/sentry-unity/pull/1390), [#1396](https://github.com/getsentry/sentry-unity/pull/1396), [#1400](https://github.com/getsentry/sentry-unity/pull/1400), [#1403](https://github.com/getsentry/sentry-unity/pull/1403), [#1407](https://github.com/getsentry/sentry-unity/pull/1407))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#6270)
+  - [diff](https://github.com/getsentry/sentry-java/compare/6.24.0...6.27.0)
+- Bump Native SDK from v0.6.4 to v0.6.5 ([#1392](https://github.com/getsentry/sentry-unity/pull/1392))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#065)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.6.4...0.6.5)
+- Bump Cocoa SDK from v8.8.0 to v8.9.4 ([#1397](https://github.com/getsentry/sentry-unity/pull/1397), [#1399](https://github.com/getsentry/sentry-unity/pull/1399), [#1404](https://github.com/getsentry/sentry-unity/pull/1404), [#1406](https://github.com/getsentry/sentry-unity/pull/1406), [#1413](https://github.com/getsentry/sentry-unity/pull/1413))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#894)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.8.0...8.9.4)
+- Bump .NET SDK from v3.33.1 to v3.35.0 ([#1398](https://github.com/getsentry/sentry-unity/pull/1398), [#1418](https://github.com/getsentry/sentry-unity/pull/1418))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3350)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.33.1...3.35.0)
+
 ## 1.5.0
 
 ### Fixes
@@ -30,6 +55,9 @@
 - Bump Java SDK from v6.21.0 to v6.24.0 ([#1363](https://github.com/getsentry/sentry-unity/pull/1363), [#1375](https://github.com/getsentry/sentry-unity/pull/1375), [#1382](https://github.com/getsentry/sentry-unity/pull/1382))
   - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#6240)
   - [diff](https://github.com/getsentry/sentry-java/compare/6.21.0...6.24.0)
+- Bump Native SDK from v0.6.3 to v0.6.4 ([#1384](https://github.com/getsentry/sentry-unity/pull/1384))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#064)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.6.3...0.6.4)
 
 ## 1.4.1
 
