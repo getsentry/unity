@@ -3225,6 +3225,23 @@
         <member name="M:Sentry.FileAttachmentContent.GetStream">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.GraphQLRequestContent.Query">
+            <summary>
+            Document containing GraphQL to execute.
+            It can be null for automatic persisted queries, in which case a SHA-256 hash of the query would be sent in the
+            Extensions. See https://www.apollographql.com/docs/apollo-server/performance/apq/ for details.
+            </summary>
+        </member>
+        <member name="M:Sentry.GraphQLRequestContent.OperationNameOrFallback">
+            <summary>
+            Returns the OperationName if present or "graphql" otherwise.
+            </summary>
+        </member>
+        <member name="M:Sentry.GraphQLRequestContent.OperationTypeOrFallback">
+            <summary>
+            Returns the OperationType if present or "graphql.operation" otherwise.
+            </summary>
+        </member>
         <member name="T:Sentry.Hint">
             <summary>
             A hint that can be provided when capturing a <see cref="T:Sentry.SentryEvent"/> or when adding a <see cref="T:Sentry.Breadcrumb"/>.
@@ -4513,6 +4530,12 @@
         <member name="T:Sentry.Internal.NoOpTransaction">
             <summary>
             Transaction class to use when we can't return null but a request to create a transaction couldn't be completed.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.ObjectExtensions">
+            <summary>
+            Copied/Modified from
+            https://github.com/mentaldesk/fuse/blob/91af00dc9bc7e1deb2f11ab679c536194f85dd4a/MentalDesk.Fuse/ObjectExtensions.cs
             </summary>
         </member>
         <member name="T:Sentry.Internal.PiiExtensions">
@@ -6498,6 +6521,15 @@
             Gets or sets (optional) cookie values
             </summary>
         </member>
+        <member name="P:Sentry.Protocol.Response.Data">
+            <summary>
+            Submitted data in whatever format makes most sense.
+            </summary>
+            <remarks>
+            This data should not be provided by default as it can get quite large.
+            </remarks>
+            <value>The request payload.</value>
+        </member>
         <member name="P:Sentry.Protocol.Response.Headers">
             <summary>
             Gets or sets the headers.
@@ -6762,6 +6794,7 @@
             "request": {
                 "url": "http://absolute.uri/foo",
                 "method": "POST",
+                "api_target": "apiType",
                 "data": {
                     "foo": "bar"
                 },
@@ -6788,6 +6821,12 @@
             Gets or sets the method of the request.
             </summary>
             <value>The HTTP method.</value>
+        </member>
+        <member name="P:Sentry.Request.ApiTarget">
+            <summary>
+            Gets or sets the API target for the request (e.g. "graphql")
+            </summary>
+            <value>The API Target.</value>
         </member>
         <member name="P:Sentry.Request.Data">
             <summary>
@@ -7448,6 +7487,24 @@
             Parses from JSON.
             </summary>
         </member>
+        <member name="T:Sentry.SentryGraphQLHttpMessageHandler">
+            <summary>
+            Special HTTP message handler that can be used to propagate Sentry headers and other contextual information.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryGraphQLHttpMessageHandler.#ctor(System.Net.Http.HttpMessageHandler,Sentry.IHub)">
+            <summary>
+            Constructs an instance of <see cref="T:Sentry.SentryHttpMessageHandler"/>.
+            </summary>
+            <param name="innerHandler">An inner message handler to delegate calls to.</param>
+            <param name="hub">The Sentry hub.</param>
+        </member>
+        <member name="M:Sentry.SentryGraphQLHttpMessageHandler.ProcessRequest(System.Net.Http.HttpRequestMessage,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryGraphQLHttpMessageHandler.HandleResponse(System.Net.Http.HttpResponseMessage,Sentry.ISpan,System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.SentryHttpMessageHandler">
             <summary>
             Special HTTP message handler that can be used to propagate Sentry headers and other contextual information.
@@ -7477,7 +7534,10 @@
             <param name="innerHandler">An inner message handler to delegate calls to.</param>
             <param name="hub">The Sentry hub.</param>
         </member>
-        <member name="M:Sentry.SentryHttpMessageHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+        <member name="M:Sentry.SentryHttpMessageHandler.ProcessRequest(System.Net.Http.HttpRequestMessage,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryHttpMessageHandler.HandleResponse(System.Net.Http.HttpResponseMessage,Sentry.ISpan,System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="T:Sentry.SentryId">
@@ -7627,6 +7687,56 @@
             <summary>
             Parses from JSON.
             </summary>
+        </member>
+        <member name="T:Sentry.SentryMessageHandler">
+            <summary>
+            Special HTTP message handler that can be used to propagate Sentry headers and other contextual information.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.#ctor">
+            <summary>
+            Constructs an instance of <see cref="T:Sentry.SentryMessageHandler"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.#ctor(System.Net.Http.HttpMessageHandler)">
+            <summary>
+            Constructs an instance of <see cref="T:Sentry.SentryMessageHandler"/>.
+            </summary>
+            <param name="innerHandler">An inner message handler to delegate calls to.</param>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.#ctor(Sentry.IHub)">
+            <summary>
+            Constructs an instance of <see cref="T:Sentry.SentryMessageHandler"/>.
+            </summary>
+            <param name="hub">The Sentry hub.</param>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.#ctor(System.Net.Http.HttpMessageHandler,Sentry.IHub)">
+            <summary>
+            Constructs an instance of <see cref="T:Sentry.SentryMessageHandler"/>.
+            </summary>
+            <param name="innerHandler">An inner message handler to delegate calls to.</param>
+            <param name="hub">The Sentry hub.</param>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.ProcessRequest(System.Net.Http.HttpRequestMessage,System.String,System.String)">
+            <summary>
+            Starts a span for a request
+            </summary>
+            <param name="request">The <see cref="T:System.Net.Http.HttpRequestMessage"/></param>
+            <param name="method">The request method (e.g. "GET")</param>
+            <param name="url">The request URL</param>
+            <returns>An <see cref="T:Sentry.ISpan"/></returns>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.HandleResponse(System.Net.Http.HttpResponseMessage,Sentry.ISpan,System.String,System.String)">
+            <summary>
+            Provides an opportunity for further processing of the span once a response is received.
+            </summary>
+            <param name="response">The <see cref="T:System.Net.Http.HttpResponseMessage"/></param>
+            <param name="span">The <see cref="T:Sentry.ISpan"/> created in <see cref="M:Sentry.SentryMessageHandler.ProcessRequest(System.Net.Http.HttpRequestMessage,System.String,System.String)"/></param>
+            <param name="method">The request method (e.g. "GET")</param>
+            <param name="url">The request URL</param>
+        </member>
+        <member name="M:Sentry.SentryMessageHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
         <member name="T:Sentry.SentryOptions">
             <summary>
@@ -7797,9 +7907,9 @@
             The maximum breadcrumbs per scope.
             </value>
         </member>
-        <member name="F:Sentry.SentryOptions._sampleRate">
+        <member name="P:Sentry.SentryOptions.SampleRate">
             <summary>
-            The rate to sample events
+            The rate to sample error and crash events.
             </summary>
             <remarks>
             Can be anything between 0.01 (1%) and 1.0 (99.9%) or null (default), to disable it.
@@ -7808,11 +7918,6 @@
             0.1 = 10% of events are sent
             </example>
             <see href="https://develop.sentry.dev/sdk/features/#event-sampling"/>
-        </member>
-        <member name="P:Sentry.SentryOptions.SampleRate">
-            <summary>
-            The optional sample rate.
-            </summary>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
         <member name="P:Sentry.SentryOptions.Release">
@@ -8132,9 +8237,9 @@
             If the key already exists in the event, it will not be overwritten by a default tag.
             </remarks>
         </member>
-        <member name="P:Sentry.SentryOptions.IsTracingEnabled">
+        <member name="P:Sentry.SentryOptions.IsPerformanceMonitoringEnabled">
             <summary>
-            Indicates whether tracing is enabled, via any combination of
+            Indicates whether the performance feature is enabled, via any combination of
             <see cref="P:Sentry.SentryOptions.EnableTracing"/>, <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>, or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
             </summary>
         </member>

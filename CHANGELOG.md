@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.5.2
+
+### Fixes
+
+- The SDK no longer creates transactions with their start date set to Jan 01, 001 [#1423](https://github.com/getsentry/sentry-unity/pull/1423)
+- The screenshot capture no longer leaks memory ([#1427](https://github.com/getsentry/sentry-unity/pull/1427))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.9.4 to v8.10.0 ([#1422](https://github.com/getsentry/sentry-unity/pull/1422), [#1424](https://github.com/getsentry/sentry-unity/pull/1424), [#1425](https://github.com/getsentry/sentry-unity/pull/1425))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8100)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.9.4...8.10.0)
+- Bump .NET SDK from v3.35.0 to v3.36.0 ([#1423](https://github.com/getsentry/sentry-unity/pull/1423), [#1426](https://github.com/getsentry/sentry-unity/pull/1426))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3360)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.35.0...3.36.0)
+- Bump CLI from v2.20.5 to v2.20.6 ([#1430](https://github.com/getsentry/sentry-unity/pull/1430))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2206)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.20.5...2.20.6)
+
 ## 1.5.1
 
 ### Fixes
@@ -9,9 +28,9 @@
 
 ### Dependencies
 
-- Bump CLI from v2.19.1 to v2.20.4 ([#1387](https://github.com/getsentry/sentry-unity/pull/1387), [#1388](https://github.com/getsentry/sentry-unity/pull/1388), [#1405](https://github.com/getsentry/sentry-unity/pull/1405), [#1408](https://github.com/getsentry/sentry-unity/pull/1408), [#1410](https://github.com/getsentry/sentry-unity/pull/1410), [#1412](https://github.com/getsentry/sentry-unity/pull/1412))
-  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2204)
-  - [diff](https://github.com/getsentry/sentry-cli/compare/2.19.1...2.20.4)
+- Bump CLI from v2.19.1 to v2.20.5 ([#1387](https://github.com/getsentry/sentry-unity/pull/1387), [#1388](https://github.com/getsentry/sentry-unity/pull/1388), [#1405](https://github.com/getsentry/sentry-unity/pull/1405), [#1408](https://github.com/getsentry/sentry-unity/pull/1408), [#1410](https://github.com/getsentry/sentry-unity/pull/1410), [#1412](https://github.com/getsentry/sentry-unity/pull/1412), [#1419](https://github.com/getsentry/sentry-unity/pull/1419))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2205)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.19.1...2.20.5)
 - Bump Java SDK from v6.24.0 to v6.27.0 ([#1390](https://github.com/getsentry/sentry-unity/pull/1390), [#1396](https://github.com/getsentry/sentry-unity/pull/1396), [#1400](https://github.com/getsentry/sentry-unity/pull/1400), [#1403](https://github.com/getsentry/sentry-unity/pull/1403), [#1407](https://github.com/getsentry/sentry-unity/pull/1407))
   - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#6270)
   - [diff](https://github.com/getsentry/sentry-java/compare/6.24.0...6.27.0)
