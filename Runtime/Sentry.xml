@@ -3260,13 +3260,6 @@
             <param name="key">The key of the hint item.</param>
             <param name="value">The value of the hint item.</param>
         </member>
-        <member name="M:Sentry.Hint.AddAttachmentsFromScope(Sentry.Scope)">
-            <summary>
-            The Java SDK has some logic so that certain Hint types do not copy attachments from the Scope.
-            This provides a location that allows us to do the same in the .NET SDK in the future.
-            </summary>
-            <param name="scope">The <see cref="T:Sentry.Scope"/> that the attachments should be copied from</param>
-        </member>
         <member name="P:Sentry.Hint.Attachments">
             <summary>
             Attachments added to the Hint.
@@ -3284,6 +3277,21 @@
             These are not sent to Sentry, but rather they are available during processing, such as when using
             BeforeSend and others.
             </remarks>
+        </member>
+        <member name="M:Sentry.Hint.AddAttachmentsFromScope(Sentry.Scope)">
+            <summary>
+            The Java SDK has some logic so that certain Hint types do not copy attachments from the Scope.
+            This provides a location that allows us to do the same in the .NET SDK in the future.
+            </summary>
+            <param name="scope">The <see cref="T:Sentry.Scope"/> that the attachments should be copied from</param>
+        </member>
+        <member name="M:Sentry.Hint.AddAttachment(System.String,Sentry.AttachmentType,System.String)">
+            <summary>
+            Creates a new Hint with one or more attachments.
+            </summary>
+            <param name="filePath">The path to the file to attach.</param>
+            <param name="type">The type of attachment.</param>
+            <param name="contentType">The content type of the attachment.</param>
         </member>
         <member name="M:Sentry.Hint.WithAttachments(Sentry.Attachment[])">
             <summary>
