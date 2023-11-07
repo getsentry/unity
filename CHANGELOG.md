@@ -1,5 +1,37 @@
 # Changelog
 
+## 1.7.0
+
+### Various fixes & improvements
+
+- feat: Dedicated Server support (#1468) by @bitsandfoxes
+- chore: update modules/sentry-cocoa to 8.15.0 (#1479) by @github-actions
+- chore: update modules/sentry-cocoa to 8.14.2 (#1473) by @github-actions
+- chore: update modules/sentry-cocoa to 8.14.1 (#1472) by @github-actions
+- chore(deps): update .NET SDK to v3.40.1 (#1464) by @github-actions
+- chore: update modules/sentry-cocoa to 8.13.1 (#1466) by @github-actions
+- chore: update modules/sentry-cli.properties to 2.21.2 (#1454) by @github-actions
+- chore: update modules/sentry-native to 0.6.6 (#1457) by @github-actions
+
+## Feature
+
+- Added the dedicated server platforms to the known platforms to prevent the SDK from interpreting them as restricted platforms (i.e. disabling offline caching, session tracking) ([#1468](https://github.com/getsentry/sentry-unity/pull/1468))
+
+### Dependencies
+
+- Bump CLI from v2.21.1 to v2.21.2 ([#1454](https://github.com/getsentry/sentry-unity/pull/1454))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2212)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.21.1...2.21.2)
+- Bump Native SDK from v0.6.5 to v0.6.6 ([#1457](https://github.com/getsentry/sentry-unity/pull/1457))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#066)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.6.5...0.6.6)
+- Bump Cocoa SDK from v8.13.0 to v8.15.0 ([#1466](https://github.com/getsentry/sentry-unity/pull/1466), [#1472](https://github.com/getsentry/sentry-unity/pull/1472), [#1473](https://github.com/getsentry/sentry-unity/pull/1473), [#1479](https://github.com/getsentry/sentry-unity/pull/1479))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8150)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.13.0...8.15.0)
+- Bump .NET SDK from v3.39.1 to v3.40.1 ([#1464](https://github.com/getsentry/sentry-unity/pull/1464))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3401)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.39.1...3.40.1)
+
 ## 1.6.0
 
 ### Feature

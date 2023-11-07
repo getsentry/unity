@@ -2622,9 +2622,14 @@
             Returns null.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.ContinueTrace(System.String,System.String,System.String,System.String)">
+            <summary>
+            Returns sampled out transaction context.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
             <summary>
-            Returns null.
+            Returns sampled out transaction context.
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DisabledHub.StartSession">
@@ -2793,6 +2798,11 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.GetBaggage">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.ContinueTrace(System.String,System.String,System.String,System.String)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3884,6 +3894,14 @@
             Gets the Sentry baggage header that allows tracing across services
             </summary>
         </member>
+        <member name="M:Sentry.IHub.ContinueTrace(System.String,System.String,System.String,System.String)">
+            <summary>
+            Continues a trace based on HTTP header values provided as strings.
+            </summary>
+            <remarks>
+            If no "sentry-trace" header is provided a random trace ID and span ID is created.
+            </remarks>
+        </member>
         <member name="M:Sentry.IHub.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
             <summary>
             Continues a trace based on HTTP header values.
@@ -4546,6 +4564,18 @@
             https://github.com/mentaldesk/fuse/blob/91af00dc9bc7e1deb2f11ab679c536194f85dd4a/MentalDesk.Fuse/ObjectExtensions.cs
             </summary>
         </member>
+        <member name="T:Sentry.Internal.OpenTelemetry.OtelSemanticConventions">
+            <summary>
+            Constants for semantic attribute names outlined by the OpenTelemetry specifications.
+            <see href="https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/README.md"/> and
+            <see href="https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/semantic_conventions/README.md"/>.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.OpenTelemetry.OtelSpanAttributeConstants">
+            <summary>
+            Defines well-known span attribute keys.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.PiiExtensions">
             <summary>
             Extensions to help redact data that might contain Personally Identifiable Information (PII) before sending it to
@@ -4834,6 +4864,17 @@
             <summary>
             Applies state onto a scope.
             </summary>
+        </member>
+        <member name="T:Sentry.ISentryUserFactory">
+            <summary>
+            Sentry User Factory
+            </summary>
+        </member>
+        <member name="M:Sentry.ISentryUserFactory.Create">
+            <summary>
+            Creates a Sentry <see cref="T:Sentry.User"/> representing the current principal.
+            </summary>
+            <returns>The protocol user</returns>
         </member>
         <member name="T:Sentry.ISession">
             <summary>
@@ -7502,7 +7543,7 @@
         </member>
         <member name="M:Sentry.SentryGraphQLHttpMessageHandler.#ctor(System.Net.Http.HttpMessageHandler,Sentry.IHub)">
             <summary>
-            Constructs an instance of <see cref="T:Sentry.SentryHttpMessageHandler"/>.
+            Constructs an instance of <see cref="T:Sentry.SentryGraphQLHttpMessageHandler"/>.
             </summary>
             <param name="innerHandler">An inner message handler to delegate calls to.</param>
             <param name="hub">The Sentry hub.</param>
@@ -9182,6 +9223,14 @@
             Gets the Sentry "baggage" header that allows tracing across services
             </summary>
         </member>
+        <member name="M:Sentry.SentrySdk.ContinueTrace(System.String,System.String,System.String,System.String)">
+            <summary>
+            Continues a trace based on HTTP header values provided as strings.
+            </summary>
+            <remarks>
+            If no "sentry-trace" header is provided a random trace ID and span ID is created.
+            </remarks>
+        </member>
         <member name="M:Sentry.SentrySdk.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
             <summary>
             Continues a trace based on HTTP header values.
@@ -9774,6 +9823,12 @@
             <summary>
             Creates a new instance of a Sentry span Id.
             </summary>
+        </member>
+        <member name="M:Sentry.SpanId.#ctor(System.Int64)">
+            <summary>
+            Creates a new instance of a Sentry span Id.
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="M:Sentry.SpanId.Equals(Sentry.SpanId)">
             <inheritdoc />
@@ -10556,6 +10611,9 @@
         <member name="M:Sentry.TransactionTracer.StartChild(System.String)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.TransactionTracer.GetLastActiveSpan">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.TransactionTracer.Finish">
             <inheritdoc />
         </member>
@@ -10566,9 +10624,6 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.Finish(System.Exception)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.TransactionTracer.GetLastActiveSpan">
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.GetTraceHeader">
