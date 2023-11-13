@@ -1,19 +1,26 @@
 # Changelog
 
+## 1.7.1-beta.1
+
+### Fixes
+
+-  Fix SIGSEV, SIGABRT and SIGBUS crashes happening after/around the August Google Play System update, see [#2955](https://github.com/getsentry/sentry-java/issues/2955) for more details (fix provided by Native SDK bump) ([#1491](https://github.com/getsentry/sentry-unity/pull/1491))
+
+### Dependencies
+
+- Bump CLI from v2.21.2 to v2.21.3 ([#1485](https://github.com/getsentry/sentry-unity/pull/1485))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2213)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.21.2...2.21.3)
+- Bump Cocoa SDK from v8.15.0 to v8.15.2 ([#1486](https://github.com/getsentry/sentry-unity/pull/1486), [#1489](https://github.com/getsentry/sentry-unity/pull/1489))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8152)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.15.0...8.15.2)
+- Bump .NET SDK from v3.40.1 to v3.41.0 ([#1487](https://github.com/getsentry/sentry-unity/pull/1487))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#3410)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/3.40.1...3.41.0)
+
 ## 1.7.0
 
-### Various fixes & improvements
-
-- feat: Dedicated Server support (#1468) by @bitsandfoxes
-- chore: update modules/sentry-cocoa to 8.15.0 (#1479) by @github-actions
-- chore: update modules/sentry-cocoa to 8.14.2 (#1473) by @github-actions
-- chore: update modules/sentry-cocoa to 8.14.1 (#1472) by @github-actions
-- chore(deps): update .NET SDK to v3.40.1 (#1464) by @github-actions
-- chore: update modules/sentry-cocoa to 8.13.1 (#1466) by @github-actions
-- chore: update modules/sentry-cli.properties to 2.21.2 (#1454) by @github-actions
-- chore: update modules/sentry-native to 0.6.6 (#1457) by @github-actions
-
-## Feature
+### Feature
 
 - Added the dedicated server platforms to the known platforms to prevent the SDK from interpreting them as restricted platforms (i.e. disabling offline caching, session tracking) ([#1468](https://github.com/getsentry/sentry-unity/pull/1468))
 
