@@ -106,7 +106,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		fsRBJuQaKoNTEAN7/UjJTMDd6co=
+		Gg/WPxr40GzVGL3oGT28Kq9yPyw=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -178,15 +178,15 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		cwWXnmg8W6a0ZWe1gH/nxyxOVSU=
+		FfXpwuXSiF+GCerGvcAVvBw7KQs=
 		</data>
 		<key>Modules/Sentry.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		7j8OSAN7Egu4q+tTShbyTanN/Bg=
+		++aDf18dKTx9u/f+WyDjAhqq8Cs=
 		</data>
 		<key>Modules/Sentry.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		ilE3teQx2RZxe8CGMZBIAREIVi4=
+		EkJhkkiLfr4XmEcStvc3pZA7v0E=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -494,7 +494,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NhmiPOyNvKYh+LcJymQNWC3A95CSKwgoLllMhSUnflw=
+			2Rw+sD7UHzvrivguIenUSnDRXVnlVKtVd7ZUFItR/UA=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -620,14 +620,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3R+O6ET3f+HDMiKbzBDsGCzR7X7UskkWB/yvRy97N2s=
+			hnHtcdJsSEGQVrfR/wLlhF+VOQvIrEsdhjBXlMS239o=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			6LdBbcrX7LbiCilDiqoTGw6oYL2sx1UUSQ4Ll3uSBWc=
+			0V7EdWK6anv7JlAGY5gkZKaQL/DItCkMebVWaKnvsME=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>

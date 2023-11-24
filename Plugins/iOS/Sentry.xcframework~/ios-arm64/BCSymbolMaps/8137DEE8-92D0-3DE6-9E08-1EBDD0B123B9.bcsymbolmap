@@ -450,6 +450,8 @@ ___copy_helper_block_e8_32b
 ___55-[SentryDispatchQueueWrapper dispatchAsyncOnMainQueue:]_block_invoke
 -[SentryDispatchQueueWrapper dispatchOnMainQueue:]
 -[SentryDispatchQueueWrapper dispatchSyncOnMainQueue:]
+-[SentryDispatchQueueWrapper dispatchSyncOnMainQueue:timeout:]
+___62-[SentryDispatchQueueWrapper dispatchSyncOnMainQueue:timeout:]_block_invoke
 -[SentryDispatchQueueWrapper dispatchAfter:block:]
 ___50-[SentryDispatchQueueWrapper dispatchAfter:block:]_block_invoke
 -[SentryDispatchQueueWrapper dispatchCancel:]
@@ -460,6 +462,7 @@ ___50-[SentryDispatchQueueWrapper dispatchAfter:block:]_block_invoke
 -[SentryDispatchQueueWrapper .cxx_destruct]
 ___block_descriptor_40_e8_32bs_e5_v8?0l
 _OBJC_CLASSLIST_REFERENCES_$_.2
+___block_descriptor_48_e8_32s40bs_e5_v8?0l
 __OBJC_METACLASS_RO_$_SentryDispatchQueueWrapper
 __OBJC_$_INSTANCE_METHODS_SentryDispatchQueueWrapper
 _OBJC_IVAR_$_SentryDispatchQueueWrapper._queue
@@ -471,6 +474,7 @@ Sources/Sentry/SentryDispatchQueueWrapper.m
 Sources/Sentry/include/SentryDispatchQueueWrapper.h
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/dispatch/once.h
 __50-[SentryDispatchQueueWrapper dispatchAfter:block:]_block_invoke
+__62-[SentryDispatchQueueWrapper dispatchSyncOnMainQueue:timeout:]_block_invoke
 dispatch_get_main_queue
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/dispatch/queue.h
 __55-[SentryDispatchQueueWrapper dispatchAsyncOnMainQueue:]_block_invoke
@@ -485,9 +489,10 @@ __53-[SentryDispatchQueueWrapper dispatchAsyncWithBlock:]_block_invoke
 -[SentryFramesTracker reportNewFrame]
 -[SentryFramesTracker recordTimestamp:value:array:]
 -[SentryFramesTracker currentFrames]
--[SentryFramesTracker stop]
 -[SentryFramesTracker addListener:]
 -[SentryFramesTracker removeListener:]
+-[SentryFramesTracker stop]
+-[SentryFramesTracker dealloc]
 -[SentryFramesTracker isRunning]
 -[SentryFramesTracker displayLinkWrapper]
 -[SentryFramesTracker previousFrameTimestamp]
@@ -510,6 +515,7 @@ _OBJC_CLASSLIST_REFERENCES_$_.64
 _OBJC_CLASSLIST_REFERENCES_$_.69
 _OBJC_CLASSLIST_REFERENCES_$_.76
 _OBJC_CLASSLIST_REFERENCES_$_.77
+_OBJC_SELECTOR_REFERENCES_.79
 __OBJC_METACLASS_RO_$_SentryFramesTracker
 __OBJC_$_INSTANCE_METHODS_SentryFramesTracker
 _OBJC_IVAR_$_SentryFramesTracker._totalFrames
@@ -712,6 +718,9 @@ ___43-[SentryClient applyCultureContextToEvent:]_block_invoke
 -[SentryClient applyExtraDeviceContextToEvent:]
 ___47-[SentryClient applyExtraDeviceContextToEvent:]_block_invoke
 ___47-[SentryClient applyExtraDeviceContextToEvent:]_block_invoke_2
+___copy_helper_block_e8_32s40s48s
+___destroy_helper_block_e8_32s40s48s
+-[SentryClient addViewNamesToContext:event:]
 -[SentryClient removeExtraDeviceContextFromEvent:]
 ___50-[SentryClient removeExtraDeviceContextFromEvent:]_block_invoke
 ___50-[SentryClient removeExtraDeviceContextFromEvent:]_block_invoke_2
@@ -776,8 +785,9 @@ _OBJC_CLASSLIST_REFERENCES_$_.171
 _OBJC_CLASSLIST_REFERENCES_$_.178
 _OBJC_CLASSLIST_REFERENCES_$_.179
 ___block_descriptor_40_e8_32s_e29_v16?0"NSMutableDictionary"8l
+___block_descriptor_56_e8_32s40s48s_e29_v16?0"NSMutableDictionary"8l
 ___block_descriptor_32_e29_v16?0"NSMutableDictionary"8l
-___block_literal_global.203
+___block_literal_global.205
 __OBJC_METACLASS_RO_$_SentryClient
 __OBJC_$_INSTANCE_METHODS_SentryClient
 _OBJC_IVAR_$_SentryClient._isEnabled
@@ -799,6 +809,8 @@ Sources/Sentry/include/SentryClient+Private.h
 Sources/Sentry/Public/SentryClient.h
 __50-[SentryClient removeExtraDeviceContextFromEvent:]_block_invoke_2
 __50-[SentryClient removeExtraDeviceContextFromEvent:]_block_invoke
+__destroy_helper_block_e8_32s40s48s
+__copy_helper_block_e8_32s40s48s
 __47-[SentryClient applyExtraDeviceContextToEvent:]_block_invoke_2
 __47-[SentryClient applyExtraDeviceContextToEvent:]_block_invoke
 __43-[SentryClient applyCultureContextToEvent:]_block_invoke
@@ -1210,6 +1222,7 @@ __83-[SentryMetricKitIntegration getFirstUnprocessedSubFrames:processedFrameAddr
 -[SentryUIEventTrackingIntegration setUiEventTracker:]
 -[SentryUIEventTrackingIntegration .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.15
+_OBJC_CLASSLIST_REFERENCES_$_.16
 _OBJC_IVAR_$_SentryUIEventTrackingIntegration._uiEventTracker
 __OBJC_CLASS_PROTOCOLS_$_SentryUIEventTrackingIntegration
 __OBJC_METACLASS_RO_$_SentryUIEventTrackingIntegration
@@ -1338,7 +1351,6 @@ sentrycrashsc_resetCursor
 -[SentryThreadInspector machineContextWrapper]
 -[SentryThreadInspector setMachineContextWrapper:]
 -[SentryThreadInspector .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.16
 _OBJC_CLASSLIST_REFERENCES_$_.20
 __OBJC_METACLASS_RO_$_SentryThreadInspector
 __OBJC_$_INSTANCE_METHODS_SentryThreadInspector
@@ -1530,54 +1542,34 @@ __OBJC_$_PROP_LIST_SentryAutoSessionTrackingIntegration
 __OBJC_CLASS_RO_$_SentryAutoSessionTrackingIntegration
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryAutoSessionTrackingIntegration.m
 Sources/Sentry/SentryAutoSessionTrackingIntegration.m
--[SentryUIEventTracker initWithDispatchQueueWrapper:idleTimeout:]
+-[SentryUIEventTracker initWithMode:]
 -[SentryUIEventTracker start]
 ___29-[SentryUIEventTracker start]_block_invoke
-___29-[SentryUIEventTracker start]_block_invoke.103
-___29-[SentryUIEventTracker start]_block_invoke_2
-___29-[SentryUIEventTracker start]_block_invoke.116
+-[SentryUIEventTracker sendActionCallback:target:sender:event:]
 -[SentryUIEventTracker stop]
 -[SentryUIEventTracker getOperation:]
 -[SentryUIEventTracker getTransactionName:target:]
 +[SentryUIEventTracker isUIEventOperation:]
--[SentryUIEventTracker dispatchQueueWrapper]
--[SentryUIEventTracker setDispatchQueueWrapper:]
--[SentryUIEventTracker idleTimeout]
--[SentryUIEventTracker setIdleTimeout:]
--[SentryUIEventTracker activeTransactions]
--[SentryUIEventTracker setActiveTransactions:]
+-[SentryUIEventTracker uiEventTrackerMode]
+-[SentryUIEventTracker setUiEventTrackerMode:]
 -[SentryUIEventTracker .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.83
-_OBJC_CLASSLIST_REFERENCES_$_.84
-_OBJC_CLASSLIST_REFERENCES_$_.85
-_OBJC_CLASSLIST_REFERENCES_$_.104
-___block_descriptor_40_e8_32s_e35_v16?0"SentryTracerConfiguration"8l
-___block_descriptor_64_e8_32s40s48s56r_e22_v16?0"<SentrySpan>"8l
-___block_descriptor_40_e8_32s_e22_v16?0"SentryTracer"8l
 ___block_descriptor_40_e8_32s_e36_v40?0"NSString"81624"UIEvent"32l
-_OBJC_CLASSLIST_REFERENCES_$_.123
-_OBJC_CLASSLIST_REFERENCES_$_.124
+_OBJC_CLASSLIST_REFERENCES_$_.43
 __OBJC_$_CLASS_METHODS_SentryUIEventTracker
 __OBJC_METACLASS_RO_$_SentryUIEventTracker
 __OBJC_$_INSTANCE_METHODS_SentryUIEventTracker
-_OBJC_IVAR_$_SentryUIEventTracker._dispatchQueueWrapper
-_OBJC_IVAR_$_SentryUIEventTracker._idleTimeout
-_OBJC_IVAR_$_SentryUIEventTracker._activeTransactions
+_OBJC_IVAR_$_SentryUIEventTracker._uiEventTrackerMode
 __OBJC_$_INSTANCE_VARIABLES_SentryUIEventTracker
 __OBJC_$_PROP_LIST_SentryUIEventTracker
 __OBJC_CLASS_RO_$_SentryUIEventTracker
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryUIEventTracker.m
 Sources/Sentry/SentryUIEventTracker.m
-__29-[SentryUIEventTracker start]_block_invoke.116
-__29-[SentryUIEventTracker start]_block_invoke_2
-__29-[SentryUIEventTracker start]_block_invoke.103
 __29-[SentryUIEventTracker start]_block_invoke
 -[SentrySubClassFinder initWithDispatchQueue:objcRuntimeWrapper:]
 -[SentrySubClassFinder actOnSubclassesOfViewControllerInImage:block:]
 ___69-[SentrySubClassFinder actOnSubclassesOfViewControllerInImage:block:]_block_invoke
 ___69-[SentrySubClassFinder actOnSubclassesOfViewControllerInImage:block:]_block_invoke_2
 ___copy_helper_block_e8_32s40s48b
-___destroy_helper_block_e8_32s40s48s
 -[SentrySubClassFinder isClass:subClassOf:]
 -[SentrySubClassFinder dispatchQueue]
 -[SentrySubClassFinder setDispatchQueue:]
@@ -1585,7 +1577,6 @@ ___destroy_helper_block_e8_32s40s48s
 -[SentrySubClassFinder setObjcRuntimeWrapper:]
 -[SentrySubClassFinder .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.22
-___block_descriptor_48_e8_32s40bs_e5_v8?0l
 ___block_descriptor_56_e8_32s40s48bs_e5_v8?0l
 __OBJC_METACLASS_RO_$_SentrySubClassFinder
 __OBJC_$_INSTANCE_METHODS_SentrySubClassFinder
@@ -1596,7 +1587,6 @@ __OBJC_$_PROP_LIST_SentrySubClassFinder
 __OBJC_CLASS_RO_$_SentrySubClassFinder
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentrySubClassFinder.m
 Sources/Sentry/SentrySubClassFinder.m
-__destroy_helper_block_e8_32s40s48s
 __copy_helper_block_e8_32s40s48b
 __69-[SentrySubClassFinder actOnSubclassesOfViewControllerInImage:block:]_block_invoke_2
 __69-[SentrySubClassFinder actOnSubclassesOfViewControllerInImage:block:]_block_invoke
@@ -1799,6 +1789,8 @@ ___25-[SentryOptions isBlock:]_block_invoke_2
 -[SentryOptions setEnableTimeToFullDisplayTracing:]
 -[SentryOptions swiftAsyncStacktraces]
 -[SentryOptions setSwiftAsyncStacktraces:]
+-[SentryOptions cacheDirectoryPath]
+-[SentryOptions setCacheDirectoryPath:]
 -[SentryOptions defaultSampleRate]
 -[SentryOptions defaultTracesSampleRate]
 -[SentryOptions defaultProfilesSampleRate]
@@ -1806,6 +1798,8 @@ ___25-[SentryOptions isBlock:]_block_invoke_2
 _OBJC_CLASSLIST_REFERENCES_$_.107
 _OBJC_CLASSLIST_REFERENCES_$_.108
 _OBJC_CLASSLIST_REFERENCES_$_.122
+_OBJC_CLASSLIST_REFERENCES_$_.123
+_OBJC_CLASSLIST_REFERENCES_$_.124
 ___block_descriptor_32_e34_"SentryScope"16?0"SentryScope"8l
 ___block_descriptor_32_e25_B24?08"NSDictionary"16l
 ___block_literal_global.161
@@ -1819,9 +1813,9 @@ __OBJC_LABEL_PROTOCOL_$_NSURLSessionDelegate
 __OBJC_PROTOCOL_REFERENCE_$_NSURLSessionDelegate
 _isBlock:.blockClass
 _isBlock:.onceToken
-___block_literal_global.324
-___block_literal_global.325
-_OBJC_CLASSLIST_REFERENCES_$_.326
+___block_literal_global.326
+___block_literal_global.327
+_OBJC_CLASSLIST_REFERENCES_$_.328
 __OBJC_$_CLASS_METHODS_SentryOptions
 __OBJC_METACLASS_RO_$_SentryOptions
 __OBJC_$_INSTANCE_METHODS_SentryOptions
@@ -1882,6 +1876,7 @@ _OBJC_IVAR_$_SentryOptions._appHangTimeoutInterval
 _OBJC_IVAR_$_SentryOptions._tracePropagationTargets
 _OBJC_IVAR_$_SentryOptions._failedRequestStatusCodes
 _OBJC_IVAR_$_SentryOptions._failedRequestTargets
+_OBJC_IVAR_$_SentryOptions._cacheDirectoryPath
 _OBJC_IVAR_$_SentryOptions._defaultSampleRate
 _OBJC_IVAR_$_SentryOptions._defaultTracesSampleRate
 _OBJC_IVAR_$_SentryOptions._defaultProfilesSampleRate
@@ -2482,13 +2477,18 @@ __destroy_helper_block_e8_32s40s48r56r
 __copy_helper_block_e8_32s40s48r56r
 __45-[SentryNetworkTracker urlSessionTaskResume:]_block_invoke
 __38+[SentryNetworkTracker sharedInstance]_block_invoke
-+[SentryInstallation id]
-_installationString
++[SentryInstallation installationStringsByCacheDirectoryPaths]
+___62+[SentryInstallation installationStringsByCacheDirectoryPaths]_block_invoke
++[SentryInstallation idWithCacheDirectoryPath:]
+_installationStringsByCacheDirectoryPaths.once
+_installationStringsByCacheDirectoryPaths.dictionary
 __OBJC_$_CLASS_METHODS_SentryInstallation
+__OBJC_$_CLASS_PROP_LIST_SentryInstallation
 __OBJC_METACLASS_RO_$_SentryInstallation
 __OBJC_CLASS_RO_$_SentryInstallation
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryInstallation.m
 Sources/Sentry/SentryInstallation.m
+__62+[SentryInstallation installationStringsByCacheDirectoryPaths]_block_invoke
 -[SentryAppState initWithReleaseName:osVersion:vendorId:isDebugging:systemBootTimestamp:]
 -[SentryAppState initWithJSONObject:]
 -[SentryAppState serialize]
@@ -2793,11 +2793,9 @@ ___40-[SentryHub captureException:withScope:]_block_invoke
 -[SentryHub .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.148
 ___block_descriptor_40_e8_32s_e20_"SentrySession"8?0l
-_OBJC_CLASSLIST_REFERENCES_$_.152
-_OBJC_SELECTOR_REFERENCES_.154
-_OBJC_CLASSLIST_REFERENCES_$_.155
+_OBJC_SELECTOR_REFERENCES_.155
 _OBJC_CLASSLIST_REFERENCES_$_.157
-_OBJC_CLASSLIST_REFERENCES_$_.168
+_OBJC_CLASSLIST_REFERENCES_$_.158
 __OBJC_METACLASS_RO_$_SentryHub
 __OBJC_$_INSTANCE_METHODS_SentryHub
 _OBJC_IVAR_$_SentryHub._sessionLock
@@ -2947,7 +2945,6 @@ __51-[SentryPredicateDescriptor expressionDescription:]_block_invoke
 -[SentrySystemEventBreadcrumbs setNotificationCenterWrapper:]
 -[SentrySystemEventBreadcrumbs .cxx_destruct]
 _OBJC_SELECTOR_REFERENCES_.45
-_OBJC_SELECTOR_REFERENCES_.79
 _OBJC_CLASSLIST_REFERENCES_$_.80
 _OBJC_SELECTOR_REFERENCES_.82
 __OBJC_METACLASS_RO_$_SentrySystemEventBreadcrumbs
@@ -3168,9 +3165,7 @@ ___30-[SentryTracer finishInternal]_block_invoke
 -[SentryTracer updateStartTime:]
 -[SentryTracer toTransaction]
 -[SentryTracer getAppStartMeasurement]
--[SentryTracer buildAppStartSpans]
 -[SentryTracer addMeasurements:]
--[SentryTracer buildSpan:operation:description:]
 +[SentryTracer resetAppStartMeasurementRead]
 +[SentryTracer getTracer:]
 -[SentryTracer originalStartTimestamp]
@@ -3199,12 +3194,14 @@ ___30-[SentryTracer finishInternal]_block_invoke
 -[SentryTracer .cxx_destruct]
 _appStartMeasurementLock
 _appStartMeasurementRead
+_OBJC_CLASSLIST_REFERENCES_$_.104
 _OBJC_IVAR_$_SentryTracer._configuration
 _OBJC_CLASSLIST_REFERENCES_$_.105
 _OBJC_IVAR_$_SentryTracer._children
 _OBJC_CLASSLIST_REFERENCES_$_.106
 _OBJC_IVAR_$_SentryTracer._measurements
 _OBJC_IVAR_$_SentryTracer.appStartMeasurement
+_OBJC_IVAR_$_SentryTracer.viewNames
 _OBJC_IVAR_$_SentryTracer._idleTimeoutLock
 _OBJC_IVAR_$_SentryTracer.initTotalFrames
 _OBJC_IVAR_$_SentryTracer.initSlowFrames
@@ -3219,13 +3216,14 @@ ___block_descriptor_40_e8_32w_e17_v16?0"NSTimer"8l
 _OBJC_IVAR_$_SentryTracer._traceContext
 _OBJC_IVAR_$_SentryTracer._hub
 _OBJC_IVAR_$_SentryTracer._finishStatus
+_OBJC_SELECTOR_REFERENCES_.154
 ___block_descriptor_40_e8_32s_e22_v16?0"<SentrySpan>"8l
 _OBJC_IVAR_$_SentryTracer._originalStartTimestamp
 _OBJC_SELECTOR_REFERENCES_.164
 _OBJC_IVAR_$_SentryTracer._startTimeChanged
 _OBJC_CLASSLIST_REFERENCES_$_.165
 _OBJC_CLASSLIST_REFERENCES_$_.166
-_OBJC_CLASSLIST_REFERENCES_$_.191
+_OBJC_CLASSLIST_REFERENCES_$_.182
 _OBJC_IVAR_$_SentryTracer._transactionContext
 _OBJC_IVAR_$_SentryTracer._finishCallback
 _OBJC_IVAR_$_SentryTracer._delegate
@@ -3304,8 +3302,6 @@ __OBJC_CLASS_RO_$_SentryEnvelope
 Sources/Sentry/SentryEnvelope.m
 Sources/Sentry/include/HybridPublic/SentryEnvelope.h
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfilingLogging.mm
-Sources/Sentry/SentryProfilingLogging.mm
-sentryLevelFromLogLevel
 -[SentrySpan initWithContext:]
 -[SentrySpan initWithTracer:context:]
 -[SentrySpan startChildWithOperation:]
@@ -3349,6 +3345,7 @@ sentryLevelFromLogLevel
 -[SentrySpan setFrames:]
 -[SentrySpan .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.68
+_OBJC_CLASSLIST_REFERENCES_$_.83
 __OBJC_$_PROTOCOL_REFS_SentrySpan
 __OBJC_$_PROTOCOL_INSTANCE_METHODS_SentrySpan
 __OBJC_$_PROP_LIST_SentrySpan
@@ -3451,11 +3448,14 @@ Sources/Sentry/SentryConcurrentRateLimitsDictionary.m
 -[SentryTransaction stringForNameSource:]
 -[SentryTransaction trace]
 -[SentryTransaction setTrace:]
+-[SentryTransaction viewNames]
+-[SentryTransaction setViewNames:]
 -[SentryTransaction spans]
 -[SentryTransaction setSpans:]
 -[SentryTransaction .cxx_destruct]
 _OBJC_SELECTOR_REFERENCES_.68
 _OBJC_IVAR_$_SentryTransaction._trace
+_OBJC_IVAR_$_SentryTransaction._viewNames
 _OBJC_IVAR_$_SentryTransaction._spans
 __OBJC_METACLASS_RO_$_SentryTransaction
 __OBJC_$_INSTANCE_METHODS_SentryTransaction
@@ -3655,13 +3655,10 @@ handleException
 handleUncaughtException
 sentrycrashcm_nsexception_getAPI
 +[SentryReachability initialize]
--[SentryReachability init]
 -[SentryReachability addObserver:]
 -[SentryReachability removeObserver:]
 -[SentryReachability removeAllObservers]
 -[SentryReachability unsetReachabilityCallback]
--[SentryReachability setReachabilityCallback]
--[SentryReachability setSetReachabilityCallback:]
 -[SentryReachability sentry_reachability_ref]
 -[SentryReachability setSentry_reachability_ref:]
 _sentry_current_reachability_state
@@ -3670,15 +3667,13 @@ _sentry_reachability_queue
 __OBJC_$_CLASS_METHODS_SentryReachability
 __OBJC_METACLASS_RO_$_SentryReachability
 __OBJC_$_INSTANCE_METHODS_SentryReachability
-_OBJC_IVAR_$_SentryReachability._setReachabilityCallback
 _OBJC_IVAR_$_SentryReachability._sentry_reachability_ref
 __OBJC_$_INSTANCE_VARIABLES_SentryReachability
 __OBJC_$_PROP_LIST_SentryReachability
 __OBJC_CLASS_RO_$_SentryReachability
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryReachability.m
-Sources/Sentry/SentryReachability+Private.h
-Sources/Sentry/include/SentryReachability.h
 Sources/Sentry/SentryReachability.m
+SentryConnectivityActualCallback
 SentryConnectivityCallback
 SentryConnectivityFlagRepresentation
 SentryConnectivityShouldReportChange
@@ -3964,6 +3959,7 @@ ___63-[SentryCrashReportConverter enhanceValueFromCrashInfoMessage:]_block_invok
 -[SentryCrashReportConverter .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.86
 _OBJC_CLASSLIST_REFERENCES_$_.128
+_OBJC_CLASSLIST_REFERENCES_$_.168
 _OBJC_SELECTOR_REFERENCES_.183
 ___block_literal_global.186
 __OBJC_METACLASS_RO_$_SentryCrashReportConverter
@@ -4056,8 +4052,8 @@ __OBJC_CLASS_RO_$_SentryMigrateSessionInit
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryMigrateSessionInit.m
 __66+[SentryMigrateSessionInit replaceSessionEnvelopeItem:onEnvelope:]_block_invoke
 Sources/Sentry/SentryMigrateSessionInit.m
--[SentrySession initDefault]
--[SentrySession initWithReleaseName:]
+-[SentrySession initDefault:]
+-[SentrySession initWithReleaseName:distinctId:]
 -[SentrySession initWithJSONObject:]
 -[SentrySession setFlagInit]
 -[SentrySession endSessionExitedWithTimestamp:]
@@ -4084,6 +4080,7 @@ Sources/Sentry/SentryMigrateSessionInit.m
 -[SentrySession user]
 -[SentrySession setUser:]
 -[SentrySession .cxx_destruct]
+_OBJC_CLASSLIST_REFERENCES_$_.27
 __OBJC_CLASS_PROTOCOLS_$_SentrySession
 __OBJC_METACLASS_RO_$_SentrySession
 __OBJC_$_INSTANCE_METHODS_SentrySession
@@ -4147,6 +4144,7 @@ __ZL33_appStartMeasurementHybridSDKMode
 _OBJC_CLASSLIST_REFERENCES_$_.81
 _OBJC_CLASSLIST_REFERENCES_$_.82
 __ZL39_framesTrackingMeasurementHybridSDKMode
+_OBJC_CLASSLIST_REFERENCES_$_.84
 __OBJC_$_CLASS_METHODS_PrivateSentrySDKOnly
 __OBJC_$_CLASS_PROP_LIST_PrivateSentrySDKOnly
 __OBJC_METACLASS_RO_$_PrivateSentrySDKOnly
@@ -4303,6 +4301,7 @@ ___45-[SentryTimeToDisplayTracker startForTracer:]_block_invoke
 -[SentryTimeToDisplayTracker setFullDisplaySpan:]
 -[SentryTimeToDisplayTracker waitForFullDisplay]
 -[SentryTimeToDisplayTracker .cxx_destruct]
+___block_descriptor_40_e8_32s_e22_v16?0"SentryTracer"8l
 _OBJC_CLASSLIST_REFERENCES_$_.90
 _OBJC_CLASSLIST_REFERENCES_$_.91
 __OBJC_$_PROTOCOL_INSTANCE_METHODS_SentryFramesTrackerListener
@@ -4572,8 +4571,8 @@ trackProfilerForTracer
 -[SentryCrashIntegration initWithCrashAdapter:andDispatchQueueWrapper:]
 -[SentryCrashIntegration installWithOptions:]
 -[SentryCrashIntegration integrationOptions]
--[SentryCrashIntegration startCrashHandler]
-___43-[SentryCrashIntegration startCrashHandler]_block_invoke
+-[SentryCrashIntegration startCrashHandler:]
+___44-[SentryCrashIntegration startCrashHandler:]_block_invoke
 +[SentryCrashIntegration sendAllSentryCrashReports]
 -[SentryCrashIntegration uninstall]
 -[SentryCrashIntegration configureScope]
@@ -4594,10 +4593,10 @@ ___48-[SentryCrashIntegration currentLocaleDidChange]_block_invoke
 -[SentryCrashIntegration .cxx_destruct]
 _installation
 _OBJC_SELECTOR_REFERENCES_.97
+___block_descriptor_48_e8_32s40s_e5_v8?0l
 _installationToken
 ___block_descriptor_40_e8_32s_e21_v16?0"SentryScope"8l
 _OBJC_SELECTOR_REFERENCES_.115
-_OBJC_CLASSLIST_REFERENCES_$_.182
 ___block_descriptor_32_e21_v16?0"SentryScope"8l
 _OBJC_IVAR_$_SentryCrashIntegration._options
 _OBJC_IVAR_$_SentryCrashIntegration._dispatchQueueWrapper
@@ -4615,7 +4614,7 @@ __OBJC_CLASS_RO_$_SentryCrashIntegration
 Sources/Sentry/SentryCrashIntegration.m
 __48-[SentryCrashIntegration currentLocaleDidChange]_block_invoke
 __40-[SentryCrashIntegration configureScope]_block_invoke
-__43-[SentryCrashIntegration startCrashHandler]_block_invoke
+__44-[SentryCrashIntegration startCrashHandler:]_block_invoke
 ____Z12sliceGPUDataP7NSArrayIP12NSDictionaryIP8NSStringP8NSNumberEEyyb_block_invoke
 ___copy_helper_block_ea8_32s40r
 ___destroy_helper_block_ea8_32s40r
@@ -4667,8 +4666,8 @@ __GLOBAL__sub_I_SentryProfiler.mm
 -[SentryProfiler start].cold.1
 ___block_descriptor_64_ea8_32s40r_e29_v32?0"NSDictionary"8Q16^B24l
 ___block_descriptor_48_ea8_32s_e29_v32?0"SentrySample"8Q16^B24l
-_OBJC_CLASSLIST_REFERENCES_$_.158
 _OBJC_CLASSLIST_REFERENCES_$_.161
+_OBJC_CLASSLIST_REFERENCES_$_.191
 _OBJC_SELECTOR_REFERENCES_.193
 _OBJC_SELECTOR_REFERENCES_.196
 ___block_descriptor_48_ea8_32s40w_e5_v8?0l
@@ -4793,7 +4792,6 @@ __OBJC_$_PROP_LIST_SentryAsynchronousOperation
 __OBJC_CLASS_RO_$_SentryAsynchronousOperation
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryAsynchronousOperation.m
 Sources/Sentry/SentryAsynchronousOperation.m
--[SentryCrash init]
 -[SentryCrash initWithBasePath:]
 -[SentryCrash userInfo]
 -[SentryCrash setUserInfo:]
@@ -4837,7 +4835,6 @@ ___34-[SentryCrash getAttachmentPaths:]_block_invoke
 -[SentryCrash applicationWillTerminate]
 -[SentryCrash clearBundleName:]
 -[SentryCrash getBundleName]
--[SentryCrash getBasePath]
 -[SentryCrash sink]
 -[SentryCrash setSink:]
 -[SentryCrash deleteBehaviorAfterSendAll]
@@ -4863,14 +4860,13 @@ ___34-[SentryCrash getAttachmentPaths:]_block_invoke
 -[SentryCrash notificationCenter]
 -[SentryCrash setNotificationCenter:]
 -[SentryCrash .cxx_destruct]
-_OBJC_SELECTOR_REFERENCES_.91
 _OBJC_SELECTOR_REFERENCES_.93
 _OBJC_SELECTOR_REFERENCES_.95
 _OBJC_SELECTOR_REFERENCES_.99
+_OBJC_SELECTOR_REFERENCES_.101
 ___block_descriptor_48_e8_32s40bs_e32_v28?0"NSArray"8B16"NSError"20l
 ___block_descriptor_40_e8_32bs_e32_v28?0"NSArray"8B16"NSError"20l
 ___block_descriptor_48_e8_32s40s_e15_v32?08Q16^B24l
-_OBJC_CLASSLIST_REFERENCES_$_.127
 __OBJC_METACLASS_RO_$_SentryCrash
 __OBJC_$_INSTANCE_METHODS_SentryCrash
 _OBJC_IVAR_$_SentryCrash._introspectMemory
@@ -5160,6 +5156,39 @@ __OBJC_$_INSTANCE_VARIABLES_SentryDispatchSourceWrapper
 __OBJC_CLASS_RO_$_SentryDispatchSourceWrapper
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryDispatchSourceWrapper.m
 Sources/Sentry/SentryDispatchSourceWrapper.m
+-[SentryUIEventTrackerTransactionMode initWithDispatchQueueWrapper:idleTimeout:]
+-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]
+___87-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]_block_invoke
+___87-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]_block_invoke_2
+___87-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]_block_invoke.103
+-[SentryUIEventTrackerTransactionMode dispatchQueueWrapper]
+-[SentryUIEventTrackerTransactionMode setDispatchQueueWrapper:]
+-[SentryUIEventTrackerTransactionMode idleTimeout]
+-[SentryUIEventTrackerTransactionMode setIdleTimeout:]
+-[SentryUIEventTrackerTransactionMode activeTransactions]
+-[SentryUIEventTrackerTransactionMode setActiveTransactions:]
+-[SentryUIEventTrackerTransactionMode .cxx_destruct]
+___block_descriptor_40_e8_32s_e35_v16?0"SentryTracerConfiguration"8l
+___block_descriptor_64_e8_32s40s48s56r_e22_v16?0"<SentrySpan>"8l
+__OBJC_$_PROTOCOL_REFS_SentryUIEventTrackerMode
+__OBJC_$_PROTOCOL_INSTANCE_METHODS_SentryUIEventTrackerMode
+__OBJC_$_PROTOCOL_METHOD_TYPES_SentryUIEventTrackerMode
+__OBJC_PROTOCOL_$_SentryUIEventTrackerMode
+__OBJC_LABEL_PROTOCOL_$_SentryUIEventTrackerMode
+__OBJC_CLASS_PROTOCOLS_$_SentryUIEventTrackerTransactionMode
+__OBJC_METACLASS_RO_$_SentryUIEventTrackerTransactionMode
+__OBJC_$_INSTANCE_METHODS_SentryUIEventTrackerTransactionMode
+_OBJC_IVAR_$_SentryUIEventTrackerTransactionMode._dispatchQueueWrapper
+_OBJC_IVAR_$_SentryUIEventTrackerTransactionMode._idleTimeout
+_OBJC_IVAR_$_SentryUIEventTrackerTransactionMode._activeTransactions
+__OBJC_$_INSTANCE_VARIABLES_SentryUIEventTrackerTransactionMode
+__OBJC_$_PROP_LIST_SentryUIEventTrackerTransactionMode
+__OBJC_CLASS_RO_$_SentryUIEventTrackerTransactionMode
+/Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryUIEventTrackerTransactionMode.m
+Sources/Sentry/SentryUIEventTrackerTransactionMode.m
+__87-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]_block_invoke.103
+__87-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]_block_invoke_2
+__87-[SentryUIEventTrackerTransactionMode handleUIEvent:operation:accessibilityIdentifier:]_block_invoke
 +[SentryCrashJSONCodec codecWithEncodeOptions:decodeOptions:]
 -[SentryCrashJSONCodec initWithEncodeOptions:decodeOptions:]
 -[SentryCrashJSONCodec dealloc]
@@ -5205,6 +5234,8 @@ _OBJC_IVAR_$_SentryCrashJSONCodec._error
 __OBJC_$_INSTANCE_VARIABLES_SentryCrashJSONCodec
 __OBJC_$_PROP_LIST_SentryCrashJSONCodec
 __OBJC_CLASS_RO_$_SentryCrashJSONCodec
+_OBJC_CLASSLIST_REFERENCES_$_.85
+_OBJC_SELECTOR_REFERENCES_.91
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/SentryCrash/Recording/Tools/SentryCrashJSONCodecObjC.m
 onBeginContainer
 Sources/SentryCrash/Recording/Tools/SentryCrashJSONCodecObjC.m
@@ -5676,7 +5707,6 @@ __67-[SentryWatchdogTerminationTrackingIntegration installWithOptions:]_block_in
 -[SentryPerformanceTrackingIntegration swizzling]
 -[SentryPerformanceTrackingIntegration setSwizzling:]
 -[SentryPerformanceTrackingIntegration .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.27
 _OBJC_IVAR_$_SentryPerformanceTrackingIntegration._swizzling
 __OBJC_CLASS_PROTOCOLS_$_SentryPerformanceTrackingIntegration
 __OBJC_METACLASS_RO_$_SentryPerformanceTrackingIntegration
@@ -6507,6 +6537,12 @@ Sources/Sentry/SentryCurrentDateProvider.m
 -[SentryUIApplication getApplicationDelegate:]
 -[SentryUIApplication getApplicationConnectedScenes:]
 -[SentryUIApplication windows]
+-[SentryUIApplication relevantViewControllers]
+-[SentryUIApplication relevantViewControllersNames]
+___51-[SentryUIApplication relevantViewControllersNames]_block_invoke
+-[SentryUIApplication relevantViewControllerFromWindow:]
+-[SentryUIApplication isContainerViewController:]
+-[SentryUIApplication relevantViewControllerFromContainer:]
 -[SentryUIApplication applicationState]
 -[SentryUIApplication didEnterBackground]
 -[SentryUIApplication didBecomeActive]
@@ -6523,6 +6559,7 @@ __OBJC_$_PROP_LIST_SentryUIApplication
 __OBJC_CLASS_RO_$_SentryUIApplication
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryUIApplication.m
 Sources/Sentry/SentryUIApplication.m
+__51-[SentryUIApplication relevantViewControllersNames]_block_invoke
 -[SentryAttachment initWithData:filename:]
 -[SentryAttachment initWithData:filename:contentType:]
 -[SentryAttachment initWithData:filename:contentType:attachmentType:]
@@ -6815,7 +6852,7 @@ Sources/Sentry/Public/SentryMeasurementUnit.h
 -[SentryCrashInstallation makeKeyPaths:]
 -[SentryCrashInstallation onCrash]
 -[SentryCrashInstallation setOnCrash:]
--[SentryCrashInstallation install]
+-[SentryCrashInstallation install:]
 _crashCallback
 -[SentryCrashInstallation uninstall]
 -[SentryCrashInstallation sendAllReportsWithCompletion:]
@@ -7146,6 +7183,10 @@ Sources/Sentry/Public/SentryEvent.h
 __OBJC_METACLASS_RO_$_SentryCrashExceptionApplication
 __OBJC_CLASS_RO_$_SentryCrashExceptionApplication
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryCrashExceptionApplication.m
+/Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryBuildAppStartSpans.m
+sentryBuildAppStartSpans
+Sources/Sentry/SentryBuildAppStartSpans.m
+sentryBuildAppStartSpan
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryDiscardReasonMapper.m
 nameForSentryDiscardReason
 Sources/Sentry/SentryDiscardReasonMapper.m
@@ -7189,6 +7230,7 @@ ___60-[SentryCoreDataTracker descriptionForOperations:inContext:]_block_invoke
 -[SentryCoreDataTracker .cxx_destruct]
 ___block_descriptor_48_e8_32s40s_e34_v32?0"NSPersistentStore"8Q16^B24l
 ___block_descriptor_48_e8_32s40r_e21_v24?0Q8"NSString"16l
+_OBJC_CLASSLIST_REFERENCES_$_.127
 __OBJC_METACLASS_RO_$_SentryCoreDataTracker
 __OBJC_$_INSTANCE_METHODS_SentryCoreDataTracker
 _OBJC_IVAR_$_SentryCoreDataTracker.predicateDescriptor
