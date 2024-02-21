@@ -495,10 +495,12 @@ dispatch_get_main_queue
 __55-[SentryDispatchQueueWrapper dispatchAsyncOnMainQueue:]_block_invoke
 __copy_helper_block_e8_32b
 __53-[SentryDispatchQueueWrapper dispatchAsyncWithBlock:]_block_invoke
--[SentryFramesTracker initWithDisplayLinkWrapper:dateProvider:keepDelayedFramesDuration:]
+-[SentryFramesTracker initWithDisplayLinkWrapper:dateProvider:dispatchQueueWrapper:keepDelayedFramesDuration:]
 -[SentryFramesTracker setDisplayLinkWrapper:]
 -[SentryFramesTracker resetFrames]
 -[SentryFramesTracker resetProfilingTimestamps]
+___47-[SentryFramesTracker resetProfilingTimestamps]_block_invoke
+-[SentryFramesTracker resetProfilingTimestampsInternal]
 -[SentryFramesTracker start]
 -[SentryFramesTracker displayLinkCallback]
 -[SentryFramesTracker reportNewFrame]
@@ -512,6 +514,7 @@ __53-[SentryDispatchQueueWrapper dispatchAsyncWithBlock:]_block_invoke
 -[SentryFramesTracker isRunning]
 -[SentryFramesTracker displayLinkWrapper]
 -[SentryFramesTracker dateProvider]
+-[SentryFramesTracker dispatchQueueWrapper]
 -[SentryFramesTracker previousFrameTimestamp]
 -[SentryFramesTracker setPreviousFrameTimestamp:]
 -[SentryFramesTracker previousFrameSystemTimestamp]
@@ -531,12 +534,13 @@ __53-[SentryDispatchQueueWrapper dispatchAsyncWithBlock:]_block_invoke
 -[SentryFramesTracker .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.54
 _OBJC_CLASSLIST_REFERENCES_$_.55
-_OBJC_SELECTOR_REFERENCES_.63
-_OBJC_CLASSLIST_REFERENCES_$_.64
-_OBJC_CLASSLIST_REFERENCES_$_.69
-_OBJC_CLASSLIST_REFERENCES_$_.76
+___block_descriptor_40_e8_32s_e5_v8?0l
+_OBJC_CLASSLIST_REFERENCES_$_.62
+_OBJC_CLASSLIST_REFERENCES_$_.65
+_OBJC_CLASSLIST_REFERENCES_$_.70
 _OBJC_CLASSLIST_REFERENCES_$_.77
-_OBJC_SELECTOR_REFERENCES_.79
+_OBJC_CLASSLIST_REFERENCES_$_.78
+_OBJC_SELECTOR_REFERENCES_.80
 __OBJC_METACLASS_RO_$_SentryFramesTracker
 __OBJC_$_INSTANCE_METHODS_SentryFramesTracker
 _OBJC_IVAR_$_SentryFramesTracker._totalFrames
@@ -545,6 +549,7 @@ _OBJC_IVAR_$_SentryFramesTracker._frozenFrames
 _OBJC_IVAR_$_SentryFramesTracker._isRunning
 _OBJC_IVAR_$_SentryFramesTracker._displayLinkWrapper
 _OBJC_IVAR_$_SentryFramesTracker._dateProvider
+_OBJC_IVAR_$_SentryFramesTracker._dispatchQueueWrapper
 _OBJC_IVAR_$_SentryFramesTracker._previousFrameTimestamp
 _OBJC_IVAR_$_SentryFramesTracker._previousFrameSystemTimestamp
 _OBJC_IVAR_$_SentryFramesTracker._currentFrameRate
@@ -561,6 +566,7 @@ sentryShouldAddSlowFrozenFramesData
 Sources/Sentry/SentryFramesTracker.m
 Sources/Sentry/include/SentryFramesTracker.h
 slowFrameThreshold
+__47-[SentryFramesTracker resetProfilingTimestamps]_block_invoke
 -[SentrySwiftAsyncIntegration installWithOptions:]
 -[SentrySwiftAsyncIntegration uninstall]
 __OBJC_CLASS_PROTOCOLS_$_SentrySwiftAsyncIntegration
@@ -654,7 +660,6 @@ _OBJC_CLASSLIST_REFERENCES_$_.95
 _OBJC_CLASSLIST_REFERENCES_$_.96
 _OBJC_CLASSLIST_REFERENCES_$_.97
 _OBJC_CLASSLIST_REFERENCES_$_.98
-___block_descriptor_40_e8_32s_e5_v8?0l
 __OBJC_METACLASS_RO_$_SentryWatchdogTerminationTracker
 __OBJC_$_INSTANCE_METHODS_SentryWatchdogTerminationTracker
 _OBJC_IVAR_$_SentryWatchdogTerminationTracker._options
@@ -1088,18 +1093,16 @@ Sources/Sentry/include/SentryThreadMetadataCache.hpp
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/string
 __get_long_pointer
 __is_long
-~shared_ptr
-/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/shared_ptr.h
-__release_shared
-__libcpp_atomic_refcount_decrement<long>
-destroy<const sentry::profiling::QueueMetadata, void>
-~QueueMetadata
 __on_zero_shared_weak
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__memory/shared_ptr.h
 __on_zero_shared
 ~ThreadMetadataCache
 ~vector
 __get_elem
 ~__shared_ptr_emplace
+~shared_ptr
+__release_shared
+__libcpp_atomic_refcount_decrement<long>
 deleteParams
 Sources/Sentry/SentrySamplingProfiler.cpp
 ~SamplingThreadParams
@@ -1268,8 +1271,8 @@ _OBJC_CLASSLIST_REFERENCES_$_.30
 _OBJC_CLASSLIST_REFERENCES_$_.38
 _OBJC_CLASSLIST_REFERENCES_$_.39
 ___block_descriptor_32_e31_q24?0"NSString"8"NSString"16l
+_OBJC_CLASSLIST_REFERENCES_$_.64
 _OBJC_CLASSLIST_REFERENCES_$_.67
-_OBJC_CLASSLIST_REFERENCES_$_.70
 _OBJC_CLASSLIST_REFERENCES_$_.71
 _OBJC_CLASSLIST_REFERENCES_$_.72
 _OBJC_CLASSLIST_REFERENCES_$_.99
@@ -1448,61 +1451,39 @@ __ZNSt3__16vectorIKN6sentry9profiling19ThreadMetadataCache24ThreadHandleMetadata
 __ZNKSt3__113__vector_baseIKN6sentry9profiling19ThreadMetadataCache24ThreadHandleMetadataPairENS_9allocatorIS5_EEE20__throw_length_errorEv
 __ZNSt3__1L20__throw_length_errorEPKc
 __ZNSt12length_errorC1EPKc
-__ZNKSt3__113__vector_baseIKN6sentry9profiling13QueueMetadataENS_9allocatorIS4_EEE20__throw_length_errorEv
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryThreadMetadataCache.cpp
 ~__split_buffer
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__split_buffer
-__split_buffer
-__compressed_pair<std::nullptr_t, std::__1::allocator<const sentry::profiling::QueueMetadata> &>
-__compressed_pair_elem<std::__1::allocator<const sentry::profiling::QueueMetadata> &, void>
-__compressed_pair_elem<std::nullptr_t, void>
-__throw_length_error
-__swap_out_circular_buffer
-swap<const sentry::profiling::QueueMetadata *>
-/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__utility/swap.h
-__end_cap
-__construct_backward_with_exception_guarantees<std::__1::allocator<const sentry::profiling::QueueMetadata>, const sentry::profiling::QueueMetadata *>
-/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/memory
-construct<const sentry::profiling::QueueMetadata, const sentry::profiling::QueueMetadata, void>
-construct<const sentry::profiling::QueueMetadata, const sentry::profiling::QueueMetadata>
-QueueMetadata
 length_error
 /Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/stdexcept
+__throw_length_error
+__split_buffer
 __compressed_pair<std::nullptr_t, std::__1::allocator<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair> &>
 __compressed_pair_elem<std::__1::allocator<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair> &, void>
+__compressed_pair_elem<std::nullptr_t, void>
+__swap_out_circular_buffer
 swap<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair *>
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__utility/swap.h
+__end_cap
 __construct_backward_with_exception_guarantees<std::__1::allocator<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair>, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair *>
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/memory
 construct<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair &, void>
 construct<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair &>
 ThreadHandleMetadataPair
 ThreadMetadata
-setQueueMetadata
-Sources/Sentry/SentryThreadMetadataCache.cpp
 push_back
-__push_back_slow_path<const sentry::profiling::QueueMetadata>
+__push_back_slow_path<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair>
+construct<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, void>
+construct<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair>
 __recommend
 capacity
 __alloc
 second
 size
-__construct_one_at_end<const sentry::profiling::QueueMetadata>
-~_ConstructTransaction
-metadataForQueue
-operator==<const sentry::profiling::QueueMetadata *>
-/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__iterator/wrap_iter.h
-find_if<std::__1::__wrap_iter<const sentry::profiling::QueueMetadata *>, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryThreadMetadataCache.cpp:72:13)>
-/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__algorithm/find_if.h
-operator!=<const sentry::profiling::QueueMetadata *>
-operator++
-cend
-end
-cbegin
-begin
-__push_back_slow_path<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair>
-construct<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, void>
-construct<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair, const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair>
 __construct_one_at_end<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair>
+~_ConstructTransaction
 metadataForThread
+Sources/Sentry/SentryThreadMetadataCache.cpp
 resize
 isSentryOwnedThreadName
 rfind
@@ -1516,8 +1497,15 @@ __get_pointer
 basic_string
 __zero
 operator==<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair *>
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__iterator/wrap_iter.h
 find_if<std::__1::__wrap_iter<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair *>, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryThreadMetadataCache.cpp:32:13)>
+/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk/usr/include/c++/v1/__algorithm/find_if.h
 operator!=<const sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair *>
+operator++
+cend
+end
+cbegin
+begin
 -[SentrySdkInfo initWithName:andVersion:]
 -[SentrySdkInfo initWithDict:]
 -[SentrySdkInfo initWithDict:orDefaults:]
@@ -2164,7 +2152,6 @@ __OBJC_PROTOCOL_REFERENCE_$_SentryCrashReportFilter
 ___block_descriptor_56_e8_32s40s48r_e8_v16?08l
 _OBJC_CLASSLIST_REFERENCES_$_.52
 ___block_descriptor_40_e8_32r_e5_v8?0l
-_OBJC_CLASSLIST_REFERENCES_$_.62
 ___block_descriptor_112_e8_32s40s48s56s64s72bs80bs88r96r_e32_v28?0"NSArray"8B16"NSError"20l
 __OBJC_$_CLASS_METHODS_SentryCrashReportFilterCombine
 __OBJC_CLASS_PROTOCOLS_$_SentryCrashReportFilterCombine
@@ -2492,19 +2479,16 @@ _SENTRY_NETWORK_REQUEST_TRACKER_SPAN
 _SENTRY_NETWORK_REQUEST_TRACKER_BREADCRUMB
 ___block_descriptor_64_e8_32s40s48r56r_e22_v16?0"<SentrySpan>"8l
 _OBJC_CLASSLIST_REFERENCES_$_.132
-_OBJC_CLASSLIST_REFERENCES_$_.149
-_OBJC_CLASSLIST_REFERENCES_$_.160
-_OBJC_CLASSLIST_REFERENCES_$_.169
-_OBJC_CLASSLIST_REFERENCES_$_.170
-_OBJC_CLASSLIST_REFERENCES_$_.173
-_OBJC_CLASSLIST_REFERENCES_$_.174
+_OBJC_CLASSLIST_REFERENCES_$_.148
+_OBJC_CLASSLIST_REFERENCES_$_.151
+_OBJC_CLASSLIST_REFERENCES_$_.172
 _OBJC_CLASSLIST_REFERENCES_$_.175
 _OBJC_CLASSLIST_REFERENCES_$_.176
 _OBJC_CLASSLIST_REFERENCES_$_.177
-_OBJC_CLASSLIST_REFERENCES_$_.186
-_OBJC_CLASSLIST_REFERENCES_$_.197
-_OBJC_CLASSLIST_REFERENCES_$_.198
+_OBJC_CLASSLIST_REFERENCES_$_.188
 _OBJC_CLASSLIST_REFERENCES_$_.199
+_OBJC_CLASSLIST_REFERENCES_$_.200
+_OBJC_CLASSLIST_REFERENCES_$_.201
 __OBJC_$_CLASS_METHODS_SentryNetworkTracker
 __OBJC_$_CLASS_PROP_LIST_SentryNetworkTracker
 __OBJC_METACLASS_RO_$_SentryNetworkTracker
@@ -2741,7 +2725,6 @@ ____Z20slicedProfileSamplesP7NSArrayIP12SentrySampleEyy_block_invoke
 ____Z20slicedProfileSamplesP7NSArrayIP12SentrySampleEyy_block_invoke_2
 _OBJC_CLASSLIST_REFERENCES_$_.57
 ___block_descriptor_40_e29_B32?0"SentrySample"8Q16^B24l
-_OBJC_CLASSLIST_REFERENCES_$_.78
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfileTimeseries.mm
 ___Z20slicedProfileSamplesP7NSArrayIP12SentrySampleEyy_block_invoke_2
 Sources/Sentry/SentryProfileTimeseries.mm
@@ -2836,11 +2819,13 @@ ___40-[SentryHub captureException:withScope:]_block_invoke
 -[SentryHub session]
 -[SentryHub setSession:]
 -[SentryHub .cxx_destruct]
-_OBJC_CLASSLIST_REFERENCES_$_.148
+_OBJC_CLASSLIST_REFERENCES_$_.149
 ___block_descriptor_40_e8_32s_e20_"SentrySession"8?0l
 _OBJC_SELECTOR_REFERENCES_.155
 _OBJC_CLASSLIST_REFERENCES_$_.157
 _OBJC_CLASSLIST_REFERENCES_$_.158
+_OBJC_CLASSLIST_REFERENCES_$_.169
+_OBJC_CLASSLIST_REFERENCES_$_.174
 __OBJC_METACLASS_RO_$_SentryHub
 __OBJC_$_INSTANCE_METHODS_SentryHub
 _OBJC_IVAR_$_SentryHub._sessionLock
@@ -2990,8 +2975,10 @@ __51-[SentryPredicateDescriptor expressionDescription:]_block_invoke
 -[SentrySystemEventBreadcrumbs setNotificationCenterWrapper:]
 -[SentrySystemEventBreadcrumbs .cxx_destruct]
 _OBJC_SELECTOR_REFERENCES_.45
-_OBJC_CLASSLIST_REFERENCES_$_.80
-_OBJC_SELECTOR_REFERENCES_.82
+_OBJC_SELECTOR_REFERENCES_.66
+_OBJC_SELECTOR_REFERENCES_.81
+_OBJC_CLASSLIST_REFERENCES_$_.82
+_OBJC_SELECTOR_REFERENCES_.84
 __OBJC_METACLASS_RO_$_SentrySystemEventBreadcrumbs
 __OBJC_$_INSTANCE_METHODS_SentrySystemEventBreadcrumbs
 _OBJC_IVAR_$_SentrySystemEventBreadcrumbs._delegate
@@ -3234,6 +3221,8 @@ ___30-[SentryTracer finishInternal]_block_invoke
 -[SentryTracer setConfiguration:]
 -[SentryTracer dispatchQueue]
 -[SentryTracer setDispatchQueue:]
+-[SentryTracer debugImageProvider]
+-[SentryTracer setDebugImageProvider:]
 -[SentryTracer isProfiling]
 -[SentryTracer setIsProfiling:]
 -[SentryTracer hub]
@@ -3247,6 +3236,7 @@ _OBJC_CLASSLIST_REFERENCES_$_.105
 _OBJC_IVAR_$_SentryTracer._startSystemTime
 _OBJC_IVAR_$_SentryTracer._configuration
 _OBJC_IVAR_$_SentryTracer._dispatchQueue
+_OBJC_IVAR_$_SentryTracer._debugImageProvider
 _OBJC_CLASSLIST_REFERENCES_$_.106
 _OBJC_IVAR_$_SentryTracer._children
 _OBJC_IVAR_$_SentryTracer._measurements
@@ -3395,6 +3385,8 @@ Sources/Sentry/include/HybridPublic/SentryEnvelope.h
 -[SentrySpan .cxx_destruct]
 _OBJC_CLASSLIST_REFERENCES_$_.63
 _OBJC_CLASSLIST_REFERENCES_$_.68
+_OBJC_CLASSLIST_REFERENCES_$_.69
+_OBJC_CLASSLIST_REFERENCES_$_.76
 __OBJC_$_PROTOCOL_REFS_SentrySpan
 __OBJC_$_PROTOCOL_INSTANCE_METHODS_SentrySpan
 __OBJC_$_PROP_LIST_SentrySpan
@@ -3650,6 +3642,7 @@ _OBJC_CLASSLIST_REFERENCES_$_.51
 _OBJC_SELECTOR_REFERENCES_.62
 ___block_descriptor_48_e8_32s40w_e5_v8?0l
 _OBJC_CLASSLIST_REFERENCES_$_.79
+_OBJC_CLASSLIST_REFERENCES_$_.80
 _OBJC_CLASSLIST_REFERENCES_$_.87
 ___block_descriptor_56_e8_32s40s48w_e39_v24?0"NSHTTPURLResponse"8"NSError"16l
 __OBJC_$_PROTOCOL_REFS_SentryReachabilityObserver
@@ -3941,7 +3934,6 @@ ___68-[SentryRequestOperation initWithSession:request:completionHandler:]_block_
 -[SentryRequestOperation setRequest:]
 -[SentryRequestOperation .cxx_destruct]
 ___block_descriptor_48_e8_32s40bs_e46_v32?0"NSData"8"NSURLResponse"16"NSError"24l
-_OBJC_SELECTOR_REFERENCES_.66
 _OBJC_IVAR_$_SentryRequestOperation._task
 _OBJC_IVAR_$_SentryRequestOperation._request
 __OBJC_METACLASS_RO_$_SentryRequestOperation
@@ -4197,7 +4189,6 @@ Sources/Sentry/SentryNSTimerFactory.m
 __ZL31_onAppStartMeasurementAvailable
 __ZL33_appStartMeasurementHybridSDKMode
 _OBJC_CLASSLIST_REFERENCES_$_.81
-_OBJC_CLASSLIST_REFERENCES_$_.82
 __ZL39_framesTrackingMeasurementHybridSDKMode
 _OBJC_CLASSLIST_REFERENCES_$_.83
 _OBJC_CLASSLIST_REFERENCES_$_.84
@@ -4246,16 +4237,9 @@ __ZNSt3__110unique_ptrIN6sentry9profiling12ThreadHandleENS_14default_deleteIS3_E
 __ZNSt3__1L25__throw_bad_function_callEv
 __ZNSt3__117bad_function_callD1Ev
 __ZNSt3__117bad_function_callD0Ev
-__ZNSt3__120__shared_ptr_emplaceINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS4_IS6_EEED1Ev
-__ZNSt3__120__shared_ptr_emplaceINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS4_IS6_EEED0Ev
-__ZNSt3__120__shared_ptr_emplaceINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS4_IS6_EEE16__on_zero_sharedEv
-__ZNSt3__120__shared_ptr_emplaceINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS4_IS6_EEE21__on_zero_shared_weakEv
-__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_length_errorEv
 __ZNKSt3__113__vector_baseImNS_9allocatorImEEE20__throw_length_errorEv
 __ZTSNSt3__117bad_function_callE
 __ZTINSt3__117bad_function_callE
-__ZTSNSt3__120__shared_ptr_emplaceINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS4_IS6_EEEE
-__ZTINSt3__120__shared_ptr_emplaceINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEENS4_IS6_EEEE
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryBacktrace.cpp
 ~bad_function_call
 __throw_bad_function_call
@@ -4275,27 +4259,10 @@ __construct_backward_with_exception_guarantees<std::__1::allocator<unsigned long
 construct<unsigned long, const unsigned long &, void>
 construct<unsigned long, const unsigned long &>
 __construct_one_at_end<const unsigned long &>
-swap
-swap<std::__1::__shared_weak_count *>
-swap<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > *>
-make_shared<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, char (&)[256], void>
-allocate_shared<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >, char (&)[256], void>
-__shared_ptr_emplace<char (&)[256]>
-basic_string<std::nullptr_t>
-__init
-assign
-~__allocation_guard
-copy
-__get_short_pointer
-__set_short_size
-__set_long_size
-__set_long_cap
-__set_long_pointer
-__align_it<16UL>
-length
-__allocation_guard<std::__1::allocator<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > > >
 operator*
 __move_assign
+assign
+__set_short_size
 Backtrace
 backtrace
 isValidFrame
@@ -4628,7 +4595,6 @@ __ZN12_GLOBAL__N_123_unsafe_cleanUpProfilerEP14SentryProfilerP8NSString
 __GLOBAL__sub_I_SentryProfiledTracerConcurrency.mm
 __ZL20_gProfilersToTracers
 __ZL20_gTracersToProfilers
-_OBJC_CLASSLIST_REFERENCES_$_.65
 _OBJC_CLASSLIST_REFERENCES_$_.66
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/Profiling/SentryProfiledTracerConcurrency.mm
 _GLOBAL__sub_I_SentryProfiledTracerConcurrency.mm
@@ -4737,11 +4703,11 @@ __GLOBAL__sub_I_SentryProfiler.mm
 ___block_descriptor_64_ea8_32s40r_e29_v32?0"NSDictionary"8Q16^B24l
 ___block_descriptor_48_ea8_32s_e29_v32?0"SentrySample"8Q16^B24l
 _OBJC_CLASSLIST_REFERENCES_$_.161
+_OBJC_CLASSLIST_REFERENCES_$_.170
 _OBJC_CLASSLIST_REFERENCES_$_.191
 _OBJC_SELECTOR_REFERENCES_.193
 _OBJC_SELECTOR_REFERENCES_.196
 ___block_descriptor_48_ea8_32s40w_e5_v8?0l
-_OBJC_CLASSLIST_REFERENCES_$_.200
 _OBJC_CLASSLIST_REFERENCES_$_.203
 _OBJC_CLASSLIST_REFERENCES_$_.206
 _OBJC_CLASSLIST_REFERENCES_$_.207
@@ -4803,6 +4769,8 @@ __compressed_pair<const (lambda at /Users/runner/work/sentry-unity/sentry-unity/
 __create_with_control_block<sentry::profiling::SamplingProfiler, std::__1::__shared_ptr_emplace<sentry::profiling::SamplingProfiler, std::__1::allocator<sentry::profiling::SamplingProfiler> > >
 __enable_weak_this<sentry::profiling::SamplingProfiler, sentry::profiling::SamplingProfiler>
 operator=<sentry::profiling::SamplingProfiler>
+swap
+swap<std::__1::__shared_weak_count *>
 swap<sentry::profiling::SamplingProfiler *>
 weak_ptr<sentry::profiling::SamplingProfiler>
 __add_weak
@@ -4817,6 +4785,7 @@ get
 make_shared<sentry::profiling::SamplingProfiler, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9), const int &, void>
 allocate_shared<sentry::profiling::SamplingProfiler, std::__1::allocator<sentry::profiling::SamplingProfiler>, (lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9), const int &, void>
 __shared_ptr_emplace<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9), const int &>
+~__allocation_guard
 function<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9), void>
 __value_func<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9), void>
 __value_func<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9), std::__1::allocator<(lambda at /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryProfiler.mm:544:9)> >
@@ -5581,6 +5550,7 @@ Sources/Sentry/include/SentryFileContents.h
 __ZNSt3__16vectorINS_10unique_ptrIN6sentry9profiling12ThreadHandleENS_14default_deleteIS4_EEEENS_9allocatorIS7_EEE9push_backEOS7_
 __ZNSt3__16vectorINS_10unique_ptrIN6sentry9profiling12ThreadHandleENS_14default_deleteIS4_EEEENS_9allocatorIS7_EEED1Ev
 __ZNKSt3__113__vector_baseINS_10unique_ptrIN6sentry9profiling12ThreadHandleENS_14default_deleteIS4_EEEENS_9allocatorIS7_EEE20__throw_length_errorEv
+__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_length_errorEv
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/SentryThreadHandle.cpp
 Sources/Sentry/SentryThreadHandle.cpp
 resume
@@ -5594,8 +5564,16 @@ duration<long long, std::__1::ratio<1, 1> >
 duration_cast<std::__1::chrono::duration<long long, std::__1::ratio<1, 1000000> >, long long, std::__1::ratio<1, 1> >
 duration<int>
 priority
-dispatchQueueAddress
 pthreadHandle
+basic_string<std::nullptr_t>
+__init
+copy
+__get_short_pointer
+__set_long_size
+__set_long_cap
+__set_long_pointer
+__align_it<16UL>
+length
 tid
 tidFromNativeHandle
 nativeHandle
@@ -6346,12 +6324,13 @@ ____Z33parseBacktraceSymbolsFunctionNamePKc_block_invoke
 -[SentryProfilerMutableState stacks]
 -[SentryProfilerMutableState frames]
 -[SentryProfilerMutableState threadMetadata]
--[SentryProfilerMutableState queueMetadata]
 -[SentryProfilerMutableState frameIndexLookup]
 -[SentryProfilerMutableState stackIndexLookup]
 -[SentryProfilerMutableState .cxx_destruct]
 -[SentryProfilerState init]
+___27-[SentryProfilerState init]_block_invoke
 -[SentryProfilerState mutate:]
+-[SentryProfilerState cacheMainThreadID]
 -[SentryProfilerState appendBacktrace:]
 ___39-[SentryProfilerState appendBacktrace:]_block_invoke
 -[SentryProfilerState copyProfilingData]
@@ -6366,18 +6345,19 @@ _OBJC_IVAR_$_SentryProfilerMutableState._samples
 _OBJC_IVAR_$_SentryProfilerMutableState._stacks
 _OBJC_IVAR_$_SentryProfilerMutableState._frames
 _OBJC_IVAR_$_SentryProfilerMutableState._threadMetadata
-_OBJC_IVAR_$_SentryProfilerMutableState._queueMetadata
 _OBJC_IVAR_$_SentryProfilerMutableState._frameIndexLookup
 _OBJC_IVAR_$_SentryProfilerMutableState._stackIndexLookup
 __OBJC_$_INSTANCE_VARIABLES_SentryProfilerMutableState
 __OBJC_$_PROP_LIST_SentryProfilerMutableState
 __OBJC_CLASS_RO_$_SentryProfilerMutableState
-___block_descriptor_40_e36_v16?0"SentryProfilerMutableState"8l
+___block_descriptor_40_ea8_32s_e5_v8?0l
+___block_descriptor_48_ea8_32s_e36_v16?0"SentryProfilerMutableState"8l
 ___block_descriptor_40_ea8_32s_e39_v32?0"NSString"8"NSDictionary"16^B24l
 __OBJC_METACLASS_RO_$_SentryProfilerState
 __OBJC_$_INSTANCE_METHODS_SentryProfilerState
 _OBJC_IVAR_$_SentryProfilerState._mutableState
 _OBJC_IVAR_$_SentryProfilerState._lock
+_OBJC_IVAR_$_SentryProfilerState._mainThreadID
 __OBJC_$_INSTANCE_VARIABLES_SentryProfilerState
 __OBJC_CLASS_RO_$_SentryProfilerState
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/Profiling/SentryProfilerState.mm
@@ -6386,10 +6366,9 @@ __40-[SentryProfilerState copyProfilingData]_block_invoke
 __39-[SentryProfilerState appendBacktrace:]_block_invoke
 operator[]
 c_str
-operator!=<std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > >
 empty
-__get_short_size
 __get_long_size
+__27-[SentryProfilerState init]_block_invoke
 Sources/Sentry/include/SentryProfilerState.h
 ___Z33parseBacktraceSymbolsFunctionNamePKc_block_invoke
 parseBacktraceSymbolsFunctionName
@@ -6495,7 +6474,6 @@ __OBJC_$_CATEGORY_NSArray_$_SentrySanitize
 /Users/runner/work/sentry-unity/sentry-unity/modules/sentry-cocoa/Sources/Sentry/NSArray+SentrySanitize.m
 Sources/Sentry/NSArray+SentrySanitize.m
 -[SentryBaggage initWithTraceId:publicKey:releaseName:environment:transaction:userSegment:sampleRate:sampled:]
--[SentryBaggage toHTTPHeader]
 -[SentryBaggage toHTTPHeaderWithOriginalBaggage:]
 -[SentryBaggage traceId]
 -[SentryBaggage publicKey]
@@ -6675,6 +6653,7 @@ ___43-[SentryFileManager deleteOldEnvelopeItems]_block_invoke
 -[SentryFileManager allFilesContentInFolder:]
 -[SentryFileManager getFileContents:filePath:]
 -[SentryFileManager deleteOldEnvelopesFromAllSentryPaths]
+-[SentryFileManager getEnvelopesPath:]
 -[SentryFileManager deleteOldEnvelopesFromPath:]
 -[SentryFileManager deleteAllEnvelopes]
 -[SentryFileManager allFilesInFolder:]
@@ -6710,6 +6689,8 @@ ___43-[SentryFileManager deleteOldEnvelopeItems]_block_invoke
 +[SentryFileManager createDirectoryAtPath:withError:]
 -[SentryFileManager createPathsWithOptions:]
 -[SentryFileManager createDirectoryIfNotExists:error:]
+-[SentryFileManager basePath]
+-[SentryFileManager setBasePath:]
 -[SentryFileManager sentryPath]
 -[SentryFileManager setSentryPath:]
 -[SentryFileManager breadcrumbsFilePathOne]
@@ -6722,8 +6703,6 @@ ___43-[SentryFileManager deleteOldEnvelopeItems]_block_invoke
 -[SentryFileManager setPreviousBreadcrumbsFilePathTwo:]
 -[SentryFileManager dispatchQueue]
 -[SentryFileManager setDispatchQueue:]
--[SentryFileManager basePath]
--[SentryFileManager setBasePath:]
 -[SentryFileManager eventsPath]
 -[SentryFileManager setEventsPath:]
 -[SentryFileManager envelopesPath]
@@ -6746,17 +6725,16 @@ ___43-[SentryFileManager deleteOldEnvelopeItems]_block_invoke
 -[SentryFileManager setMaxEnvelopes:]
 -[SentryFileManager delegate]
 -[SentryFileManager .cxx_destruct]
-_OBJC_SELECTOR_REFERENCES_.61
 __OBJC_$_CLASS_METHODS_SentryFileManager
 __OBJC_METACLASS_RO_$_SentryFileManager
 __OBJC_$_INSTANCE_METHODS_SentryFileManager
+_OBJC_IVAR_$_SentryFileManager._basePath
 _OBJC_IVAR_$_SentryFileManager._sentryPath
 _OBJC_IVAR_$_SentryFileManager._breadcrumbsFilePathOne
 _OBJC_IVAR_$_SentryFileManager._breadcrumbsFilePathTwo
 _OBJC_IVAR_$_SentryFileManager._previousBreadcrumbsFilePathOne
 _OBJC_IVAR_$_SentryFileManager._previousBreadcrumbsFilePathTwo
 _OBJC_IVAR_$_SentryFileManager._dispatchQueue
-_OBJC_IVAR_$_SentryFileManager._basePath
 _OBJC_IVAR_$_SentryFileManager._eventsPath
 _OBJC_IVAR_$_SentryFileManager._envelopesPath
 _OBJC_IVAR_$_SentryFileManager._currentSessionFilePath
