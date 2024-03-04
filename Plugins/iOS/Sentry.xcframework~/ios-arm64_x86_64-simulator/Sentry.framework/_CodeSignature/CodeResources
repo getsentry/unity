@@ -182,11 +182,11 @@
 		</data>
 		<key>Modules/Sentry.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		1ctQjFBHZAhQ7jZLqGeJJ5sLlx4=
+		fJNgdZTcI1CfyDO7AbKOEMv5KMI=
 		</data>
 		<key>Modules/Sentry.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		zGkzBCylO7CKoA7znIpOgFUGfH8=
+		NMtdOlYTn/NI/B5rZpQFF1/peac=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -620,14 +620,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XcJ77I7Jgxj3ltTKUbtV0+5Ks9QySc/OYtqj25VCWfw=
+			jK61sy6ClCg5iTfhdCZpnxL4wZZ96xWwipkc5ag6Mbc=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TgEYob7whg1j9w8PioKKWMIyKHk5OXAJF0liatgKgi8=
+			vCHrqhOeq+NeEag5Mwb6xuAwJ++b8tywuTupfc30aK8=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>

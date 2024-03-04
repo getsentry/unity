@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.1
+
+### Fixes
+
+- Fixed potential crashes on Android devices by removing the use of the persistent scope observer ([#1555](https://github.com/getsentry/sentry-unity/pull/1570))
+
+### Dependencies
+
+- Bump Java SDK from v7.3.0 to v7.5.0 ([#1569](https://github.com/getsentry/sentry-unity/pull/1569), [#1555](https://github.com/getsentry/sentry-unity/pull/1570))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#750)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.3.0...7.5.0)
+
 ## 2.0.0
 
 This major release is based on the .NET 4.0 release and includes features like [Metrics](https://docs.sentry.io/platforms/dotnet/metrics/)(preview) and [Spotlight](https://spotlightjs.com/).
