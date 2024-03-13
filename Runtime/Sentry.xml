@@ -1863,6 +1863,32 @@
             An object representing the members baggage header, or <c>null</c> if there are no members parsed.
             </returns>
         </member>
+        <member name="T:Sentry.Ben.BlockingDetector.SuppressBlockingDetection">
+            <summary>
+            Controls blocking detection suppression
+            </summary>
+        </member>
+        <member name="M:Sentry.Ben.BlockingDetector.SuppressBlockingDetection.#ctor">
+            <summary>
+            Suppresses blocking detection for a particular code block
+            </summary>
+            <example>
+            using (new SuppressBlockingDetection())
+            {
+                Task.Delay(10).Wait(); // Will not trigger a blocking detection event due to suppression
+            }
+            </example>
+        </member>
+        <member name="M:Sentry.Ben.BlockingDetector.SuppressBlockingDetection.Dispose">
+            <summary>
+            Reinstates previous blocking detection behavior
+            </summary>
+        </member>
+        <member name="M:Sentry.Ben.BlockingDetector.TaskBlockingListener.#ctor(Sentry.Ben.BlockingDetector.IBlockingMonitor,Sentry.Ben.BlockingDetector.ITaskBlockingListenerState)">
+            <summary>
+            For testing only
+            </summary>
+        </member>
         <member name="T:Sentry.BindableSentryOptions">
             <summary>
             Contains representations of the subset of properties in SentryOptions that can be set from ConfigurationBindings.
@@ -2618,6 +2644,11 @@
             No-Op.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+            <summary>
+            No-Op
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.FlushAsync(System.TimeSpan)">
             <summary>
             No-Op.
@@ -2822,6 +2853,11 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.CaptureSession(Sentry.SessionUpdate)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3970,6 +4006,9 @@
             Starts a child span for the current transaction or, if there is no active transaction, starts a new transaction.
             </summary>
         </member>
+        <member name="M:Sentry.IMetricHub.GetSpan">
+            <inheritdoc cref="M:Sentry.IHub.GetSpan"/>
+        </member>
         <member name="T:Sentry.Infrastructure.ConsoleDiagnosticLogger">
             <summary>
             Console logger used by the SDK to report its internal logging.
@@ -4204,7 +4243,7 @@
             Sentry Stacktrace with debug images.
             </summary>
         </member>
-        <member name="M:Sentry.Internal.DebugStackTrace.CreateFrames(System.Diagnostics.StackTrace,System.Boolean)">
+        <member name="M:Sentry.Internal.DebugStackTrace.CreateFrames(System.Diagnostics.StackTrace,System.Boolean,System.Func{System.String,System.Boolean})">
             <summary>
             Creates an enumerator of <see cref="T:Sentry.SentryStackFrame"/> from a <see cref="T:System.Diagnostics.StackTrace"/>.
             </summary>
@@ -4402,6 +4441,18 @@
             Name for the query parameter.
             See https://github.com/graphql/graphql-over-http/blob/master/spec/GraphQLOverHTTP.md#request-parameters
             </summary>
+        </member>
+        <member name="T:Sentry.Internal.Http.CachingTransport">
+             <summary>
+             A transport that caches envelopes to disk and sends them in the background.
+             </summary>
+             <remarks>
+             Note although this class has a <see cref="M:Sentry.Internal.Http.CachingTransport.DisposeAsync"/>
+             method, it doesn't implement <see cref="T:System.IAsyncDisposable"/> as this caused
+             a dependency issue with Log4Net in some situations.
+            
+             See https://github.com/getsentry/sentry-dotnet/issues/3178
+             </remarks>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -4907,6 +4958,14 @@
             It will be called automatically by the SDK.
             </remarks>
             <param name="sessionUpdate">The update to send to Sentry.</param>
+        </member>
+        <member name="M:Sentry.ISentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+            <summary>
+            Captures a Checkin.
+            </summary>
+            <param name="monitorSlug"></param>
+            <param name="status"></param>
+            <param name="sentryId"></param>
         </member>
         <member name="M:Sentry.ISentryClient.FlushAsync(System.TimeSpan)">
             <summary>
@@ -6232,6 +6291,11 @@
             Creates an envelope that contains a session update.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromCheckIn(Sentry.SentryCheckIn)">
+            <summary>
+            Creates an envelope that contains a check in.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.FromClientReport(Sentry.Internal.ClientReport)">
             <summary>
             Creates an envelope that contains a client report.
@@ -6327,6 +6391,11 @@
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromSession(Sentry.SessionUpdate)">
             <summary>
             Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="sessionUpdate"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromCheckIn(Sentry.SentryCheckIn)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="checkIn"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromAttachment(Sentry.SentryAttachment)">
@@ -6872,6 +6941,9 @@
             <summary>
             Sets track a set of values on which you can perform aggregations such as count_unique.
             </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Metrics.SpanMetric.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc cref="M:Sentry.ISentryJsonSerializable.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)"/>
         </member>
         <member name="T:Sentry.Protocol.OperatingSystem">
             <summary>
@@ -7419,86 +7491,70 @@
             was set on the scope via the <see cref="P:Sentry.Scope.Transaction"/> property.
             </remarks>
         </member>
-        <member name="T:Sentry.ScopeExtensions">
-            <summary>
-            Scope extensions.
-            </summary>
-        </member>
-        <member name="M:Sentry.ScopeExtensions.GetAllEventProcessors(Sentry.Scope)">
+        <member name="M:Sentry.Scope.GetAllEventProcessors">
             <summary>
             Invokes all event processor providers available.
             </summary>
-            <param name="scope">The Scope which holds the processor providers.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.GetAllTransactionProcessors(Sentry.Scope)">
+        <member name="M:Sentry.Scope.GetAllTransactionProcessors">
             <summary>
             Invokes all transaction processor providers available.
             </summary>
-            <param name="scope">The Scope which holds the processor providers.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.GetAllExceptionProcessors(Sentry.Scope)">
+        <member name="M:Sentry.Scope.GetAllExceptionProcessors">
             <summary>
             Invokes all exception processor providers available.
             </summary>
-            <param name="scope">The Scope which holds the processor providers.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddExceptionProcessor(Sentry.Scope,Sentry.Extensibility.ISentryEventExceptionProcessor)">
+        <member name="M:Sentry.Scope.AddExceptionProcessor(Sentry.Extensibility.ISentryEventExceptionProcessor)">
             <summary>
             Add an exception processor.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processor">The exception processor.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddExceptionProcessors(Sentry.Scope,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor})">
+        <member name="M:Sentry.Scope.AddExceptionProcessors(System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor})">
             <summary>
             Add the exception processors.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processors">The exception processors.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddEventProcessor(Sentry.Scope,Sentry.Extensibility.ISentryEventProcessor)">
+        <member name="M:Sentry.Scope.AddEventProcessor(Sentry.Extensibility.ISentryEventProcessor)">
             <summary>
             Adds an event processor which is invoked when creating a <see cref="T:Sentry.SentryEvent"/>.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processor">The event processor.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddEventProcessor(Sentry.Scope,System.Func{Sentry.SentryEvent,Sentry.SentryEvent})">
+        <member name="M:Sentry.Scope.AddEventProcessor(System.Func{Sentry.SentryEvent,Sentry.SentryEvent})">
             <summary>
             Adds an event processor which is invoked when creating a <see cref="T:Sentry.SentryEvent"/>.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processor">The event processor.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddEventProcessors(Sentry.Scope,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventProcessor})">
+        <member name="M:Sentry.Scope.AddEventProcessors(System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventProcessor})">
             <summary>
             Adds event processors which are invoked when creating a <see cref="T:Sentry.SentryEvent"/>.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processors">The event processors.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddTransactionProcessor(Sentry.Scope,Sentry.Extensibility.ISentryTransactionProcessor)">
+        <member name="M:Sentry.Scope.AddTransactionProcessor(Sentry.Extensibility.ISentryTransactionProcessor)">
             <summary>
             Adds an transaction processor which is invoked when creating a <see cref="T:Sentry.SentryTransaction"/>.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processor">The transaction processor.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddTransactionProcessor(Sentry.Scope,System.Func{Sentry.SentryTransaction,Sentry.SentryTransaction})">
+        <member name="M:Sentry.Scope.AddTransactionProcessor(System.Func{Sentry.SentryTransaction,Sentry.SentryTransaction})">
             <summary>
             Adds an transaction processor which is invoked when creating a <see cref="T:Sentry.SentryTransaction"/>.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processor">The transaction processor.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddTransactionProcessors(Sentry.Scope,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor})">
+        <member name="M:Sentry.Scope.AddTransactionProcessors(System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor})">
             <summary>
             Adds transaction processors which are invoked when creating a <see cref="T:Sentry.SentryTransaction"/>.
             </summary>
-            <param name="scope">The Scope to hold the processor.</param>
             <param name="processors">The transaction processors.</param>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddAttachment(Sentry.Scope,System.IO.Stream,System.String,Sentry.AttachmentType,System.String)">
+        <member name="M:Sentry.Scope.AddAttachment(System.IO.Stream,System.String,Sentry.AttachmentType,System.String)">
             <summary>
             Adds an attachment.
             </summary>
@@ -7506,22 +7562,15 @@
             Note: the stream must be seekable.
             </remarks>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddAttachment(Sentry.Scope,System.Byte[],System.String,Sentry.AttachmentType,System.String)">
+        <member name="M:Sentry.Scope.AddAttachment(System.Byte[],System.String,Sentry.AttachmentType,System.String)">
             <summary>
             Adds an attachment.
             </summary>
         </member>
-        <member name="M:Sentry.ScopeExtensions.AddAttachment(Sentry.Scope,System.String,Sentry.AttachmentType,System.String)">
+        <member name="M:Sentry.Scope.AddAttachment(System.String,Sentry.AttachmentType,System.String)">
             <summary>
             Adds an attachment.
             </summary>
-        </member>
-        <member name="M:Sentry.ScopeExtensions.LastCreatedSpan(Sentry.Scope)">
-            <summary>
-            Gets the last opened span.
-            </summary>
-            <param name="scope">The scope.</param>
-            <returns>The last span not finished or null.</returns>
         </member>
         <member name="T:Sentry.SdkVersion">
             <summary>
@@ -7634,6 +7683,57 @@
             Initializes an instance of <see cref="T:Sentry.SentryAttachment"/>.
             </summary>
         </member>
+        <member name="T:Sentry.CheckInStatus">
+            <summary>
+            The Checkin Status
+            </summary>
+        </member>
+        <member name="F:Sentry.CheckInStatus.InProgress">
+            <summary>
+            The Checkin is in progress
+            </summary>
+        </member>
+        <member name="F:Sentry.CheckInStatus.Ok">
+            <summary>
+            The Checkin is Ok
+            </summary>
+        </member>
+        <member name="F:Sentry.CheckInStatus.Error">
+            <summary>
+            The Checkin errored
+            </summary>
+        </member>
+        <member name="T:Sentry.SentryCheckIn">
+            <summary>
+            Sentry Checkin
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.Id">
+            <summary>
+            CheckIn ID
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.MonitorSlug">
+            <summary>
+            The distinct slug of the monitor.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.Status">
+            <summary>
+            The status of the Checkin
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryCheckIn.#ctor(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+            <summary>
+            Initializes a new instance of <see cref="T:Sentry.SentryCheckIn"/>.
+            </summary>
+            <param name="monitorSlug"></param>
+            <param name="status"></param>
+            <param name="sentryId"></param>
+        </member>
+        <member name="M:Sentry.SentryCheckIn.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.SentryClient">
             <summary>
             Sentry client used to send events to Sentry.
@@ -7670,6 +7770,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.CaptureSession(Sentry.SessionUpdate)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.FlushAsync(System.TimeSpan)">
@@ -9808,6 +9911,19 @@
             <summary>
             Captures a session update.
             </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+            <summary>
+            Captures a check-in.
+            </summary>
+            <remarks>
+            Capturing a check-in returns an ID. The ID can be used to update the status. I.e. to update a check-in you
+            captured from `CheckInStatus.InProgress` to `CheckInStatus.Ok`.
+            </remarks>
+            <param name="monitorSlug">The monitor slug of the check-in.</param>
+            <param name="status">The status of the check-in.</param>
+            <param name="sentryId">The optional <see cref="T:Sentry.SentryId"/>.</param>
+            <returns>The Id of the check-in.</returns>
         </member>
         <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
             <summary>

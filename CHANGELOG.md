@@ -1,5 +1,26 @@
 # Changelog
 
+## 2.0.2
+
+### Fixes
+
+- The SDK no longer throws `InvalidOperationExceptions` on platforms that rely on the `UnityWebRequestTransport` (i.e. Switch, Hololens) ([#1587](https://github.com/getsentry/sentry-unity/pull/1587))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.20.0 to v8.21.0 ([#1575](https://github.com/getsentry/sentry-unity/pull/1575))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8210)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.20.0...8.21.0)
+- Bump CLI from v2.28.6 to v2.30.1 ([#1574](https://github.com/getsentry/sentry-unity/pull/1574), [#1578](https://github.com/getsentry/sentry-unity/pull/1578), [#1585](https://github.com/getsentry/sentry-unity/pull/1585))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2301)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.28.6...2.30.1)
+- Bump Java SDK from v7.5.0 to v7.6.0 ([#1581](https://github.com/getsentry/sentry-unity/pull/1581))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#760)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.5.0...7.6.0)
+- Bump .NET SDK from v4.1.2 to v4.2.1 ([#1586](https://github.com/getsentry/sentry-unity/pull/1586))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#421)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/4.1.2...4.2.1)
+
 ## 2.0.1
 
 ### Fixes
