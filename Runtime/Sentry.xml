@@ -9222,81 +9222,40 @@
             Creates a new instance of <see cref="T:Sentry.SentryOptions"/>
             </summary>
         </member>
-        <member name="T:Sentry.SentryOptionsExtensions">
-            <summary>
-            SentryOptions extensions.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentryOptionsExtensions.DisableDuplicateEventDetection(Sentry.SentryOptions)">
-            <summary>
-            Disables the strategy to detect duplicate events.
-            </summary>
-            <remarks>
-            In case a second event is being sent out from the same exception, that event will be discarded.
-            It is possible the second event had in fact more data. In which case it'd be ideal to avoid the first
-            event going out in the first place.
-            </remarks>
-            <param name="options">The SentryOptions to remove the processor from.</param>
-        </member>
-        <member name="M:Sentry.SentryOptionsExtensions.DisableAppDomainUnhandledExceptionCapture(Sentry.SentryOptions)">
-            <summary>
-            Disables the capture of errors through <see cref="E:System.AppDomain.UnhandledException"/>.
-            </summary>
-            <param name="options">The SentryOptions to remove the integration from.</param>
-        </member>
-        <member name="M:Sentry.SentryOptionsExtensions.DisableUnobservedTaskExceptionCapture(Sentry.SentryOptions)">
-            <summary>
-            Disables the capture of errors through <see cref="E:System.Threading.Tasks.TaskScheduler.UnobservedTaskException"/>.
-            </summary>
-            <param name="options">The SentryOptions to remove the integration from.</param>
-        </member>
-        <member name="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)">
-            <summary>
-            By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
-            This method disables that behaviour.
-            </summary>
-            <param name="options">The SentryOptions to remove the integration from.</param>
-        </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddIntegration(Sentry.SentryOptions,Sentry.Integrations.ISdkIntegration)">
+        <member name="M:Sentry.SentryOptions.AddIntegration(Sentry.Integrations.ISdkIntegration)">
             <summary>
             Add an integration
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="integration">The integration.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.RemoveIntegration``1(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.RemoveIntegration``1">
             <summary>
             Removes all integrations of type <typeparamref name="TIntegration"/>.
             </summary>
             <typeparam name="TIntegration">The type of the integration(s) to remove.</typeparam>
-            <param name="options">The SentryOptions to remove the integration(s) from.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddExceptionFilter(Sentry.SentryOptions,Sentry.Extensibility.IExceptionFilter)">
+        <member name="M:Sentry.SentryOptions.AddExceptionFilter(Sentry.Extensibility.IExceptionFilter)">
             <summary>
             Add an exception filter.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="exceptionFilter">The exception filter to add.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.RemoveExceptionFilter``1(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.RemoveExceptionFilter``1">
             <summary>
             Removes all filters of type <typeparamref name="TFilter"/>
             </summary>
             <typeparam name="TFilter">The type of filter(s) to remove.</typeparam>
-            <param name="options">The SentryOptions to remove the filter(s) from.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddExceptionFilterForType``1(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.AddExceptionFilterForType``1">
             <summary>
             Ignore exception of type <typeparamref name="TException"/> or derived.
             </summary>
             <typeparam name="TException">The type of the exception to ignore.</typeparam>
-            <param name="options">The SentryOptions to store the exceptions type ignore.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddInAppExclude(Sentry.SentryOptions,System.String)">
+        <member name="M:Sentry.SentryOptions.AddInAppExclude(System.String)">
             <summary>
             Add prefix to exclude from 'InApp' stacktrace list.
             </summary>
-            <param name="options">The SentryOptions which holds the stacktrace list.</param>
             <param name="prefix">The string used to filter the stacktrace to be excluded from InApp.</param>
             <remarks>
             Sentry by default filters the stacktrace to display only application code.
@@ -9307,11 +9266,10 @@
             'System.', 'Microsoft.'
             </example>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddInAppInclude(Sentry.SentryOptions,System.String)">
+        <member name="M:Sentry.SentryOptions.AddInAppInclude(System.String)">
             <summary>
             Add prefix to include as in 'InApp' stacktrace.
             </summary>
-            <param name="options">The SentryOptions which holds the stacktrace list.</param>
             <param name="prefix">The string used to filter the stacktrace to be included in InApp.</param>
             <remarks>
             Sentry by default filters the stacktrace to display only application code.
@@ -9322,114 +9280,124 @@
             'System.CustomNamespace', 'Microsoft.Azure.App'
             </example>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddExceptionProcessor(Sentry.SentryOptions,Sentry.Extensibility.ISentryEventExceptionProcessor)">
+        <member name="M:Sentry.SentryOptions.AddExceptionProcessor(Sentry.Extensibility.ISentryEventExceptionProcessor)">
             <summary>
             Add an exception processor.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="processor">The exception processor.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddExceptionProcessors(Sentry.SentryOptions,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor})">
+        <member name="M:Sentry.SentryOptions.AddExceptionProcessors(System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor})">
             <summary>
             Add the exception processors.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="processors">The exception processors.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddEventProcessor(Sentry.SentryOptions,Sentry.Extensibility.ISentryEventProcessor)">
+        <member name="M:Sentry.SentryOptions.AddEventProcessor(Sentry.Extensibility.ISentryEventProcessor)">
             <summary>
             Adds an event processor which is invoked when creating a <see cref="T:Sentry.SentryEvent"/>.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="processor">The event processor.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddEventProcessors(Sentry.SentryOptions,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventProcessor})">
+        <member name="M:Sentry.SentryOptions.AddEventProcessors(System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventProcessor})">
             <summary>
             Adds event processors which are invoked when creating a <see cref="T:Sentry.SentryEvent"/>.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="processors">The event processors.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.RemoveEventProcessor``1(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.RemoveEventProcessor``1">
             <summary>
             Removes all event processors of type <typeparamref name="TProcessor"/>
             </summary>
             <typeparam name="TProcessor">The type of processor(s) to remove.</typeparam>
-            <param name="options">The SentryOptions to remove the processor(s) from.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddEventProcessorProvider(Sentry.SentryOptions,System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventProcessor}})">
+        <member name="M:Sentry.SentryOptions.AddEventProcessorProvider(System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventProcessor}})">
             <summary>
             Adds an event processor provider which is invoked when creating a <see cref="T:Sentry.SentryEvent"/>.
             </summary>
-            <param name="options">The SentryOptions to hold the processor provider.</param>
             <param name="processorProvider">The event processor provider.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddTransactionProcessor(Sentry.SentryOptions,Sentry.Extensibility.ISentryTransactionProcessor)">
+        <member name="M:Sentry.SentryOptions.AddTransactionProcessor(Sentry.Extensibility.ISentryTransactionProcessor)">
             <summary>
             Adds an transaction processor which is invoked when creating a <see cref="T:Sentry.SentryTransaction"/>.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="processor">The transaction processor.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddTransactionProcessors(Sentry.SentryOptions,System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor})">
+        <member name="M:Sentry.SentryOptions.AddTransactionProcessors(System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor})">
             <summary>
             Adds transaction processors which are invoked when creating a <see cref="T:Sentry.SentryTransaction"/>.
             </summary>
-            <param name="options">The SentryOptions to hold the processor.</param>
             <param name="processors">The transaction processors.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.RemoveTransactionProcessor``1(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.RemoveTransactionProcessor``1">
             <summary>
             Removes all transaction processors of type <typeparamref name="TProcessor"/>
             </summary>
             <typeparam name="TProcessor">The type of processor(s) to remove.</typeparam>
-            <param name="options">The SentryOptions to remove the processor(s) from.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddTransactionProcessorProvider(Sentry.SentryOptions,System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor}})">
+        <member name="M:Sentry.SentryOptions.AddTransactionProcessorProvider(System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryTransactionProcessor}})">
             <summary>
             Adds an transaction processor provider which is invoked when creating a <see cref="T:Sentry.SentryTransaction"/>.
             </summary>
-            <param name="options">The SentryOptions to hold the processor provider.</param>
             <param name="processorProvider">The transaction processor provider.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.AddExceptionProcessorProvider(Sentry.SentryOptions,System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor}})">
+        <member name="M:Sentry.SentryOptions.AddExceptionProcessorProvider(System.Func{System.Collections.Generic.IEnumerable{Sentry.Extensibility.ISentryEventExceptionProcessor}})">
             <summary>
             Add the exception processor provider.
             </summary>
-            <param name="options">The SentryOptions to hold the processor provider.</param>
             <param name="processorProvider">The exception processor provider.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.GetAllEventProcessors(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.GetAllEventProcessors">
             <summary>
             Invokes all event processor providers available.
             </summary>
-            <param name="options">The SentryOptions which holds the processor providers.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.GetAllTransactionProcessors(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.GetAllTransactionProcessors">
             <summary>
             Invokes all transaction processor providers available.
             </summary>
-            <param name="options">The SentryOptions which holds the processor providers.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.GetAllExceptionProcessors(Sentry.SentryOptions)">
+        <member name="M:Sentry.SentryOptions.GetAllExceptionProcessors">
             <summary>
             Invokes all exception processor providers available.
             </summary>
-            <param name="options">The SentryOptions which holds the processor providers.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.UseStackTraceFactory(Sentry.SentryOptions,Sentry.Extensibility.ISentryStackTraceFactory)">
+        <member name="M:Sentry.SentryOptions.UseStackTraceFactory(Sentry.Extensibility.ISentryStackTraceFactory)">
             <summary>
             Use custom <see cref="T:Sentry.Extensibility.ISentryStackTraceFactory" />.
             </summary>
-            <param name="options">The SentryOptions to hold the processor provider.</param>
             <param name="sentryStackTraceFactory">The stack trace factory.</param>
         </member>
-        <member name="M:Sentry.SentryOptionsExtensions.ApplyDefaultTags(Sentry.SentryOptions,Sentry.IHasTags)">
+        <member name="M:Sentry.SentryOptions.ApplyDefaultTags(Sentry.IHasTags)">
             <summary>
             Applies the default tags to an event without resetting existing tags.
             </summary>
-            <param name="options">The options to read the default tags from.</param>
             <param name="hasTags">The event to apply the tags to.</param>
+        </member>
+        <member name="M:Sentry.SentryOptions.DisableDuplicateEventDetection">
+            <summary>
+            Disables the strategy to detect duplicate events.
+            </summary>
+            <remarks>
+            In case a second event is being sent out from the same exception, that event will be discarded.
+            It is possible the second event had in fact more data. In which case it'd be ideal to avoid the first
+            event going out in the first place.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryOptions.DisableAppDomainUnhandledExceptionCapture">
+            <summary>
+            Disables the capture of errors through <see cref="E:System.AppDomain.UnhandledException"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryOptions.DisableUnobservedTaskExceptionCapture">
+            <summary>
+            Disables the capture of errors through <see cref="E:System.Threading.Tasks.TaskScheduler.UnobservedTaskException"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush">
+            <summary>
+            By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
+            This method disables that behaviour.
+            </summary>
         </member>
         <member name="T:Sentry.SentryPackage">
             <summary>
@@ -9607,7 +9575,7 @@
             sense to dispose:
             <list type="bullet">
             <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)"/>.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
             <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
             </list>
             </remarks>
@@ -9628,7 +9596,7 @@
             sense to dispose:
             <list type="bullet">
             <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)"/>.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
             <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
             </list>
             </remarks>
@@ -9645,7 +9613,7 @@
             sense to dispose:
             <list type="bullet">
             <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)"/>.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
             <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
             </list>
             </remarks>
@@ -9665,7 +9633,7 @@
             sense to dispose:
             <list type="bullet">
             <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptionsExtensions.DisableAppDomainProcessExitFlush(Sentry.SentryOptions)"/>.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
             <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
             </list>
             </remarks>

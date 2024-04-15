@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.0.4
+
+### Fixes
+
+- Tweaked the SDK reinstalling the backend to capture native crashes on Windows. C++ exceptions are now getting properly captured again ([#1622](https://github.com/getsentry/sentry-unity/pull/1622))
+
+### Dependencies
+
+- Bump Java SDK from v7.6.0 to v7.8.0 ([#1610](https://github.com/getsentry/sentry-unity/pull/1610), [#1613](https://github.com/getsentry/sentry-unity/pull/1613))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#780)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.6.0...7.8.0)
+- Bump .NET SDK from v4.2.1 to v4.4.0 ([#1618](https://github.com/getsentry/sentry-unity/pull/1618))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#440)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/4.2.1...4.4.0)
+
 ## 2.0.3
 
 ### Fixes
