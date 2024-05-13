@@ -1193,6 +1193,11 @@
             Returns original value if the conversion isn't possible or a given path is relative.
             </summary>
         </member>
+        <member name="T:System.Diagnostics.ExceptionExtensions">
+            <summary>
+            Extension methods to Demystify exveption stack traces
+            </summary>
+        </member>
         <member name="M:System.Diagnostics.ExceptionExtensions.Demystify``1(``0)">
             <summary>
             Demystifies the given <paramref name="exception"/> and tracks the original stack traces for the whole exception tree.
@@ -1218,24 +1223,6 @@
             <summary>
             Returns true if the <paramref name="type"/> is a value tuple type.
             </summary>
-        </member>
-        <member name="M:System.Diagnostics.Internal.ReflectionHelper.IsTupleElementNameAttribute(System.Attribute)">
-            <summary>
-            Returns true if the given <paramref name="attribute"/> is of type <code>TupleElementNameAttribute</code>.
-            </summary>
-            <remarks>
-            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection and not checks statically that 
-            the given <paramref name="attribute"/> is <code>TupleElementNameAttribute</code>.
-            </remarks>
-        </member>
-        <member name="M:System.Diagnostics.Internal.ReflectionHelper.GetTransformerNames(System.Attribute)">
-            <summary>
-            Returns 'TransformNames' property value from a given <paramref name="attribute"/>.
-            </summary>
-            <remarks>
-            To avoid compile-time dependency hell with System.ValueTuple, this method uses reflection 
-            instead of casting the attribute to a specific type.
-            </remarks>
         </member>
         <member name="M:System.Diagnostics.TypeNameHelper.GetTypeDisplayName(System.Type,System.Boolean,System.Boolean)">
             <summary>
@@ -2644,7 +2631,7 @@
             No-Op.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.DisabledHub.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
             <summary>
             No-Op
             </summary>
@@ -2857,7 +2844,7 @@
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.HubAdapter.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -4200,6 +4187,14 @@
             Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
             </summary>
         </member>
+        <member name="T:Sentry.Internal.ConcurrentQueueLite`1">
+             <summary>
+             A minimal replacement for <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1"/>
+            
+             We're using this due to a memory leak that happens when using ConcurrentQueue in the BackgroundWorker.
+             See https://github.com/getsentry/sentry-dotnet/issues/2516
+             </summary>
+        </member>
         <member name="T:Sentry.Internal.Constants">
             <summary>
             Internal Constant Values.
@@ -4281,6 +4276,16 @@
             Remove return type from module in a Task with a Lambda with a return value.
             This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
             </summary>
+        </member>
+        <member name="M:Sentry.Internal.Extensions.HttpStatusExtensions.EnsureSuccessStatusCode(System.Net.HttpStatusCode)">
+             <summary>
+             This mimics the behaviour of <see cref="M:System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode"/> for netcore3.0 and later
+             by throwing an exception if the status code is outside the 200 range without disposing the content.
+            
+             See https://github.com/getsentry/sentry-dotnet/issues/2684
+             </summary>
+             <param name="statusCode"></param>
+             <exception cref="T:System.Net.Http.HttpRequestException"></exception>
         </member>
         <member name="M:Sentry.Internal.Extensions.MiscExtensions.IsNull(System.Object)">
             <summary>
@@ -4784,6 +4789,47 @@
             A readable representation of the stack trace.
             </returns>
         </member>
+        <member name="T:Sentry.Internal.StringOrRegex">
+            <summary>
+            Stores either a plain string or a Regular Expression, typically to match against filters in the SentryOptions
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.#ctor(System.String)">
+            <summary>
+            Constructs a <see cref="T:Sentry.Internal.StringOrRegex"/> instance.
+            </summary>
+            <param name="stringOrRegex">The prefix or regular expression pattern to match on.</param>
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.#ctor(System.Text.RegularExpressions.Regex)">
+            <summary>
+            Constructs a <see cref="T:Sentry.Internal.StringOrRegex"/> instance.
+            </summary>
+            <param name="regex"></param>
+            <remarks>
+            Use this constructor when you want the match to be performed using a regular expression.
+            </remarks>
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.op_Implicit(System.String)~Sentry.Internal.StringOrRegex">
+            <summary>
+            Implicitly converts a <see cref="T:System.String"/> to a <see cref="T:Sentry.Internal.StringOrRegex"/>.
+            </summary>
+            <param name="stringOrRegex"></param>
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.op_Implicit(System.Text.RegularExpressions.Regex)~Sentry.Internal.StringOrRegex">
+            <summary>
+            Implicitly converts a <see cref="T:System.Text.RegularExpressions.Regex"/> to a <see cref="T:Sentry.Internal.StringOrRegex"/>.
+            </summary>
+            <param name="regex"></param>
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.ToString">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.Equals(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.StringOrRegex.GetHashCode">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.Internal.ThreadsafeCounterDictionary`1">
             <summary>
             Provides a keyed set of counters that can be incremented, read, and reset atomically.
@@ -4959,13 +5005,15 @@
             </remarks>
             <param name="sessionUpdate">The update to send to Sentry.</param>
         </member>
-        <member name="M:Sentry.ISentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+        <member name="M:Sentry.ISentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
             <summary>
             Captures a Checkin.
             </summary>
             <param name="monitorSlug"></param>
             <param name="status"></param>
             <param name="sentryId"></param>
+            <param name="duration"></param>
+            <param name="scope"></param>
         </member>
         <member name="M:Sentry.ISentryClient.FlushAsync(System.TimeSpan)">
             <summary>
@@ -7723,6 +7771,26 @@
             The status of the Checkin
             </summary>
         </member>
+        <member name="P:Sentry.SentryCheckIn.Duration">
+            <summary>
+            The duration of the check-in in seconds. Will only take effect if the status is ok or error.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.Release">
+            <summary>
+            The release.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.Environment">
+            <summary>
+            The environment.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.TraceId">
+            <summary>
+            The trace ID
+            </summary>
+        </member>
         <member name="M:Sentry.SentryCheckIn.#ctor(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
             <summary>
             Initializes a new instance of <see cref="T:Sentry.SentryCheckIn"/>.
@@ -7772,7 +7840,7 @@
         <member name="M:Sentry.SentryClient.CaptureSession(Sentry.SessionUpdate)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+        <member name="M:Sentry.SentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.FlushAsync(System.TimeSpan)">
@@ -8204,9 +8272,18 @@
         </member>
         <member name="M:Sentry.SentryHint.AddAttachment(System.String,Sentry.AttachmentType,System.String)">
             <summary>
-            Creates a new Hint with one or more attachments.
+            Takes a path and adds the file as an attachment to the hint.
             </summary>
             <param name="filePath">The path to the file to attach.</param>
+            <param name="type">The type of attachment.</param>
+            <param name="contentType">The content type of the attachment.</param>
+        </member>
+        <member name="M:Sentry.SentryHint.AddAttachment(System.Byte[],System.String,Sentry.AttachmentType,System.String)">
+            <summary>
+            Adds a 'byte[]' as attachment to the hind.
+            </summary>
+            <param name="data">The byte array to be attached</param>
+            <param name="fileName">The filename for the attachment</param>
             <param name="type">The type of attachment.</param>
             <param name="contentType">The content type of the attachment.</param>
         </member>
@@ -8551,12 +8628,11 @@
         </member>
         <member name="P:Sentry.SentryOptions.InAppExclude">
             <summary>
-            A list of namespaces (or prefixes) considered not part of application code
+            A list of prefixes or patterns used to filter namespaces that are not considered part of application code
             </summary>
             <remarks>
             Sentry by default filters the stacktrace to display only application code.
             A user can optionally click to see all which will include framework and libraries.
-            A <see cref="M:System.String.StartsWith(System.String)"/> is executed
             </remarks>
             <example>
             'System.', 'Microsoft.'
@@ -8564,12 +8640,11 @@
         </member>
         <member name="P:Sentry.SentryOptions.InAppInclude">
             <summary>
-            A list of namespaces (or prefixes) considered part of application code
+            A list of prefixes or patterns used to filter namespaces that are considered part of application code
             </summary>
             <remarks>
             Sentry by default filters the stacktrace to display only application code.
             A user can optionally click to see all which will include framework and libraries.
-            A <see cref="M:System.String.StartsWith(System.String)"/> is executed
             </remarks>
             <example>
             'System.CustomNamespace', 'Microsoft.Azure.App'
@@ -9266,6 +9341,36 @@
             'System.', 'Microsoft.'
             </example>
         </member>
+        <member name="M:Sentry.SentryOptions.AddInAppExclude(System.Text.RegularExpressions.Regex)">
+            <summary>
+            Add a regex to identify frames that are not 'InApp' in stacktraces. It will usually be more convenient to use
+            the <see cref="M:Sentry.SentryOptions.AddInAppExcludeRegex(System.String)"/> method, however you can use this overload if you want to control the
+            <see cref="T:System.Text.RegularExpressions.RegexOptions"/> used when constructing the Regular Expression. For performance reasons, it's
+            recommend that you use <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled"/> when creating the regex and unless you have specific
+            reason consider using <see cref="F:System.Text.RegularExpressions.RegexOptions.CultureInvariant"/> as well.
+            </summary>
+            <param name="regex">The regular expression to use to match stacktrace frames.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            If a frame has not already been determined to be InApp per any of the prefixes or
+            patterns configured in <see cref="P:Sentry.SentryOptions.InAppInclude"/>, it will be considered InApp only
+            if it does not match any of the prefixes or patterns in <see cref="P:Sentry.SentryOptions.InAppExclude"/>.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryOptions.AddInAppExcludeRegex(System.String)">
+            <summary>
+            Add a regex pattern used to identify frames that are not 'InApp' in stacktraces.
+            </summary>
+            <param name="pattern">The regular expression to use to match stacktrace frames</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            If a frame has not already been determined to be InApp per any of the prefixes or
+            patterns configured in <see cref="P:Sentry.SentryOptions.InAppInclude"/>, it will be considered InApp only
+            if it does not match any of the prefixes or patterns in <see cref="P:Sentry.SentryOptions.InAppExclude"/>.
+            </remarks>
+        </member>
         <member name="M:Sentry.SentryOptions.AddInAppInclude(System.String)">
             <summary>
             Add prefix to include as in 'InApp' stacktrace.
@@ -9279,6 +9384,32 @@
             <example>
             'System.CustomNamespace', 'Microsoft.Azure.App'
             </example>
+        </member>
+        <member name="M:Sentry.SentryOptions.AddInAppInclude(System.Text.RegularExpressions.Regex)">
+            <summary>
+            Add a regex pattern used to identify 'InApp' frames in stacktraces. It will usually be more convenient to use
+            the <see cref="M:Sentry.SentryOptions.AddInAppIncludeRegex(System.String)"/> method, however you can use this overload if you want to control the
+            <see cref="T:System.Text.RegularExpressions.RegexOptions"/> used when constructing the Regular Expression. For performance reasons, it's
+            recommend that you use <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled"/> when creating the regex and unless you have specific
+            reason consider using <see cref="F:System.Text.RegularExpressions.RegexOptions.CultureInvariant"/> as well.
+            </summary>
+            <param name="regex">The regular expression to use to match stacktrace frames.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            Frames from namespaces matching this regular expression will be considered "InApp"
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryOptions.AddInAppIncludeRegex(System.String)">
+            <summary>
+            Add a regex pattern used to identify 'InApp' frames in stacktraces.
+            </summary>
+            <param name="pattern">A regular expression to use to match stacktrace frames.</param>
+            <remarks>
+            Sentry by default filters the stacktrace to display only application code.
+            A user can optionally click to see all which will include framework and libraries.
+            Frames from namespaces matching this regular expression will be considered "InApp"
+            </remarks>
         </member>
         <member name="M:Sentry.SentryOptions.AddExceptionProcessor(Sentry.Extensibility.ISentryEventExceptionProcessor)">
             <summary>
@@ -9880,7 +10011,7 @@
             Captures a session update.
             </summary>
         </member>
-        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
+        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
             <summary>
             Captures a check-in.
             </summary>
@@ -9891,6 +10022,8 @@
             <param name="monitorSlug">The monitor slug of the check-in.</param>
             <param name="status">The status of the check-in.</param>
             <param name="sentryId">The optional <see cref="T:Sentry.SentryId"/>.</param>
+            <param name="scope">The optional <see cref="T:Sentry.Scope"/>.</param>
+            <param name="duration">The optional duratin of the check-in.</param>
             <returns>The Id of the check-in.</returns>
         </member>
         <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
@@ -11041,7 +11174,7 @@
         </member>
         <member name="M:Sentry.SubstringOrRegexPattern.op_Implicit(System.Text.RegularExpressions.Regex)~Sentry.SubstringOrRegexPattern">
             <summary>
-            Implicitly converts a <see cref="T:System.Text.RegularExpressions.Regex"/> to a <see cref="T:Sentry.SubstringOrRegexPattern"/>.
+            Implicitly converts a <see cref="P:Sentry.SubstringOrRegexPattern.Regex"/> to a <see cref="T:Sentry.SubstringOrRegexPattern"/>.
             </summary>
             <param name="regex"></param>
         </member>

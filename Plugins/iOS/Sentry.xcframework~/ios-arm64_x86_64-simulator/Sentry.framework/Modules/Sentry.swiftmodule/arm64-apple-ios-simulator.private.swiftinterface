@@ -1,9 +1,62 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
 // swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name Sentry
 // swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFoundation
+import CoreGraphics
 import Foundation
+import MetricKit
 @_exported import Sentry
 import Swift
+import UIKit
 import _Concurrency
 import _StringProcessing
+import _SwiftConcurrencyShims
+extension Foundation.URLSessionTask {
+  @objc dynamic public func getGraphQLOperationName() -> Swift.String?
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
+  @objc public var sessionReplay: Sentry.SentryReplayOptions
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject {
+  @objc public var sessionSampleRate: Swift.Float
+  @objc public var errorSampleRate: Swift.Float
+  @objc public var redactAllText: Swift.Bool
+  @objc public var redactAllImages: Swift.Bool
+  @objc override dynamic public init()
+  @objc public init(sessionSampleRate: Swift.Float = 0, errorSampleRate: Swift.Float = 0, redactAllText: Swift.Bool = true, redactAllImages: Swift.Bool = true)
+  @objc deinit
+}
+@objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
+  @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
+  @objc func uninstall()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryId : ObjectiveC.NSObject {
+  @objc public static var empty: Sentry.SentryId
+  @objc public var sentryIdString: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc public init(uuid: Foundation.UUID)
+  @objc(initWithUUIDString:) public init(uuidString: Swift.String)
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class SentryMetricsAPI : ObjectiveC.NSObject {
+  @objc public func increment(key: Swift.String, value: Swift.Double = 1.0, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
+  @objc public func gauge(key: Swift.String, value: Swift.Double, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
+  @objc public func distribution(key: Swift.String, value: Swift.Double, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
+  @objc public func set(key: Swift.String, value: Swift.String, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
+  public func timing<T>(key: Swift.String, tags: [Swift.String : Swift.String] = [:], _ closure: () throws -> T) rethrows -> T
+  @objc public func close()
+  @objc public func flush()
+  @objc deinit
+}

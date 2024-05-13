@@ -1,13 +1,45 @@
 # Changelog
 
+## 2.0.5
+
+### Fixes
+
+- The automatic debug symbol upload for Android builds now also picks up the ProGuard mapping file. ([#1626](https://github.com/getsentry/sentry-unity/pull/1626))
+
+### Dependencies
+
+- Bump .NET SDK from v4.4.0 to v4.6.0 ([#1635](https://github.com/getsentry/sentry-unity/pull/1635), [#1645](https://github.com/getsentry/sentry-unity/pull/1645))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#460)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/4.4.0...4.6.0)
+- Bump CLI from v2.31.0 to v2.31.2 ([#1639](https://github.com/getsentry/sentry-unity/pull/1639))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2312)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.31.0...2.31.2)
+- Bump Cocoa SDK from v8.24.0 to v8.25.2 ([#1642](https://github.com/getsentry/sentry-unity/pull/1642))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8252)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.24.0...8.25.2)
+- Bump Java SDK from v7.8.0 to v7.9.0 ([#1643](https://github.com/getsentry/sentry-unity/pull/1643))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#790)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.8.0...7.9.0)
+
 ## 2.0.4
 
 ### Fixes
 
 - Tweaked the SDK reinstalling the backend to capture native crashes on Windows. C++ exceptions are now getting properly captured again ([#1622](https://github.com/getsentry/sentry-unity/pull/1622))
 
+### Fixes
+
+-  Added options to control the order of the SDK's PostGeneratedGradle callback ([#1624](https://github.com/getsentry/sentry-unity/pull/1624))
+- The SDK now has a more robust way of dealing with custom gradle templates ([#1624](https://github.com/getsentry/sentry-unity/pull/1624))
+
 ### Dependencies
 
+- Bump Java SDK from v7.6.0 to v7.7.0 ([#1610](https://github.com/getsentry/sentry-unity/pull/1610))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#770)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.6.0...7.7.0)
+- Bump Cocoa SDK from v8.21.0 to v8.24.0 ([#1616](https://github.com/getsentry/sentry-unity/pull/1616))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8240)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.21.0...8.24.0)
 - Bump Java SDK from v7.6.0 to v7.8.0 ([#1610](https://github.com/getsentry/sentry-unity/pull/1610), [#1613](https://github.com/getsentry/sentry-unity/pull/1613))
   - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#780)
   - [diff](https://github.com/getsentry/sentry-java/compare/7.6.0...7.8.0)
