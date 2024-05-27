@@ -12,9 +12,6 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-extension Foundation.URLSessionTask {
-  @objc dynamic public func getGraphQLOperationName() -> Swift.String?
-}
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
   @objc public var sessionReplay: Sentry.SentryReplayOptions
   @objc override dynamic public init()

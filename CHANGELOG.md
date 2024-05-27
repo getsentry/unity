@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.0.6
+
+### Fixes
+
+- For Android, we updated the debug symbol upload task on Gradle, to be guaranteed to run last ([#1657](https://github.com/getsentry/sentry-unity/pull/1657))
+- The SDK now has improved stacktraces for C++ exceptions on iOS ([#1655](https://github.com/getsentry/sentry-unity/pull/1655))
+- The SDK no longer crashes on Android versions 5 and 6 with native support enabled ([#1652](https://github.com/getsentry/sentry-unity/pull/1652))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.25.2 to v8.26.0 ([#1648](https://github.com/getsentry/sentry-unity/pull/1648))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8260)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.25.2...8.26.0)
+- Bump .NET SDK from v4.6.0 to v4.6.2 ([#1653](https://github.com/getsentry/sentry-unity/pull/1653))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#462)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/4.6.0...4.6.2)
+- Bump Native SDK from v0.7.2 to v0.7.4 ([#1660](https://github.com/getsentry/sentry-unity/pull/1660))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#074)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.7.2...0.7.4)
+
 ## 2.0.5
 
 ### Fixes

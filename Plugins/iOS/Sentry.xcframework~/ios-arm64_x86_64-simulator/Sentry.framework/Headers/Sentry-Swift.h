@@ -521,16 +521,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
 @class NSURL;
 @class SentryVideoInfo;
 
-SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
-@protocol SentryReplayVideoMaker <NSObject>
-- (void)addFrameAsyncWithImage:(UIImage * _Nonnull)image;
-- (void)releaseFramesUntil:(NSDate * _Nonnull)date;
-- (BOOL)createVideoWithDuration:(NSTimeInterval)duration beginning:(NSDate * _Nonnull)beginning outputFileURL:(NSURL * _Nonnull)outputFileURL error:(NSError * _Nullable * _Nullable)error completion:(void (^ _Nonnull)(SentryVideoInfo * _Nullable, NSError * _Nullable))completion;
-@end
-
-
 SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
-@interface SentryOnDemandReplay : NSObject <SentryReplayVideoMaker>
+@interface SentryOnDemandReplay : NSObject
 @property (nonatomic) NSInteger videoWidth;
 @property (nonatomic) NSInteger videoHeight;
 @property (nonatomic) NSInteger bitRate;
@@ -624,7 +616,6 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @end
 
 
-
 SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")
 @interface SentryVideoInfo : NSObject
 @property (nonatomic, readonly, copy) NSURL * _Nonnull path;
@@ -643,22 +634,15 @@ SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")
 
 @class UIView;
 
-SWIFT_PROTOCOL("_TtP6Sentry28SentryViewScreenshotProvider_")
-@protocol SentryViewScreenshotProvider <NSObject>
-- (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
-@end
-
-
-SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
-@interface SentryViewPhotographer : NSObject <SentryViewScreenshotProvider>
+SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer") SWIFT_AVAILABILITY(tvos,introduced=16.0) SWIFT_AVAILABILITY(ios,introduced=16.0)
+@interface SentryViewPhotographer : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryViewPhotographer * _Nonnull shared;)
 + (SentryViewPhotographer * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (UIImage * _Nullable)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
 - (void)addRedactClasses:(NSArray<Class> * _Nonnull)classes;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
-
 
 
 SWIFT_CLASS("_TtC6Sentry15SwiftDescriptor")
@@ -666,11 +650,6 @@ SWIFT_CLASS("_TtC6Sentry15SwiftDescriptor")
 + (NSString * _Nonnull)getObjectClassName:(id _Nonnull)object SWIFT_WARN_UNUSED_RESULT;
 + (NSString * _Nullable)getSwiftErrorDescription:(NSError * _Nonnull)error SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface NSURLSessionTask (SWIFT_EXTENSION(Sentry))
-- (NSString * _Nullable)getGraphQLOperationName SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class NSURLQueryItem;
@@ -1219,16 +1198,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
 @class NSURL;
 @class SentryVideoInfo;
 
-SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
-@protocol SentryReplayVideoMaker <NSObject>
-- (void)addFrameAsyncWithImage:(UIImage * _Nonnull)image;
-- (void)releaseFramesUntil:(NSDate * _Nonnull)date;
-- (BOOL)createVideoWithDuration:(NSTimeInterval)duration beginning:(NSDate * _Nonnull)beginning outputFileURL:(NSURL * _Nonnull)outputFileURL error:(NSError * _Nullable * _Nullable)error completion:(void (^ _Nonnull)(SentryVideoInfo * _Nullable, NSError * _Nullable))completion;
-@end
-
-
 SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
-@interface SentryOnDemandReplay : NSObject <SentryReplayVideoMaker>
+@interface SentryOnDemandReplay : NSObject
 @property (nonatomic) NSInteger videoWidth;
 @property (nonatomic) NSInteger videoHeight;
 @property (nonatomic) NSInteger bitRate;
@@ -1322,7 +1293,6 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @end
 
 
-
 SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")
 @interface SentryVideoInfo : NSObject
 @property (nonatomic, readonly, copy) NSURL * _Nonnull path;
@@ -1341,22 +1311,15 @@ SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")
 
 @class UIView;
 
-SWIFT_PROTOCOL("_TtP6Sentry28SentryViewScreenshotProvider_")
-@protocol SentryViewScreenshotProvider <NSObject>
-- (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
-@end
-
-
-SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
-@interface SentryViewPhotographer : NSObject <SentryViewScreenshotProvider>
+SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer") SWIFT_AVAILABILITY(tvos,introduced=16.0) SWIFT_AVAILABILITY(ios,introduced=16.0)
+@interface SentryViewPhotographer : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryViewPhotographer * _Nonnull shared;)
 + (SentryViewPhotographer * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-- (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (UIImage * _Nullable)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
 - (void)addRedactClasses:(NSArray<Class> * _Nonnull)classes;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
-
 
 
 SWIFT_CLASS("_TtC6Sentry15SwiftDescriptor")
@@ -1364,11 +1327,6 @@ SWIFT_CLASS("_TtC6Sentry15SwiftDescriptor")
 + (NSString * _Nonnull)getObjectClassName:(id _Nonnull)object SWIFT_WARN_UNUSED_RESULT;
 + (NSString * _Nullable)getSwiftErrorDescription:(NSError * _Nonnull)error SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface NSURLSessionTask (SWIFT_EXTENSION(Sentry))
-- (NSString * _Nullable)getGraphQLOperationName SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class NSURLQueryItem;
