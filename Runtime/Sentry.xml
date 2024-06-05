@@ -4277,6 +4277,16 @@
             This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
             </summary>
         </member>
+        <member name="T:Sentry.Internal.ExceptionHandlingSynchronizationContext">
+            <summary>
+            See https://www.jamescrosswell.dev/posts/catching-async-void-exceptions/ for a detailed explanation
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.ExceptionHandlingSynchronizationContext.#ctor(System.Action{System.Exception},System.Threading.SynchronizationContext)">
+            <summary>
+            See https://www.jamescrosswell.dev/posts/catching-async-void-exceptions/ for a detailed explanation
+            </summary>
+        </member>
         <member name="M:Sentry.Internal.Extensions.HttpStatusExtensions.EnsureSuccessStatusCode(System.Net.HttpStatusCode)">
              <summary>
              This mimics the behaviour of <see cref="M:System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode"/> for netcore3.0 and later
@@ -10109,6 +10119,21 @@
         </member>
         <member name="M:Sentry.SentrySdk.ResumeSession">
             <inheritdoc cref="M:Sentry.IHub.ResumeSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.RunAsyncVoid(System.Action,System.Action{System.Exception})">
+            <summary>
+            Runs an `async void` method safely.
+            </summary>
+            <param name="task">Typically either a method group or an async lambda that executes some async void code</param>
+            <param name="handler">
+            An optional callback that will be run if an exception is thrown. If no callback is provided then by default the
+            exception will be captured and sent to Sentry.
+            </param>
+            <example>
+            <code>
+            SentrySdk.RunAsyncVoid(async () => await MyAsyncMethod(), ex => Console.WriteLine(ex.Message));
+            </code>
+            </example>
         </member>
         <member name="M:Sentry.SentrySdk.CauseCrash(Sentry.CrashType)">
             <summary>

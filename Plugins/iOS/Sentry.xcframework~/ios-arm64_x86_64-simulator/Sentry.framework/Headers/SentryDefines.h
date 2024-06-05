@@ -82,6 +82,12 @@ typedef SentryBreadcrumb *_Nullable (^SentryBeforeBreadcrumbCallback)(
 typedef SentryEvent *_Nullable (^SentryBeforeSendEventCallback)(SentryEvent *_Nonnull event);
 
 /**
+ * Block can be used to decide if the SDK should capture a screenshot or not. Return @c true if the
+ * SDK should capture a screenshot, return @c false if not. This callback doesn't work for crashes.
+ */
+typedef BOOL (^SentryBeforeCaptureScreenshotCallback)(SentryEvent *_Nonnull event);
+
+/**
  * A callback to be notified when the last program execution terminated with a crash.
  */
 typedef void (^SentryOnCrashedLastRunCallback)(SentryEvent *_Nonnull event);
@@ -133,16 +139,8 @@ typedef NS_ENUM(NSInteger, SentryLogLevel) {
 /**
  * Sentry level.
  */
-typedef NS_ENUM(NSUInteger, SentryLevel) {
-    // Defaults to None which doesn't get serialized
-    kSentryLevelNone = 0,
-    // Goes from Debug to Fatal so possible to: (level > Info) { .. }
-    kSentryLevelDebug = 1,
-    kSentryLevelInfo = 2,
-    kSentryLevelWarning = 3,
-    kSentryLevelError = 4,
-    kSentryLevelFatal = 5
-};
+typedef NS_ENUM(NSUInteger,
+    SentryLevel); // This is a forward declaration, the actual enum is implemented in Swift.
 
 /**
  * Static internal helper to convert enum to string.
@@ -166,11 +164,5 @@ static NSString *_Nonnull const kSentryFalseString = @"false";
 /**
  * Transaction name source.
  */
-typedef NS_ENUM(NSInteger, SentryTransactionNameSource) {
-    kSentryTransactionNameSourceCustom = 0,
-    kSentryTransactionNameSourceUrl,
-    kSentryTransactionNameSourceRoute,
-    kSentryTransactionNameSourceView,
-    kSentryTransactionNameSourceComponent,
-    kSentryTransactionNameSourceTask
-};
+typedef NS_ENUM(NSInteger, SentryTransactionNameSource); // This is a forward declaration, the
+                                                         // actual enum is implemented in Swift.

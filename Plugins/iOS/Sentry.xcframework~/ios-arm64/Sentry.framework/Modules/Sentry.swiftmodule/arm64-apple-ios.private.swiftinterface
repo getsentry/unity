@@ -12,6 +12,19 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+@objc public enum SentryTransactionNameSource : Swift.Int {
+  @objc(kSentryTransactionNameSourceCustom) case custom = 0
+  @objc(kSentryTransactionNameSourceUrl) case url
+  @objc(kSentryTransactionNameSourceRoute) case route
+  @objc(kSentryTransactionNameSourceView) case view
+  @objc(kSentryTransactionNameSourceComponent) case component
+  @objc(kSentryTransactionNameSourceTask) case sourceTask
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
   @objc public var sessionReplay: Sentry.SentryReplayOptions
   @objc override dynamic public init()
@@ -25,6 +38,19 @@ import _SwiftConcurrencyShims
   @objc override dynamic public init()
   @objc public init(sessionSampleRate: Swift.Float = 0, errorSampleRate: Swift.Float = 0, redactAllText: Swift.Bool = true, redactAllImages: Swift.Bool = true)
   @objc deinit
+}
+@objc public enum SentryLevel : Swift.UInt {
+  @objc(kSentryLevelNone) case none = 0
+  @objc(kSentryLevelDebug) case debug = 1
+  @objc(kSentryLevelInfo) case info = 2
+  @objc(kSentryLevelWarning) case warning = 3
+  @objc(kSentryLevelError) case error = 4
+  @objc(kSentryLevelFatal) case fatal = 5
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
 }
 @objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
@@ -57,3 +83,9 @@ import _SwiftConcurrencyShims
   @objc public func flush()
   @objc deinit
 }
+extension Sentry.SentryTransactionNameSource : Swift.Equatable {}
+extension Sentry.SentryTransactionNameSource : Swift.Hashable {}
+extension Sentry.SentryTransactionNameSource : Swift.RawRepresentable {}
+extension Sentry.SentryLevel : Swift.Equatable {}
+extension Sentry.SentryLevel : Swift.Hashable {}
+extension Sentry.SentryLevel : Swift.RawRepresentable {}
