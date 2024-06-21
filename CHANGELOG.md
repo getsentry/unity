@@ -1,5 +1,35 @@
 # Changelog
 
+## 2.1.0
+
+### Fixes
+
+- The SDK no longer throws an exception when failing to initialize the native SDK ([#1693](https://github.com/getsentry/sentry-unity/pull/1695))
+- On iOS, UnityWebRequests no longer break due to the native SDK appending the request URL a second time ([#1699](https://github.com/getsentry/sentry-unity/pull/1699))
+- The SDKs loglevel now also applies to sentry-cli logging ([#1693](https://github.com/getsentry/sentry-unity/pull/1693))
+- When targeting Android, sentry-cli will now log to the editor console ([#1693](https://github.com/getsentry/sentry-unity/pull/1691))
+- Fixed an issue with the SDK failing to automatically uploading debug symbols when exporting an `.aab` when targeting Android ([#1698](https://github.com/getsentry/sentry-unity/pull/1698))
+
+### Features
+
+- Added an `IgnoreCliErrors` to the Sentry-CLI options, allowing you to ignore errors during symbol and mapping upload ([#1687](https://github.com/getsentry/sentry-unity/pull/1687))
+
+### Fixes
+
+- When exporting Android projects, the SDK will now correctly add the symbol upload at the end of bundling ([#1692](https://github.com/getsentry/sentry-unity/pull/1692))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.27.0 to v8.29.1 ([#1685](https://github.com/getsentry/sentry-unity/pull/1685), [#1690](https://github.com/getsentry/sentry-unity/pull/1690), [#1694](https://github.com/getsentry/sentry-unity/pull/1694))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8291)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.27.0...8.29.1)
+- Bump Java SDK from v7.9.0 to v7.10.0 ([#1686](https://github.com/getsentry/sentry-unity/pull/1686))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#7100)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.9.0...7.10.0)
+- Bump Native SDK from v0.7.5 to v0.7.6 ([#1688](https://github.com/getsentry/sentry-unity/pull/1688))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#076)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.7.5...0.7.6)
+
 ## 2.0.7
 
 ### Fixes

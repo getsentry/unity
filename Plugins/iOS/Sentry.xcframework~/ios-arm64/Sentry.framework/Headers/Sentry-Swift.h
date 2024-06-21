@@ -317,6 +317,32 @@ SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
 @end
 
 
+enum SentryRRWebEventType : NSInteger;
+@class NSDate;
+
+SWIFT_CLASS("_TtC6Sentry16SentryRRWebEvent")
+@interface SentryRRWebEvent : NSObject
+@property (nonatomic, readonly) enum SentryRRWebEventType type;
+@property (nonatomic, readonly, copy) NSDate * _Nonnull timestamp;
+@property (nonatomic, readonly, copy) NSDictionary<NSString *, id> * _Nullable data;
+- (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data OBJC_DESIGNATED_INITIALIZER;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry14RRWebMoveEvent")
+@interface RRWebMoveEvent : SentryRRWebEvent
+- (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
+@interface RRWebTouchEvent : SentryRRWebEvent
+- (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
@@ -325,13 +351,13 @@ SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSDate;
 
 SWIFT_CLASS("_TtC6Sentry25SentryCurrentDateProvider")
 @interface SentryCurrentDateProvider : NSObject
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
+- (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -571,19 +597,6 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-enum SentryRRWebEventType : NSInteger;
-
-SWIFT_CLASS("_TtC6Sentry16SentryRRWebEvent")
-@interface SentryRRWebEvent : NSObject
-@property (nonatomic, readonly) enum SentryRRWebEventType type;
-@property (nonatomic, readonly, copy) NSDate * _Nonnull timestamp;
-@property (nonatomic, readonly, copy) NSDictionary<NSString *, id> * _Nullable data;
-- (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data OBJC_DESIGNATED_INITIALIZER;
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
@@ -603,6 +616,7 @@ SWIFT_CLASS("_TtC6Sentry26SentryRRWebBreadcrumbEvent")
 
 typedef SWIFT_ENUM(NSInteger, SentryRRWebEventType, closed) {
   SentryRRWebEventTypeNone = 0,
+  SentryRRWebEventTypeTouch = 3,
   SentryRRWebEventTypeMeta = 4,
   SentryRRWebEventTypeCustom = 5,
 };
@@ -637,10 +651,9 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 
 @class SentryBreadcrumb;
 
-SWIFT_CLASS("_TtC6Sentry31SentryReplayBreadcrumbConverter")
-@interface SentryReplayBreadcrumbConverter : NSObject
+SWIFT_PROTOCOL("_TtP6Sentry31SentryReplayBreadcrumbConverter_")
+@protocol SentryReplayBreadcrumbConverter <NSObject>
 - (NSArray<SentryRRWebEvent *> * _Nonnull)convertWithBreadcrumbs:(NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbs from:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -682,13 +695,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @property (nonatomic) BOOL redactAllImages;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
-/// @note The default value is @c 20000;
 @property (nonatomic, readonly) NSInteger replayBitRate;
+/// The scale related to the window size at which the replay will be created
+@property (nonatomic, readonly) float sizeScale;
 /// Number of frames per second of the replay.
 /// The more the havier the process is.
 @property (nonatomic, readonly) NSInteger frameRate;
-/// The scale related to the window size at which the replay will be created
-@property (nonatomic, readonly) double sizeScale;
 /// The maximum duration of replays for error events.
 @property (nonatomic, readonly) NSTimeInterval errorReplayDuration;
 /// The maximum duration of the segment of a session replay.
@@ -732,6 +744,29 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+
+
+SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
+@interface SentrySRDefaultBreadcrumbConverter : NSObject <SentryReplayBreadcrumbConverter>
+- (NSArray<SentryRRWebEvent *> * _Nonnull)convertWithBreadcrumbs:(NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbs from:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
+/// This function will convert the SDK breadcrumbs to session replay breadcrumbs in a format that the front-end understands.
+/// Any deviation in the information will cause the breadcrumb or the information itself to be discarded
+/// in order to avoid unknown behavior in the front-end.
+- (SentryRRWebEvent * _Nullable)convertFrom:(SentryBreadcrumb * _Nonnull)breadcrumb SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIEvent;
+
+SWIFT_CLASS("_TtC6Sentry18SentryTouchTracker")
+@interface SentryTouchTracker : NSObject
+- (nonnull instancetype)initWithDateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
+- (void)trackTouchFromEvent:(UIEvent * _Nonnull)event;
+- (void)flushFinishedEvents;
+- (NSArray<SentryRRWebEvent *> * _Nonnull)replayEventsFrom:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceCustom SWIFT_COMPILE_NAME("custom") = 0,
