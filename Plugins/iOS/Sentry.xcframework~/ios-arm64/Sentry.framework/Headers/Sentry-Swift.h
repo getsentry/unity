@@ -282,6 +282,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import ObjectiveC;
 #endif
 
+#import <Sentry/Sentry.h>
+
 #endif
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
@@ -317,11 +319,16 @@ SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
 @end
 
 
+
+SWIFT_PROTOCOL_NAMED("SentryRRWebEventProtocol")
+@protocol SentryRRWebEvent <SentrySerializable>
+@end
+
 enum SentryRRWebEventType : NSInteger;
 @class NSDate;
 
 SWIFT_CLASS("_TtC6Sentry16SentryRRWebEvent")
-@interface SentryRRWebEvent : NSObject
+@interface SentryRRWebEvent : NSObject <SentryRRWebEvent>
 @property (nonatomic, readonly) enum SentryRRWebEventType type;
 @property (nonatomic, readonly, copy) NSDate * _Nonnull timestamp;
 @property (nonatomic, readonly, copy) NSDictionary<NSString *, id> * _Nullable data;
@@ -614,6 +621,7 @@ SWIFT_CLASS("_TtC6Sentry26SentryRRWebBreadcrumbEvent")
 
 
 
+
 typedef SWIFT_ENUM(NSInteger, SentryRRWebEventType, closed) {
   SentryRRWebEventTypeNone = 0,
   SentryRRWebEventTypeTouch = 3,
@@ -653,7 +661,24 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 
 SWIFT_PROTOCOL("_TtP6Sentry31SentryReplayBreadcrumbConverter_")
 @protocol SentryReplayBreadcrumbConverter <NSObject>
-- (NSArray<SentryRRWebEvent *> * _Nonnull)convertWithBreadcrumbs:(NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbs from:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
+- (id <SentryRRWebEvent> _Nullable)convertFrom:(SentryBreadcrumb * _Nonnull)breadcrumb SWIFT_WARN_UNUSED_RESULT;
+@end
+
+enum SentryReplayType : NSInteger;
+
+SWIFT_CLASS("_TtC6Sentry17SentryReplayEvent")
+@interface SentryReplayEvent : SentryEvent
+@property (nonatomic, readonly, copy) NSDate * _Nonnull replayStartTimestamp;
+@property (nonatomic, readonly) enum SentryReplayType replayType;
+/// Number of the segment in the replay.
+/// This is an incremental number
+@property (nonatomic, readonly) NSInteger segmentId;
+/// This will be used to store the name of the screens
+/// that appear during the duration of the replay segment.
+@property (nonatomic, copy) NSArray<NSString *> * _Nullable urls;
+- (nonnull instancetype)initWithEventId:(SentryId * _Nonnull)eventId replayStartTimestamp:(NSDate * _Nonnull)replayStartTimestamp replayType:(enum SentryReplayType)replayType segmentId:(NSInteger)segmentId OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -736,24 +761,68 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull SentryReplayFrameRateType;)
 + (NSString * _Nonnull)SentryReplayFrameRateType SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly) NSInteger segmentId;
-@property (nonatomic, readonly, copy) NSArray<SentryRRWebEvent *> * _Nonnull events;
-- (nonnull instancetype)initWithSegmentId:(NSInteger)segmentId size:(NSInteger)size start:(NSDate * _Nonnull)start duration:(NSTimeInterval)duration frameCount:(NSInteger)frameCount frameRate:(NSInteger)frameRate height:(NSInteger)height width:(NSInteger)width extraEvents:(NSArray<SentryRRWebEvent *> * _Nullable)extraEvents OBJC_DESIGNATED_INITIALIZER;
+@property (nonatomic, readonly, copy) NSArray<id <SentryRRWebEvent>> * _Nonnull events;
+- (nonnull instancetype)initWithSegmentId:(NSInteger)segmentId size:(NSInteger)size start:(NSDate * _Nonnull)start duration:(NSTimeInterval)duration frameCount:(NSInteger)frameCount frameRate:(NSInteger)frameRate height:(NSInteger)height width:(NSInteger)width extraEvents:(NSArray<id <SentryRRWebEvent>> * _Nullable)extraEvents OBJC_DESIGNATED_INITIALIZER;
 - (NSDictionary<NSString *, id> * _Nonnull)headerForReplayRecording SWIFT_WARN_UNUSED_RESULT;
 - (NSArray<NSDictionary<NSString *, id> *> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+typedef SWIFT_ENUM(NSInteger, SentryReplayType, closed) {
+  SentryReplayTypeSession = 0,
+  SentryReplayTypeBuffer = 1,
+};
+
 
 
 SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 @interface SentrySRDefaultBreadcrumbConverter : NSObject <SentryReplayBreadcrumbConverter>
-- (NSArray<SentryRRWebEvent *> * _Nonnull)convertWithBreadcrumbs:(NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbs from:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
 /// This function will convert the SDK breadcrumbs to session replay breadcrumbs in a format that the front-end understands.
 /// Any deviation in the information will cause the breadcrumb or the information itself to be discarded
 /// in order to avoid unknown behavior in the front-end.
-- (SentryRRWebEvent * _Nullable)convertFrom:(SentryBreadcrumb * _Nonnull)breadcrumb SWIFT_WARN_UNUSED_RESULT;
+- (id <SentryRRWebEvent> _Nullable)convertFrom:(SentryBreadcrumb * _Nonnull)breadcrumb SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class SentrySession;
+
+SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
+@protocol SentrySessionListener <NSObject>
+- (void)sentrySessionEnded:(SentrySession * _Nonnull)session;
+- (void)sentrySessionStarted:(SentrySession * _Nonnull)session;
+@end
+
+@protocol SentryViewScreenshotProvider;
+@class SentryTouchTracker;
+@protocol SentrySessionReplayDelegate;
+@class SentryDisplayLinkWrapper;
+@class UIView;
+
+SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
+@interface SentrySessionReplay : NSObject
+@property (nonatomic, readonly) BOOL isRunning;
+@property (nonatomic, readonly) BOOL isFullSession;
+@property (nonatomic, readonly, strong) SentryId * _Nullable sessionReplayId;
+@property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
+@property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
+- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(SentryDisplayLinkWrapper * _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
+- (void)startWithRootView:(UIView * _Nonnull)rootView fullSession:(BOOL)fullSession;
+- (void)stop;
+- (void)resume;
+- (void)captureReplayForEvent:(SentryEvent * _Nonnull)event;
+- (BOOL)captureReplay SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
+@protocol SentrySessionReplayDelegate <NSObject>
+- (BOOL)sessionReplayIsFullSession SWIFT_WARN_UNUSED_RESULT;
+- (void)sessionReplayNewSegmentWithReplayEvent:(SentryReplayEvent * _Nonnull)replayEvent replayRecording:(SentryReplayRecording * _Nonnull)replayRecording videoUrl:(NSURL * _Nonnull)videoUrl;
+- (void)sessionReplayStartedWithReplayId:(SentryId * _Nonnull)replayId;
+- (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class UIEvent;
@@ -794,7 +863,6 @@ SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-@class UIView;
 
 SWIFT_PROTOCOL("_TtP6Sentry28SentryViewScreenshotProvider_")
 @protocol SentryViewScreenshotProvider <NSObject>

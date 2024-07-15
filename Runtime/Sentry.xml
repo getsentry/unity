@@ -2416,6 +2416,11 @@
             Log a error message.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError``1(Sentry.Extensibility.IDiagnosticLogger,System.String,``0)">
+            <summary>
+            Log an error message.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogError(Sentry.Extensibility.IDiagnosticLogger,System.Exception,System.String)">
             <summary>
             Log an exception with an error message.
@@ -2631,7 +2636,7 @@
             No-Op.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.DisabledHub.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
             <summary>
             No-Op
             </summary>
@@ -2844,7 +2849,7 @@
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
         </member>
-        <member name="M:Sentry.Extensibility.HubAdapter.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3996,6 +4001,20 @@
         <member name="M:Sentry.IMetricHub.GetSpan">
             <inheritdoc cref="M:Sentry.IHub.GetSpan"/>
         </member>
+        <member name="T:Sentry.Infrastructure.ConsoleAndTraceDiagnosticLogger">
+            <summary>
+            Logger that logs to both Console and Trace outputs, used in MAUI applications by default, since Visual Studio
+            only show's Trace outputs and Rider shows Console outputs.
+            </summary>
+        </member>
+        <member name="M:Sentry.Infrastructure.ConsoleAndTraceDiagnosticLogger.#ctor(Sentry.SentryLevel)">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.Infrastructure.ConsoleAndTraceDiagnosticLogger"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Infrastructure.ConsoleAndTraceDiagnosticLogger.LogMessage(System.String)">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.Infrastructure.ConsoleDiagnosticLogger">
             <summary>
             Console logger used by the SDK to report its internal logging.
@@ -4581,12 +4600,13 @@
         <member name="M:Sentry.Internal.Hub.StartSpan(System.String,System.String)">
             <inheritdoc cref="M:Sentry.IMetricHub.StartSpan(System.String,System.String)"/>
         </member>
-        <member name="M:Sentry.Internal.IClientReportRecorder.RecordDiscardedEvent(Sentry.Internal.DiscardReason,Sentry.Internal.DataCategory)">
+        <member name="M:Sentry.Internal.IClientReportRecorder.RecordDiscardedEvent(Sentry.Internal.DiscardReason,Sentry.Internal.DataCategory,System.Int32)">
             <summary>
             Records one count of a discarded event, with the given <paramref name="reason"/> and <paramref name="category"/>.
             </summary>
             <param name="reason">The reason for the event being discarded.</param>
-            <param name="category">The data category of the event being discarded.</param>
+            <param name="category">The data category of the event being discardedd.</param>
+            <param name="quantity">The number of items discarded (defaults to 1)</param>
         </member>
         <member name="M:Sentry.Internal.IClientReportRecorder.GenerateClientReport">
             <summary>
@@ -4673,6 +4693,13 @@
             Defines well-known span attribute keys.
             </summary>
         </member>
+        <member name="M:Sentry.Internal.OriginHelper.SetOrigin(Sentry.ISpan,System.String)">
+            <summary>
+            Convenience method to let us set the origin on interfaces whose concrete implementations
+            typically have an Origin property.
+            </summary>
+            <remarks>We can remove once we deprecate the ITraceContextInternal interface</remarks>
+        </member>
         <member name="T:Sentry.Internal.PiiExtensions">
             <summary>
             Extensions to help redact data that might contain Personally Identifiable Information (PII) before sending it to
@@ -4687,6 +4714,11 @@
             <returns>
             The data, if no PII data is present or a copy of the data with PII data redacted otherwise
             </returns>
+        </member>
+        <member name="M:Sentry.Internal.PollingNetworkStatusListener.#ctor(Sentry.Internal.IPing,System.Int32,System.Int32,System.Func{System.Int32,System.Int32})">
+            <summary>
+            Overload for testing
+            </summary>
         </member>
         <member name="P:Sentry.Internal.ProcessInfo.StartupTime">
             <summary>
@@ -5015,7 +5047,7 @@
             </remarks>
             <param name="sessionUpdate">The update to send to Sentry.</param>
         </member>
-        <member name="M:Sentry.ISentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
+        <member name="M:Sentry.ISentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
             <summary>
             Captures a Checkin.
             </summary>
@@ -5024,6 +5056,7 @@
             <param name="sentryId"></param>
             <param name="duration"></param>
             <param name="scope"></param>
+            <param name="configureMonitorOptions">The optional monitor config used to create a Check-In programmatically.</param>
         </member>
         <member name="M:Sentry.ISentryClient.FlushAsync(System.TimeSpan)">
             <summary>
@@ -5283,6 +5316,23 @@
         </member>
         <member name="M:Sentry.SpanDataExtensions.SetMeasurement(Sentry.ISpanData,System.String,System.Double,Sentry.MeasurementUnit)">
             <inheritdoc cref="M:Sentry.SpanDataExtensions.SetMeasurement(Sentry.ISpanData,System.String,System.Int32,Sentry.MeasurementUnit)" />
+        </member>
+        <member name="T:Sentry.ITraceContextInternal">
+            <summary>
+             Internal interface defining members to be added to the TraceContexts for the next major release
+             (since adding members to interfaces is a breaking change).
+            </summary>
+            <remarks>
+            TODO: Remove this interface in the next major version.
+            </remarks>
+        </member>
+        <member name="P:Sentry.ITraceContextInternal.Origin">
+            <summary>
+            Specifies the origin of the trace. If no origin is set then the trace origin is assumed to be "manual".
+            </summary>
+            <remarks>
+            See https://develop.sentry.dev/sdk/performance/trace-origin/ for more information.
+            </remarks>
         </member>
         <member name="T:Sentry.ITransactionContext">
             <summary>
@@ -7311,6 +7361,9 @@
         <member name="P:Sentry.Protocol.Trace.Operation">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.Protocol.Trace.Origin">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.Protocol.Trace.Description">
             <inheritdoc />
         </member>
@@ -7743,7 +7796,7 @@
         </member>
         <member name="T:Sentry.CheckInStatus">
             <summary>
-            The Checkin Status
+            The Check-In Status
             </summary>
         </member>
         <member name="F:Sentry.CheckInStatus.InProgress">
@@ -7763,12 +7816,12 @@
         </member>
         <member name="T:Sentry.SentryCheckIn">
             <summary>
-            Sentry Checkin
+            Sentry Check-In
             </summary>
         </member>
         <member name="P:Sentry.SentryCheckIn.Id">
             <summary>
-            CheckIn ID
+            Check-In ID
             </summary>
         </member>
         <member name="P:Sentry.SentryCheckIn.MonitorSlug">
@@ -7778,12 +7831,12 @@
         </member>
         <member name="P:Sentry.SentryCheckIn.Status">
             <summary>
-            The status of the Checkin
+            The status of the Check-In
             </summary>
         </member>
         <member name="P:Sentry.SentryCheckIn.Duration">
             <summary>
-            The duration of the check-in in seconds. Will only take effect if the status is ok or error.
+            The duration of the Check-In in seconds. Will only take effect if the status is ok or error.
             </summary>
         </member>
         <member name="P:Sentry.SentryCheckIn.Release">
@@ -7799,6 +7852,11 @@
         <member name="P:Sentry.SentryCheckIn.TraceId">
             <summary>
             The trace ID
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryCheckIn.MonitorOptions">
+            <summary>
+            The Monitor Config
             </summary>
         </member>
         <member name="M:Sentry.SentryCheckIn.#ctor(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId})">
@@ -7850,7 +7908,7 @@
         <member name="M:Sentry.SentryClient.CaptureSession(Sentry.SessionUpdate)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
+        <member name="M:Sentry.SentryClient.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryClient.FlushAsync(System.TimeSpan)">
@@ -8542,6 +8600,92 @@
             <param name="url">The request URL</param>
         </member>
         <member name="M:Sentry.SentryMessageHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.SentryMonitorInterval">
+            <summary>
+            Sentry's intervals for monitors
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMonitorInterval.Year">
+            <summary>
+            Year
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMonitorInterval.Month">
+            <summary>
+            Month
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMonitorInterval.Week">
+            <summary>
+            Week
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMonitorInterval.Day">
+            <summary>
+            Day
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMonitorInterval.Hour">
+            <summary>
+            Hour
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMonitorInterval.Minute">
+            <summary>
+            Minute
+            </summary>
+        </member>
+        <member name="T:Sentry.SentryMonitorOptions">
+            <summary>
+            Sentry's options for monitors
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMonitorOptions.Interval(System.String)">
+            <summary>
+            Set Interval
+            </summary>
+            <param name="crontab"></param>
+        </member>
+        <member name="M:Sentry.SentryMonitorOptions.Interval(System.Int32,Sentry.SentryMonitorInterval)">
+            <summary>
+            Set Interval
+            </summary>
+            <param name="interval"></param>
+            <param name="unit"></param>
+        </member>
+        <member name="P:Sentry.SentryMonitorOptions.CheckInMargin">
+            <summary>
+            The allowed margin of minutes after the expected check-in time that the monitor will not be considered missed for.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMonitorOptions.MaxRuntime">
+            <summary>
+            The allowed duration in minutes that the monitor may be in_progress for before being considered failed due to timeout.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMonitorOptions.FailureIssueThreshold">
+            <summary>
+            The number of consecutive failed check-ins it takes before an issue is created.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMonitorOptions.RecoveryThreshold">
+            <summary>
+            The number of consecutive OK check-ins it takes before an issue is resolved.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMonitorOptions.TimeZone">
+            <summary>
+            A tz database string representing the timezone which the monitor's execution schedule is in (i.e. "America/Los_Angeles").
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMonitorOptions.Owner">
+            <summary>
+            An actor identifier string. This looks like 'user:john@example.com team:a-sentry-team'. IDs can also be used but will result in a poor DX.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMonitorOptions.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
             <inheritdoc />
         </member>
         <member name="T:Sentry.SentryOptions">
@@ -10021,7 +10165,7 @@
             Captures a session update.
             </summary>
         </member>
-        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope)">
+        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
             <summary>
             Captures a check-in.
             </summary>
@@ -10031,10 +10175,11 @@
             </remarks>
             <param name="monitorSlug">The monitor slug of the check-in.</param>
             <param name="status">The status of the check-in.</param>
-            <param name="sentryId">The optional <see cref="T:Sentry.SentryId"/>.</param>
-            <param name="scope">The optional <see cref="T:Sentry.Scope"/>.</param>
-            <param name="duration">The optional duratin of the check-in.</param>
-            <returns>The Id of the check-in.</returns>
+            <param name="sentryId">The <see cref="T:Sentry.SentryId"/> associated with the check-in.</param>
+            <param name="duration">The duration of the check-in.</param>
+            <param name="scope">The scope of the check-in.</param>
+            <param name="configureMonitorOptions">The optional monitor config used to create a Check-In programmatically.</param>
+            <returns>The ID of the check-in.</returns>
         </member>
         <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
             <summary>
@@ -10119,21 +10264,6 @@
         </member>
         <member name="M:Sentry.SentrySdk.ResumeSession">
             <inheritdoc cref="M:Sentry.IHub.ResumeSession"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.RunAsyncVoid(System.Action,System.Action{System.Exception})">
-            <summary>
-            Runs an `async void` method safely.
-            </summary>
-            <param name="task">Typically either a method group or an async lambda that executes some async void code</param>
-            <param name="handler">
-            An optional callback that will be run if an exception is thrown. If no callback is provided then by default the
-            exception will be captured and sent to Sentry.
-            </param>
-            <example>
-            <code>
-            SentrySdk.RunAsyncVoid(async () => await MyAsyncMethod(), ex => Console.WriteLine(ex.Message));
-            </code>
-            </example>
         </member>
         <member name="M:Sentry.SentrySdk.CauseCrash(Sentry.CrashType)">
             <summary>
@@ -10259,6 +10389,9 @@
             <summary>
             Parses a span from JSON.
             </summary>
+        </member>
+        <member name="P:Sentry.SentrySpan.Origin">
+            <inheritdoc />
         </member>
         <member name="T:Sentry.SentryStackFrame">
             <summary>
@@ -10549,6 +10682,9 @@
             </summary>
         </member>
         <member name="P:Sentry.SentryTransaction.SpanId">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryTransaction.Origin">
             <inheritdoc />
         </member>
         <member name="P:Sentry.SentryTransaction.ParentSpanId">
@@ -10884,6 +11020,9 @@
             Identifies which instrumentation is being used.
             </summary>
         </member>
+        <member name="P:Sentry.SpanContext.Origin">
+            <inheritdoc/>
+        </member>
         <member name="M:Sentry.SpanContext.#ctor(System.String,System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SentryId},System.String,System.Nullable{Sentry.SpanStatus},System.Nullable{System.Boolean})">
             <summary>
             Initializes an instance of <see cref="T:Sentry.SpanContext"/>.
@@ -11102,6 +11241,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.SpanTracer.GetTraceHeader">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SpanTracer.Origin">
             <inheritdoc />
         </member>
         <member name="T:Sentry.StackTraceMode">
@@ -11523,6 +11665,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.GetTraceHeader">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.TransactionTracer.Origin">
             <inheritdoc />
         </member>
         <member name="T:Sentry.UserFeedback">
