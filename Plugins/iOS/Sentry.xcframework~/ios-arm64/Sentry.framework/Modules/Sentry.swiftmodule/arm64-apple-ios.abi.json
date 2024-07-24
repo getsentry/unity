@@ -4753,126 +4753,140 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2436,
+      "offset": 2553,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2563,
+      "offset": 2569,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2505,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2714,
       "length": 2,
       "value": "30"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2698,
+      "offset": 2849,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2810,
+      "offset": 2961,
       "length": 5,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2951,
+      "offset": 3102,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2984,
+      "offset": 3135,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3343,
+      "offset": 3494,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3371,
+      "offset": 3522,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 3396,
+      "offset": 3547,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 3426,
+      "offset": 3577,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 3727,
+      "offset": 3878,
       "length": 19,
       "value": "\"sessionSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3777,
+      "offset": 3928,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 3823,
+      "offset": 3974,
       "length": 17,
       "value": "\"errorSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3871,
+      "offset": 4022,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 3913,
+      "offset": 4064,
       "length": 15,
       "value": "\"redactAllText\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 3958,
+      "offset": 4109,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4005,
+      "offset": 4156,
       "length": 17,
       "value": "\"redactAllImages\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4052,
+      "offset": 4203,
       "length": 4,
       "value": "true"
     },
@@ -5180,35 +5194,35 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryPixelBuffer.swift",
       "kind": "BooleanLiteral",
-      "offset": 766,
+      "offset": 1114,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryPixelBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 1151,
+      "offset": 1499,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryPixelBuffer.swift",
       "kind": "BooleanLiteral",
-      "offset": 1371,
+      "offset": 1719,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryPixelBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 1432,
+      "offset": 1780,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryPixelBuffer.swift",
       "kind": "IntegerLiteral",
-      "offset": 1438,
+      "offset": 1786,
       "length": 1,
       "value": "0"
     },
@@ -5222,392 +5236,364 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 543,
+      "offset": 599,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 587,
+      "offset": 643,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 870,
+      "offset": 926,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 968,
+      "offset": 1024,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 1009,
+      "offset": 1065,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 1056,
+      "offset": 1112,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 2645,
+      "offset": 2701,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 2818,
+      "offset": 2874,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 3079,
+      "offset": 3135,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 3254,
+      "offset": 3310,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 3572,
+      "offset": 3628,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 3947,
+      "offset": 4003,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4260,
+      "offset": 4316,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4437,
+      "offset": 4516,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4488,
+      "offset": 4567,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4552,
+      "offset": 4631,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4583,
+      "offset": 4662,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4692,
+      "offset": 4771,
       "length": 12,
       "value": "\"replay.mp4\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4731,
+      "offset": 4810,
       "length": 67,
       "value": "\"[SentrySessionReplay:\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4761,
+      "offset": 4840,
       "length": 1,
       "value": "\"] Could not create replay video path\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4819,
+      "offset": 4898,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
+      "kind": "FloatLiteral",
+      "offset": 5051,
+      "length": 3,
+      "value": "2.0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 5068,
+      "offset": 5144,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5196,
+      "offset": 5272,
       "length": 14,
       "value": "\"replay_video\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Dictionary",
-      "offset": 5267,
+      "offset": 5343,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5287,
+      "offset": 5363,
       "length": 8,
       "value": "\"replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5300,
+      "offset": 5376,
       "length": 11,
       "value": "\"replay_id\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5398,
+      "offset": 5474,
       "length": 10,
       "value": "\"replayId\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 5936,
+      "offset": 6012,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 6042,
+      "offset": 6125,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6595,
+      "offset": 6705,
       "length": 10,
       "value": "\"segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 6857,
+      "offset": 6967,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6924,
+      "offset": 7034,
       "length": 113,
       "value": "\"[SentrySessionReplay:\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6954,
+      "offset": 7064,
       "length": 1,
       "value": "\"] Can't create session replay segment folder. Error: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7036,
+      "offset": 7146,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7148,
+      "offset": 7258,
       "length": 25,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7168,
+      "offset": 7278,
       "length": 1,
       "value": "\".mp4\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7781,
+      "offset": 7846,
       "length": 94,
       "value": "\"[SentrySessionReplay:\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7811,
+      "offset": 7876,
       "length": 1,
       "value": "\"] Could not create replay video - \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7874,
+      "offset": 7939,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8067,
+      "offset": 8132,
       "length": 94,
       "value": "\"[SentrySessionReplay:\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8097,
+      "offset": 8162,
       "length": 1,
       "value": "\"] Could not create replay video - \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8160,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "StringLiteral",
-      "offset": 8834,
-      "length": 114,
-      "value": "\"### eventId: \""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "StringLiteral",
-      "offset": 8859,
-      "length": 1,
-      "value": "\", replayStartTimestamp: \""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "StringLiteral",
-      "offset": 8897,
-      "length": 1,
-      "value": "\", replayType: \""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "StringLiteral",
-      "offset": 8924,
-      "length": 1,
-      "value": "\", segmentId: \""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "StringLiteral",
-      "offset": 8947,
+      "offset": 8225,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 9079,
+      "offset": 9065,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9908,
+      "offset": 9894,
       "length": 105,
       "value": "\"[SentrySessionReplay:\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9938,
+      "offset": 9924,
       "length": 1,
       "value": "\"] Could not delete replay segment from disk: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10012,
+      "offset": 9998,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10278,
+      "offset": 10264,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10305,
+      "offset": 10291,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10616,
+      "offset": 10602,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10871,
+      "offset": 10987,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 477,
+      "offset": 533,
       "length": 19,
       "value": "\"Sentry.SentrySessionReplay\""
     },
@@ -6306,64 +6292,71 @@
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
+      "kind": "IntegerLiteral",
+      "offset": 581,
+      "length": 5,
+      "value": "1000"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 588,
+      "offset": 601,
       "length": 10,
       "value": "\"encoding\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 622,
+      "offset": 635,
       "length": 11,
       "value": "\"container\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 658,
+      "offset": 671,
       "length": 8,
       "value": "\"height\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 688,
+      "offset": 701,
       "length": 7,
       "value": "\"width\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 716,
+      "offset": 729,
       "length": 12,
       "value": "\"frameCount\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 754,
+      "offset": 767,
       "length": 15,
       "value": "\"frameRateType\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 798,
+      "offset": 811,
       "length": 11,
       "value": "\"frameRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 834,
+      "offset": 847,
       "length": 6,
       "value": "\"left\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
-      "offset": 860,
+      "offset": 873,
       "length": 5,
       "value": "\"top\""
     },
@@ -6790,147 +6783,140 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 638,
+      "offset": 679,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 1075,
+      "offset": 1116,
       "length": 3,
       "value": "200"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 1101,
+      "offset": 1142,
       "length": 3,
       "value": "434"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 1123,
+      "offset": 1164,
       "length": 6,
       "value": "20000"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 1150,
+      "offset": 1191,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "StringLiteral",
-      "offset": 1339,
+      "offset": 1380,
       "length": 26,
       "value": "\"io.sentry.onDemandReplay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1940,
-      "length": 3,
-      "value": "300"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2093,
+      "offset": 2182,
       "length": 21,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2109,
+      "offset": 2198,
       "length": 1,
       "value": "\".png\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2229,
+      "offset": 2318,
       "length": 69,
       "value": "\"[SentryOnDemandReplay] Could not save replay frame. Error: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2297,
+      "offset": 2386,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 2630,
+      "offset": 2742,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2861,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 3096,
+      "offset": 2969,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 3103,
+      "offset": 2976,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 3147,
+      "offset": 3679,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 3153,
+      "offset": 4805,
       "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4558,
-      "length": 1,
-      "value": "0"
+      "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 5465,
+      "offset": 4934,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 5697,
+      "offset": 5185,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 7507,
+      "offset": 7300,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryOnDemandReplay.swift",
       "kind": "StringLiteral",
-      "offset": 458,
+      "offset": 499,
       "length": 20,
       "value": "\"Sentry.SentryOnDemandReplay\""
     },

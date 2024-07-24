@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.1.2
+
+### Various fixes & improvements
+
+- fix: IL2CPP in Unity 6 (#1735) by @tustanivsky
+- ci: dependency review action (#1732) by @mdtro
+- chore: update modules/sentry-cli.properties to 2.33.0 (#1733) by @github-actions
+- fix: Disable tracing on unknown platforms (#1728) by @bitsandfoxes
+- chore: update modules/sentry-cocoa to 8.31.1 (#1726) by @github-actions
+- chore: update modules/sentry-java to 7.12.0 (#1725) by @github-actions
+- chore: update modules/sentry-cli.properties to 2.32.2 (#1724) by @github-actions
+
+## Fixes
+
+- The SDK no longer causes games to crash out of the box on platforms that have disk access restrictions (i.e. Nintendo Switch) ([#1728](https://github.com/getsentry/sentry-unity/pull/1728))
+- The SDK no longer causes crashes on Unity 6 in an attempt to provide line numbers ([#1735](https://github.com/getsentry/sentry-unity/pull/1735))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.30.1 to v8.31.1 ([#1726](https://github.com/getsentry/sentry-unity/pull/1726))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8311)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.30.1...8.31.1)
+- Bump Java SDK from v7.11.0 to v7.12.0 ([#1725](https://github.com/getsentry/sentry-unity/pull/1725))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#7120)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.11.0...7.12.0)
+- Bump CLI from v2.32.2 to v2.33.0 ([#1733](https://github.com/getsentry/sentry-unity/pull/1733))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2330)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.32.2...2.33.0)
+- Bump CLI from v2.32.1 to v2.32.2 ([#1724](https://github.com/getsentry/sentry-unity/pull/1724))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2322)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.32.1...2.32.2)
+
 ## 2.1.1
 
 ### Fixes
