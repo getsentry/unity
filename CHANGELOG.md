@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.1.4
+
+### Fixes
+
+- The SDK no longer deadlocks during the game shutting down when targeting WebGL ([#1771](https://github.com/getsentry/sentry-unity/pull/1771))
+- The SDK no longer fails to report errors after switching scenes when targeting WebGL ([#1754](https://github.com/getsentry/sentry-unity/pull/1754))
+
+### Dependencies
+
+- Bump Java SDK from v7.12.0 to v7.14.0 ([#1751](https://github.com/getsentry/sentry-unity/pull/1751), [#1762](https://github.com/getsentry/sentry-unity/pull/1762))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#7140)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.12.0...7.14.0)
+- Bump Cocoa SDK from v8.32.0 to v8.34.0 ([#1760](https://github.com/getsentry/sentry-unity/pull/1760), [#1766](https://github.com/getsentry/sentry-unity/pull/1766))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8340)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.32.0...8.34.0)
+- Bump Native SDK from v0.7.7 to v0.7.8 ([#1756](https://github.com/getsentry/sentry-unity/pull/1756))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#078)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.7.7...0.7.8)
+- Bump CLI from v2.33.0 to v2.33.1 ([#1753](https://github.com/getsentry/sentry-unity/pull/1753))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2331)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.33.0...2.33.1)
+- Bump .NET SDK from v4.9.0 to v4.10.2 ([#1765](https://github.com/getsentry/sentry-unity/pull/1765), [#1768](https://github.com/getsentry/sentry-unity/pull/1768), [#1771](https://github.com/getsentry/sentry-unity/pull/1771))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#4102)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/4.9.0...4.10.2)
+
 ## 2.1.3
 
 ### Fixes
@@ -159,7 +184,7 @@
 
 ### Fixes
 
--  Added options to control the order of the SDK's PostGeneratedGradle callback ([#1624](https://github.com/getsentry/sentry-unity/pull/1624))
+- Added options to control the order of the SDK's PostGeneratedGradle callback ([#1624](https://github.com/getsentry/sentry-unity/pull/1624))
 - The SDK now has a more robust way of dealing with custom gradle templates ([#1624](https://github.com/getsentry/sentry-unity/pull/1624))
 
 ### Dependencies
@@ -232,7 +257,7 @@ This major release is based on the .NET 4.0 release and includes features like [
 
 ### Significant change in behavior
 
-- Transactions' spans are no longer automatically finished with the status `deadline_exceeded` by the transaction. This is now handled by the [Relay](https://github.com/getsentry/relay). 
+- Transactions' spans are no longer automatically finished with the status `deadline_exceeded` by the transaction. This is now handled by the [Relay](https://github.com/getsentry/relay).
   - Customers self hosting Sentry must use verion 22.12.0 or later ([#3013](https://github.com/getsentry/sentry-dotnet/pull/3013))
 - The `User.IpAddress` is now set to `{{auto}}` by default, even when sendDefaultPII is disabled ([#2981](https://github.com/getsentry/sentry-dotnet/pull/2981))
   - The "Prevent Storing of IP Addresses" option in the "Security & Privacy" project settings on sentry.io can be used to control this instead
@@ -278,7 +303,7 @@ If you have compilation errors you can find the affected types or overloads miss
   - `CreateHttpClientHandler` - use `CreateHttpMessageHandler` instead.
   - `DisableTaskUnobservedTaskExceptionCapture` method has been renamed to `DisableUnobservedTaskExceptionCapture`.
   - `DebugDiagnosticLogger` - use `TraceDiagnosticLogger` instead.
-  - `KeepAggregateException` - this property is no longer used and has no replacement.  
+  - `KeepAggregateException` - this property is no longer used and has no replacement.
   - `ReportAssemblies` - use `ReportAssembliesMode` instead.
 - Obsolete `SystemClock` constructor removed, use `SystemClock.Clock` instead. ([#2856](https://github.com/getsentry/sentry-dotnet/pull/2856))
 - Obsolete `Runtime.Clone()` removed, this shouldn't have been public in the past and has no replacement. ([#2856](https://github.com/getsentry/sentry-dotnet/pull/2856))
@@ -381,7 +406,7 @@ If you have compilation errors you can find the affected types or overloads miss
 
 ### Fixes
 
--  Fix SIGSEV, SIGABRT and SIGBUS crashes happening after/around the August Google Play System update, see [#2955](https://github.com/getsentry/sentry-java/issues/2955) for more details (fix provided by Native SDK bump) ([#1491](https://github.com/getsentry/sentry-unity/pull/1491))
+- Fix SIGSEV, SIGABRT and SIGBUS crashes happening after/around the August Google Play System update, see [#2955](https://github.com/getsentry/sentry-java/issues/2955) for more details (fix provided by Native SDK bump) ([#1491](https://github.com/getsentry/sentry-unity/pull/1491))
 - Fixed an issue with the SDK failing to properly detect application pause and focus lost events and creating false positive ANR events (specifically on Android) ([#1484](https://github.com/getsentry/sentry-unity/pull/1484))
 
 ### Dependencies
@@ -523,7 +548,7 @@ If you have compilation errors you can find the affected types or overloads miss
 
 ## 1.4.1
 
-### Fixes 
+### Fixes
 
 - Fixed Xcode linking error with the SDK disabled ([#1352](https://github.com/getsentry/sentry-unity/pull/1352))
 - Fixed an issue triggering an error `Failed to find the closing bracket` when using custom gradle files ([#1359](https://github.com/getsentry/sentry-unity/pull/1359))
@@ -643,11 +668,11 @@ If you have compilation errors you can find the affected types or overloads miss
 ### Breaking Changes
 
 - Renamed `OptionsConfiguration` to `RuntimeOptionsConfiguration` on the ScriptableSentryOptions ([#1196](https://github.com/getsentry/sentry-unity/pull/1196))\
-    If you make use of programmatic runtime options configuration, you will need to reassign the scriptable object in the configuration tab
+   If you make use of programmatic runtime options configuration, you will need to reassign the scriptable object in the configuration tab
 - Renamed `SentryBuildtimeOptionsConfiguration` to `SentryBuildTimeOptionsConfiguration` ([#1187](https://github.com/getsentry/sentry-unity/pull/1187))\
-    If you make use of the programmatic build time configuration, you will need to update your implementation with the base class
+   If you make use of the programmatic build time configuration, you will need to update your implementation with the base class
 - Removed `Override Sentry URL` from editor window ([#1188](https://github.com/getsentry/sentry-unity/pull/1188))\
-    The option is still available from within the `SentryBuildTimeOptionsConfiguration`
+   The option is still available from within the `SentryBuildTimeOptionsConfiguration`
 
 ### Fixes
 
@@ -702,7 +727,7 @@ If you have compilation errors you can find the affected types or overloads miss
 - Fixed the SDK creating warnings before initializing when loading the options.
   - `Sentry.Unity.ScriptableOptionsConfiguration` changed to `SentryRuntimeOptionsConfiguration`
   - and `Sentry.Unity.Editor.ScriptableOptionsConfiguration` changed to `SentryBuildtimeOptionsConfiguration`
-If you make use of the programmatic configuration, you will need to update your implementation with those base classes ([#1128](https://github.com/getsentry/sentry-unity/pull/1128))
+    If you make use of the programmatic configuration, you will need to update your implementation with those base classes ([#1128](https://github.com/getsentry/sentry-unity/pull/1128))
 
 ### Fixes
 

@@ -137,6 +137,14 @@ NS_SWIFT_NAME(Options)
 @property (nullable, nonatomic, copy) SentryBeforeCaptureScreenshotCallback beforeCaptureScreenshot;
 
 /**
+ * You can use this callback to decide if the SDK should capture a view hierarchy or not. Return @c
+ * true if the SDK should capture a view hierarchy, return @c false if not. This callback doesn't
+ * work for crashes.
+ */
+@property (nullable, nonatomic, copy)
+    SentryBeforeCaptureScreenshotCallback beforeCaptureViewHierarchy;
+
+/**
  * A block called shortly after the initialization of the SDK when the last program execution
  * terminated with a crash.
  * @discussion This callback is only executed once during the entire run of the program to avoid
@@ -277,6 +285,15 @@ NS_SWIFT_NAME(Options)
  * @note Default value is @c NO .
  */
 @property (nonatomic, assign) BOOL attachViewHierarchy;
+
+/**
+ * @brief If enabled, view hierarchy attachment will contain view `accessibilityIdentifier`.
+ * Set it to @c NO if your project uses `accessibilityIdentifier` for PII.
+ * @warning This feature is not available in @c DebugWithoutUIKit and @c ReleaseWithoutUIKit
+ * configurations even when targeting iOS or tvOS platforms.
+ * @note Default value is @c YES.
+ */
+@property (nonatomic, assign) BOOL reportAccessibilityIdentifier;
 
 /**
  * When enabled, the SDK creates transactions for UI events like buttons clicks, switch toggles,

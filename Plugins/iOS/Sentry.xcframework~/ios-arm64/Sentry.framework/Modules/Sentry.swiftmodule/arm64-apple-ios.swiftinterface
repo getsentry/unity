@@ -6,9 +6,12 @@ import AVFoundation
 import CoreGraphics
 import Foundation
 import MetricKit
+import ObjectiveC.NSObjCRuntime
+import ObjectiveC
 @_exported import Sentry
 import Swift
 import UIKit
+import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
@@ -31,7 +34,7 @@ import _SwiftConcurrencyShims
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject {
-  public enum SentryReplayQuality : Swift.Int {
+  @objc public enum SentryReplayQuality : Swift.Int {
     case low
     case medium
     case high
@@ -42,12 +45,14 @@ import _SwiftConcurrencyShims
     }
   }
   @objc public var sessionSampleRate: Swift.Float
-  @objc public var errorSampleRate: Swift.Float
+  @objc public var onErrorSampleRate: Swift.Float
   @objc public var redactAllText: Swift.Bool
   @objc public var redactAllImages: Swift.Bool
-  public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
+  @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
+  @objc public var redactViewTypes: [Swift.AnyClass]
+  @objc public var ignoreRedactViewTypes: [Swift.AnyClass]
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, errorSampleRate: Swift.Float = 0, redactAllText: Swift.Bool = true, redactAllImages: Swift.Bool = true)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, redactAllText: Swift.Bool = true, redactAllImages: Swift.Bool = true)
   @objc deinit
 }
 @objc public enum SentryLevel : Swift.UInt {
@@ -62,6 +67,15 @@ import _SwiftConcurrencyShims
   public var rawValue: Swift.UInt {
     get
   }
+}
+extension Sentry.SentryLevel : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public func sentryReplayRedact()
+  @_Concurrency.MainActor(unsafe) public func sentryReplayIgnore()
 }
 @objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
