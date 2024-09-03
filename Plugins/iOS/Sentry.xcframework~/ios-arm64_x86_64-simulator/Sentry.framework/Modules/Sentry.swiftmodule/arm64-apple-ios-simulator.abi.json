@@ -27,6 +27,13 @@
       },
       {
         "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
         "name": "_SentryPrivate",
         "printedName": "_SentryPrivate",
         "declKind": "Import",
@@ -4175,6 +4182,20 @@
       "value": "255.0"
     },
     {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRTrackerV2Delegate.swift",
+      "kind": "IntegerLiteral",
+      "offset": 194,
+      "length": 16,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRTrackerV2Delegate.swift",
+      "kind": "IntegerLiteral",
+      "offset": 194,
+      "length": 16,
+      "value": "1"
+    },
+    {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayType.swift",
       "kind": "IntegerLiteral",
       "offset": 80,
@@ -5073,112 +5094,112 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 4687,
+      "offset": 4722,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 4763,
+      "offset": 4798,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 5159,
+      "offset": 5194,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 5621,
+      "offset": 5656,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 5647,
+      "offset": 5682,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 5665,
+      "offset": 5700,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "StringLiteral",
-      "offset": 5720,
+      "offset": 5755,
       "length": 19,
       "value": "\"_containingBundle\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 6084,
+      "offset": 6157,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 7281,
+      "offset": 7354,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "FloatLiteral",
-      "offset": 7286,
+      "offset": 7359,
       "length": 3,
       "value": "0.9"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 7414,
+      "offset": 7487,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 7477,
+      "offset": 7550,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 7638,
+      "offset": 7711,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 7813,
+      "offset": 7886,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 7945,
+      "offset": 8018,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-unity\/sentry-unity\/modules\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 8103,
+      "offset": 8176,
       "length": 4,
       "value": "true"
     },

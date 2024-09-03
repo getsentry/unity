@@ -351,6 +351,19 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+enum SentryANRType : NSInteger;
+
+SWIFT_PROTOCOL("_TtP6Sentry26SentryANRTrackerV2Delegate_")
+@protocol SentryANRTrackerV2Delegate
+- (void)anrDetectedWithType:(enum SentryANRType)type;
+- (void)anrStopped;
+@end
+
+typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
+  SentryANRTypeFullyBlocking = 0,
+  SentryANRTypeNonFullyBlocking = 1,
+};
+
 
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
@@ -409,7 +422,7 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 /// The frames delay for the passed time period. If frame delay can’t be calculated this is -1.
 @property (nonatomic, readonly) CFTimeInterval delayDuration;
 @property (nonatomic, readonly) NSUInteger framesContributingToDelayCount;
-- (nonnull instancetype)initWithDelayDuration:(CFTimeInterval)delayDuration framesCount:(NSUInteger)framesCount OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDelayDuration:(CFTimeInterval)delayDuration framesContributingToDelayCount:(NSUInteger)framesContributingToDelayCount OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
