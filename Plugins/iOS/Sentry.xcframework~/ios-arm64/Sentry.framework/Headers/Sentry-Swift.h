@@ -353,8 +353,9 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 
 enum SentryANRType : NSInteger;
 
-SWIFT_PROTOCOL("_TtP6Sentry26SentryANRTrackerV2Delegate_")
-@protocol SentryANRTrackerV2Delegate
+/// The  methods are called from a  background thread.
+SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
+@protocol SentryANRTrackerDelegate
 - (void)anrDetectedWithType:(enum SentryANRType)type;
 - (void)anrStopped;
 @end
@@ -362,6 +363,7 @@ SWIFT_PROTOCOL("_TtP6Sentry26SentryANRTrackerV2Delegate_")
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
   SentryANRTypeFullyBlocking = 0,
   SentryANRTypeNonFullyBlocking = 1,
+  SentryANRTypeUnknown = 2,
 };
 
 
@@ -709,6 +711,8 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @protocol SentryRedactOptions
 @property (nonatomic, readonly) BOOL redactAllText;
 @property (nonatomic, readonly) BOOL redactAllImages;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull redactViewClasses;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
 @end
 
 @class UIView;
@@ -789,12 +793,14 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @property (nonatomic) enum SentryReplayQuality quality;
 /// A list of custom UIView subclasses that need
 /// to be masked during session replay.
-/// By default Sentry already mask text elements from UIKit
-@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewTypes;
+/// By default Sentry already mask text and image elements from UIKit
+/// Every child of a view that is redacted will also be redacted.
+@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
-/// The view itself and any child will be ignored and not masked.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreRedactViewTypes;
+/// The views of given classes will not be redacted but their children may be.
+/// This property has precedence over <code>redactViewTypes</code>.
+@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -903,8 +909,8 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
 - (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue displayLinkWrapper:(SentryDisplayLinkWrapper * _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nonnull)rootView fullSession:(BOOL)fullSession;
+- (void)pauseSessionMode;
 - (void)pause;
-- (void)stop;
 - (void)resume;
 - (void)captureReplayForEvent:(SentryEvent * _Nonnull)event;
 - (BOOL)captureReplay;
@@ -970,12 +976,12 @@ SWIFT_PROTOCOL("_TtP6Sentry28SentryViewScreenshotProvider_")
 
 SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 @interface SentryViewPhotographer : NSObject <SentryViewScreenshotProvider>
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryViewPhotographer * _Nonnull shared;)
-+ (SentryViewPhotographer * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)initWithRedactOptions:(id <SentryRedactOptions> _Nonnull)redactOptions OBJC_DESIGNATED_INITIALIZER;
 - (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
 - (void)addRedactClasses:(NSArray<Class> * _Nonnull)classes;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
