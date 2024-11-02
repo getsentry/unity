@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/Sentry-Swift.h</key>
 		<data>
-		lmeaZq6FSOjNaz2Ip0MhOo5vUiU=
+		0tW9L4mt/hF4jye3GJlayNpBncY=
 		</data>
 		<key>Headers/Sentry.h</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Headers/SentryBreadcrumb.h</key>
 		<data>
-		/Pm+ubFG7w0zYMkHkFPfpuT4u6M=
+		KorTKsTk6CpgCupte4jNBSHCOJ8=
 		</data>
 		<key>Headers/SentryClient.h</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/SentryDefines.h</key>
 		<data>
-		jd+CRmkaXlubmyiNJwTA8AiUE3U=
+		OB4kZgYJa3RQwDJJ+7WRcDYWb3I=
 		</data>
 		<key>Headers/SentryDsn.h</key>
 		<data>
@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		WwB7M0dcZQBOp/8jJEPhmehDzAY=
+		9U8+iv4RsspDODaIS6s24TNUXhg=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -110,7 +110,7 @@
 		</data>
 		<key>Headers/SentryReplayApi.h</key>
 		<data>
-		Qq7eTW+5uMJJkR4K1TSZYSVuYa0=
+		KseUcE4i3+UdpyjvM52dTuMZMms=
 		</data>
 		<key>Headers/SentryRequest.h</key>
 		<data>
@@ -118,7 +118,7 @@
 		</data>
 		<key>Headers/SentrySDK.h</key>
 		<data>
-		Bwsc7n6QLPpSlg4/0HJxuZVplJc=
+		W59PFv9zLhrzn4zySzel434+WSw=
 		</data>
 		<key>Headers/SentrySampleDecision.h</key>
 		<data>
@@ -186,47 +186,47 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		/udfjbMpR/JGNUgTHQclogYQHew=
+		nvj2f5loXwKn1VFaatvSx7ZR3lM=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		nWnxlyGEC4mAtm41inOMUtnZrlg=
+		9UmkHTO1JpzRec3SztFiQx+pxXQ=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		Lz7fhKVCfty/Gj1hkGnngcwbOKc=
+		ioT1z5OSl+YH0z8+jlkoTfkjbTc=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		eB6UPQbyhEmNaXwTqhLBL1AoM8k=
+		n8YrVzpuYUFAl+6MXC/po96/EM8=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		Lz7fhKVCfty/Gj1hkGnngcwbOKc=
+		ioT1z5OSl+YH0z8+jlkoTfkjbTc=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		2r2+30k8aLmCg+0tkczxHTb6zSM=
+		Dz2kasv7K8IsZ25bUu+rL9Qx+AE=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		nWnxlyGEC4mAtm41inOMUtnZrlg=
+		9UmkHTO1JpzRec3SztFiQx+pxXQ=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		TlsqR9yI2hSQrHT8LEfC4MML5zE=
+		hUw9QQRwMBTZDo9xtYvtT4z0HMY=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		Tpc86edCmsVFh62hwaSZIVykhnI=
+		SqMSnlS77zYYn+PRzIYOweUnym8=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		TlsqR9yI2hSQrHT8LEfC4MML5zE=
+		hUw9QQRwMBTZDo9xtYvtT4z0HMY=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		of76eDQOYa6xgxDOn0uFal193H8=
+		kfUFRE/XjSiNjrTq4nx2SZdUQqk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -298,7 +298,7 @@
 		</data>
 		<key>PrivateHeaders/SentryOptions+Private.h</key>
 		<data>
-		THETmFqTHrzJ3rzGqJK8GlByg0E=
+		PuJG3Gzc282Tm9Cwn1/RLzmHg6Q=
 		</data>
 		<key>PrivateHeaders/SentryRequestOperation.h</key>
 		<data>
@@ -318,7 +318,7 @@
 		</data>
 		<key>PrivateHeaders/SentrySwift.h</key>
 		<data>
-		OO/2Luj5PTY1w32xVQdFQsB0So4=
+		SZsDGkwjqb2zeW3zMl8rHfSLpkM=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -327,7 +327,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KD9VuJJS3l62u1SG1pJ022Uu7b+85O6W13FliCXQ9zw=
+			QPTzK0KPgrvXP9bbDwyz6vLfmT3iLIGworzvJ16QKjY=
 			</data>
 		</dict>
 		<key>Headers/Sentry.h</key>
@@ -355,7 +355,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xW2RbY4lG/c/WEdvvHzeHB2XBLDSnRhM0ghYZH1kCzc=
+			P6gFvtHltb5a3LhcQuvEIvIREb6VNXVDF1E+sUVJRzM=
 			</data>
 		</dict>
 		<key>Headers/SentryClient.h</key>
@@ -390,7 +390,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			K5DpTIJMfulpnztWjCRuaAg3B+XZbZdWNtddxfj/wIk=
+			fuSJztbk3TNIPcFHKuOnvHy2VG1kAmQxm2bqDpamcIU=
 			</data>
 		</dict>
 		<key>Headers/SentryDsn.h</key>
@@ -495,7 +495,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2cLyBlCvFYKbSjNXaAOqEr0RcF1kPfuZ7OXNmeIqoCM=
+			/i4lUfFsB5tAv7+EzV5SIyNtIrRaluap7CQLMfyyAuE=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -509,7 +509,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Zg8O57vc7uaVRCQngWv3LU3GYm9SnzK85DAMpCNa834=
+			hX7roAvYxK7Fqop7AEMYKmOZolehGuBRHFh1zueXvVc=
 			</data>
 		</dict>
 		<key>Headers/SentryRequest.h</key>
@@ -523,7 +523,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			M9vDoTlq3TZ27tlPJb3WRi4Gs20yURdKvXlwsg4G2dk=
+			oKwL4LBDBUsC9yOb0aBHYKwxMOD183HwAWnH2kAfG9Y=
 			</data>
 		</dict>
 		<key>Headers/SentrySampleDecision.h</key>
@@ -642,70 +642,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			N7jZ2h7rzojNZHIEhWT9hAfh+mBDYDIJcHBcy7DiBpY=
+			ix4Z7Q6Vw60yQ0Ei+kM/Nu28bY89GBdux+XKaSyEBis=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			B1qz5T20asqhMWN5QU6RwJ+/lyr1mZ5OlVGbkH7nCpc=
+			3Z2Vmr9vyUuzWk+5OSVcJR9EgLwV2bOxzY1KAgWZosQ=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			X5cMW+l1U5qlTyInKz/l6tLTfP0M7NDZj+voMYkyDTo=
+			FUWgfCufhFdDLsGB60sRY9gtTSRYoe2Cbv6MA3l5llw=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			B1qz5T20asqhMWN5QU6RwJ+/lyr1mZ5OlVGbkH7nCpc=
+			3Z2Vmr9vyUuzWk+5OSVcJR9EgLwV2bOxzY1KAgWZosQ=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			PpIK1OSHAe8x+sEoHFM9cxpA55xRtl/vC02gbMeGGc4=
+			1hUpgwtrummtgj8AEc5JXUyG5ioBnj26B+VYMy4sTe0=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N7jZ2h7rzojNZHIEhWT9hAfh+mBDYDIJcHBcy7DiBpY=
+			ix4Z7Q6Vw60yQ0Ei+kM/Nu28bY89GBdux+XKaSyEBis=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Fp1+kVz2XYNhFtbZGB0MkC3cyqGsQFLiItqHHuHIXJU=
+			U2hUPYD5oqr95N4IbOTOlOvFt7ABxEUoYFdhuw0EmPI=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CNB9VedF8W30uUYyFxEtuoO+HXpYNTQ9qjQP0Sqk+IE=
+			jB8tz0qSVN/kEXWtKw58xdS1OYp6Xq2M6eiS+On0lgs=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Fp1+kVz2XYNhFtbZGB0MkC3cyqGsQFLiItqHHuHIXJU=
+			U2hUPYD5oqr95N4IbOTOlOvFt7ABxEUoYFdhuw0EmPI=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lg/hoPB60782/HzTwzPm735X/10q5VfLBcrXKZrTUag=
+			knxm9Al/VrgCjAubSvsTKEX7woK4XXAmIQB1VfO2XJA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -831,7 +831,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GWIsvEXpDE1ptRje4Bir2N/RIvh1MklrLC1qZrO9GmA=
+			cCJkwHxPcoxEkBWMmrr9veRXuOzcT7AvryxEVbNXLhI=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryRequestOperation.h</key>
@@ -866,7 +866,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Oi+08jeooRvDJZaYPKcFCTBCjDMhtzwRxis8sZYHIJo=
+			40k6VwToo37PsxSZ5JV+B4lZcDqsv/Mx3fIAAJqhrNk=
 			</data>
 		</dict>
 	</dict>

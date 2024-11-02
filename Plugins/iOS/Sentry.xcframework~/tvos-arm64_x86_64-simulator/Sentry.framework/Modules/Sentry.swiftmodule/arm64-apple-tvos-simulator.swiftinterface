@@ -13,6 +13,11 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class SentryRedactViewHelper : ObjectiveC.NSObject {
+  @objc public static func clipOutView(_ view: UIKit.UIView)
+  @objc public static func maskSwiftUI(_ view: UIKit.UIView)
+  @objc deinit
+}
 @objc public enum SentryTransactionNameSource : Swift.Int {
   @objc(kSentryTransactionNameSourceCustom) case custom = 0
   @objc(kSentryTransactionNameSourceUrl) case url
@@ -44,13 +49,27 @@ import _SwiftConcurrencyShims
   }
   @objc public var sessionSampleRate: Swift.Float
   @objc public var onErrorSampleRate: Swift.Float
-  @objc public var redactAllText: Swift.Bool
-  @objc public var redactAllImages: Swift.Bool
+  @objc public var maskAllText: Swift.Bool
+  @objc public var maskAllImages: Swift.Bool
   @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
-  @objc public var redactViewClasses: [Swift.AnyClass]
-  @objc public var ignoreViewClasses: [Swift.AnyClass]
+  @objc public var maskedViewClasses: [Swift.AnyClass]
+  @objc public var unmaskedViewClasses: [Swift.AnyClass]
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, redactAllText: Swift.Bool = true, redactAllImages: Swift.Bool = true)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackConfiguration : ObjectiveC.NSObject {
+  @objc public var configureWidget: ((Sentry.SentryUserFeedbackWidgetConfiguration) -> Swift.Void)?
+  @objc public var useShakeGesture: Swift.Bool
+  @objc public var showFormForScreenshots: Swift.Bool
+  @objc public var configureForm: ((Sentry.SentryUserFeedbackFormConfiguration) -> Swift.Void)?
+  @objc public var tags: [Swift.String : Any]?
+  @objc public var useSentryUser: Swift.Bool
+  @objc public var onFormOpen: (() -> Swift.Void)?
+  @objc public var onFormClose: (() -> Swift.Void)?
+  @objc public var onSubmitSuccess: (([Swift.String : Any]) -> Swift.Void)?
+  @objc public var onSubmitError: ((any Swift.Error) -> Swift.Void)?
+  @objc override dynamic public init()
   @objc deinit
 }
 @objc public enum SentryLevel : Swift.UInt {
@@ -71,9 +90,64 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
     get
   }
 }
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackThemeConfiguration : ObjectiveC.NSObject {
+  @objc public var font: UIKit.UIFont?
+  @objc public var foreground: UIKit.UIColor
+  @objc public var background: UIKit.UIColor
+  @objc public var accentForeground: UIKit.UIColor
+  @objc public var accentBackground: UIKit.UIColor
+  @objc public var successColor: UIKit.UIColor
+  @objc public var errorColor: UIKit.UIColor
+  @objc public var outlineColor: UIKit.UIColor?
+  @objc public var outlineColorFocussed: UIKit.UIColor?
+  @objc public var outlineThickness: Foundation.NSNumber?
+  @objc public var outlineThicknessFocussed: Foundation.NSNumber?
+  @objc public var cornerRadius: Foundation.NSNumber?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackWidgetConfiguration : ObjectiveC.NSObject {
+  @objc public var autoInject: Swift.Bool
+  @objc public var labelText: Swift.String
+  @objc public var widgetAccessibilityLabel: Swift.String?
+  @objc public var windowLevel: UIKit.UIWindow.Level
+  @objc public var location: UIKit.UIRectEdge
+  @objc public var layoutUIOffset: UIKit.UIOffset
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackFormConfiguration : ObjectiveC.NSObject {
+  @objc public var showBranding: Swift.Bool
+  @objc public var formTitle: Swift.String
+  @objc public var messageLabel: Swift.String
+  @objc public var messagePlaceholder: Swift.String
+  @objc public var isRequiredLabel: Swift.String
+  @objc public var successMessageText: Swift.String
+  @objc public var enableScreenshot: Swift.Bool
+  @objc public var addScreenshotButtonLabel: Swift.String
+  @objc public var removeScreenshotButtonLabel: Swift.String
+  @objc public var isNameRequired: Swift.Bool
+  @objc public var showName: Swift.Bool
+  @objc public var nameLabel: Swift.String
+  @objc public var namePlaceholder: Swift.String
+  @objc public var isEmailRequired: Swift.Bool
+  @objc public var showEmail: Swift.Bool
+  @objc public var emailLabel: Swift.String
+  @objc public var emailPlaceholder: Swift.String
+  @objc public var submitButtonLabel: Swift.String
+  @objc public var submitButtonAccessibilityLabel: Swift.String?
+  @objc public var cancelButtonLabel: Swift.String
+  @objc public var cancelButtonAccessibilityLabel: Swift.String?
+  @objc public var confirmButtonLabel: Swift.String
+  @objc public var confirmButtonAccessibilityLabel: Swift.String?
+  @objc public var themeOverrides: ((Sentry.SentryUserFeedbackThemeConfiguration) -> Swift.Void)?
+  @objc public var darkThemeOverrides: ((Sentry.SentryUserFeedbackThemeConfiguration) -> Swift.Void)?
+  @objc override dynamic public init()
+  @objc deinit
+}
 extension UIKit.UIView {
-  @_Concurrency.MainActor(unsafe) public func sentryReplayRedact()
-  @_Concurrency.MainActor(unsafe) public func sentryReplayIgnore()
+  @_Concurrency.MainActor(unsafe) public func sentryReplayMask()
+  @_Concurrency.MainActor(unsafe) public func sentryReplayUnmask()
 }
 @objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
@@ -102,16 +176,6 @@ extension Swift.FixedWidthInteger {
         defer { lhs += 1 }
         return lhs
     }
-}
-@_hasMissingDesignatedInitializers @objc public class SentryMetricsAPI : ObjectiveC.NSObject {
-  @objc public func increment(key: Swift.String, value: Swift.Double = 1.0, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  @objc public func gauge(key: Swift.String, value: Swift.Double, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  @objc public func distribution(key: Swift.String, value: Swift.Double, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  @objc public func set(key: Swift.String, value: Swift.String, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  public func timing<T>(key: Swift.String, tags: [Swift.String : Swift.String] = [:], _ closure: () throws -> T) rethrows -> T
-  @objc public func close()
-  @objc public func flush()
-  @objc deinit
 }
 extension Sentry.SentryTransactionNameSource : Swift.Equatable {}
 extension Sentry.SentryTransactionNameSource : Swift.Hashable {}

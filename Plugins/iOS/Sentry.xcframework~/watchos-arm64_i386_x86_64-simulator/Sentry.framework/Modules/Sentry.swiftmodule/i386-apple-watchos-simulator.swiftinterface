@@ -40,13 +40,13 @@ import _SwiftConcurrencyShims
   }
   @objc public var sessionSampleRate: Swift.Float
   @objc public var onErrorSampleRate: Swift.Float
-  @objc public var redactAllText: Swift.Bool
-  @objc public var redactAllImages: Swift.Bool
+  @objc public var maskAllText: Swift.Bool
+  @objc public var maskAllImages: Swift.Bool
   @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
-  @objc public var redactViewClasses: [Swift.AnyClass]
-  @objc public var ignoreViewClasses: [Swift.AnyClass]
+  @objc public var maskedViewClasses: [Swift.AnyClass]
+  @objc public var unmaskedViewClasses: [Swift.AnyClass]
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, redactAllText: Swift.Bool = true, redactAllImages: Swift.Bool = true)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true)
   @objc deinit
 }
 @objc public enum SentryLevel : Swift.UInt {
@@ -94,16 +94,6 @@ extension Swift.FixedWidthInteger {
         defer { lhs += 1 }
         return lhs
     }
-}
-@_hasMissingDesignatedInitializers @objc public class SentryMetricsAPI : ObjectiveC.NSObject {
-  @objc public func increment(key: Swift.String, value: Swift.Double = 1.0, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  @objc public func gauge(key: Swift.String, value: Swift.Double, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  @objc public func distribution(key: Swift.String, value: Swift.Double, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  @objc public func set(key: Swift.String, value: Swift.String, unit: Sentry.MeasurementUnit = .none, tags: [Swift.String : Swift.String] = [:])
-  public func timing<T>(key: Swift.String, tags: [Swift.String : Swift.String] = [:], _ closure: () throws -> T) rethrows -> T
-  @objc public func close()
-  @objc public func flush()
-  @objc deinit
 }
 extension Sentry.SentryTransactionNameSource : Swift.Equatable {}
 extension Sentry.SentryTransactionNameSource : Swift.Hashable {}

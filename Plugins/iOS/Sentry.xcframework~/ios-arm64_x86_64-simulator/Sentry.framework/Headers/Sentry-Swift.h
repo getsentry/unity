@@ -281,6 +281,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import Foundation;
 @import MetricKit;
 @import ObjectiveC;
+@import UIKit;
 #endif
 
 #import <Sentry/Sentry.h>
@@ -308,14 +309,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 @interface HTTPHeaderSanitizer : NSObject
 + (NSDictionary<NSString *, NSString *> * _Nonnull)sanitizeHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-/// Used for correlating metrics to spans. See https://github.com/getsentry/rfcs/blob/main/text/0123-metrics-correlation.md
-SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
-@interface LocalMetricsAggregator : NSObject
-- (NSDictionary<NSString *, NSArray<NSDictionary<NSString *, id> *> *> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -351,6 +344,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@protocol SentryANRTrackerDelegate;
+
+SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
+@protocol SentryANRTracker
+- (void)addListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+- (void)removeListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+/// Only used for tests.
+- (void)clear;
+@end
+
 enum SentryANRType : NSInteger;
 
 /// The  methods are called from a  background thread.
@@ -367,6 +370,14 @@ typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
 };
 
 
+SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
+@interface SentryAppHangTypeMapper : NSObject
++ (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
 + (NSString * _Nonnull)encodeDictionary:(NSDictionary<NSString *, NSString *> * _Nonnull)dictionary SWIFT_WARN_UNUSED_RESULT;
@@ -375,18 +386,24 @@ SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry25SentryCurrentDateProvider")
-@interface SentryCurrentDateProvider : NSObject
+/// We need a protocol to expose SentryCurrentDateProvider to tests.
+/// Mocking the previous private class from <code>SentryTestUtils</code> stopped working in Xcode 16.
+SWIFT_PROTOCOL("_TtP6Sentry25SentryCurrentDateProvider_")
+@protocol SentryCurrentDateProvider
+- (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+- (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
+- (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
+@interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface SentryCurrentDateProvider (SWIFT_EXTENSION(Sentry))
-@property (nonatomic, readonly) uint64_t bucketTimestamp;
 @end
 
 @class SentryOptions;
@@ -557,80 +574,6 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryMXManagerDelegate_") SWIFT_AVAILABILITY(watch
 - (void)didReceiveHangDiagnostic:(MXHangDiagnostic * _Nonnull)diagnostic callStackTree:(SentryMXCallStackTree * _Nonnull)callStackTree timeStampBegin:(NSDate * _Nonnull)timeStampBegin timeStampEnd:(NSDate * _Nonnull)timeStampEnd;
 @end
 
-@class SentryMetricsClient;
-@class SentryDispatchQueueWrapper;
-@protocol SentryRandom;
-@protocol SentryMetricsAPIDelegate;
-@class SentryMeasurementUnit;
-
-SWIFT_CLASS("_TtC6Sentry16SentryMetricsAPI")
-@interface SentryMetricsAPI : NSObject
-- (nonnull instancetype)initWithEnabled:(BOOL)enabled client:(SentryMetricsClient * _Nonnull)client currentDate:(SentryCurrentDateProvider * _Nonnull)currentDate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue random:(id <SentryRandom> _Nonnull)random beforeEmitMetric:(BOOL (^ _Nullable)(NSString * _Nonnull, NSDictionary<NSString *, NSString *> * _Nonnull))beforeEmitMetric OBJC_DESIGNATED_INITIALIZER;
-- (void)setDelegate:(id <SentryMetricsAPIDelegate> _Nullable)delegate;
-/// Emits a Counter metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)incrementWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Gauge metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)gaugeWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Distribution metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)distributionWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Set metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)setWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-- (void)close;
-- (void)flush;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-@protocol SentrySpan;
-
-SWIFT_PROTOCOL("_TtP6Sentry24SentryMetricsAPIDelegate_")
-@protocol SentryMetricsAPIDelegate
-- (NSDictionary<NSString *, NSString *> * _Nonnull)getDefaultTagsForMetrics SWIFT_WARN_UNUSED_RESULT;
-- (id <SentrySpan> _Nullable)getCurrentSpan SWIFT_WARN_UNUSED_RESULT;
-- (LocalMetricsAggregator * _Nullable)getLocalMetricsAggregatorWithSpan:(id <SentrySpan> _Nonnull)span SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class SentryStatsdClient;
-
-SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
-@interface SentryMetricsClient : NSObject
-- (nonnull instancetype)initWithClient:(SentryStatsdClient * _Nonnull)client OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
 @class UIImage;
 @class SentryVideoInfo;
 
@@ -641,6 +584,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 - (NSArray<SentryVideoInfo *> * _Nullable)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 @end
 
+@class SentryDispatchQueueWrapper;
 
 SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 @interface SentryOnDemandReplay : NSObject <SentryReplayVideoMaker>
@@ -648,8 +592,8 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 @property (nonatomic) NSInteger bitRate;
 @property (nonatomic) NSInteger frameRate;
 @property (nonatomic) NSUInteger cacheMaxSize;
-- (nonnull instancetype)initWithOutputPath:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider;
+- (nonnull instancetype)initWithOutputPath:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider;
 - (nonnull instancetype)initWithOutputPath:(NSString * _Nonnull)outputPath;
 - (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath;
 - (void)addFrameAsyncWithImage:(UIImage * _Nonnull)image forScreen:(NSString * _Nullable)forScreen;
@@ -709,21 +653,26 @@ SWIFT_CLASS("_TtC6Sentry21SentryRRWebVideoEvent")
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @protocol SentryRedactOptions
-@property (nonatomic, readonly) BOOL redactAllText;
-@property (nonatomic, readonly) BOOL redactAllImages;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull redactViewClasses;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, readonly) BOOL maskAllText;
+@property (nonatomic, readonly) BOOL maskAllImages;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
 
 @class UIView;
 
 SWIFT_CLASS("_TtC6Sentry22SentryRedactViewHelper")
 @interface SentryRedactViewHelper : NSObject
-+ (BOOL)shouldRedactView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
-+ (BOOL)shouldIgnoreView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
-+ (void)redactView:(UIView * _Nonnull)view;
-+ (void)ignoreView:(UIView * _Nonnull)view;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
++ (void)maskView:(UIView * _Nonnull)view;
++ (BOOL)shouldMaskView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)shouldUnmask:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (void)unmaskView:(UIView * _Nonnull)view;
++ (BOOL)shouldClipOut:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (void)clipOutView:(UIView * _Nonnull)view;
++ (BOOL)shouldRedactSwiftUI:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (void)maskSwiftUI:(UIView * _Nonnull)view;
 @end
 
 @class SentryBreadcrumb;
@@ -782,12 +731,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllText;
+@property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllImages;
+@property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
 @property (nonatomic) enum SentryReplayQuality quality;
@@ -795,12 +744,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -831,7 +780,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate redactAllText:(BOOL)redactAllText redactAllImages:(BOOL)redactAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -907,7 +856,7 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, readonly) BOOL isRunning;
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
-- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue displayLinkWrapper:(SentryDisplayLinkWrapper * _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue displayLinkWrapper:(SentryDisplayLinkWrapper * _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nonnull)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -928,11 +877,18 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
 
+
+SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
+@interface SentrySwizzleClassNameExclude : NSObject
++ (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @class UIEvent;
 
 SWIFT_CLASS("_TtC6Sentry18SentryTouchTracker")
 @interface SentryTouchTracker : NSObject
-- (nonnull instancetype)initWithDateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
 - (void)trackTouchFromEvent:(UIEvent * _Nonnull)event;
 - (void)flushFinishedEvents;
 - (NSArray<SentryRRWebEvent *> * _Nonnull)replayEventsFrom:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
@@ -948,6 +904,284 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceComponent SWIFT_COMPILE_NAME("component") = 4,
   kSentryTransactionNameSourceTask SWIFT_COMPILE_NAME("sourceTask") = 5,
 };
+
+@class SentryUserFeedbackWidgetConfiguration;
+@class SentryUserFeedbackFormConfiguration;
+
+/// The settings to use for how the user feedback form is presented, what data is required and how
+/// it’s submitted, and some auxiliary hooks to customize the workflow.
+SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
+@interface SentryUserFeedbackConfiguration : NSObject
+/// Configuration settings specific to the managed widget that displays the UI form.
+/// note:
+/// Default: <code>nil</code> to use the default widget settings.
+@property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
+/// Use a shake gesture to display the form.
+/// note:
+/// Default: <code>false</code>
+/// note:
+/// Setting this to true does not disable the widget. In order to do so, you must set <code>SentryUserFeedbackWidgetConfiguration.autoInject</code> to <code>false</code> using the <code>SentryUserFeedbackConfiguration.configureWidget</code> config builder.
+@property (nonatomic) BOOL useShakeGesture;
+/// Any time a user takes a screenshot, bring up the form with the screenshot attached.
+/// note:
+/// Default: <code>false</code>
+/// note:
+/// Setting this to true does not disable the widget. In order to do so, you must set <code>SentryUserFeedbackWidgetConfiguration.autoInject</code> to <code>false</code> using the <code>SentryUserFeedbackConfiguration.configureWidget</code> config builder.
+@property (nonatomic) BOOL showFormForScreenshots;
+/// Configuration settings specific to the managed UI form to gather user input.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
+/// Tags to set on the feedback event. This is a dictionary where keys are strings
+/// and values can be different data types such as <code>NSNumber</code>, <code>NSString</code>, etc.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable tags;
+/// Sets the email and name field text content to <code>SentryUser.email</code> and <code>SentryUser.name</code>.
+/// note:
+/// Default: <code>false</code>
+@property (nonatomic) BOOL useSentryUser;
+/// Called when the feedback form is opened.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable onFormOpen)(void);
+/// Called when the feedback form is closed.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable onFormClose)(void);
+/// Called when feedback is successfully submitted via the prepared form.
+/// The data dictionary contains the feedback details.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
+/// that function.
+@property (nonatomic, copy) void (^ _Nullable onSubmitSuccess)(NSDictionary<NSString *, id> * _Nonnull);
+/// Called when there is an error submitting feedback via the prepared form.
+/// The error object contains details of the error.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
+/// that function.
+@property (nonatomic, copy) void (^ _Nullable onSubmitError)(NSError * _Nonnull);
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class SentryUserFeedbackThemeConfiguration;
+
+/// Settings to control the behavior and appearance of the UI form.
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
+@interface SentryUserFeedbackFormConfiguration : NSObject
+/// Displays the Sentry logo inside of the form.
+/// note:
+/// Default: <code>true</code>
+@property (nonatomic) BOOL showBranding;
+/// The title at the top of the feedback form.
+/// note:
+/// Default: <code>"Report a Bug"</code>
+@property (nonatomic, copy) NSString * _Nonnull formTitle;
+/// The label for the feedback description input field.
+/// note:
+/// Default: <code>"Description"</code>
+@property (nonatomic, copy) NSString * _Nonnull messageLabel;
+/// The placeholder for the feedback description input field.
+/// note:
+/// Default: <code>"What's the bug? What did you expect?"</code>
+@property (nonatomic, copy) NSString * _Nonnull messagePlaceholder;
+/// The label shown next to an input field that is required.
+/// note:
+/// Default: <code>"(required)"</code>
+@property (nonatomic, copy) NSString * _Nonnull isRequiredLabel;
+/// The message displayed after a successful feedback submission.
+/// note:
+/// Default: <code>"Thank you for your report!"</code>
+@property (nonatomic, copy) NSString * _Nonnull successMessageText;
+/// Allows the user to send a screenshot attachment with their feedback.
+/// note:
+/// Default: <code>true</code>
+@property (nonatomic) BOOL enableScreenshot;
+/// The label of the button to add a screenshot to the form.
+/// note:
+/// Default: <code>"Add a screenshot"</code>
+/// note:
+/// ignored if <code>enableScreenshot</code> is <code>false</code>.`
+@property (nonatomic, copy) NSString * _Nonnull addScreenshotButtonLabel;
+/// The label of the button to remove the screenshot from the form.
+/// note:
+/// Default: <code>"Remove screenshot"</code>
+/// note:
+/// ignored if <code>enableScreenshot</code> is <code>false</code>.
+@property (nonatomic, copy) NSString * _Nonnull removeScreenshotButtonLabel;
+/// Requires the name field on the feedback form to be filled in.
+/// note:
+/// Default: <code>false</code>
+@property (nonatomic) BOOL isNameRequired;
+/// Displays the name field on the feedback form.
+/// note:
+/// Default: <code>true</code>
+/// note:
+/// ignored if <code>isNameRequired</code> is <code>true</code>.
+@property (nonatomic) BOOL showName;
+/// The label of the name input field.
+/// note:
+/// Default: <code>"Name"</code>
+/// note:
+/// ignored if <code>showName</code> is <code>false</code>.
+@property (nonatomic, copy) NSString * _Nonnull nameLabel;
+/// The placeholder for the name input field.
+/// note:
+/// Default: <code>"Your Name"</code>
+/// note:
+/// ignored if <code>showName</code> is <code>false</code>.
+@property (nonatomic, copy) NSString * _Nonnull namePlaceholder;
+/// Requires the email field on the feedback form to be filled in.
+/// note:
+/// Default: <code>false</code>
+@property (nonatomic) BOOL isEmailRequired;
+/// Displays the email field on the feedback form.
+/// note:
+/// Default: <code>true</code>
+/// note:
+/// ignored if <code>isEmailRequired</code> is <code>true</code>.
+@property (nonatomic) BOOL showEmail;
+/// The label of the email input field.
+/// note:
+/// Default: <code>"Email"</code>
+@property (nonatomic, copy) NSString * _Nonnull emailLabel;
+/// The placeholder for the email input field.
+/// note:
+/// Default: <code>"your.email@example.org"</code>
+@property (nonatomic, copy) NSString * _Nonnull emailPlaceholder;
+/// The label of the submit button used in the feedback form.
+/// note:
+/// Default: <code>"Send Bug Report"</code>
+@property (nonatomic, copy) NSString * _Nonnull submitButtonLabel;
+/// The accessibility label of the form’s “Submit” button.
+/// note:
+/// Default: <code>submitButtonLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable submitButtonAccessibilityLabel;
+/// The label of cancel buttons used in the feedback form.
+/// note:
+/// Default: <code>"Cancel"</code>
+@property (nonatomic, copy) NSString * _Nonnull cancelButtonLabel;
+/// The accessibility label of the form’s “Cancel” button.
+/// note:
+/// Default: <code>cancelButtonLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable cancelButtonAccessibilityLabel;
+/// The label of confirm buttons used in the feedback form.
+/// note:
+/// Default: <code>"Confirm"</code>
+@property (nonatomic, copy) NSString * _Nonnull confirmButtonLabel;
+/// The accessibility label of the form’s “Confirm” button.
+/// note:
+/// Default: <code>confirmButtonLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable confirmButtonAccessibilityLabel;
+/// Builder for default/light theme overrides.
+/// note:
+/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
+/// running on later versions that include dark mode should also consider <code>darkThemeOverrides</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable themeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
+/// mode, assign the same builder to this property as you do for <code>themeOverrides</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable darkThemeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIFont;
+@class UIColor;
+@class NSNumber;
+
+/// Settings for overriding theming components for the User Feedback Widget.
+SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
+@interface SentryUserFeedbackThemeConfiguration : NSObject
+/// The default font to use.
+/// note:
+/// Defaults to the current system default.
+@property (nonatomic, strong) UIFont * _Nullable font;
+/// Foreground text color.
+/// note:
+/// Default light mode: <code>rgb(43, 34, 51)</code>; dark mode: <code>rgb(235, 230, 239)</code>
+@property (nonatomic, strong) UIColor * _Nonnull foreground;
+/// Background color of the widget (injected button and form).
+/// note:
+/// Default light mode: <code>rgb(255, 255, 255)</code>; dark mode: <code>rgb(41, 35, 47)</code>
+@property (nonatomic, strong) UIColor * _Nonnull background;
+/// Foreground color for the submit button.
+/// note:
+/// Default: <code>rgb(255, 255, 255)</code> for both dark and light modes
+@property (nonatomic, strong) UIColor * _Nonnull accentForeground;
+/// Background color for the submit button in light and dark modes.
+/// note:
+/// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
+@property (nonatomic, strong) UIColor * _Nonnull accentBackground;
+/// Color used for success-related components (such as text color when feedback is submitted successfully).
+/// note:
+/// Default light mode: <code>rgb(38, 141, 117)</code>; dark mode: <code>rgb(45, 169, 140)</code>
+@property (nonatomic, strong) UIColor * _Nonnull successColor;
+/// Color used for error-related components (such as text color when there’s an error submitting feedback).
+/// note:
+/// Default light mode: <code>rgb(223, 51, 56)</code>; dark mode: <code>rgb(245, 84, 89)</code>
+@property (nonatomic, strong) UIColor * _Nonnull errorColor;
+/// Normal outline color for form inputs.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) UIColor * _Nullable outlineColor;
+/// Outline color for form inputs when focused.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) UIColor * _Nullable outlineColorFocussed;
+/// Normal outline thickness for form inputs.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) NSNumber * _Nullable outlineThickness;
+/// Outline thickness for form inputs when focused.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) NSNumber * _Nullable outlineThicknessFocussed;
+/// Outline corner radius for form input elements.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) NSNumber * _Nullable cornerRadius;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// Settings for whether to show the widget and how it should appear.
+SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
+@interface SentryUserFeedbackWidgetConfiguration : NSObject
+/// Injects the Feedback widget into the application UI when the integration is added. Set to <code>false</code>
+/// if you want to call <code>attachToButton()</code> or <code>createWidget()</code> directly, or only want to show the
+/// widget on certain views.
+/// note:
+/// Default: <code>true</code>
+@property (nonatomic) BOOL autoInject;
+/// The label of the injected button that opens up the feedback form when clicked.
+/// note:
+/// Default: <code>"Report a Bug"</code>
+@property (nonatomic, copy) NSString * _Nonnull labelText;
+/// The accessibility label of the injected button that opens up the feedback form when clicked.
+/// note:
+/// Default: <code>triggerLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
+/// The window level of the widget.
+/// note:
+/// Default: <code>UIWindow.Level.normal + 1</code>
+@property (nonatomic) UIWindowLevel windowLevel;
+/// The location for positioning the widget.
+/// note:
+/// Default: <code>[.bottom, .right]</code>
+@property (nonatomic) UIRectEdge location;
+/// The distance to use from the widget button to the superview’s <code>layoutMarginsGuide</code>.
+/// note:
+/// Default: <code>UIOffset.zero</code>
+@property (nonatomic) UIOffset layoutUIOffset;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
 
 
 SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")
@@ -1308,6 +1542,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import Foundation;
 @import MetricKit;
 @import ObjectiveC;
+@import UIKit;
 #endif
 
 #import <Sentry/Sentry.h>
@@ -1335,14 +1570,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 @interface HTTPHeaderSanitizer : NSObject
 + (NSDictionary<NSString *, NSString *> * _Nonnull)sanitizeHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-/// Used for correlating metrics to spans. See https://github.com/getsentry/rfcs/blob/main/text/0123-metrics-correlation.md
-SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
-@interface LocalMetricsAggregator : NSObject
-- (NSDictionary<NSString *, NSArray<NSDictionary<NSString *, id> *> *> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1378,6 +1605,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@protocol SentryANRTrackerDelegate;
+
+SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
+@protocol SentryANRTracker
+- (void)addListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+- (void)removeListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+/// Only used for tests.
+- (void)clear;
+@end
+
 enum SentryANRType : NSInteger;
 
 /// The  methods are called from a  background thread.
@@ -1394,6 +1631,14 @@ typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
 };
 
 
+SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
+@interface SentryAppHangTypeMapper : NSObject
++ (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
 + (NSString * _Nonnull)encodeDictionary:(NSDictionary<NSString *, NSString *> * _Nonnull)dictionary SWIFT_WARN_UNUSED_RESULT;
@@ -1402,18 +1647,24 @@ SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry25SentryCurrentDateProvider")
-@interface SentryCurrentDateProvider : NSObject
+/// We need a protocol to expose SentryCurrentDateProvider to tests.
+/// Mocking the previous private class from <code>SentryTestUtils</code> stopped working in Xcode 16.
+SWIFT_PROTOCOL("_TtP6Sentry25SentryCurrentDateProvider_")
+@protocol SentryCurrentDateProvider
+- (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+- (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
+- (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
+@interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface SentryCurrentDateProvider (SWIFT_EXTENSION(Sentry))
-@property (nonatomic, readonly) uint64_t bucketTimestamp;
 @end
 
 @class SentryOptions;
@@ -1584,80 +1835,6 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryMXManagerDelegate_") SWIFT_AVAILABILITY(watch
 - (void)didReceiveHangDiagnostic:(MXHangDiagnostic * _Nonnull)diagnostic callStackTree:(SentryMXCallStackTree * _Nonnull)callStackTree timeStampBegin:(NSDate * _Nonnull)timeStampBegin timeStampEnd:(NSDate * _Nonnull)timeStampEnd;
 @end
 
-@class SentryMetricsClient;
-@class SentryDispatchQueueWrapper;
-@protocol SentryRandom;
-@protocol SentryMetricsAPIDelegate;
-@class SentryMeasurementUnit;
-
-SWIFT_CLASS("_TtC6Sentry16SentryMetricsAPI")
-@interface SentryMetricsAPI : NSObject
-- (nonnull instancetype)initWithEnabled:(BOOL)enabled client:(SentryMetricsClient * _Nonnull)client currentDate:(SentryCurrentDateProvider * _Nonnull)currentDate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue random:(id <SentryRandom> _Nonnull)random beforeEmitMetric:(BOOL (^ _Nullable)(NSString * _Nonnull, NSDictionary<NSString *, NSString *> * _Nonnull))beforeEmitMetric OBJC_DESIGNATED_INITIALIZER;
-- (void)setDelegate:(id <SentryMetricsAPIDelegate> _Nullable)delegate;
-/// Emits a Counter metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)incrementWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Gauge metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)gaugeWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Distribution metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)distributionWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Set metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)setWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-- (void)close;
-- (void)flush;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-@protocol SentrySpan;
-
-SWIFT_PROTOCOL("_TtP6Sentry24SentryMetricsAPIDelegate_")
-@protocol SentryMetricsAPIDelegate
-- (NSDictionary<NSString *, NSString *> * _Nonnull)getDefaultTagsForMetrics SWIFT_WARN_UNUSED_RESULT;
-- (id <SentrySpan> _Nullable)getCurrentSpan SWIFT_WARN_UNUSED_RESULT;
-- (LocalMetricsAggregator * _Nullable)getLocalMetricsAggregatorWithSpan:(id <SentrySpan> _Nonnull)span SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class SentryStatsdClient;
-
-SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
-@interface SentryMetricsClient : NSObject
-- (nonnull instancetype)initWithClient:(SentryStatsdClient * _Nonnull)client OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
 @class UIImage;
 @class SentryVideoInfo;
 
@@ -1668,6 +1845,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 - (NSArray<SentryVideoInfo *> * _Nullable)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 @end
 
+@class SentryDispatchQueueWrapper;
 
 SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 @interface SentryOnDemandReplay : NSObject <SentryReplayVideoMaker>
@@ -1675,8 +1853,8 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 @property (nonatomic) NSInteger bitRate;
 @property (nonatomic) NSInteger frameRate;
 @property (nonatomic) NSUInteger cacheMaxSize;
-- (nonnull instancetype)initWithOutputPath:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider;
+- (nonnull instancetype)initWithOutputPath:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath workingQueue:(SentryDispatchQueueWrapper * _Nonnull)workingQueue dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider;
 - (nonnull instancetype)initWithOutputPath:(NSString * _Nonnull)outputPath;
 - (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath;
 - (void)addFrameAsyncWithImage:(UIImage * _Nonnull)image forScreen:(NSString * _Nullable)forScreen;
@@ -1736,21 +1914,26 @@ SWIFT_CLASS("_TtC6Sentry21SentryRRWebVideoEvent")
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @protocol SentryRedactOptions
-@property (nonatomic, readonly) BOOL redactAllText;
-@property (nonatomic, readonly) BOOL redactAllImages;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull redactViewClasses;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, readonly) BOOL maskAllText;
+@property (nonatomic, readonly) BOOL maskAllImages;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
 
 @class UIView;
 
 SWIFT_CLASS("_TtC6Sentry22SentryRedactViewHelper")
 @interface SentryRedactViewHelper : NSObject
-+ (BOOL)shouldRedactView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
-+ (BOOL)shouldIgnoreView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
-+ (void)redactView:(UIView * _Nonnull)view;
-+ (void)ignoreView:(UIView * _Nonnull)view;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
++ (void)maskView:(UIView * _Nonnull)view;
++ (BOOL)shouldMaskView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)shouldUnmask:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (void)unmaskView:(UIView * _Nonnull)view;
++ (BOOL)shouldClipOut:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (void)clipOutView:(UIView * _Nonnull)view;
++ (BOOL)shouldRedactSwiftUI:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
++ (void)maskSwiftUI:(UIView * _Nonnull)view;
 @end
 
 @class SentryBreadcrumb;
@@ -1809,12 +1992,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllText;
+@property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllImages;
+@property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
 @property (nonatomic) enum SentryReplayQuality quality;
@@ -1822,12 +2005,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -1858,7 +2041,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate redactAllText:(BOOL)redactAllText redactAllImages:(BOOL)redactAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -1934,7 +2117,7 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, readonly) BOOL isRunning;
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
-- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue displayLinkWrapper:(SentryDisplayLinkWrapper * _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue displayLinkWrapper:(SentryDisplayLinkWrapper * _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nonnull)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -1955,11 +2138,18 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
 
+
+SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
+@interface SentrySwizzleClassNameExclude : NSObject
++ (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @class UIEvent;
 
 SWIFT_CLASS("_TtC6Sentry18SentryTouchTracker")
 @interface SentryTouchTracker : NSObject
-- (nonnull instancetype)initWithDateProvider:(SentryCurrentDateProvider * _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
 - (void)trackTouchFromEvent:(UIEvent * _Nonnull)event;
 - (void)flushFinishedEvents;
 - (NSArray<SentryRRWebEvent *> * _Nonnull)replayEventsFrom:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
@@ -1975,6 +2165,284 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceComponent SWIFT_COMPILE_NAME("component") = 4,
   kSentryTransactionNameSourceTask SWIFT_COMPILE_NAME("sourceTask") = 5,
 };
+
+@class SentryUserFeedbackWidgetConfiguration;
+@class SentryUserFeedbackFormConfiguration;
+
+/// The settings to use for how the user feedback form is presented, what data is required and how
+/// it’s submitted, and some auxiliary hooks to customize the workflow.
+SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
+@interface SentryUserFeedbackConfiguration : NSObject
+/// Configuration settings specific to the managed widget that displays the UI form.
+/// note:
+/// Default: <code>nil</code> to use the default widget settings.
+@property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
+/// Use a shake gesture to display the form.
+/// note:
+/// Default: <code>false</code>
+/// note:
+/// Setting this to true does not disable the widget. In order to do so, you must set <code>SentryUserFeedbackWidgetConfiguration.autoInject</code> to <code>false</code> using the <code>SentryUserFeedbackConfiguration.configureWidget</code> config builder.
+@property (nonatomic) BOOL useShakeGesture;
+/// Any time a user takes a screenshot, bring up the form with the screenshot attached.
+/// note:
+/// Default: <code>false</code>
+/// note:
+/// Setting this to true does not disable the widget. In order to do so, you must set <code>SentryUserFeedbackWidgetConfiguration.autoInject</code> to <code>false</code> using the <code>SentryUserFeedbackConfiguration.configureWidget</code> config builder.
+@property (nonatomic) BOOL showFormForScreenshots;
+/// Configuration settings specific to the managed UI form to gather user input.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
+/// Tags to set on the feedback event. This is a dictionary where keys are strings
+/// and values can be different data types such as <code>NSNumber</code>, <code>NSString</code>, etc.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable tags;
+/// Sets the email and name field text content to <code>SentryUser.email</code> and <code>SentryUser.name</code>.
+/// note:
+/// Default: <code>false</code>
+@property (nonatomic) BOOL useSentryUser;
+/// Called when the feedback form is opened.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable onFormOpen)(void);
+/// Called when the feedback form is closed.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable onFormClose)(void);
+/// Called when feedback is successfully submitted via the prepared form.
+/// The data dictionary contains the feedback details.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
+/// that function.
+@property (nonatomic, copy) void (^ _Nullable onSubmitSuccess)(NSDictionary<NSString *, id> * _Nonnull);
+/// Called when there is an error submitting feedback via the prepared form.
+/// The error object contains details of the error.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
+/// that function.
+@property (nonatomic, copy) void (^ _Nullable onSubmitError)(NSError * _Nonnull);
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class SentryUserFeedbackThemeConfiguration;
+
+/// Settings to control the behavior and appearance of the UI form.
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
+@interface SentryUserFeedbackFormConfiguration : NSObject
+/// Displays the Sentry logo inside of the form.
+/// note:
+/// Default: <code>true</code>
+@property (nonatomic) BOOL showBranding;
+/// The title at the top of the feedback form.
+/// note:
+/// Default: <code>"Report a Bug"</code>
+@property (nonatomic, copy) NSString * _Nonnull formTitle;
+/// The label for the feedback description input field.
+/// note:
+/// Default: <code>"Description"</code>
+@property (nonatomic, copy) NSString * _Nonnull messageLabel;
+/// The placeholder for the feedback description input field.
+/// note:
+/// Default: <code>"What's the bug? What did you expect?"</code>
+@property (nonatomic, copy) NSString * _Nonnull messagePlaceholder;
+/// The label shown next to an input field that is required.
+/// note:
+/// Default: <code>"(required)"</code>
+@property (nonatomic, copy) NSString * _Nonnull isRequiredLabel;
+/// The message displayed after a successful feedback submission.
+/// note:
+/// Default: <code>"Thank you for your report!"</code>
+@property (nonatomic, copy) NSString * _Nonnull successMessageText;
+/// Allows the user to send a screenshot attachment with their feedback.
+/// note:
+/// Default: <code>true</code>
+@property (nonatomic) BOOL enableScreenshot;
+/// The label of the button to add a screenshot to the form.
+/// note:
+/// Default: <code>"Add a screenshot"</code>
+/// note:
+/// ignored if <code>enableScreenshot</code> is <code>false</code>.`
+@property (nonatomic, copy) NSString * _Nonnull addScreenshotButtonLabel;
+/// The label of the button to remove the screenshot from the form.
+/// note:
+/// Default: <code>"Remove screenshot"</code>
+/// note:
+/// ignored if <code>enableScreenshot</code> is <code>false</code>.
+@property (nonatomic, copy) NSString * _Nonnull removeScreenshotButtonLabel;
+/// Requires the name field on the feedback form to be filled in.
+/// note:
+/// Default: <code>false</code>
+@property (nonatomic) BOOL isNameRequired;
+/// Displays the name field on the feedback form.
+/// note:
+/// Default: <code>true</code>
+/// note:
+/// ignored if <code>isNameRequired</code> is <code>true</code>.
+@property (nonatomic) BOOL showName;
+/// The label of the name input field.
+/// note:
+/// Default: <code>"Name"</code>
+/// note:
+/// ignored if <code>showName</code> is <code>false</code>.
+@property (nonatomic, copy) NSString * _Nonnull nameLabel;
+/// The placeholder for the name input field.
+/// note:
+/// Default: <code>"Your Name"</code>
+/// note:
+/// ignored if <code>showName</code> is <code>false</code>.
+@property (nonatomic, copy) NSString * _Nonnull namePlaceholder;
+/// Requires the email field on the feedback form to be filled in.
+/// note:
+/// Default: <code>false</code>
+@property (nonatomic) BOOL isEmailRequired;
+/// Displays the email field on the feedback form.
+/// note:
+/// Default: <code>true</code>
+/// note:
+/// ignored if <code>isEmailRequired</code> is <code>true</code>.
+@property (nonatomic) BOOL showEmail;
+/// The label of the email input field.
+/// note:
+/// Default: <code>"Email"</code>
+@property (nonatomic, copy) NSString * _Nonnull emailLabel;
+/// The placeholder for the email input field.
+/// note:
+/// Default: <code>"your.email@example.org"</code>
+@property (nonatomic, copy) NSString * _Nonnull emailPlaceholder;
+/// The label of the submit button used in the feedback form.
+/// note:
+/// Default: <code>"Send Bug Report"</code>
+@property (nonatomic, copy) NSString * _Nonnull submitButtonLabel;
+/// The accessibility label of the form’s “Submit” button.
+/// note:
+/// Default: <code>submitButtonLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable submitButtonAccessibilityLabel;
+/// The label of cancel buttons used in the feedback form.
+/// note:
+/// Default: <code>"Cancel"</code>
+@property (nonatomic, copy) NSString * _Nonnull cancelButtonLabel;
+/// The accessibility label of the form’s “Cancel” button.
+/// note:
+/// Default: <code>cancelButtonLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable cancelButtonAccessibilityLabel;
+/// The label of confirm buttons used in the feedback form.
+/// note:
+/// Default: <code>"Confirm"</code>
+@property (nonatomic, copy) NSString * _Nonnull confirmButtonLabel;
+/// The accessibility label of the form’s “Confirm” button.
+/// note:
+/// Default: <code>confirmButtonLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable confirmButtonAccessibilityLabel;
+/// Builder for default/light theme overrides.
+/// note:
+/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
+/// running on later versions that include dark mode should also consider <code>darkThemeOverrides</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable themeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
+/// mode, assign the same builder to this property as you do for <code>themeOverrides</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable darkThemeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIFont;
+@class UIColor;
+@class NSNumber;
+
+/// Settings for overriding theming components for the User Feedback Widget.
+SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
+@interface SentryUserFeedbackThemeConfiguration : NSObject
+/// The default font to use.
+/// note:
+/// Defaults to the current system default.
+@property (nonatomic, strong) UIFont * _Nullable font;
+/// Foreground text color.
+/// note:
+/// Default light mode: <code>rgb(43, 34, 51)</code>; dark mode: <code>rgb(235, 230, 239)</code>
+@property (nonatomic, strong) UIColor * _Nonnull foreground;
+/// Background color of the widget (injected button and form).
+/// note:
+/// Default light mode: <code>rgb(255, 255, 255)</code>; dark mode: <code>rgb(41, 35, 47)</code>
+@property (nonatomic, strong) UIColor * _Nonnull background;
+/// Foreground color for the submit button.
+/// note:
+/// Default: <code>rgb(255, 255, 255)</code> for both dark and light modes
+@property (nonatomic, strong) UIColor * _Nonnull accentForeground;
+/// Background color for the submit button in light and dark modes.
+/// note:
+/// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
+@property (nonatomic, strong) UIColor * _Nonnull accentBackground;
+/// Color used for success-related components (such as text color when feedback is submitted successfully).
+/// note:
+/// Default light mode: <code>rgb(38, 141, 117)</code>; dark mode: <code>rgb(45, 169, 140)</code>
+@property (nonatomic, strong) UIColor * _Nonnull successColor;
+/// Color used for error-related components (such as text color when there’s an error submitting feedback).
+/// note:
+/// Default light mode: <code>rgb(223, 51, 56)</code>; dark mode: <code>rgb(245, 84, 89)</code>
+@property (nonatomic, strong) UIColor * _Nonnull errorColor;
+/// Normal outline color for form inputs.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) UIColor * _Nullable outlineColor;
+/// Outline color for form inputs when focused.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) UIColor * _Nullable outlineColorFocussed;
+/// Normal outline thickness for form inputs.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) NSNumber * _Nullable outlineThickness;
+/// Outline thickness for form inputs when focused.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) NSNumber * _Nullable outlineThicknessFocussed;
+/// Outline corner radius for form input elements.
+/// note:
+/// Default: <code>nil (system default)</code>
+@property (nonatomic, strong) NSNumber * _Nullable cornerRadius;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// Settings for whether to show the widget and how it should appear.
+SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
+@interface SentryUserFeedbackWidgetConfiguration : NSObject
+/// Injects the Feedback widget into the application UI when the integration is added. Set to <code>false</code>
+/// if you want to call <code>attachToButton()</code> or <code>createWidget()</code> directly, or only want to show the
+/// widget on certain views.
+/// note:
+/// Default: <code>true</code>
+@property (nonatomic) BOOL autoInject;
+/// The label of the injected button that opens up the feedback form when clicked.
+/// note:
+/// Default: <code>"Report a Bug"</code>
+@property (nonatomic, copy) NSString * _Nonnull labelText;
+/// The accessibility label of the injected button that opens up the feedback form when clicked.
+/// note:
+/// Default: <code>triggerLabel</code> value
+@property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
+/// The window level of the widget.
+/// note:
+/// Default: <code>UIWindow.Level.normal + 1</code>
+@property (nonatomic) UIWindowLevel windowLevel;
+/// The location for positioning the widget.
+/// note:
+/// Default: <code>[.bottom, .right]</code>
+@property (nonatomic) UIRectEdge location;
+/// The distance to use from the widget button to the superview’s <code>layoutMarginsGuide</code>.
+/// note:
+/// Default: <code>UIOffset.zero</code>
+@property (nonatomic) UIOffset layoutUIOffset;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
 
 
 SWIFT_CLASS("_TtC6Sentry15SentryVideoInfo")

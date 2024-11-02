@@ -311,14 +311,6 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 @end
 
 
-/// Used for correlating metrics to spans. See https://github.com/getsentry/rfcs/blob/main/text/0123-metrics-correlation.md
-SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
-@interface LocalMetricsAggregator : NSObject
-- (NSDictionary<NSString *, NSArray<NSDictionary<NSString *, id> *> *> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 
 SWIFT_PROTOCOL_NAMED("SentryRRWebEventProtocol")
 @protocol SentryRRWebEvent <SentrySerializable>
@@ -350,6 +342,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@protocol SentryANRTrackerDelegate;
+
+SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
+@protocol SentryANRTracker
+- (void)addListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+- (void)removeListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+/// Only used for tests.
+- (void)clear;
+@end
+
 enum SentryANRType : NSInteger;
 
 /// The  methods are called from a  background thread.
@@ -366,6 +368,14 @@ typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
 };
 
 
+SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
+@interface SentryAppHangTypeMapper : NSObject
++ (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
 + (NSString * _Nonnull)encodeDictionary:(NSDictionary<NSString *, NSString *> * _Nonnull)dictionary SWIFT_WARN_UNUSED_RESULT;
@@ -374,18 +384,24 @@ SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry25SentryCurrentDateProvider")
-@interface SentryCurrentDateProvider : NSObject
+/// We need a protocol to expose SentryCurrentDateProvider to tests.
+/// Mocking the previous private class from <code>SentryTestUtils</code> stopped working in Xcode 16.
+SWIFT_PROTOCOL("_TtP6Sentry25SentryCurrentDateProvider_")
+@protocol SentryCurrentDateProvider
+- (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+- (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
+- (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
+@interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface SentryCurrentDateProvider (SWIFT_EXTENSION(Sentry))
-@property (nonatomic, readonly) uint64_t bucketTimestamp;
 @end
 
 @class SentryOptions;
@@ -491,80 +507,6 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @end
 
 
-@class SentryMetricsClient;
-@class SentryDispatchQueueWrapper;
-@protocol SentryRandom;
-@protocol SentryMetricsAPIDelegate;
-@class SentryMeasurementUnit;
-
-SWIFT_CLASS("_TtC6Sentry16SentryMetricsAPI")
-@interface SentryMetricsAPI : NSObject
-- (nonnull instancetype)initWithEnabled:(BOOL)enabled client:(SentryMetricsClient * _Nonnull)client currentDate:(SentryCurrentDateProvider * _Nonnull)currentDate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue random:(id <SentryRandom> _Nonnull)random beforeEmitMetric:(BOOL (^ _Nullable)(NSString * _Nonnull, NSDictionary<NSString *, NSString *> * _Nonnull))beforeEmitMetric OBJC_DESIGNATED_INITIALIZER;
-- (void)setDelegate:(id <SentryMetricsAPIDelegate> _Nullable)delegate;
-/// Emits a Counter metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)incrementWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Gauge metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)gaugeWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Distribution metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)distributionWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Set metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)setWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-- (void)close;
-- (void)flush;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-@protocol SentrySpan;
-
-SWIFT_PROTOCOL("_TtP6Sentry24SentryMetricsAPIDelegate_")
-@protocol SentryMetricsAPIDelegate
-- (NSDictionary<NSString *, NSString *> * _Nonnull)getDefaultTagsForMetrics SWIFT_WARN_UNUSED_RESULT;
-- (id <SentrySpan> _Nullable)getCurrentSpan SWIFT_WARN_UNUSED_RESULT;
-- (LocalMetricsAggregator * _Nullable)getLocalMetricsAggregatorWithSpan:(id <SentrySpan> _Nonnull)span SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class SentryStatsdClient;
-
-SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
-@interface SentryMetricsClient : NSObject
-- (nonnull instancetype)initWithClient:(SentryStatsdClient * _Nonnull)client OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
@@ -614,10 +556,10 @@ SWIFT_CLASS("_TtC6Sentry21SentryRRWebVideoEvent")
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @protocol SentryRedactOptions
-@property (nonatomic, readonly) BOOL redactAllText;
-@property (nonatomic, readonly) BOOL redactAllImages;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull redactViewClasses;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, readonly) BOOL maskAllText;
+@property (nonatomic, readonly) BOOL maskAllImages;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
 
 @class SentryBreadcrumb;
@@ -676,12 +618,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllText;
+@property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllImages;
+@property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
 @property (nonatomic) enum SentryReplayQuality quality;
@@ -689,12 +631,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -725,7 +667,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate redactAllText:(BOOL)redactAllText redactAllImages:(BOOL)redactAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -794,6 +736,13 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @protocol SentrySessionListener <NSObject>
 - (void)sentrySessionEnded:(SentrySession * _Nonnull)session;
 - (void)sentrySessionStarted:(SentrySession * _Nonnull)session;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
+@interface SentrySwizzleClassNameExclude : NSObject
++ (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
@@ -1176,14 +1125,6 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 @end
 
 
-/// Used for correlating metrics to spans. See https://github.com/getsentry/rfcs/blob/main/text/0123-metrics-correlation.md
-SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
-@interface LocalMetricsAggregator : NSObject
-- (NSDictionary<NSString *, NSArray<NSDictionary<NSString *, id> *> *> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 
 SWIFT_PROTOCOL_NAMED("SentryRRWebEventProtocol")
 @protocol SentryRRWebEvent <SentrySerializable>
@@ -1215,6 +1156,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@protocol SentryANRTrackerDelegate;
+
+SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
+@protocol SentryANRTracker
+- (void)addListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+- (void)removeListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+/// Only used for tests.
+- (void)clear;
+@end
+
 enum SentryANRType : NSInteger;
 
 /// The  methods are called from a  background thread.
@@ -1231,6 +1182,14 @@ typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
 };
 
 
+SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
+@interface SentryAppHangTypeMapper : NSObject
++ (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
 + (NSString * _Nonnull)encodeDictionary:(NSDictionary<NSString *, NSString *> * _Nonnull)dictionary SWIFT_WARN_UNUSED_RESULT;
@@ -1239,18 +1198,24 @@ SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry25SentryCurrentDateProvider")
-@interface SentryCurrentDateProvider : NSObject
+/// We need a protocol to expose SentryCurrentDateProvider to tests.
+/// Mocking the previous private class from <code>SentryTestUtils</code> stopped working in Xcode 16.
+SWIFT_PROTOCOL("_TtP6Sentry25SentryCurrentDateProvider_")
+@protocol SentryCurrentDateProvider
+- (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+- (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
+- (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
+@interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface SentryCurrentDateProvider (SWIFT_EXTENSION(Sentry))
-@property (nonatomic, readonly) uint64_t bucketTimestamp;
 @end
 
 @class SentryOptions;
@@ -1356,80 +1321,6 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @end
 
 
-@class SentryMetricsClient;
-@class SentryDispatchQueueWrapper;
-@protocol SentryRandom;
-@protocol SentryMetricsAPIDelegate;
-@class SentryMeasurementUnit;
-
-SWIFT_CLASS("_TtC6Sentry16SentryMetricsAPI")
-@interface SentryMetricsAPI : NSObject
-- (nonnull instancetype)initWithEnabled:(BOOL)enabled client:(SentryMetricsClient * _Nonnull)client currentDate:(SentryCurrentDateProvider * _Nonnull)currentDate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue random:(id <SentryRandom> _Nonnull)random beforeEmitMetric:(BOOL (^ _Nullable)(NSString * _Nonnull, NSDictionary<NSString *, NSString *> * _Nonnull))beforeEmitMetric OBJC_DESIGNATED_INITIALIZER;
-- (void)setDelegate:(id <SentryMetricsAPIDelegate> _Nullable)delegate;
-/// Emits a Counter metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)incrementWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Gauge metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)gaugeWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Distribution metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)distributionWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Set metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)setWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-- (void)close;
-- (void)flush;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-@protocol SentrySpan;
-
-SWIFT_PROTOCOL("_TtP6Sentry24SentryMetricsAPIDelegate_")
-@protocol SentryMetricsAPIDelegate
-- (NSDictionary<NSString *, NSString *> * _Nonnull)getDefaultTagsForMetrics SWIFT_WARN_UNUSED_RESULT;
-- (id <SentrySpan> _Nullable)getCurrentSpan SWIFT_WARN_UNUSED_RESULT;
-- (LocalMetricsAggregator * _Nullable)getLocalMetricsAggregatorWithSpan:(id <SentrySpan> _Nonnull)span SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class SentryStatsdClient;
-
-SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
-@interface SentryMetricsClient : NSObject
-- (nonnull instancetype)initWithClient:(SentryStatsdClient * _Nonnull)client OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
@@ -1479,10 +1370,10 @@ SWIFT_CLASS("_TtC6Sentry21SentryRRWebVideoEvent")
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @protocol SentryRedactOptions
-@property (nonatomic, readonly) BOOL redactAllText;
-@property (nonatomic, readonly) BOOL redactAllImages;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull redactViewClasses;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, readonly) BOOL maskAllText;
+@property (nonatomic, readonly) BOOL maskAllImages;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
 
 @class SentryBreadcrumb;
@@ -1541,12 +1432,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllText;
+@property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllImages;
+@property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
 @property (nonatomic) enum SentryReplayQuality quality;
@@ -1554,12 +1445,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -1590,7 +1481,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate redactAllText:(BOOL)redactAllText redactAllImages:(BOOL)redactAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -1659,6 +1550,13 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @protocol SentrySessionListener <NSObject>
 - (void)sentrySessionEnded:(SentrySession * _Nonnull)session;
 - (void)sentrySessionStarted:(SentrySession * _Nonnull)session;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
+@interface SentrySwizzleClassNameExclude : NSObject
++ (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
@@ -2041,14 +1939,6 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 @end
 
 
-/// Used for correlating metrics to spans. See https://github.com/getsentry/rfcs/blob/main/text/0123-metrics-correlation.md
-SWIFT_CLASS("_TtC6Sentry22LocalMetricsAggregator")
-@interface LocalMetricsAggregator : NSObject
-- (NSDictionary<NSString *, NSArray<NSDictionary<NSString *, id> *> *> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 
 SWIFT_PROTOCOL_NAMED("SentryRRWebEventProtocol")
 @protocol SentryRRWebEvent <SentrySerializable>
@@ -2080,6 +1970,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@protocol SentryANRTrackerDelegate;
+
+SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
+@protocol SentryANRTracker
+- (void)addListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+- (void)removeListener:(id <SentryANRTrackerDelegate> _Nonnull)listener;
+/// Only used for tests.
+- (void)clear;
+@end
+
 enum SentryANRType : NSInteger;
 
 /// The  methods are called from a  background thread.
@@ -2096,6 +1996,14 @@ typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
 };
 
 
+SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
+@interface SentryAppHangTypeMapper : NSObject
++ (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @interface SentryBaggageSerialization : NSObject
 + (NSString * _Nonnull)encodeDictionary:(NSDictionary<NSString *, NSString *> * _Nonnull)dictionary SWIFT_WARN_UNUSED_RESULT;
@@ -2104,18 +2012,24 @@ SWIFT_CLASS("_TtC6Sentry26SentryBaggageSerialization")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry25SentryCurrentDateProvider")
-@interface SentryCurrentDateProvider : NSObject
+/// We need a protocol to expose SentryCurrentDateProvider to tests.
+/// Mocking the previous private class from <code>SentryTestUtils</code> stopped working in Xcode 16.
+SWIFT_PROTOCOL("_TtP6Sentry25SentryCurrentDateProvider_")
+@protocol SentryCurrentDateProvider
+- (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+- (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
+- (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
+@interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-@interface SentryCurrentDateProvider (SWIFT_EXTENSION(Sentry))
-@property (nonatomic, readonly) uint64_t bucketTimestamp;
 @end
 
 @class SentryOptions;
@@ -2221,80 +2135,6 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @end
 
 
-@class SentryMetricsClient;
-@class SentryDispatchQueueWrapper;
-@protocol SentryRandom;
-@protocol SentryMetricsAPIDelegate;
-@class SentryMeasurementUnit;
-
-SWIFT_CLASS("_TtC6Sentry16SentryMetricsAPI")
-@interface SentryMetricsAPI : NSObject
-- (nonnull instancetype)initWithEnabled:(BOOL)enabled client:(SentryMetricsClient * _Nonnull)client currentDate:(SentryCurrentDateProvider * _Nonnull)currentDate dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue random:(id <SentryRandom> _Nonnull)random beforeEmitMetric:(BOOL (^ _Nullable)(NSString * _Nonnull, NSDictionary<NSString *, NSString *> * _Nonnull))beforeEmitMetric OBJC_DESIGNATED_INITIALIZER;
-- (void)setDelegate:(id <SentryMetricsAPIDelegate> _Nullable)delegate;
-/// Emits a Counter metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)incrementWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Gauge metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)gaugeWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Distribution metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)distributionWithKey:(NSString * _Nonnull)key value:(double)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-/// Emits a Set metric.
-/// \param key A unique key identifying the metric.
-///
-/// \param value The value to be added.
-///
-/// \param unit The value for the metric see <code>MeasurementUnit</code>.
-///
-/// \param tags Tags to associate with the metric.
-///
-- (void)setWithKey:(NSString * _Nonnull)key value:(NSString * _Nonnull)value unit:(SentryMeasurementUnit * _Nonnull)unit tags:(NSDictionary<NSString *, NSString *> * _Nonnull)tags;
-- (void)close;
-- (void)flush;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-@protocol SentrySpan;
-
-SWIFT_PROTOCOL("_TtP6Sentry24SentryMetricsAPIDelegate_")
-@protocol SentryMetricsAPIDelegate
-- (NSDictionary<NSString *, NSString *> * _Nonnull)getDefaultTagsForMetrics SWIFT_WARN_UNUSED_RESULT;
-- (id <SentrySpan> _Nullable)getCurrentSpan SWIFT_WARN_UNUSED_RESULT;
-- (LocalMetricsAggregator * _Nullable)getLocalMetricsAggregatorWithSpan:(id <SentrySpan> _Nonnull)span SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class SentryStatsdClient;
-
-SWIFT_CLASS("_TtC6Sentry19SentryMetricsClient")
-@interface SentryMetricsClient : NSObject
-- (nonnull instancetype)initWithClient:(SentryStatsdClient * _Nonnull)client OBJC_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
@@ -2344,10 +2184,10 @@ SWIFT_CLASS("_TtC6Sentry21SentryRRWebVideoEvent")
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @protocol SentryRedactOptions
-@property (nonatomic, readonly) BOOL redactAllText;
-@property (nonatomic, readonly) BOOL redactAllImages;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull redactViewClasses;
-@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, readonly) BOOL maskAllText;
+@property (nonatomic, readonly) BOOL maskAllImages;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
 
 @class SentryBreadcrumb;
@@ -2406,12 +2246,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllText;
+@property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
 /// The default is true
-@property (nonatomic) BOOL redactAllImages;
+@property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
 @property (nonatomic) enum SentryReplayQuality quality;
@@ -2419,12 +2259,12 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull redactViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
-@property (nonatomic, copy) NSArray<Class> * _Nonnull ignoreViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -2455,7 +2295,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate redactAllText:(BOOL)redactAllText redactAllImages:(BOOL)redactAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -2524,6 +2364,13 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @protocol SentrySessionListener <NSObject>
 - (void)sentrySessionEnded:(SentrySession * _Nonnull)session;
 - (void)sentrySessionStarted:(SentrySession * _Nonnull)session;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
+@interface SentrySwizzleClassNameExclude : NSObject
++ (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {

@@ -99,13 +99,6 @@
       },
       {
         "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "Import",
         "name": "_SentryPrivate",
         "printedName": "_SentryPrivate",
         "declKind": "Import",
@@ -147,13 +140,6 @@
       },
       {
         "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "Import",
         "name": "_SentryPrivate",
         "printedName": "_SentryPrivate",
         "declKind": "Import",
@@ -161,13 +147,6 @@
         "declAttributes": [
           "ImplementationOnly"
         ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
       },
       {
         "kind": "Import",
@@ -776,6 +755,13 @@
       },
       {
         "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
         "name": "UIKit",
         "printedName": "UIKit",
         "declKind": "Import",
@@ -1241,8 +1227,8 @@
           },
           {
             "kind": "Var",
-            "name": "redactAllText",
-            "printedName": "redactAllText",
+            "name": "maskAllText",
+            "printedName": "maskAllText",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1252,10 +1238,10 @@
               }
             ],
             "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)redactAllText",
-            "mangledName": "$s6Sentry0A13ReplayOptionsC13redactAllTextSbvp",
+            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)maskAllText",
+            "mangledName": "$s6Sentry0A13ReplayOptionsC11maskAllTextSbvp",
             "moduleName": "Sentry",
-            "objc_name": "redactAllText",
+            "objc_name": "maskAllText",
             "declAttributes": [
               "HasInitialValue",
               "ObjC",
@@ -1278,11 +1264,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)redactAllText",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC13redactAllTextSbvg",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)maskAllText",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC11maskAllTextSbvg",
                 "moduleName": "Sentry",
                 "implicit": true,
-                "objc_name": "redactAllText",
+                "objc_name": "maskAllText",
                 "declAttributes": [
                   "ObjC"
                 ],
@@ -1306,8 +1292,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setRedactAllText:",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC13redactAllTextSbvs",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setMaskAllText:",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC11maskAllTextSbvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -1327,8 +1313,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A13ReplayOptionsC13redactAllTextSbvM",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC13redactAllTextSbvM",
+                "usr": "s:6Sentry0A13ReplayOptionsC11maskAllTextSbvM",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC11maskAllTextSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "accessorKind": "_modify"
@@ -1337,8 +1323,8 @@
           },
           {
             "kind": "Var",
-            "name": "redactAllImages",
-            "printedName": "redactAllImages",
+            "name": "maskAllImages",
+            "printedName": "maskAllImages",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1348,10 +1334,10 @@
               }
             ],
             "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)redactAllImages",
-            "mangledName": "$s6Sentry0A13ReplayOptionsC15redactAllImagesSbvp",
+            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)maskAllImages",
+            "mangledName": "$s6Sentry0A13ReplayOptionsC13maskAllImagesSbvp",
             "moduleName": "Sentry",
-            "objc_name": "redactAllImages",
+            "objc_name": "maskAllImages",
             "declAttributes": [
               "HasInitialValue",
               "ObjC",
@@ -1374,11 +1360,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)redactAllImages",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC15redactAllImagesSbvg",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)maskAllImages",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13maskAllImagesSbvg",
                 "moduleName": "Sentry",
                 "implicit": true,
-                "objc_name": "redactAllImages",
+                "objc_name": "maskAllImages",
                 "declAttributes": [
                   "ObjC"
                 ],
@@ -1402,8 +1388,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setRedactAllImages:",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC15redactAllImagesSbvs",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setMaskAllImages:",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13maskAllImagesSbvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -1423,8 +1409,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A13ReplayOptionsC15redactAllImagesSbvM",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC15redactAllImagesSbvM",
+                "usr": "s:6Sentry0A13ReplayOptionsC13maskAllImagesSbvM",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13maskAllImagesSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "accessorKind": "_modify"
@@ -1527,8 +1513,8 @@
           },
           {
             "kind": "Var",
-            "name": "redactViewClasses",
-            "printedName": "redactViewClasses",
+            "name": "maskedViewClasses",
+            "printedName": "maskedViewClasses",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1552,10 +1538,10 @@
               }
             ],
             "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)redactViewClasses",
-            "mangledName": "$s6Sentry0A13ReplayOptionsC17redactViewClassesSayyXlXpGvp",
+            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)maskedViewClasses",
+            "mangledName": "$s6Sentry0A13ReplayOptionsC17maskedViewClassesSayyXlXpGvp",
             "moduleName": "Sentry",
-            "objc_name": "redactViewClasses",
+            "objc_name": "maskedViewClasses",
             "declAttributes": [
               "HasInitialValue",
               "ObjC",
@@ -1592,11 +1578,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)redactViewClasses",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC17redactViewClassesSayyXlXpGvg",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)maskedViewClasses",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC17maskedViewClassesSayyXlXpGvg",
                 "moduleName": "Sentry",
                 "implicit": true,
-                "objc_name": "redactViewClasses",
+                "objc_name": "maskedViewClasses",
                 "declAttributes": [
                   "ObjC"
                 ],
@@ -1634,8 +1620,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setRedactViewClasses:",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC17redactViewClassesSayyXlXpGvs",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setMaskedViewClasses:",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC17maskedViewClassesSayyXlXpGvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -1655,8 +1641,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A13ReplayOptionsC17redactViewClassesSayyXlXpGvM",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC17redactViewClassesSayyXlXpGvM",
+                "usr": "s:6Sentry0A13ReplayOptionsC17maskedViewClassesSayyXlXpGvM",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC17maskedViewClassesSayyXlXpGvM",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "accessorKind": "_modify"
@@ -1665,8 +1651,8 @@
           },
           {
             "kind": "Var",
-            "name": "ignoreViewClasses",
-            "printedName": "ignoreViewClasses",
+            "name": "unmaskedViewClasses",
+            "printedName": "unmaskedViewClasses",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1690,10 +1676,10 @@
               }
             ],
             "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)ignoreViewClasses",
-            "mangledName": "$s6Sentry0A13ReplayOptionsC17ignoreViewClassesSayyXlXpGvp",
+            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(py)unmaskedViewClasses",
+            "mangledName": "$s6Sentry0A13ReplayOptionsC19unmaskedViewClassesSayyXlXpGvp",
             "moduleName": "Sentry",
-            "objc_name": "ignoreViewClasses",
+            "objc_name": "unmaskedViewClasses",
             "declAttributes": [
               "HasInitialValue",
               "ObjC",
@@ -1730,11 +1716,11 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)ignoreViewClasses",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC17ignoreViewClassesSayyXlXpGvg",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)unmaskedViewClasses",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC19unmaskedViewClassesSayyXlXpGvg",
                 "moduleName": "Sentry",
                 "implicit": true,
-                "objc_name": "ignoreViewClasses",
+                "objc_name": "unmaskedViewClasses",
                 "declAttributes": [
                   "ObjC"
                 ],
@@ -1772,8 +1758,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setIgnoreViewClasses:",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC17ignoreViewClassesSayyXlXpGvs",
+                "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)setUnmaskedViewClasses:",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC19unmaskedViewClassesSayyXlXpGvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -1793,8 +1779,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A13ReplayOptionsC17ignoreViewClassesSayyXlXpGvM",
-                "mangledName": "$s6Sentry0A13ReplayOptionsC17ignoreViewClassesSayyXlXpGvM",
+                "usr": "s:6Sentry0A13ReplayOptionsC19unmaskedViewClassesSayyXlXpGvM",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC19unmaskedViewClassesSayyXlXpGvM",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "accessorKind": "_modify"
@@ -1831,7 +1817,7 @@
           {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(sessionSampleRate:onErrorSampleRate:redactAllText:redactAllImages:)",
+            "printedName": "init(sessionSampleRate:onErrorSampleRate:maskAllText:maskAllImages:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -1869,8 +1855,8 @@
               }
             ],
             "declKind": "Constructor",
-            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)initWithSessionSampleRate:onErrorSampleRate:redactAllText:redactAllImages:",
-            "mangledName": "$s6Sentry0A13ReplayOptionsC17sessionSampleRate07onErroreF013redactAllText0iJ6ImagesACSf_SfS2btcfc",
+            "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions(im)initWithSessionSampleRate:onErrorSampleRate:maskAllText:maskAllImages:",
+            "mangledName": "$s6Sentry0A13ReplayOptionsC17sessionSampleRate07onErroreF011maskAllText0iJ6ImagesACSf_SfS2btcfc",
             "moduleName": "Sentry",
             "declAttributes": [
               "AccessControl",
@@ -2414,13 +2400,24 @@
       },
       {
         "kind": "Import",
-        "name": "_SentryPrivate",
-        "printedName": "_SentryPrivate",
+        "name": "Foundation",
+        "printedName": "Foundation",
         "declKind": "Import",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "ImplementationOnly"
-        ]
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
       },
       {
         "kind": "Import",
@@ -2582,23 +2579,6 @@
         "declAttributes": [
           "AccessControl",
           "ObjC"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "Import",
-        "name": "_SentryPrivate",
-        "printedName": "_SentryPrivate",
-        "declKind": "Import",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "ImplementationOnly"
         ]
       },
       {
@@ -3126,501 +3106,6 @@
         "moduleName": "Sentry"
       },
       {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "Import",
-        "name": "_SentryPrivate",
-        "printedName": "_SentryPrivate",
-        "declKind": "Import",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "ImplementationOnly"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "SentryMetricsAPI",
-        "printedName": "SentryMetricsAPI",
-        "children": [
-          {
-            "kind": "Function",
-            "name": "increment",
-            "printedName": "increment(key:value:unit:tags:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Double",
-                "printedName": "Swift.Double",
-                "hasDefaultArg": true,
-                "usr": "s:Sd"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "MeasurementUnit",
-                "printedName": "Sentry.MeasurementUnit",
-                "hasDefaultArg": true,
-                "usr": "c:objc(cs)SentryMeasurementUnit"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Swift.String]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:SD"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)incrementWithKey:value:unit:tags:",
-            "mangledName": "$s6Sentry0A10MetricsAPIC9increment3key5value4unit4tagsySS_SdSo0A15MeasurementUnitCSDyS2SGtF",
-            "moduleName": "Sentry",
-            "objc_name": "incrementWithKey:value:unit:tags:",
-            "declAttributes": [
-              "AccessControl",
-              "ObjC",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "gauge",
-            "printedName": "gauge(key:value:unit:tags:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Double",
-                "printedName": "Swift.Double",
-                "usr": "s:Sd"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "MeasurementUnit",
-                "printedName": "Sentry.MeasurementUnit",
-                "hasDefaultArg": true,
-                "usr": "c:objc(cs)SentryMeasurementUnit"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Swift.String]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:SD"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)gaugeWithKey:value:unit:tags:",
-            "mangledName": "$s6Sentry0A10MetricsAPIC5gauge3key5value4unit4tagsySS_SdSo0A15MeasurementUnitCSDyS2SGtF",
-            "moduleName": "Sentry",
-            "objc_name": "gaugeWithKey:value:unit:tags:",
-            "declAttributes": [
-              "AccessControl",
-              "ObjC",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "distribution",
-            "printedName": "distribution(key:value:unit:tags:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Double",
-                "printedName": "Swift.Double",
-                "usr": "s:Sd"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "MeasurementUnit",
-                "printedName": "Sentry.MeasurementUnit",
-                "hasDefaultArg": true,
-                "usr": "c:objc(cs)SentryMeasurementUnit"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Swift.String]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:SD"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)distributionWithKey:value:unit:tags:",
-            "mangledName": "$s6Sentry0A10MetricsAPIC12distribution3key5value4unit4tagsySS_SdSo0A15MeasurementUnitCSDyS2SGtF",
-            "moduleName": "Sentry",
-            "objc_name": "distributionWithKey:value:unit:tags:",
-            "declAttributes": [
-              "AccessControl",
-              "ObjC",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "set",
-            "printedName": "set(key:value:unit:tags:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "MeasurementUnit",
-                "printedName": "Sentry.MeasurementUnit",
-                "hasDefaultArg": true,
-                "usr": "c:objc(cs)SentryMeasurementUnit"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Swift.String]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:SD"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)setWithKey:value:unit:tags:",
-            "mangledName": "$s6Sentry0A10MetricsAPIC3set3key5value4unit4tagsySS_SSSo0A15MeasurementUnitCSDyS2SGtF",
-            "moduleName": "Sentry",
-            "objc_name": "setWithKey:value:unit:tags:",
-            "declAttributes": [
-              "AccessControl",
-              "ObjC",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "timing",
-            "printedName": "timing(key:tags:_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "GenericTypeParam",
-                "printedName": "τ_0_0"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Dictionary",
-                "printedName": "[Swift.String : Swift.String]",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:SD"
-              },
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "() throws -> τ_0_0",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "GenericTypeParam",
-                    "printedName": "τ_0_0"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "typeAttributes": [
-                  "noescape"
-                ]
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:6Sentry0A10MetricsAPIC6timing3key4tags_xSS_SDyS2SGxyKXEtKlF",
-            "mangledName": "$s6Sentry0A10MetricsAPIC6timing3key4tags_xSS_SDyS2SGxyKXEtKlF",
-            "moduleName": "Sentry",
-            "genericSig": "<τ_0_0>",
-            "sugared_genericSig": "<T>",
-            "declAttributes": [
-              "Rethrows",
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "close",
-            "printedName": "close()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)close",
-            "mangledName": "$s6Sentry0A10MetricsAPIC5closeyyF",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "AccessControl",
-              "ObjC"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "flush",
-            "printedName": "flush()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)flush",
-            "mangledName": "$s6Sentry0A10MetricsAPIC5flushyyF",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "AccessControl",
-              "ObjC"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "SentryMetricsAPI",
-                "printedName": "Sentry.SentryMetricsAPI",
-                "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI(im)init",
-            "mangledName": "$s6Sentry0A10MetricsAPICACycfc",
-            "moduleName": "Sentry",
-            "overriding": true,
-            "implicit": true,
-            "objc_name": "init",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC",
-              "Override"
-            ],
-            "init_kind": "Designated"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "c:@M@Sentry@objc(cs)SentryMetricsAPI",
-        "mangledName": "$s6Sentry0A10MetricsAPIC",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "AccessControl",
-          "ObjC"
-        ],
-        "superclassUsr": "c:objc(cs)NSObject",
-        "hasMissingDesignatedInitializers": true,
-        "superclassNames": [
-          "ObjectiveC.NSObject"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CVarArg",
-            "printedName": "CVarArg",
-            "usr": "s:s7CVarArgP",
-            "mangledName": "$ss7CVarArgP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObservingPublishing",
-            "printedName": "_KeyValueCodingAndObservingPublishing",
-            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
-            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObserving",
-            "printedName": "_KeyValueCodingAndObserving",
-            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
-            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomStringConvertible",
-            "printedName": "CustomStringConvertible",
-            "usr": "s:s23CustomStringConvertibleP",
-            "mangledName": "$ss23CustomStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomDebugStringConvertible",
-            "printedName": "CustomDebugStringConvertible",
-            "usr": "s:s28CustomDebugStringConvertibleP",
-            "mangledName": "$ss28CustomDebugStringConvertibleP"
-          }
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "FixedWidthInteger",
         "printedName": "FixedWidthInteger",
@@ -3742,34 +3227,6 @@
     "json_format_version": 8
   },
   "ConstValues": [
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRTrackerV2Delegate.swift",
-      "kind": "IntegerLiteral",
-      "offset": 247,
-      "length": 16,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRTrackerV2Delegate.swift",
-      "kind": "IntegerLiteral",
-      "offset": 273,
-      "length": 7,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRTrackerV2Delegate.swift",
-      "kind": "IntegerLiteral",
-      "offset": 247,
-      "length": 16,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRTrackerV2Delegate.swift",
-      "kind": "IntegerLiteral",
-      "offset": 273,
-      "length": 7,
-      "value": "2"
-    },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayType.swift",
       "kind": "IntegerLiteral",
@@ -4128,237 +3585,6 @@
       "value": "\"application\/json\""
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 321,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 562,
-      "length": 3,
-      "value": "\"@\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 733,
-      "length": 21,
-      "value": "\":\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 753,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 803,
-      "length": 3,
-      "value": "\"|\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "BooleanLiteral",
-      "offset": 890,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1081,
-      "length": 4,
-      "value": "\"|#\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1118,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1189,
-      "length": 3,
-      "value": "\",\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1249,
-      "length": 21,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1268,
-      "length": 1,
-      "value": "\":\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1402,
-      "length": 4,
-      "value": "\"|T\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1440,
-      "length": 14,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1453,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1488,
-      "length": 4,
-      "value": "\"\n\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1734,
-      "length": 15,
-      "value": "\"[^a-zA-Z0-9_]\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1757,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1958,
-      "length": 18,
-      "value": "\"[^a-zA-Z0-9_.-]+\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 1984,
-      "length": 3,
-      "value": "\"_\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2180,
-      "length": 19,
-      "value": "\"[^a-zA-Z0-9_\/.-]+\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2207,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2363,
-      "length": 4,
-      "value": "\"\\\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2375,
-      "length": 8,
-      "value": "\"\\\\\\\\\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2430,
-      "length": 4,
-      "value": "\"\n\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2442,
-      "length": 7,
-      "value": "\"\\\\n\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2496,
-      "length": 4,
-      "value": "\"\r\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2508,
-      "length": 7,
-      "value": "\"\\\\r\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2562,
-      "length": 4,
-      "value": "\"\t\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2574,
-      "length": 7,
-      "value": "\"\\\\t\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2628,
-      "length": 3,
-      "value": "\"|\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2639,
-      "length": 11,
-      "value": "\"\\\\u{7c}\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2695,
-      "length": 3,
-      "value": "\",\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/EncodeMetrics.swift",
-      "kind": "StringLiteral",
-      "offset": 2706,
-      "length": 11,
-      "value": "\"\\\\u{2c}\""
-    },
-    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "BooleanLiteral",
       "offset": 139,
@@ -4415,25 +3641,74 @@
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/DistributionMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 478,
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "IntegerLiteral",
+      "offset": 64,
+      "length": 16,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "IntegerLiteral",
+      "offset": 90,
       "length": 7,
-      "value": "\"\""
+      "value": "2"
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/DistributionMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 484,
-      "length": 3,
-      "value": "\"\""
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "IntegerLiteral",
+      "offset": 64,
+      "length": 16,
+      "value": "1"
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/DistributionMetric.swift",
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "IntegerLiteral",
+      "offset": 90,
+      "length": 7,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
       "kind": "StringLiteral",
-      "offset": 25,
-      "length": 18,
-      "value": "\"Sentry.DistributionMetric\""
+      "offset": 220,
+      "length": 27,
+      "value": "\"App Hanging Fully Blocked\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "StringLiteral",
+      "offset": 280,
+      "length": 31,
+      "value": "\"App Hanging Non Fully Blocked\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "StringLiteral",
+      "offset": 335,
+      "length": 13,
+      "value": "\"App Hanging\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "StringLiteral",
+      "offset": 220,
+      "length": 27,
+      "value": "\"App Hanging Fully Blocked\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "StringLiteral",
+      "offset": 280,
+      "length": 31,
+      "value": "\"App Hanging Non Fully Blocked\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/ANR\/SentryANRType.swift",
+      "kind": "StringLiteral",
+      "offset": 335,
+      "length": 13,
+      "value": "\"App Hanging\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayRecording.swift",
@@ -4490,104 +3765,6 @@
       "offset": 81,
       "length": 21,
       "value": "\"Sentry.SentryReplayRecording\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "IntegerLiteral",
-      "offset": 217,
-      "length": 1,
-      "value": "5"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "IntegerLiteral",
-      "offset": 428,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "IntegerLiteral",
-      "offset": 669,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 729,
-      "length": 9,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 737,
-      "length": 4,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 740,
-      "length": 8,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 747,
-      "length": 4,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 750,
-      "length": 8,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 757,
-      "length": 4,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 760,
-      "length": 8,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 767,
-      "length": 4,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 770,
-      "length": 10,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 779,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/GaugeMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 25,
-      "length": 11,
-      "value": "\"Sentry.GaugeMetric\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SentryTransactionNameSource.swift",
@@ -4767,182 +3944,182 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 1498,
+      "offset": 1496,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 1731,
+      "offset": 1727,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2750,
+      "offset": 2748,
       "length": 6,
       "value": "20000"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2759,
+      "offset": 2757,
       "length": 6,
       "value": "20000"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2926,
+      "offset": 2924,
       "length": 3,
       "value": "0.8"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2932,
+      "offset": 2930,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3192,
+      "offset": 3190,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3208,
+      "offset": 3206,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3144,
+      "offset": 3142,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3353,
+      "offset": 3351,
       "length": 2,
       "value": "30"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3488,
+      "offset": 3486,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3600,
+      "offset": 3598,
       "length": 5,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3741,
+      "offset": 3739,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3776,
+      "offset": 3774,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4135,
+      "offset": 4133,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4165,
+      "offset": 4163,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4190,
+      "offset": 4186,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4220,
+      "offset": 4214,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4525,
+      "offset": 4511,
       "length": 19,
       "value": "\"sessionSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4575,
+      "offset": 4561,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4621,
+      "offset": 4607,
       "length": 17,
       "value": "\"errorSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4669,
+      "offset": 4655,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4711,
-      "length": 15,
-      "value": "\"redactAllText\""
+      "offset": 4695,
+      "length": 13,
+      "value": "\"maskAllText\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4756,
+      "offset": 4738,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4803,
-      "length": 17,
-      "value": "\"redactAllImages\""
+      "offset": 4783,
+      "length": 15,
+      "value": "\"maskAllImages\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4850,
+      "offset": 4828,
       "length": 4,
       "value": "true"
     },
@@ -4954,214 +4131,18 @@
       "value": "[\"X-FORWARDED-FOR\", \"AUTHORIZATION\", \"COOKIE\", \"SET-COOKIE\", \"X-API-KEY\", \"X-REAL-IP\", \"REMOTE-ADDR\", \"FORWARDED\", \"PROXY-AUTHORIZATION\", \"X-CSRF-TOKEN\", \"X-CSRFTOKEN\", \"X-XSRF-TOKEN\"]"
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 530,
-      "length": 3,
-      "value": "\"c\""
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
+      "kind": "BooleanLiteral",
+      "offset": 301,
+      "length": 4,
+      "value": "true"
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 551,
-      "length": 3,
-      "value": "\"g\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 579,
-      "length": 3,
-      "value": "\"d\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 598,
-      "length": 3,
-      "value": "\"s\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 530,
-      "length": 3,
-      "value": "\"c\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 551,
-      "length": 3,
-      "value": "\"g\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 579,
-      "length": 3,
-      "value": "\"d\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 598,
-      "length": 3,
-      "value": "\"s\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 530,
-      "length": 3,
-      "value": "\"c\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 551,
-      "length": 3,
-      "value": "\"g\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 579,
-      "length": 3,
-      "value": "\"d\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/Metric.swift",
-      "kind": "StringLiteral",
-      "offset": 598,
-      "length": 3,
-      "value": "\"s\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "Dictionary",
-      "offset": 428,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 622,
-      "length": 25,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 639,
-      "length": 1,
-      "value": "\":\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 646,
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
+      "kind": "BooleanLiteral",
+      "offset": 345,
       "length": 5,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 650,
-      "length": 38,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 667,
-      "length": 1,
-      "value": "\":\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 674,
-      "length": 1,
-      "value": "\"@\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 687,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "Dictionary",
-      "offset": 827,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 926,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1201,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "Dictionary",
-      "offset": 1559,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "Array",
-      "offset": 1732,
-      "length": 2,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 1851,
-      "length": 5,
-      "value": "\"min\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 1894,
-      "length": 5,
-      "value": "\"max\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 1937,
-      "length": 7,
-      "value": "\"count\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 1984,
-      "length": 5,
-      "value": "\"sum\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/LocalMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 2099,
-      "length": 6,
-      "value": "\"tags\""
+      "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/Log\/SentryLevel.swift",
@@ -5253,13 +4234,6 @@
       "offset": 569,
       "length": 1,
       "value": "5"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsClient.swift",
-      "kind": "StringLiteral",
-      "offset": 74,
-      "length": 19,
-      "value": "\"Sentry.SentryMetricsClient\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebCustomEvent.swift",
@@ -5612,195 +4586,6 @@
       "value": "\"Sentry.SentryFramesDelayResult\""
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/MetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 928,
-      "length": 23,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/MetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 938,
-      "length": 1,
-      "value": "\"=\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/MetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 950,
-      "length": 24,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/MetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 973,
-      "length": 3,
-      "value": "\",\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 231,
-      "length": 2,
-      "value": "10"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1062,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "Dictionary",
-      "offset": 1127,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1438,
-      "length": 5,
-      "value": "1000"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "FloatLiteral",
-      "offset": 1483,
-      "length": 4,
-      "value": "10.0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "FloatLiteral",
-      "offset": 1528,
-      "length": 3,
-      "value": "0.5"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "Array",
-      "offset": 2455,
-      "length": 2,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2595,
-      "length": 5,
-      "value": "1000"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 2813,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 5279,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 6242,
-      "length": 40,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 6250,
-      "length": 1,
-      "value": "\"_\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 6257,
-      "length": 1,
-      "value": "\"_\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 6270,
-      "length": 1,
-      "value": "\"_\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "StringLiteral",
-      "offset": 6281,
-      "length": 1,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 6370,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "Dictionary",
-      "offset": 6458,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 6519,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 7627,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "Dictionary",
-      "offset": 7755,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 8029,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "IntegerLiteral",
-      "offset": 8486,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/BucketsMetricsAggregator.swift",
-      "kind": "BooleanLiteral",
-      "offset": 9005,
-      "length": 4,
-      "value": "true"
-    },
-    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebVideoEvent.swift",
       "kind": "StringLiteral",
       "offset": 402,
@@ -5946,13 +4731,6 @@
       "offset": 1101,
       "length": 23,
       "value": "\"swiftAsyncStacktraces\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/SentryEnabledFeaturesBuilder.swift",
-      "kind": "StringLiteral",
-      "offset": 1208,
-      "length": 9,
-      "value": "\"metrics\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySRDefaultBreadcrumbConverter.swift",
@@ -6312,137 +5090,11 @@
       "value": "false"
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/CounterMetric.swift",
-      "kind": "IntegerLiteral",
-      "offset": 103,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/CounterMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 406,
-      "length": 10,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/CounterMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 415,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/CounterMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 25,
-      "length": 13,
-      "value": "\"Sentry.CounterMetric\""
-    },
-    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Extensions\/NumberExtensions.swift",
       "kind": "IntegerLiteral",
       "offset": 170,
       "length": 1,
       "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SetMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 437,
-      "length": 7,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SetMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 443,
-      "length": 3,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SetMetric.swift",
-      "kind": "StringLiteral",
-      "offset": 25,
-      "length": 9,
-      "value": "\"Sentry.SetMetric\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1542,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "FloatLiteral",
-      "offset": 2102,
-      "length": 3,
-      "value": "1.0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "Dictionary",
-      "offset": 2163,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "Dictionary",
-      "offset": 2785,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "Dictionary",
-      "offset": 3408,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "Dictionary",
-      "offset": 4020,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "Dictionary",
-      "offset": 4754,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "StringLiteral",
-      "offset": 4986,
-      "length": 15,
-      "value": "\"metric.timing\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "BooleanLiteral",
-      "offset": 5882,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "Dictionary",
-      "offset": 6194,
-      "length": 3,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Metrics\/SentryMetricsAPI.swift",
-      "kind": "StringLiteral",
-      "offset": 861,
-      "length": 16,
-      "value": "\"Sentry.SentryMetricsAPI\""
     }
   ]
 }
