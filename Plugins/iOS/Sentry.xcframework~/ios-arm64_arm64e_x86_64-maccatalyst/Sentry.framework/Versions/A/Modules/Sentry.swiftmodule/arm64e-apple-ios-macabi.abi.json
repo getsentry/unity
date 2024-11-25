@@ -123,6 +123,30 @@
       },
       {
         "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -952,6 +976,30 @@
       },
       {
         "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -1136,6 +1184,46 @@
                 "fixedbinaryorder": 2
               },
               {
+                "kind": "Var",
+                "name": "description",
+                "printedName": "description",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC0aB7QualityO11descriptionSSvp",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC0aB7QualityO11descriptionSSvp",
+                "moduleName": "Sentry",
+                "declAttributes": [
+                  "AccessControl"
+                ],
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC0aB7QualityO11descriptionSSvg",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC0aB7QualityO11descriptionSSvg",
+                    "moduleName": "Sentry",
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
                 "kind": "Constructor",
                 "name": "init",
                 "printedName": "init(rawValue:)",
@@ -1254,6 +1342,13 @@
                 ],
                 "usr": "s:SY",
                 "mangledName": "$sSY"
+              },
+              {
+                "kind": "Conformance",
+                "name": "CustomStringConvertible",
+                "printedName": "CustomStringConvertible",
+                "usr": "s:s23CustomStringConvertibleP",
+                "mangledName": "$ss23CustomStringConvertibleP"
               }
             ]
           },
@@ -2336,6 +2431,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC15configureWidgetyAA0abcfD0CcSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -2430,6 +2529,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC15useShakeGestureSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -2524,6 +2627,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC22showFormForScreenshotsSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -2678,6 +2785,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC13configureFormyAA0abcfD0CcSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -2835,6 +2946,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC4tagsSDySSypGSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -2929,6 +3044,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC03useaB0SbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -3080,6 +3199,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC10onFormOpenyycSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -3231,6 +3354,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC11onFormCloseyycSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -3424,6 +3551,10 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC15onSubmitSuccessySDySSypGcSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -3578,6 +3709,326 @@
                 "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC13onSubmitErrorys0G0_pcSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "configureTheme",
+            "printedName": "configureTheme",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SentryUserFeedbackThemeConfiguration",
+                        "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
+                        "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration(py)configureTheme",
+            "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC14configureThemeyAA0abcfD0CcSgvp",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "SentryUserFeedbackThemeConfiguration",
+                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
+                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration(im)configureTheme",
+                "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC14configureThemeyAA0abcfD0CcSgvg",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "SentryUserFeedbackThemeConfiguration",
+                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
+                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration(im)setConfigureTheme:",
+                "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC14configureThemeyAA0abcfD0CcSgvs",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6Sentry0A25UserFeedbackConfigurationC14configureThemeyAA0abcfD0CcSgvM",
+                "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC14configureThemeyAA0abcfD0CcSgvM",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "configureDarkTheme",
+            "printedName": "configureDarkTheme",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SentryUserFeedbackThemeConfiguration",
+                        "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
+                        "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration(py)configureDarkTheme",
+            "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC18configureDarkThemeyAA0abcgD0CcSgvp",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "SentryUserFeedbackThemeConfiguration",
+                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
+                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration(im)configureDarkTheme",
+                "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC18configureDarkThemeyAA0abcgD0CcSgvg",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "SentryUserFeedbackThemeConfiguration",
+                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
+                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration(im)setConfigureDarkTheme:",
+                "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC18configureDarkThemeyAA0abcgD0CcSgvs",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6Sentry0A25UserFeedbackConfigurationC18configureDarkThemeyAA0abcgD0CcSgvM",
+                "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC18configureDarkThemeyAA0abcgD0CcSgvM",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -3613,9 +4064,11 @@
         "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackConfiguration",
         "mangledName": "$s6Sentry0A25UserFeedbackConfigurationC",
         "moduleName": "Sentry",
+        "intro_iOS": "13.0",
         "declAttributes": [
           "AccessControl",
           "ObjCMembers",
+          "Available",
           "RawDocComment",
           "ObjC"
         ],
@@ -4192,22 +4645,14 @@
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "UIKit.UIFont?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "UIFont",
-                    "printedName": "UIKit.UIFont",
-                    "usr": "c:objc(cs)UIFont"
-                  }
-                ],
-                "usr": "s:Sq"
+                "name": "UIFont",
+                "printedName": "UIKit.UIFont",
+                "usr": "c:objc(cs)UIFont"
               }
             ],
             "declKind": "Var",
             "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration(py)font",
-            "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCSgvp",
+            "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCvp",
             "moduleName": "Sentry",
             "declAttributes": [
               "HasInitialValue",
@@ -4225,22 +4670,14 @@
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIFont?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIFont",
-                        "printedName": "UIKit.UIFont",
-                        "usr": "c:objc(cs)UIFont"
-                      }
-                    ],
-                    "usr": "s:Sq"
+                    "name": "UIFont",
+                    "printedName": "UIKit.UIFont",
+                    "usr": "c:objc(cs)UIFont"
                   }
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration(im)font",
-                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCSgvg",
+                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCvg",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -4260,22 +4697,14 @@
                   },
                   {
                     "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIFont?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIFont",
-                        "printedName": "UIKit.UIFont",
-                        "usr": "c:objc(cs)UIFont"
-                      }
-                    ],
-                    "usr": "s:Sq"
+                    "name": "UIFont",
+                    "printedName": "UIKit.UIFont",
+                    "usr": "c:objc(cs)UIFont"
                   }
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration(im)setFont:",
-                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCSgvs",
+                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -4295,10 +4724,14 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCSgvM",
-                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCSgvM",
+                "usr": "s:6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCvM",
+                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC4fontSo6UIFontCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4393,6 +4826,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC10foregroundSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4487,6 +4924,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC10backgroundSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4581,6 +5022,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC16accentForegroundSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4675,6 +5120,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC16accentBackgroundSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4769,6 +5218,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12successColorSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4863,6 +5316,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC10errorColorSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -4874,22 +5331,14 @@
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "UIKit.UIColor?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "UIColor",
-                    "printedName": "UIKit.UIColor",
-                    "usr": "c:objc(cs)UIColor"
-                  }
-                ],
-                "usr": "s:Sq"
+                "name": "UIColor",
+                "printedName": "UIKit.UIColor",
+                "usr": "c:objc(cs)UIColor"
               }
             ],
             "declKind": "Var",
             "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration(py)outlineColor",
-            "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCSgvp",
+            "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCvp",
             "moduleName": "Sentry",
             "declAttributes": [
               "HasInitialValue",
@@ -4907,22 +5356,14 @@
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIColor?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIColor",
-                        "printedName": "UIKit.UIColor",
-                        "usr": "c:objc(cs)UIColor"
-                      }
-                    ],
-                    "usr": "s:Sq"
+                    "name": "UIColor",
+                    "printedName": "UIKit.UIColor",
+                    "usr": "c:objc(cs)UIColor"
                   }
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration(im)outlineColor",
-                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCSgvg",
+                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCvg",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -4942,22 +5383,14 @@
                   },
                   {
                     "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "UIKit.UIColor?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "UIColor",
-                        "printedName": "UIKit.UIColor",
-                        "usr": "c:objc(cs)UIColor"
-                      }
-                    ],
-                    "usr": "s:Sq"
+                    "name": "UIColor",
+                    "printedName": "UIKit.UIColor",
+                    "usr": "c:objc(cs)UIColor"
                   }
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration(im)setOutlineColor:",
-                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCSgvs",
+                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -4977,10 +5410,14 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCSgvM",
-                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCSgvM",
+                "usr": "s:6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCvM",
+                "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12outlineColorSo7UIColorCvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5099,6 +5536,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC20outlineColorFocussedSo7UIColorCSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5217,6 +5658,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC16outlineThicknessSo8NSNumberCSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5335,6 +5780,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC24outlineThicknessFocussedSo8NSNumberCSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5453,6 +5902,10 @@
                 "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC12cornerRadiusSo8NSNumberCSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5488,9 +5941,11 @@
         "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration",
         "mangledName": "$s6Sentry0A30UserFeedbackThemeConfigurationC",
         "moduleName": "Sentry",
+        "intro_iOS": "13.0",
         "declAttributes": [
           "AccessControl",
           "ObjCMembers",
+          "Available",
           "RawDocComment",
           "ObjC"
         ],
@@ -5670,25 +6125,29 @@
                 "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC10autoInjectSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
           },
           {
             "kind": "Var",
-            "name": "labelText",
-            "printedName": "labelText",
+            "name": "animations",
+            "printedName": "animations",
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
               }
             ],
             "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(py)labelText",
-            "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSvp",
+            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(py)animations",
+            "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC10animationsSbvp",
             "moduleName": "Sentry",
             "declAttributes": [
               "HasInitialValue",
@@ -5706,14 +6165,14 @@
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)labelText",
-                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSvg",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)animations",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC10animationsSbvg",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -5733,14 +6192,14 @@
                   },
                   {
                     "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)setLabelText:",
-                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSvs",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)setAnimations:",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC10animationsSbvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -5760,10 +6219,234 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSvM",
-                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSvM",
+                "usr": "s:6Sentry0A31UserFeedbackWidgetConfigurationC10animationsSbvM",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC10animationsSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "labelText",
+            "printedName": "labelText",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(py)labelText",
+            "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSSgvp",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)labelText",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSSgvg",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.String?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)setLabelText:",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSSgvs",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSSgvM",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC9labelTextSSSgvM",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "showIcon",
+            "printedName": "showIcon",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(py)showIcon",
+            "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8showIconSbvp",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)showIcon",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8showIconSbvg",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)setShowIcon:",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8showIconSbvs",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6Sentry0A31UserFeedbackWidgetConfigurationC8showIconSbvM",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8showIconSbvM",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5882,6 +6565,10 @@
                 "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC24widgetAccessibilityLabelSSSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5976,6 +6663,10 @@
                 "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC11windowLevelSo08UIWindowG0avM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -5987,14 +6678,14 @@
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "UIRectEdge",
-                "printedName": "UIKit.UIRectEdge",
-                "usr": "c:@E@UIRectEdge"
+                "name": "NSDirectionalRectEdge",
+                "printedName": "UIKit.NSDirectionalRectEdge",
+                "usr": "c:@E@NSDirectionalRectEdge"
               }
             ],
             "declKind": "Var",
             "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(py)location",
-            "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo10UIRectEdgeVvp",
+            "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo21NSDirectionalRectEdgeVvp",
             "moduleName": "Sentry",
             "declAttributes": [
               "HasInitialValue",
@@ -6012,14 +6703,14 @@
                 "children": [
                   {
                     "kind": "TypeNominal",
-                    "name": "UIRectEdge",
-                    "printedName": "UIKit.UIRectEdge",
-                    "usr": "c:@E@UIRectEdge"
+                    "name": "NSDirectionalRectEdge",
+                    "printedName": "UIKit.NSDirectionalRectEdge",
+                    "usr": "c:@E@NSDirectionalRectEdge"
                   }
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)location",
-                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo10UIRectEdgeVvg",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo21NSDirectionalRectEdgeVvg",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -6039,14 +6730,14 @@
                   },
                   {
                     "kind": "TypeNominal",
-                    "name": "UIRectEdge",
-                    "printedName": "UIKit.UIRectEdge",
-                    "usr": "c:@E@UIRectEdge"
+                    "name": "NSDirectionalRectEdge",
+                    "printedName": "UIKit.NSDirectionalRectEdge",
+                    "usr": "c:@E@NSDirectionalRectEdge"
                   }
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration(im)setLocation:",
-                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo10UIRectEdgeVvs",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo21NSDirectionalRectEdgeVvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -6066,10 +6757,14 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo10UIRectEdgeVvM",
-                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo10UIRectEdgeVvM",
+                "usr": "s:6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo21NSDirectionalRectEdgeVvM",
+                "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC8locationSo21NSDirectionalRectEdgeVvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6164,6 +6859,10 @@
                 "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC14layoutUIOffsetSo0G0VvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6199,9 +6898,11 @@
         "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackWidgetConfiguration",
         "mangledName": "$s6Sentry0A31UserFeedbackWidgetConfigurationC",
         "moduleName": "Sentry",
+        "intro_iOS": "13.0",
         "declAttributes": [
           "AccessControl",
           "ObjCMembers",
+          "Available",
           "RawDocComment",
           "ObjC"
         ],
@@ -6349,6 +7050,30 @@
         "moduleName": "Sentry"
       },
       {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
         "kind": "TypeDecl",
         "name": "SentryUserFeedbackFormConfiguration",
         "printedName": "SentryUserFeedbackFormConfiguration",
@@ -6443,6 +7168,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC12showBrandingSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6537,6 +7266,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC9formTitleSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6631,6 +7364,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC12messageLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6725,6 +7462,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18messagePlaceholderSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6819,6 +7560,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC15isRequiredLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -6913,6 +7658,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18successMessageTextSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7007,6 +7756,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC16enableScreenshotSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7101,6 +7854,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC24addScreenshotButtonLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7195,6 +7952,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC27removeScreenshotButtonLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7289,6 +8050,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC14isNameRequiredSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7383,6 +8148,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC8showNameSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7477,6 +8246,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC9nameLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7571,6 +8344,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC15namePlaceholderSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7665,6 +8442,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC15isEmailRequiredSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7759,6 +8540,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC9showEmailSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7853,6 +8638,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC10emailLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -7947,6 +8736,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC16emailPlaceholderSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -8041,6 +8834,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC17submitButtonLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -8159,6 +8956,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC30submitButtonAccessibilityLabelSSSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -8253,6 +9054,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC17cancelButtonLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -8371,6 +9176,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC30cancelButtonAccessibilityLabelSSSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -8465,6 +9274,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18confirmButtonLabelSSvM",
                 "moduleName": "Sentry",
                 "implicit": true,
+                "intro_iOS": "13.0",
+                "declAttributes": [
+                  "Available"
+                ],
                 "accessorKind": "_modify"
               }
             ]
@@ -8583,314 +9396,10 @@
                 "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC31confirmButtonAccessibilityLabelSSSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "themeOverrides",
-            "printedName": "themeOverrides",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Void",
-                        "printedName": "()"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "SentryUserFeedbackThemeConfiguration",
-                        "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
-                        "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
-                      }
-                    ]
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration(py)themeOverrides",
-            "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC14themeOverridesyAA0abc5ThemeE0CcSgvp",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl",
-              "RawDocComment",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
-                    "children": [
-                      {
-                        "kind": "TypeFunc",
-                        "name": "Function",
-                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "SentryUserFeedbackThemeConfiguration",
-                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
-                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
-                          }
-                        ]
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration(im)themeOverrides",
-                "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC14themeOverridesyAA0abc5ThemeE0CcSgvg",
-                "moduleName": "Sentry",
-                "implicit": true,
+                "intro_iOS": "13.0",
                 "declAttributes": [
-                  "ObjC"
+                  "Available"
                 ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
-                    "children": [
-                      {
-                        "kind": "TypeFunc",
-                        "name": "Function",
-                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "SentryUserFeedbackThemeConfiguration",
-                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
-                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
-                          }
-                        ]
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration(im)setThemeOverrides:",
-                "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC14themeOverridesyAA0abc5ThemeE0CcSgvs",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:6Sentry0A29UserFeedbackFormConfigurationC14themeOverridesyAA0abc5ThemeE0CcSgvM",
-                "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC14themeOverridesyAA0abc5ThemeE0CcSgvM",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "darkThemeOverrides",
-            "printedName": "darkThemeOverrides",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Void",
-                        "printedName": "()"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "SentryUserFeedbackThemeConfiguration",
-                        "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
-                        "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
-                      }
-                    ]
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration(py)darkThemeOverrides",
-            "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18darkThemeOverridesyAA0abcgE0CcSgvp",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl",
-              "RawDocComment",
-              "ObjC"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
-                    "children": [
-                      {
-                        "kind": "TypeFunc",
-                        "name": "Function",
-                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "SentryUserFeedbackThemeConfiguration",
-                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
-                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
-                          }
-                        ]
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration(im)darkThemeOverrides",
-                "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18darkThemeOverridesyAA0abcgE0CcSgvg",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "((Sentry.SentryUserFeedbackThemeConfiguration) -> ())?",
-                    "children": [
-                      {
-                        "kind": "TypeFunc",
-                        "name": "Function",
-                        "printedName": "(Sentry.SentryUserFeedbackThemeConfiguration) -> ()",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "SentryUserFeedbackThemeConfiguration",
-                            "printedName": "Sentry.SentryUserFeedbackThemeConfiguration",
-                            "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackThemeConfiguration"
-                          }
-                        ]
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration(im)setDarkThemeOverrides:",
-                "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18darkThemeOverridesyAA0abcgE0CcSgvs",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "ObjC"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:6Sentry0A29UserFeedbackFormConfigurationC18darkThemeOverridesyAA0abcgE0CcSgvM",
-                "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC18darkThemeOverridesyAA0abcgE0CcSgvM",
-                "moduleName": "Sentry",
-                "implicit": true,
                 "accessorKind": "_modify"
               }
             ]
@@ -8926,9 +9435,11 @@
         "usr": "c:@M@Sentry@objc(cs)SentryUserFeedbackFormConfiguration",
         "mangledName": "$s6Sentry0A29UserFeedbackFormConfigurationC",
         "moduleName": "Sentry",
+        "intro_iOS": "13.0",
         "declAttributes": [
           "AccessControl",
           "ObjCMembers",
+          "Available",
           "RawDocComment",
           "ObjC"
         ],
@@ -10435,6 +10946,90 @@
       "value": "\"Sentry.SentryRRWebSpanEvent\""
     },
     {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "IntegerLiteral",
+      "offset": 295,
+      "length": 1,
+      "value": "8"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "FloatLiteral",
+      "offset": 517,
+      "length": 3,
+      "value": "0.3"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "IntegerLiteral",
+      "offset": 529,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "IntegerLiteral",
+      "offset": 599,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "BooleanLiteral",
+      "offset": 686,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "StringLiteral",
+      "offset": 939,
+      "length": 31,
+      "value": "\"Hi, I'm a user feedback form!\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1087,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "StringLiteral",
+      "offset": 3150,
+      "length": 39,
+      "value": "\"init(coder:) has not been implemented\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "StringLiteral",
+      "offset": 208,
+      "length": 18,
+      "value": "\"Sentry.RootViewController\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "StringLiteral",
+      "offset": 3541,
+      "length": 39,
+      "value": "\"init(coder:) has not been implemented\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "StringLiteral",
+      "offset": 175,
+      "length": 6,
+      "value": "\"Sentry.Window\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidget.swift",
+      "kind": "StringLiteral",
+      "offset": 175,
+      "length": 6,
+      "value": "\"Sentry.Window\""
+    },
+    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/URLSessionTaskHelper.swift",
       "kind": "StringLiteral",
       "offset": 265,
@@ -10458,49 +11053,49 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 739,
+      "offset": 754,
       "length": 32,
       "value": "\"[Sentry] [\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 758,
+      "offset": 773,
       "length": 1,
       "value": "\"] \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 770,
+      "offset": 785,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 1612,
+      "offset": 1627,
       "length": 34,
       "value": "\"[\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 1625,
+      "offset": 1640,
       "length": 1,
       "value": "\":\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 1633,
+      "offset": 1648,
       "length": 1,
       "value": "\"] \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 1645,
+      "offset": 1660,
       "length": 19,
       "value": "\"\""
     },
@@ -10717,182 +11312,189 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 8198,
+      "offset": 8176,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 8672,
+      "offset": 8650,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 8698,
+      "offset": 8676,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 8716,
+      "offset": 8694,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "StringLiteral",
-      "offset": 8771,
+      "offset": 8749,
       "length": 19,
       "value": "\"_containingBundle\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 8968,
+      "offset": 8950,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 9060,
+      "offset": 9042,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 9769,
+      "offset": 9757,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 10341,
+      "offset": 10329,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12018,
+      "offset": 12054,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12038,
+      "offset": 12074,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12380,
+      "offset": 12202,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12456,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
-      "kind": "IntegerLiteral",
-      "offset": 12462,
+      "offset": 12438,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12596,
+      "offset": 12514,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12659,
+      "offset": 12520,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
+      "kind": "IntegerLiteral",
+      "offset": 12654,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12723,
+      "offset": 12717,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 12793,
+      "offset": 12781,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
+      "kind": "IntegerLiteral",
+      "offset": 12851,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 12949,
+      "offset": 13007,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 13148,
+      "offset": 13206,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 13319,
+      "offset": 13377,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 13451,
+      "offset": 13509,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 13650,
+      "offset": 13708,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 13791,
+      "offset": 13849,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 14002,
+      "offset": 14060,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/UIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 14149,
+      "offset": 14207,
       "length": 4,
       "value": "true"
     },
@@ -11002,6 +11604,244 @@
       "value": "\"sessionReplay\""
     },
     {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 755,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 849,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 971,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1122,
+      "length": 2,
+      "value": "-1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1126,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1129,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "StringLiteral",
+      "offset": 1255,
+      "length": 39,
+      "value": "\"init(coder:) has not been implemented\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1477,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1483,
+      "length": 1,
+      "value": "3"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1523,
+      "length": 1,
+      "value": "7"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1529,
+      "length": 1,
+      "value": "3"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1569,
+      "length": 2,
+      "value": "10"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1576,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1616,
+      "length": 2,
+      "value": "12"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1623,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1663,
+      "length": 2,
+      "value": "12"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1670,
+      "length": 2,
+      "value": "11"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1711,
+      "length": 2,
+      "value": "10"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1718,
+      "length": 2,
+      "value": "11"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1759,
+      "length": 1,
+      "value": "7"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1765,
+      "length": 1,
+      "value": "9"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1805,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1811,
+      "length": 1,
+      "value": "9"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1883,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1889,
+      "length": 1,
+      "value": "9"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "FloatLiteral",
+      "offset": 1899,
+      "length": 3,
+      "value": "3.5"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1912,
+      "length": 1,
+      "value": "6"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1958,
+      "length": 2,
+      "value": "12"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1965,
+      "length": 1,
+      "value": "6"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2016,
+      "length": 2,
+      "value": "12"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2023,
+      "length": 1,
+      "value": "6"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2035,
+      "length": 1,
+      "value": "3"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2058,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
+      "kind": "StringLiteral",
+      "offset": 137,
+      "length": 47,
+      "value": "\"Sentry.SentryUserFeedbackWidgetButtonMegaphoneIconView\""
+    },
+    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryVideoInfo.swift",
       "kind": "StringLiteral",
       "offset": 38,
@@ -11046,212 +11886,310 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 429,
+      "offset": 520,
       "length": 6,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 539,
+      "offset": 622,
       "length": 4,
       "value": "2"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 725,
+      "length": 5,
+      "value": "\"low\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 764,
+      "length": 8,
+      "value": "\"medium\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 804,
+      "length": 6,
+      "value": "\"high\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 1025,
+      "length": 5,
+      "value": "\"low\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 1061,
+      "length": 8,
+      "value": "\"medium\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 1103,
+      "length": 6,
+      "value": "\"high\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 429,
+      "offset": 520,
       "length": 6,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 539,
+      "offset": 622,
       "length": 4,
       "value": "2"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 1496,
+      "offset": 2135,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 1727,
+      "offset": 2362,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2748,
+      "offset": 3374,
       "length": 6,
       "value": "20000"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2757,
+      "offset": 3383,
       "length": 6,
       "value": "20000"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2924,
+      "offset": 3546,
       "length": 3,
       "value": "0.8"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2930,
+      "offset": 3552,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3190,
+      "offset": 3809,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3206,
+      "offset": 3825,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3142,
+      "offset": 3761,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3351,
+      "offset": 3962,
       "length": 2,
       "value": "30"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3486,
+      "offset": 4093,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3598,
+      "offset": 4201,
       "length": 5,
       "value": "3600"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3739,
+      "offset": 4338,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 3774,
+      "offset": 4373,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4133,
+      "offset": 4728,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4163,
+      "offset": 4758,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4186,
+      "offset": 4781,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4214,
+      "offset": 4809,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4511,
+      "offset": 5102,
       "length": 19,
       "value": "\"sessionSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4561,
+      "offset": 5152,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4607,
+      "offset": 5198,
       "length": 17,
       "value": "\"errorSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4655,
+      "offset": 5246,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4695,
+      "offset": 5286,
       "length": 13,
       "value": "\"maskAllText\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4738,
+      "offset": 5329,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 4783,
+      "offset": 5374,
       "length": 15,
       "value": "\"maskAllImages\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4828,
+      "offset": 5419,
       "length": 4,
       "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 5620,
+      "length": 19,
+      "value": "\"maskedViewClasses\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "Array",
+      "offset": 5657,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 5739,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 5802,
+      "length": 21,
+      "value": "\"unmaskedViewClasses\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "Array",
+      "offset": 5841,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 5923,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 6004,
+      "length": 9,
+      "value": "\"quality\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6026,
+      "length": 2,
+      "value": "-1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/HTTPHeaderSanitizer.swift",
@@ -11263,35 +12201,105 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 996,
+      "offset": 1079,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 1427,
+      "offset": 1510,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 2084,
+      "offset": 2236,
       "length": 5,
       "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "StringLiteral",
+      "offset": 4335,
+      "length": 10,
+      "value": "\"Damascus\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4372,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4446,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4714,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4742,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5167,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5171,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
+      "kind": "StringLiteral",
+      "offset": 310,
+      "length": 95,
+      "value": "\"Excluding class \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
+      "kind": "StringLiteral",
+      "offset": 339,
+      "length": 4,
+      "value": "\" from swizzling cause it matches the exclude pattern: \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
+      "kind": "StringLiteral",
+      "offset": 403,
+      "length": 1,
+      "value": "\".\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
       "kind": "BooleanLiteral",
-      "offset": 301,
+      "offset": 430,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SwizzleClassNameExclude.swift",
       "kind": "BooleanLiteral",
-      "offset": 345,
+      "offset": 474,
       "length": 5,
       "value": "false"
     },
@@ -11424,413 +12432,427 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 632,
-      "length": 2,
-      "value": "43"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 637,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 649,
-      "length": 2,
-      "value": "34"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 654,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 665,
-      "length": 2,
-      "value": "51"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 670,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 682,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 834,
+      "offset": 738,
       "length": 3,
       "value": "235"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 840,
+      "offset": 744,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 852,
+      "offset": 756,
       "length": 3,
       "value": "230"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 858,
+      "offset": 762,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 869,
+      "offset": 773,
       "length": 3,
       "value": "239"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 875,
+      "offset": 779,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 887,
+      "offset": 791,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 1386,
+      "offset": 809,
       "length": 2,
-      "value": "41"
+      "value": "43"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 1391,
+      "offset": 814,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 1403,
+      "offset": 826,
       "length": 2,
-      "value": "35"
+      "value": "34"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 1408,
+      "offset": 831,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 1419,
-      "length": 2,
-      "value": "47"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1424,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1436,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1950,
-      "length": 2,
-      "value": "88"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1955,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1967,
-      "length": 2,
-      "value": "74"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1972,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1983,
-      "length": 3,
-      "value": "192"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1989,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2001,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2308,
-      "length": 2,
-      "value": "38"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2313,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2325,
-      "length": 3,
-      "value": "141"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2331,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2342,
-      "length": 3,
-      "value": "117"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2348,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2360,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2512,
-      "length": 2,
-      "value": "45"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2517,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2529,
-      "length": 3,
-      "value": "169"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2535,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2546,
-      "length": 3,
-      "value": "140"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2552,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2564,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2957,
-      "length": 3,
-      "value": "223"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2963,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2975,
+      "offset": 842,
       "length": 2,
       "value": "51"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 2980,
+      "offset": 847,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 2991,
-      "length": 2,
-      "value": "56"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 2996,
-      "length": 3,
-      "value": "255"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
-      "kind": "IntegerLiteral",
-      "offset": 3008,
+      "offset": 859,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3160,
+      "offset": 1118,
+      "length": 2,
+      "value": "41"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1123,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1135,
+      "length": 2,
+      "value": "35"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1140,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1151,
+      "length": 2,
+      "value": "47"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1156,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1168,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1618,
+      "length": 2,
+      "value": "88"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1623,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1635,
+      "length": 2,
+      "value": "74"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1640,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1651,
+      "length": 3,
+      "value": "192"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1657,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1669,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1994,
+      "length": 2,
+      "value": "45"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1999,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2011,
+      "length": 3,
+      "value": "169"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2017,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2028,
+      "length": 3,
+      "value": "140"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2034,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2046,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2064,
+      "length": 2,
+      "value": "38"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2069,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2081,
+      "length": 3,
+      "value": "141"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2087,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2098,
+      "length": 3,
+      "value": "117"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2104,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2116,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2437,
       "length": 3,
       "value": "245"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3166,
+      "offset": 2443,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3178,
+      "offset": 2455,
       "length": 2,
       "value": "84"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3183,
+      "offset": 2460,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3194,
+      "offset": 2471,
       "length": 2,
       "value": "89"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3199,
+      "offset": 2476,
       "length": 3,
       "value": "255"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 3211,
+      "offset": 2488,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2506,
+      "length": 3,
+      "value": "223"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2512,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2524,
+      "length": 2,
+      "value": "51"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2529,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2540,
+      "length": 2,
+      "value": "56"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2545,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackThemeConfiguration.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2557,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackWidgetConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 593,
+      "offset": 603,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackWidgetConfiguration.swift",
+      "kind": "BooleanLiteral",
+      "offset": 782,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackWidgetConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 781,
+      "offset": 1036,
       "length": 14,
       "value": "\"Report a Bug\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackWidgetConfiguration.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1210,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackWidgetConfiguration.swift",
       "kind": "IntegerLiteral",
-      "offset": 1192,
+      "offset": 1608,
       "length": 1,
       "value": "1"
     },
@@ -12082,42 +13104,56 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9889,
+      "offset": 9910,
       "length": 74,
       "value": "\"Could not delete replay segment from disk: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9962,
+      "offset": 9983,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "BooleanLiteral",
-      "offset": 10228,
-      "length": 5,
-      "value": "false"
+      "kind": "Array",
+      "offset": 10174,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
+      "kind": "IntegerLiteral",
+      "offset": 10240,
+      "length": 2,
+      "value": "-1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
+      "kind": "StringLiteral",
+      "offset": 10741,
+      "length": 12,
+      "value": "\"navigation\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
+      "kind": "FloatLiteral",
+      "offset": 10820,
+      "length": 4,
+      "value": "0.05"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10255,
+      "offset": 11311,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10601,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "BooleanLiteral",
-      "offset": 11030,
+      "offset": 11740,
       "length": 5,
       "value": "false"
     },
@@ -12129,11 +13165,32 @@
       "value": "\"Sentry.SentrySessionReplay\""
     },
     {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackIntegration.swift",
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackIntegrationDriver.swift",
       "kind": "BooleanLiteral",
-      "offset": 1898,
+      "offset": 1995,
       "length": 5,
       "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackIntegrationDriver.swift",
+      "kind": "StringLiteral",
+      "offset": 3825,
+      "length": 139,
+      "value": "\"Invalid widget location specified: \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackIntegrationDriver.swift",
+      "kind": "StringLiteral",
+      "offset": 3879,
+      "length": 1,
+      "value": "\". Must specify either one edge or one corner of the screen rect to place the widget.\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackIntegrationDriver.swift",
+      "kind": "StringLiteral",
+      "offset": 429,
+      "length": 35,
+      "value": "\"Sentry.SentryUserFeedbackIntegrationDriver\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebCustomEvent.swift",
@@ -12157,142 +13214,380 @@
       "value": "\"Sentry.SentryRRWebCustomEvent\""
     },
     {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 240,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 270,
+      "length": 1,
+      "value": "8"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 299,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 384,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 436,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1120,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 1377,
+      "length": 81,
+      "value": "\"User Feedback widget attempted to be displayed with neither text label or icon.\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 2470,
+      "length": 10,
+      "value": "\"Damascus\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 4217,
+      "length": 39,
+      "value": "\"init(coder:) has not been implemented\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 4702,
+      "length": 152,
+      "value": "\"Attempted to show widget button with empty text label. If you don't want to show text, set `SentryUserFeedbackWidgetConfiguration.labelText` to `nil`.\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 4959,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 5274,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5538,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 5921,
+      "length": 10,
+      "value": "\"Damascus\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5966,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6082,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6190,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6285,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6360,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6479,
+      "length": 1,
+      "value": "3"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6489,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6508,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 6522,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6703,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6716,
+      "length": 1,
+      "value": "3"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6726,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 6740,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 7344,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 7435,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 7714,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 7779,
+      "length": 10,
+      "value": "\"Damascus\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 8100,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 8246,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonView.swift",
+      "kind": "StringLiteral",
+      "offset": 137,
+      "length": 34,
+      "value": "\"Sentry.SentryUserFeedbackWidgetButtonView\""
+    },
+    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 440,
+      "offset": 450,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 592,
+      "offset": 602,
       "length": 14,
       "value": "\"Report a Bug\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 765,
+      "offset": 775,
       "length": 13,
       "value": "\"Description\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 974,
+      "offset": 984,
       "length": 38,
       "value": "\"What's the bug? What did you expect?\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 1178,
+      "offset": 1188,
       "length": 12,
       "value": "\"(required)\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 1380,
+      "offset": 1390,
       "length": 28,
       "value": "\"Thank you for your report!\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 1607,
+      "offset": 1617,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 1850,
+      "offset": 1860,
       "length": 18,
       "value": "\"Add a screenshot\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 2117,
+      "offset": 2127,
       "length": 19,
       "value": "\"Remove screenshot\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 2320,
+      "offset": 2330,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 2517,
+      "offset": 2527,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 2702,
+      "offset": 2712,
       "length": 6,
       "value": "\"Name\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 2907,
+      "offset": 2917,
       "length": 11,
       "value": "\"Your Name\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 3105,
+      "offset": 3115,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "BooleanLiteral",
-      "offset": 3305,
+      "offset": 3315,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 3444,
+      "offset": 3454,
       "length": 7,
       "value": "\"Email\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 3616,
+      "offset": 3626,
       "length": 24,
       "value": "\"your.email@example.org\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 3840,
+      "offset": 3850,
       "length": 17,
       "value": "\"Send Bug Report\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 4207,
+      "offset": 4217,
       "length": 8,
       "value": "\"Cancel\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/Configuration\/SentryUserFeedbackFormConfiguration.swift",
       "kind": "StringLiteral",
-      "offset": 4568,
+      "offset": 4578,
       "length": 9,
       "value": "\"Confirm\""
     },

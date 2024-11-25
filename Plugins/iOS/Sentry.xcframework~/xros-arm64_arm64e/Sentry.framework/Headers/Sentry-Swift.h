@@ -809,6 +809,291 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 # pragma clang attribute pop
 #endif
 #if defined(__cplusplus)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnon-modular-include-in-framework-module"
+// Look for the C++ interop support header relative to clang's resource dir:
+//  '<toolchain>/usr/lib/clang/<version>/include/../../../swift/swiftToCxx'.
+#if __has_include(<../../../swift/swiftToCxx/_SwiftCxxInteroperability.h>)
+#include <../../../swift/swiftToCxx/_SwiftCxxInteroperability.h>
+#elif __has_include(<../../../../../lib/swift/swiftToCxx/_SwiftCxxInteroperability.h>)
+//  '<toolchain>/usr/local/lib/clang/<version>/include/../../../../../lib/swift/swiftToCxx'.
+#include <../../../../../lib/swift/swiftToCxx/_SwiftCxxInteroperability.h>
+// Alternatively, allow user to find the header using additional include path into '<toolchain>/lib/swift'.
+#elif __has_include(<swiftToCxx/_SwiftCxxInteroperability.h>)
+#include <swiftToCxx/_SwiftCxxInteroperability.h>
+#endif
+#pragma clang diagnostic pop
+#if __has_feature(objc_modules)
+#if __has_warning("-Watimport-in-framework-header")
+#pragma clang diagnostic ignored "-Watimport-in-framework-header"
+#endif
+#endif
+
+#ifdef SWIFT_SYMBOL
+#undef SWIFT_SYMBOL
+#endif
+#define SWIFT_SYMBOL(usrValue) SWIFT_SYMBOL_MODULE_USR("Sentry", usrValue)
+#ifndef SWIFT_PRINTED_CORE
+#define SWIFT_PRINTED_CORE
+namespace swift SWIFT_PRIVATE_ATTR {
+
+namespace _impl {
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Swift type metadata response type.
+struct MetadataResponseTy {
+  void * _Null_unspecified _0;
+  uint64_t _1;
+};
+// Swift type metadata request type.
+typedef uint64_t MetadataRequestTy;
+
+#if __cplusplus > 201402L
+#  define SWIFT_NOEXCEPT_FUNCTION_PTR noexcept
+#else
+#  define SWIFT_NOEXCEPT_FUNCTION_PTR
+#endif
+
+using ValueWitnessInitializeBufferWithCopyOfBufferTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(55882))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessDestroyTy = void(* __ptrauth_swift_value_witness_function_pointer(1272))(void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessInitializeWithCopyTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(58298))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessAssignWithCopyTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(34641))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessInitializeWithTakeTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(18648))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessAssignWithTakeTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(61402))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessGetEnumTagSinglePayloadTy = unsigned(* __ptrauth_swift_value_witness_function_pointer(24816))(const void * _Nonnull, unsigned, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessStoreEnumTagSinglePayloadTy = void(* __ptrauth_swift_value_witness_function_pointer(41169))(void * _Nonnull, unsigned, unsigned, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+
+struct ValueWitnessTable {
+  ValueWitnessInitializeBufferWithCopyOfBufferTy _Nonnull initializeBufferWithCopyOfBuffer;
+  ValueWitnessDestroyTy _Nonnull destroy;
+  ValueWitnessInitializeWithCopyTy _Nonnull initializeWithCopy;
+  ValueWitnessAssignWithCopyTy _Nonnull assignWithCopy;
+  ValueWitnessInitializeWithTakeTy _Nonnull initializeWithTake;
+  ValueWitnessAssignWithTakeTy _Nonnull assignWithTake;
+  ValueWitnessGetEnumTagSinglePayloadTy _Nonnull getEnumTagSinglePayload;
+  ValueWitnessStoreEnumTagSinglePayloadTy _Nonnull storeEnumTagSinglePayload;
+  size_t size;
+  size_t stride;
+  unsigned flags;
+  unsigned extraInhabitantCount;
+
+  constexpr size_t getAlignment() const { return (flags & 255) + 1; }
+};
+
+using EnumValueWitnessGetEnumTagTy = unsigned(* __ptrauth_swift_value_witness_function_pointer(41909))(const void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using EnumValueWitnessDestructiveProjectEnumDataTy = void(* __ptrauth_swift_value_witness_function_pointer(1053))(void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using EnumValueWitnessDestructiveInjectEnumTagTy = void(* __ptrauth_swift_value_witness_function_pointer(45796))(void * _Nonnull, unsigned, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+
+struct EnumValueWitnessTable {
+  ValueWitnessTable vwTable;
+  EnumValueWitnessGetEnumTagTy _Nonnull getEnumTag;
+  EnumValueWitnessDestructiveProjectEnumDataTy _Nonnull destructiveProjectEnumData;
+  EnumValueWitnessDestructiveInjectEnumTagTy _Nonnull destructiveInjectEnumTag;
+};
+
+#undef SWIFT_NOEXCEPT_FUNCTION_PTR
+
+
+// type metadata address for Bool.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSbN;
+// type metadata address for Int8.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss4Int8VN;
+// type metadata address for UInt8.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5UInt8VN;
+// type metadata address for Int16.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5Int16VN;
+// type metadata address for UInt16.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss6UInt16VN;
+// type metadata address for Int32.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5Int32VN;
+// type metadata address for UInt32.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss6UInt32VN;
+// type metadata address for Int64.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5Int64VN;
+// type metadata address for UInt64.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss6UInt64VN;
+// type metadata address for Float.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSfN;
+// type metadata address for Double.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSdN;
+// type metadata address for OpaquePointer.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss13OpaquePointerVN;
+// type metadata address for Int.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSiN;
+// type metadata address for UInt.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSuN;
+
+#ifdef __cplusplus
+}
+#endif
+
+
+} // namespace _impl
+
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++17-extensions"
+template<>
+static inline const constexpr bool isUsableInGenericContext<bool> = true;
+
+template<>
+struct TypeMetadataTrait<bool> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSbN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int8_t> = true;
+
+template<>
+struct TypeMetadataTrait<int8_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss4Int8VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint8_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint8_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5UInt8VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int16_t> = true;
+
+template<>
+struct TypeMetadataTrait<int16_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5Int16VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint16_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint16_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss6UInt16VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int32_t> = true;
+
+template<>
+struct TypeMetadataTrait<int32_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5Int32VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint32_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint32_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss6UInt32VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int64_t> = true;
+
+template<>
+struct TypeMetadataTrait<int64_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5Int64VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint64_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint64_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss6UInt64VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<float> = true;
+
+template<>
+struct TypeMetadataTrait<float> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSfN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<double> = true;
+
+template<>
+struct TypeMetadataTrait<double> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSdN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<void *> = true;
+
+template<>
+struct TypeMetadataTrait<void *> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss13OpaquePointerVN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<swift::Int> = true;
+
+template<>
+struct TypeMetadataTrait<swift::Int> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSiN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<swift::UInt> = true;
+
+template<>
+struct TypeMetadataTrait<swift::UInt> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSuN;
+  }
+};
+
+#pragma clang diagnostic pop
+
+} // namespace swift
+
+#endif
+namespace Sentry SWIFT_PRIVATE_ATTR SWIFT_SYMBOL_MODULE("Sentry") {
+
+
+
+
+
+
+
+
+
+} // namespace Sentry
+
+#undef SWIFT_SYMBOL
 #endif
 #pragma clang diagnostic pop
 #endif
@@ -1623,6 +1908,291 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 # pragma clang attribute pop
 #endif
 #if defined(__cplusplus)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnon-modular-include-in-framework-module"
+// Look for the C++ interop support header relative to clang's resource dir:
+//  '<toolchain>/usr/lib/clang/<version>/include/../../../swift/swiftToCxx'.
+#if __has_include(<../../../swift/swiftToCxx/_SwiftCxxInteroperability.h>)
+#include <../../../swift/swiftToCxx/_SwiftCxxInteroperability.h>
+#elif __has_include(<../../../../../lib/swift/swiftToCxx/_SwiftCxxInteroperability.h>)
+//  '<toolchain>/usr/local/lib/clang/<version>/include/../../../../../lib/swift/swiftToCxx'.
+#include <../../../../../lib/swift/swiftToCxx/_SwiftCxxInteroperability.h>
+// Alternatively, allow user to find the header using additional include path into '<toolchain>/lib/swift'.
+#elif __has_include(<swiftToCxx/_SwiftCxxInteroperability.h>)
+#include <swiftToCxx/_SwiftCxxInteroperability.h>
+#endif
+#pragma clang diagnostic pop
+#if __has_feature(objc_modules)
+#if __has_warning("-Watimport-in-framework-header")
+#pragma clang diagnostic ignored "-Watimport-in-framework-header"
+#endif
+#endif
+
+#ifdef SWIFT_SYMBOL
+#undef SWIFT_SYMBOL
+#endif
+#define SWIFT_SYMBOL(usrValue) SWIFT_SYMBOL_MODULE_USR("Sentry", usrValue)
+#ifndef SWIFT_PRINTED_CORE
+#define SWIFT_PRINTED_CORE
+namespace swift SWIFT_PRIVATE_ATTR {
+
+namespace _impl {
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Swift type metadata response type.
+struct MetadataResponseTy {
+  void * _Null_unspecified _0;
+  uint64_t _1;
+};
+// Swift type metadata request type.
+typedef uint64_t MetadataRequestTy;
+
+#if __cplusplus > 201402L
+#  define SWIFT_NOEXCEPT_FUNCTION_PTR noexcept
+#else
+#  define SWIFT_NOEXCEPT_FUNCTION_PTR
+#endif
+
+using ValueWitnessInitializeBufferWithCopyOfBufferTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(55882))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessDestroyTy = void(* __ptrauth_swift_value_witness_function_pointer(1272))(void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessInitializeWithCopyTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(58298))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessAssignWithCopyTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(34641))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessInitializeWithTakeTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(18648))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessAssignWithTakeTy = void * _Nonnull(* __ptrauth_swift_value_witness_function_pointer(61402))(void * _Nonnull, void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessGetEnumTagSinglePayloadTy = unsigned(* __ptrauth_swift_value_witness_function_pointer(24816))(const void * _Nonnull, unsigned, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using ValueWitnessStoreEnumTagSinglePayloadTy = void(* __ptrauth_swift_value_witness_function_pointer(41169))(void * _Nonnull, unsigned, unsigned, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+
+struct ValueWitnessTable {
+  ValueWitnessInitializeBufferWithCopyOfBufferTy _Nonnull initializeBufferWithCopyOfBuffer;
+  ValueWitnessDestroyTy _Nonnull destroy;
+  ValueWitnessInitializeWithCopyTy _Nonnull initializeWithCopy;
+  ValueWitnessAssignWithCopyTy _Nonnull assignWithCopy;
+  ValueWitnessInitializeWithTakeTy _Nonnull initializeWithTake;
+  ValueWitnessAssignWithTakeTy _Nonnull assignWithTake;
+  ValueWitnessGetEnumTagSinglePayloadTy _Nonnull getEnumTagSinglePayload;
+  ValueWitnessStoreEnumTagSinglePayloadTy _Nonnull storeEnumTagSinglePayload;
+  size_t size;
+  size_t stride;
+  unsigned flags;
+  unsigned extraInhabitantCount;
+
+  constexpr size_t getAlignment() const { return (flags & 255) + 1; }
+};
+
+using EnumValueWitnessGetEnumTagTy = unsigned(* __ptrauth_swift_value_witness_function_pointer(41909))(const void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using EnumValueWitnessDestructiveProjectEnumDataTy = void(* __ptrauth_swift_value_witness_function_pointer(1053))(void * _Nonnull, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+using EnumValueWitnessDestructiveInjectEnumTagTy = void(* __ptrauth_swift_value_witness_function_pointer(45796))(void * _Nonnull, unsigned, void * _Nonnull) SWIFT_NOEXCEPT_FUNCTION_PTR;
+
+struct EnumValueWitnessTable {
+  ValueWitnessTable vwTable;
+  EnumValueWitnessGetEnumTagTy _Nonnull getEnumTag;
+  EnumValueWitnessDestructiveProjectEnumDataTy _Nonnull destructiveProjectEnumData;
+  EnumValueWitnessDestructiveInjectEnumTagTy _Nonnull destructiveInjectEnumTag;
+};
+
+#undef SWIFT_NOEXCEPT_FUNCTION_PTR
+
+
+// type metadata address for Bool.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSbN;
+// type metadata address for Int8.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss4Int8VN;
+// type metadata address for UInt8.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5UInt8VN;
+// type metadata address for Int16.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5Int16VN;
+// type metadata address for UInt16.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss6UInt16VN;
+// type metadata address for Int32.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5Int32VN;
+// type metadata address for UInt32.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss6UInt32VN;
+// type metadata address for Int64.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss5Int64VN;
+// type metadata address for UInt64.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss6UInt64VN;
+// type metadata address for Float.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSfN;
+// type metadata address for Double.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSdN;
+// type metadata address for OpaquePointer.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $ss13OpaquePointerVN;
+// type metadata address for Int.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSiN;
+// type metadata address for UInt.
+SWIFT_IMPORT_STDLIB_SYMBOL extern size_t $sSuN;
+
+#ifdef __cplusplus
+}
+#endif
+
+
+} // namespace _impl
+
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wc++17-extensions"
+template<>
+static inline const constexpr bool isUsableInGenericContext<bool> = true;
+
+template<>
+struct TypeMetadataTrait<bool> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSbN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int8_t> = true;
+
+template<>
+struct TypeMetadataTrait<int8_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss4Int8VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint8_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint8_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5UInt8VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int16_t> = true;
+
+template<>
+struct TypeMetadataTrait<int16_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5Int16VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint16_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint16_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss6UInt16VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int32_t> = true;
+
+template<>
+struct TypeMetadataTrait<int32_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5Int32VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint32_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint32_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss6UInt32VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<int64_t> = true;
+
+template<>
+struct TypeMetadataTrait<int64_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss5Int64VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<uint64_t> = true;
+
+template<>
+struct TypeMetadataTrait<uint64_t> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss6UInt64VN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<float> = true;
+
+template<>
+struct TypeMetadataTrait<float> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSfN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<double> = true;
+
+template<>
+struct TypeMetadataTrait<double> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSdN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<void *> = true;
+
+template<>
+struct TypeMetadataTrait<void *> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$ss13OpaquePointerVN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<swift::Int> = true;
+
+template<>
+struct TypeMetadataTrait<swift::Int> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSiN;
+  }
+};
+
+template<>
+static inline const constexpr bool isUsableInGenericContext<swift::UInt> = true;
+
+template<>
+struct TypeMetadataTrait<swift::UInt> {
+  static SWIFT_INLINE_THUNK void * _Nonnull getTypeMetadata() {
+    return &_impl::$sSuN;
+  }
+};
+
+#pragma clang diagnostic pop
+
+} // namespace swift
+
+#endif
+namespace Sentry SWIFT_PRIVATE_ATTR SWIFT_SYMBOL_MODULE("Sentry") {
+
+
+
+
+
+
+
+
+
+} // namespace Sentry
+
+#undef SWIFT_SYMBOL
 #endif
 #pragma clang diagnostic pop
 #endif

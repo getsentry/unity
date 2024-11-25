@@ -907,15 +907,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
 
 @class SentryUserFeedbackWidgetConfiguration;
 @class SentryUserFeedbackFormConfiguration;
+@class SentryUserFeedbackThemeConfiguration;
 
 /// The settings to use for how the user feedback form is presented, what data is required and how
 /// it’s submitted, and some auxiliary hooks to customize the workflow.
-SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
+SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackConfiguration : NSObject
 /// Configuration settings specific to the managed widget that displays the UI form.
 /// note:
 /// Default: <code>nil</code> to use the default widget settings.
 @property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackWidgetConfiguration * _Nonnull widgetConfig;
 /// Use a shake gesture to display the form.
 /// note:
 /// Default: <code>false</code>
@@ -932,6 +934,7 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// note:
 /// Default: <code>nil</code>
 @property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackFormConfiguration * _Nonnull formConfig;
 /// Tags to set on the feedback event. This is a dictionary where keys are strings
 /// and values can be different data types such as <code>NSNumber</code>, <code>NSString</code>, etc.
 /// note:
@@ -965,13 +968,34 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
 /// that function.
 @property (nonatomic, copy) void (^ _Nullable onSubmitError)(NSError * _Nonnull);
+/// Builder for default/light theme overrides.
+/// note:
+/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
+/// running on later versions that include dark mode should also consider <code>configureDarkTheme</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable configureTheme)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackThemeConfiguration * _Nonnull theme;
+/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
+/// mode, but you still want to override some theme settings, assign the same builder to this
+/// property as you do for <code>configureTheme</code>.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// Only applies to iOS ≤12.
+@property (nonatomic, copy) void (^ _Nullable configureDarkTheme)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackThemeConfiguration * _Nonnull darkTheme;
+@property (nonatomic) CGFloat textEffectiveHeightCenter;
+/// The ratio of the configured font size to the system default font size, to know how large to scale things like the icon and lozenge shape.
+@property (nonatomic) CGFloat scaleFactor;
+/// Too much padding as the font size grows larger makes the button look weird with lots of negative space. Keeping the padding constant looks weird if the text is too small. So, scale it down below system default font sizes, but keep it fixed with larger font sizes.
+@property (nonatomic) CGFloat paddingScaleFactor;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryUserFeedbackThemeConfiguration;
 
 /// Settings to control the behavior and appearance of the UI form.
-SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackFormConfiguration : NSObject
 /// Displays the Sentry logo inside of the form.
 /// note:
@@ -1077,45 +1101,65 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// note:
 /// Default: <code>confirmButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nullable confirmButtonAccessibilityLabel;
-/// Builder for default/light theme overrides.
-/// note:
-/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
-/// running on later versions that include dark mode should also consider <code>darkThemeOverrides</code>.
-/// note:
-/// Default: <code>nil</code>
-@property (nonatomic, copy) void (^ _Nullable themeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
-/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
-/// mode, assign the same builder to this property as you do for <code>themeOverrides</code>.
-/// note:
-/// Default: <code>nil</code>
-@property (nonatomic, copy) void (^ _Nullable darkThemeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIButton;
+
+/// An integration managing a workflow for end users to report feedback via Sentry.
+/// note:
+/// The default method to show the feedback form is via a floating widget placed in the bottom trailing corner of the screen. See the configuration classes for alternative options.
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackIntegrationDriver") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackIntegrationDriver : NSObject
+@property (nonatomic, readonly, strong) SentryUserFeedbackConfiguration * _Nonnull configuration;
+- (nonnull instancetype)initWithConfiguration:(SentryUserFeedbackConfiguration * _Nonnull)configuration OBJC_DESIGNATED_INITIALIZER;
+/// Attaches the feedback widget to a specified UIButton. The button will trigger the feedback form.
+/// \param button The UIButton to attach the widget to.
+///
+- (void)attachToButton:(UIButton * _Nonnull)button;
+/// Creates and renders the feedback widget on the screen.
+/// If <code>SentryUserFeedbackConfiguration.autoInject</code> is <code>false</code>, this must be called explicitly.
+- (void)createWidget;
+/// Removes the feedback widget from the view hierarchy. Useful for cleanup when the widget is no longer needed.
+- (void)removeWidget;
+/// Captures feedback using custom UI. This method allows you to submit feedback data directly.
+/// \param message The feedback message (required).
+///
+/// \param name The name of the user (optional).
+///
+/// \param email The email of the user (optional).
+///
+/// \param hints Additional hints or metadata for the feedback submission (optional).
+///
+- (void)captureFeedbackWithMessage:(NSString * _Nonnull)message name:(NSString * _Nullable)name email:(NSString * _Nullable)email hints:(NSDictionary<NSString *, id> * _Nullable)hints;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 @class UIFont;
 @class UIColor;
 @class NSNumber;
 
-/// Settings for overriding theming components for the User Feedback Widget.
-SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
+/// Settings for overriding theming components for the User Feedback Widget and Form.
+SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackThemeConfiguration : NSObject
 /// The default font to use.
 /// note:
 /// Defaults to the current system default.
-@property (nonatomic, strong) UIFont * _Nullable font;
-/// Foreground text color.
+@property (nonatomic, strong) UIFont * _Nonnull font;
+/// Foreground text color of the widget and form.
 /// note:
 /// Default light mode: <code>rgb(43, 34, 51)</code>; dark mode: <code>rgb(235, 230, 239)</code>
 @property (nonatomic, strong) UIColor * _Nonnull foreground;
-/// Background color of the widget (injected button and form).
+/// Background color of the widget and form.
 /// note:
 /// Default light mode: <code>rgb(255, 255, 255)</code>; dark mode: <code>rgb(41, 35, 47)</code>
 @property (nonatomic, strong) UIColor * _Nonnull background;
-/// Foreground color for the submit button.
+/// Foreground color for the form submit button.
 /// note:
 /// Default: <code>rgb(255, 255, 255)</code> for both dark and light modes
 @property (nonatomic, strong) UIColor * _Nonnull accentForeground;
-/// Background color for the submit button in light and dark modes.
+/// Background color for the form submit button in light and dark modes.
 /// note:
 /// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
 @property (nonatomic, strong) UIColor * _Nonnull accentBackground;
@@ -1130,7 +1174,7 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 /// Normal outline color for form inputs.
 /// note:
 /// Default: <code>nil (system default)</code>
-@property (nonatomic, strong) UIColor * _Nullable outlineColor;
+@property (nonatomic, strong) UIColor * _Nonnull outlineColor;
 /// Outline color for form inputs when focused.
 /// note:
 /// Default: <code>nil (system default)</code>
@@ -1150,9 +1194,25 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSCoder;
+
+SWIFT_CLASS("_TtC6Sentry47SentryUserFeedbackWidgetButtonMegaphoneIconView") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackWidgetButtonMegaphoneIconView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry34SentryUserFeedbackWidgetButtonView") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackWidgetButtonView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)buttonPressed;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
 
 /// Settings for whether to show the widget and how it should appear.
-SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
+SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackWidgetConfiguration : NSObject
 /// Injects the Feedback widget into the application UI when the integration is added. Set to <code>false</code>
 /// if you want to call <code>attachToButton()</code> or <code>createWidget()</code> directly, or only want to show the
@@ -1160,13 +1220,21 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// note:
 /// Default: <code>true</code>
 @property (nonatomic) BOOL autoInject;
-/// The label of the injected button that opens up the feedback form when clicked.
+/// Whether or not to show animations, like for presenting and dismissing the form.
+/// note:
+/// Default: <code>true</code>.
+@property (nonatomic) BOOL animations;
+/// The label of the injected button that opens up the feedback form when clicked. If <code>nil</code>, no text is displayed and only the icon image is shown.
 /// note:
 /// Default: <code>"Report a Bug"</code>
-@property (nonatomic, copy) NSString * _Nonnull labelText;
+@property (nonatomic, copy) NSString * _Nullable labelText;
+/// Whether or not to show our icon along with the text in the button.
+/// note:
+/// Default: <code>true</code>.
+@property (nonatomic) BOOL showIcon;
 /// The accessibility label of the injected button that opens up the feedback form when clicked.
 /// note:
-/// Default: <code>triggerLabel</code> value
+/// Default: <code>labelText</code> value
 @property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
 /// The window level of the widget.
 /// note:
@@ -1175,8 +1243,8 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// The location for positioning the widget.
 /// note:
 /// Default: <code>[.bottom, .right]</code>
-@property (nonatomic) UIRectEdge location;
-/// The distance to use from the widget button to the superview’s <code>layoutMarginsGuide</code>.
+@property (nonatomic) NSDirectionalRectEdge location;
+/// The distance to use from the widget button to the <code>safeAreaLayoutGuide</code> of the root view in the widget’s container window.
 /// note:
 /// Default: <code>UIOffset.zero</code>
 @property (nonatomic) UIOffset layoutUIOffset;
@@ -2168,15 +2236,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
 
 @class SentryUserFeedbackWidgetConfiguration;
 @class SentryUserFeedbackFormConfiguration;
+@class SentryUserFeedbackThemeConfiguration;
 
 /// The settings to use for how the user feedback form is presented, what data is required and how
 /// it’s submitted, and some auxiliary hooks to customize the workflow.
-SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
+SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackConfiguration : NSObject
 /// Configuration settings specific to the managed widget that displays the UI form.
 /// note:
 /// Default: <code>nil</code> to use the default widget settings.
 @property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackWidgetConfiguration * _Nonnull widgetConfig;
 /// Use a shake gesture to display the form.
 /// note:
 /// Default: <code>false</code>
@@ -2193,6 +2263,7 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// note:
 /// Default: <code>nil</code>
 @property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackFormConfiguration * _Nonnull formConfig;
 /// Tags to set on the feedback event. This is a dictionary where keys are strings
 /// and values can be different data types such as <code>NSNumber</code>, <code>NSString</code>, etc.
 /// note:
@@ -2226,13 +2297,34 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
 /// that function.
 @property (nonatomic, copy) void (^ _Nullable onSubmitError)(NSError * _Nonnull);
+/// Builder for default/light theme overrides.
+/// note:
+/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
+/// running on later versions that include dark mode should also consider <code>configureDarkTheme</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable configureTheme)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackThemeConfiguration * _Nonnull theme;
+/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
+/// mode, but you still want to override some theme settings, assign the same builder to this
+/// property as you do for <code>configureTheme</code>.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// Only applies to iOS ≤12.
+@property (nonatomic, copy) void (^ _Nullable configureDarkTheme)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackThemeConfiguration * _Nonnull darkTheme;
+@property (nonatomic) CGFloat textEffectiveHeightCenter;
+/// The ratio of the configured font size to the system default font size, to know how large to scale things like the icon and lozenge shape.
+@property (nonatomic) CGFloat scaleFactor;
+/// Too much padding as the font size grows larger makes the button look weird with lots of negative space. Keeping the padding constant looks weird if the text is too small. So, scale it down below system default font sizes, but keep it fixed with larger font sizes.
+@property (nonatomic) CGFloat paddingScaleFactor;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryUserFeedbackThemeConfiguration;
 
 /// Settings to control the behavior and appearance of the UI form.
-SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackFormConfiguration : NSObject
 /// Displays the Sentry logo inside of the form.
 /// note:
@@ -2338,45 +2430,65 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// note:
 /// Default: <code>confirmButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nullable confirmButtonAccessibilityLabel;
-/// Builder for default/light theme overrides.
-/// note:
-/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
-/// running on later versions that include dark mode should also consider <code>darkThemeOverrides</code>.
-/// note:
-/// Default: <code>nil</code>
-@property (nonatomic, copy) void (^ _Nullable themeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
-/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
-/// mode, assign the same builder to this property as you do for <code>themeOverrides</code>.
-/// note:
-/// Default: <code>nil</code>
-@property (nonatomic, copy) void (^ _Nullable darkThemeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIButton;
+
+/// An integration managing a workflow for end users to report feedback via Sentry.
+/// note:
+/// The default method to show the feedback form is via a floating widget placed in the bottom trailing corner of the screen. See the configuration classes for alternative options.
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackIntegrationDriver") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackIntegrationDriver : NSObject
+@property (nonatomic, readonly, strong) SentryUserFeedbackConfiguration * _Nonnull configuration;
+- (nonnull instancetype)initWithConfiguration:(SentryUserFeedbackConfiguration * _Nonnull)configuration OBJC_DESIGNATED_INITIALIZER;
+/// Attaches the feedback widget to a specified UIButton. The button will trigger the feedback form.
+/// \param button The UIButton to attach the widget to.
+///
+- (void)attachToButton:(UIButton * _Nonnull)button;
+/// Creates and renders the feedback widget on the screen.
+/// If <code>SentryUserFeedbackConfiguration.autoInject</code> is <code>false</code>, this must be called explicitly.
+- (void)createWidget;
+/// Removes the feedback widget from the view hierarchy. Useful for cleanup when the widget is no longer needed.
+- (void)removeWidget;
+/// Captures feedback using custom UI. This method allows you to submit feedback data directly.
+/// \param message The feedback message (required).
+///
+/// \param name The name of the user (optional).
+///
+/// \param email The email of the user (optional).
+///
+/// \param hints Additional hints or metadata for the feedback submission (optional).
+///
+- (void)captureFeedbackWithMessage:(NSString * _Nonnull)message name:(NSString * _Nullable)name email:(NSString * _Nullable)email hints:(NSDictionary<NSString *, id> * _Nullable)hints;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 @class UIFont;
 @class UIColor;
 @class NSNumber;
 
-/// Settings for overriding theming components for the User Feedback Widget.
-SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
+/// Settings for overriding theming components for the User Feedback Widget and Form.
+SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackThemeConfiguration : NSObject
 /// The default font to use.
 /// note:
 /// Defaults to the current system default.
-@property (nonatomic, strong) UIFont * _Nullable font;
-/// Foreground text color.
+@property (nonatomic, strong) UIFont * _Nonnull font;
+/// Foreground text color of the widget and form.
 /// note:
 /// Default light mode: <code>rgb(43, 34, 51)</code>; dark mode: <code>rgb(235, 230, 239)</code>
 @property (nonatomic, strong) UIColor * _Nonnull foreground;
-/// Background color of the widget (injected button and form).
+/// Background color of the widget and form.
 /// note:
 /// Default light mode: <code>rgb(255, 255, 255)</code>; dark mode: <code>rgb(41, 35, 47)</code>
 @property (nonatomic, strong) UIColor * _Nonnull background;
-/// Foreground color for the submit button.
+/// Foreground color for the form submit button.
 /// note:
 /// Default: <code>rgb(255, 255, 255)</code> for both dark and light modes
 @property (nonatomic, strong) UIColor * _Nonnull accentForeground;
-/// Background color for the submit button in light and dark modes.
+/// Background color for the form submit button in light and dark modes.
 /// note:
 /// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
 @property (nonatomic, strong) UIColor * _Nonnull accentBackground;
@@ -2391,7 +2503,7 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 /// Normal outline color for form inputs.
 /// note:
 /// Default: <code>nil (system default)</code>
-@property (nonatomic, strong) UIColor * _Nullable outlineColor;
+@property (nonatomic, strong) UIColor * _Nonnull outlineColor;
 /// Outline color for form inputs when focused.
 /// note:
 /// Default: <code>nil (system default)</code>
@@ -2411,9 +2523,25 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSCoder;
+
+SWIFT_CLASS("_TtC6Sentry47SentryUserFeedbackWidgetButtonMegaphoneIconView") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackWidgetButtonMegaphoneIconView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry34SentryUserFeedbackWidgetButtonView") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackWidgetButtonView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)buttonPressed;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
 
 /// Settings for whether to show the widget and how it should appear.
-SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
+SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackWidgetConfiguration : NSObject
 /// Injects the Feedback widget into the application UI when the integration is added. Set to <code>false</code>
 /// if you want to call <code>attachToButton()</code> or <code>createWidget()</code> directly, or only want to show the
@@ -2421,13 +2549,21 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// note:
 /// Default: <code>true</code>
 @property (nonatomic) BOOL autoInject;
-/// The label of the injected button that opens up the feedback form when clicked.
+/// Whether or not to show animations, like for presenting and dismissing the form.
+/// note:
+/// Default: <code>true</code>.
+@property (nonatomic) BOOL animations;
+/// The label of the injected button that opens up the feedback form when clicked. If <code>nil</code>, no text is displayed and only the icon image is shown.
 /// note:
 /// Default: <code>"Report a Bug"</code>
-@property (nonatomic, copy) NSString * _Nonnull labelText;
+@property (nonatomic, copy) NSString * _Nullable labelText;
+/// Whether or not to show our icon along with the text in the button.
+/// note:
+/// Default: <code>true</code>.
+@property (nonatomic) BOOL showIcon;
 /// The accessibility label of the injected button that opens up the feedback form when clicked.
 /// note:
-/// Default: <code>triggerLabel</code> value
+/// Default: <code>labelText</code> value
 @property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
 /// The window level of the widget.
 /// note:
@@ -2436,8 +2572,8 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// The location for positioning the widget.
 /// note:
 /// Default: <code>[.bottom, .right]</code>
-@property (nonatomic) UIRectEdge location;
-/// The distance to use from the widget button to the superview’s <code>layoutMarginsGuide</code>.
+@property (nonatomic) NSDirectionalRectEdge location;
+/// The distance to use from the widget button to the <code>safeAreaLayoutGuide</code> of the root view in the widget’s container window.
 /// note:
 /// Default: <code>UIOffset.zero</code>
 @property (nonatomic) UIOffset layoutUIOffset;
@@ -3429,15 +3565,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
 
 @class SentryUserFeedbackWidgetConfiguration;
 @class SentryUserFeedbackFormConfiguration;
+@class SentryUserFeedbackThemeConfiguration;
 
 /// The settings to use for how the user feedback form is presented, what data is required and how
 /// it’s submitted, and some auxiliary hooks to customize the workflow.
-SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
+SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackConfiguration : NSObject
 /// Configuration settings specific to the managed widget that displays the UI form.
 /// note:
 /// Default: <code>nil</code> to use the default widget settings.
 @property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackWidgetConfiguration * _Nonnull widgetConfig;
 /// Use a shake gesture to display the form.
 /// note:
 /// Default: <code>false</code>
@@ -3454,6 +3592,7 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// note:
 /// Default: <code>nil</code>
 @property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackFormConfiguration * _Nonnull formConfig;
 /// Tags to set on the feedback event. This is a dictionary where keys are strings
 /// and values can be different data types such as <code>NSNumber</code>, <code>NSString</code>, etc.
 /// note:
@@ -3487,13 +3626,34 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// This is unrelated to <code>SentrySDK.captureUserFeedback</code> and is not called when using
 /// that function.
 @property (nonatomic, copy) void (^ _Nullable onSubmitError)(NSError * _Nonnull);
+/// Builder for default/light theme overrides.
+/// note:
+/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
+/// running on later versions that include dark mode should also consider <code>configureDarkTheme</code>.
+/// note:
+/// Default: <code>nil</code>
+@property (nonatomic, copy) void (^ _Nullable configureTheme)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackThemeConfiguration * _Nonnull theme;
+/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
+/// mode, but you still want to override some theme settings, assign the same builder to this
+/// property as you do for <code>configureTheme</code>.
+/// note:
+/// Default: <code>nil</code>
+/// note:
+/// Only applies to iOS ≤12.
+@property (nonatomic, copy) void (^ _Nullable configureDarkTheme)(SentryUserFeedbackThemeConfiguration * _Nonnull);
+@property (nonatomic, strong) SentryUserFeedbackThemeConfiguration * _Nonnull darkTheme;
+@property (nonatomic) CGFloat textEffectiveHeightCenter;
+/// The ratio of the configured font size to the system default font size, to know how large to scale things like the icon and lozenge shape.
+@property (nonatomic) CGFloat scaleFactor;
+/// Too much padding as the font size grows larger makes the button look weird with lots of negative space. Keeping the padding constant looks weird if the text is too small. So, scale it down below system default font sizes, but keep it fixed with larger font sizes.
+@property (nonatomic) CGFloat paddingScaleFactor;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryUserFeedbackThemeConfiguration;
 
 /// Settings to control the behavior and appearance of the UI form.
-SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackFormConfiguration : NSObject
 /// Displays the Sentry logo inside of the form.
 /// note:
@@ -3599,45 +3759,65 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// note:
 /// Default: <code>confirmButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nullable confirmButtonAccessibilityLabel;
-/// Builder for default/light theme overrides.
-/// note:
-/// On iOS versions predating dark mode (≤12) this is the only theme override used. Apps
-/// running on later versions that include dark mode should also consider <code>darkThemeOverrides</code>.
-/// note:
-/// Default: <code>nil</code>
-@property (nonatomic, copy) void (^ _Nullable themeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
-/// Builder for dark mode theme overrides. If your app does not deploy a different theme for dark
-/// mode, assign the same builder to this property as you do for <code>themeOverrides</code>.
-/// note:
-/// Default: <code>nil</code>
-@property (nonatomic, copy) void (^ _Nullable darkThemeOverrides)(SentryUserFeedbackThemeConfiguration * _Nonnull);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIButton;
+
+/// An integration managing a workflow for end users to report feedback via Sentry.
+/// note:
+/// The default method to show the feedback form is via a floating widget placed in the bottom trailing corner of the screen. See the configuration classes for alternative options.
+SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackIntegrationDriver") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackIntegrationDriver : NSObject
+@property (nonatomic, readonly, strong) SentryUserFeedbackConfiguration * _Nonnull configuration;
+- (nonnull instancetype)initWithConfiguration:(SentryUserFeedbackConfiguration * _Nonnull)configuration OBJC_DESIGNATED_INITIALIZER;
+/// Attaches the feedback widget to a specified UIButton. The button will trigger the feedback form.
+/// \param button The UIButton to attach the widget to.
+///
+- (void)attachToButton:(UIButton * _Nonnull)button;
+/// Creates and renders the feedback widget on the screen.
+/// If <code>SentryUserFeedbackConfiguration.autoInject</code> is <code>false</code>, this must be called explicitly.
+- (void)createWidget;
+/// Removes the feedback widget from the view hierarchy. Useful for cleanup when the widget is no longer needed.
+- (void)removeWidget;
+/// Captures feedback using custom UI. This method allows you to submit feedback data directly.
+/// \param message The feedback message (required).
+///
+/// \param name The name of the user (optional).
+///
+/// \param email The email of the user (optional).
+///
+/// \param hints Additional hints or metadata for the feedback submission (optional).
+///
+- (void)captureFeedbackWithMessage:(NSString * _Nonnull)message name:(NSString * _Nullable)name email:(NSString * _Nullable)email hints:(NSDictionary<NSString *, id> * _Nullable)hints;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 @class UIFont;
 @class UIColor;
 @class NSNumber;
 
-/// Settings for overriding theming components for the User Feedback Widget.
-SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
+/// Settings for overriding theming components for the User Feedback Widget and Form.
+SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackThemeConfiguration : NSObject
 /// The default font to use.
 /// note:
 /// Defaults to the current system default.
-@property (nonatomic, strong) UIFont * _Nullable font;
-/// Foreground text color.
+@property (nonatomic, strong) UIFont * _Nonnull font;
+/// Foreground text color of the widget and form.
 /// note:
 /// Default light mode: <code>rgb(43, 34, 51)</code>; dark mode: <code>rgb(235, 230, 239)</code>
 @property (nonatomic, strong) UIColor * _Nonnull foreground;
-/// Background color of the widget (injected button and form).
+/// Background color of the widget and form.
 /// note:
 /// Default light mode: <code>rgb(255, 255, 255)</code>; dark mode: <code>rgb(41, 35, 47)</code>
 @property (nonatomic, strong) UIColor * _Nonnull background;
-/// Foreground color for the submit button.
+/// Foreground color for the form submit button.
 /// note:
 /// Default: <code>rgb(255, 255, 255)</code> for both dark and light modes
 @property (nonatomic, strong) UIColor * _Nonnull accentForeground;
-/// Background color for the submit button in light and dark modes.
+/// Background color for the form submit button in light and dark modes.
 /// note:
 /// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
 @property (nonatomic, strong) UIColor * _Nonnull accentBackground;
@@ -3652,7 +3832,7 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 /// Normal outline color for form inputs.
 /// note:
 /// Default: <code>nil (system default)</code>
-@property (nonatomic, strong) UIColor * _Nullable outlineColor;
+@property (nonatomic, strong) UIColor * _Nonnull outlineColor;
 /// Outline color for form inputs when focused.
 /// note:
 /// Default: <code>nil (system default)</code>
@@ -3672,9 +3852,25 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class NSCoder;
+
+SWIFT_CLASS("_TtC6Sentry47SentryUserFeedbackWidgetButtonMegaphoneIconView") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackWidgetButtonMegaphoneIconView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry34SentryUserFeedbackWidgetButtonView") SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface SentryUserFeedbackWidgetButtonView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)buttonPressed;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
 
 /// Settings for whether to show the widget and how it should appear.
-SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
+SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackWidgetConfiguration : NSObject
 /// Injects the Feedback widget into the application UI when the integration is added. Set to <code>false</code>
 /// if you want to call <code>attachToButton()</code> or <code>createWidget()</code> directly, or only want to show the
@@ -3682,13 +3878,21 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// note:
 /// Default: <code>true</code>
 @property (nonatomic) BOOL autoInject;
-/// The label of the injected button that opens up the feedback form when clicked.
+/// Whether or not to show animations, like for presenting and dismissing the form.
+/// note:
+/// Default: <code>true</code>.
+@property (nonatomic) BOOL animations;
+/// The label of the injected button that opens up the feedback form when clicked. If <code>nil</code>, no text is displayed and only the icon image is shown.
 /// note:
 /// Default: <code>"Report a Bug"</code>
-@property (nonatomic, copy) NSString * _Nonnull labelText;
+@property (nonatomic, copy) NSString * _Nullable labelText;
+/// Whether or not to show our icon along with the text in the button.
+/// note:
+/// Default: <code>true</code>.
+@property (nonatomic) BOOL showIcon;
 /// The accessibility label of the injected button that opens up the feedback form when clicked.
 /// note:
-/// Default: <code>triggerLabel</code> value
+/// Default: <code>labelText</code> value
 @property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
 /// The window level of the widget.
 /// note:
@@ -3697,8 +3901,8 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// The location for positioning the widget.
 /// note:
 /// Default: <code>[.bottom, .right]</code>
-@property (nonatomic) UIRectEdge location;
-/// The distance to use from the widget button to the superview’s <code>layoutMarginsGuide</code>.
+@property (nonatomic) NSDirectionalRectEdge location;
+/// The distance to use from the widget button to the <code>safeAreaLayoutGuide</code> of the root view in the widget’s container window.
 /// note:
 /// Default: <code>UIOffset.zero</code>
 @property (nonatomic) UIOffset layoutUIOffset;

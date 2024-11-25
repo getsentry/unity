@@ -39,10 +39,13 @@ import _SwiftConcurrencyShims
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject {
-  @objc public enum SentryReplayQuality : Swift.Int {
+  @objc public enum SentryReplayQuality : Swift.Int, Swift.CustomStringConvertible {
     case low
     case medium
     case high
+    public var description: Swift.String {
+      get
+    }
     public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
@@ -60,7 +63,8 @@ import _SwiftConcurrencyShims
   @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true)
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackConfiguration : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers @available(iOS 13.0, *)
+@objcMembers public class SentryUserFeedbackConfiguration : ObjectiveC.NSObject {
   @objc public var configureWidget: ((Sentry.SentryUserFeedbackWidgetConfiguration) -> Swift.Void)?
   @objc public var useShakeGesture: Swift.Bool
   @objc public var showFormForScreenshots: Swift.Bool
@@ -71,6 +75,8 @@ import _SwiftConcurrencyShims
   @objc public var onFormClose: (() -> Swift.Void)?
   @objc public var onSubmitSuccess: (([Swift.String : Any]) -> Swift.Void)?
   @objc public var onSubmitError: ((any Swift.Error) -> Swift.Void)?
+  @objc public var configureTheme: ((Sentry.SentryUserFeedbackThemeConfiguration) -> Swift.Void)?
+  @objc public var configureDarkTheme: ((Sentry.SentryUserFeedbackThemeConfiguration) -> Swift.Void)?
   @objc override dynamic public init()
   @objc deinit
 }
@@ -92,15 +98,16 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
     get
   }
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackThemeConfiguration : ObjectiveC.NSObject {
-  @objc public var font: UIKit.UIFont?
+@objc @_inheritsConvenienceInitializers @available(iOS 13.0, *)
+@objcMembers public class SentryUserFeedbackThemeConfiguration : ObjectiveC.NSObject {
+  @objc public var font: UIKit.UIFont
   @objc public var foreground: UIKit.UIColor
   @objc public var background: UIKit.UIColor
   @objc public var accentForeground: UIKit.UIColor
   @objc public var accentBackground: UIKit.UIColor
   @objc public var successColor: UIKit.UIColor
   @objc public var errorColor: UIKit.UIColor
-  @objc public var outlineColor: UIKit.UIColor?
+  @objc public var outlineColor: UIKit.UIColor
   @objc public var outlineColorFocussed: UIKit.UIColor?
   @objc public var outlineThickness: Foundation.NSNumber?
   @objc public var outlineThicknessFocussed: Foundation.NSNumber?
@@ -108,17 +115,21 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
   @objc override dynamic public init()
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackWidgetConfiguration : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers @available(iOS 13.0, *)
+@objcMembers public class SentryUserFeedbackWidgetConfiguration : ObjectiveC.NSObject {
   @objc public var autoInject: Swift.Bool
-  @objc public var labelText: Swift.String
+  @objc public var animations: Swift.Bool
+  @objc public var labelText: Swift.String?
+  @objc public var showIcon: Swift.Bool
   @objc public var widgetAccessibilityLabel: Swift.String?
   @objc public var windowLevel: UIKit.UIWindow.Level
-  @objc public var location: UIKit.UIRectEdge
+  @objc public var location: UIKit.NSDirectionalRectEdge
   @objc public var layoutUIOffset: UIKit.UIOffset
   @objc override dynamic public init()
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryUserFeedbackFormConfiguration : ObjectiveC.NSObject {
+@objc @_inheritsConvenienceInitializers @available(iOS 13.0, *)
+@objcMembers public class SentryUserFeedbackFormConfiguration : ObjectiveC.NSObject {
   @objc public var showBranding: Swift.Bool
   @objc public var formTitle: Swift.String
   @objc public var messageLabel: Swift.String
@@ -142,8 +153,6 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
   @objc public var cancelButtonAccessibilityLabel: Swift.String?
   @objc public var confirmButtonLabel: Swift.String
   @objc public var confirmButtonAccessibilityLabel: Swift.String?
-  @objc public var themeOverrides: ((Sentry.SentryUserFeedbackThemeConfiguration) -> Swift.Void)?
-  @objc public var darkThemeOverrides: ((Sentry.SentryUserFeedbackThemeConfiguration) -> Swift.Void)?
   @objc override dynamic public init()
   @objc deinit
 }

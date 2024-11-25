@@ -27,10 +27,13 @@ import _SwiftConcurrencyShims
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject {
-  @objc public enum SentryReplayQuality : Swift.Int {
+  @objc public enum SentryReplayQuality : Swift.Int, Swift.CustomStringConvertible {
     case low
     case medium
     case high
+    public var description: Swift.String {
+      get
+    }
     public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
