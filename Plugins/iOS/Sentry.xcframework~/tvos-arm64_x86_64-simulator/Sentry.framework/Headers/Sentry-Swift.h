@@ -449,9 +449,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -821,7 +820,8 @@ SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 
 SWIFT_CLASS("_TtC6Sentry18SentryTouchTracker")
 @interface SentryTouchTracker : NSObject
-- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale;
 - (void)trackTouchFromEvent:(UIEvent * _Nonnull)event;
 - (void)flushFinishedEvents;
 - (NSArray<SentryRRWebEvent *> * _Nonnull)replayEventsFrom:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
@@ -869,6 +869,8 @@ SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 - (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
 - (void)addRedactClasses:(NSArray<Class> * _Nonnull)classes;
+- (void)setIgnoreContainerClass:(Class _Nonnull)containerClass;
+- (void)setRedactContainerClass:(Class _Nonnull)containerClass;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -1365,9 +1367,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -1737,7 +1738,8 @@ SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 
 SWIFT_CLASS("_TtC6Sentry18SentryTouchTracker")
 @interface SentryTouchTracker : NSObject
-- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider scale:(float)scale;
 - (void)trackTouchFromEvent:(UIEvent * _Nonnull)event;
 - (void)flushFinishedEvents;
 - (NSArray<SentryRRWebEvent *> * _Nonnull)replayEventsFrom:(NSDate * _Nonnull)from until:(NSDate * _Nonnull)until SWIFT_WARN_UNUSED_RESULT;
@@ -1785,6 +1787,8 @@ SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 - (void)imageWithView:(UIView * _Nonnull)view options:(id <SentryRedactOptions> _Nonnull)options onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
 - (void)addRedactClasses:(NSArray<Class> * _Nonnull)classes;
+- (void)setIgnoreContainerClass:(Class _Nonnull)containerClass;
+- (void)setRedactContainerClass:(Class _Nonnull)containerClass;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end

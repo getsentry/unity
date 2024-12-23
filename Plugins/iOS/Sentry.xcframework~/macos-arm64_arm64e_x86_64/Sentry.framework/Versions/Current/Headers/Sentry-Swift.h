@@ -447,9 +447,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -1315,9 +1314,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -2183,9 +2181,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;

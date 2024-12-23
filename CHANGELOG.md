@@ -1,5 +1,34 @@
 # Changelog
 
+## 3.0.0-beta.0
+
+### API Changes
+
+- The native layer on mobile platforms (iOS and Android) no longer self-initializes before the Unity game starts. Previously, the SDK would use the options at build-time and bake them into the native layer. Instead, the SDK will now take the options passed into the `Configure` callback and use those to initialize the native SDKs. This allows users to modify the native SDK's options at runtime programmatically.
+The initialization behaviour is controlled by `IosNativeInitializationType` and `AndroidNativeInitializationType` options. These can be set from `Runtime` (default) to `BuildTime` to restore the previous flow and bake the options into the native projects. ([#1915](https://github.com/getsentry/sentry-unity/pull/1915), [#1924](https://github.com/getsentry/sentry-unity/pull/1924))
+
+### Fixes
+
+- On Android, the SDK not longer freezes the game when failing to sync with the native SDK ([#1927](https://github.com/getsentry/sentry-unity/pull/1927))
+
+### Dependencies
+
+- Bump .NET SDK from v4.13.0 to v5.0.0 ([#1940](https://github.com/getsentry/sentry-unity/pull/1940))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#500)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/4.13.0...5.0.0)
+- Bump CLI from v2.39.0 to v2.39.1 ([#1922](https://github.com/getsentry/sentry-unity/pull/1922))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2391)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.39.0...2.39.1)
+- Bump Java SDK from v7.18.0 to v7.19.0 ([#1926](https://github.com/getsentry/sentry-unity/pull/1926), [#1934](https://github.com/getsentry/sentry-unity/pull/1934))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#7190)
+  - [diff](https://github.com/getsentry/sentry-java/compare/7.18.0...7.19.0)
+- Bump Cocoa SDK from v8.41.0 to v8.42.0 ([#1937](https://github.com/getsentry/sentry-unity/pull/1937))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8420)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.41.0...8.42.0)
+- Bump Native SDK from v0.7.15 to v0.7.17 ([#1928](https://github.com/getsentry/sentry-unity/pull/1928), [#1939](https://github.com/getsentry/sentry-unity/pull/1939))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0717)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.7.15...0.7.17)
+
 ## 2.4.0
 
 ### API Changes
@@ -28,9 +57,9 @@ This is part of a larger effort to simplify the configuration of the native SDKs
 - Bump Native SDK from v0.7.11 to v0.7.15 ([#1886](https://github.com/getsentry/sentry-unity/pull/1886), [#1906](https://github.com/getsentry/sentry-unity/pull/1906), [#1910](https://github.com/getsentry/sentry-unity/pull/1910), [#1913](https://github.com/getsentry/sentry-unity/pull/1913))
   - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0715)
   - [diff](https://github.com/getsentry/sentry-native/compare/0.7.11...0.7.15)
-- Bump Cocoa SDK from v8.39.0 to v8.40.1 ([#1890](https://github.com/getsentry/sentry-unity/pull/1890), [#1893](https://github.com/getsentry/sentry-unity/pull/1893))
-  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8401)
-  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.39.0...8.40.1)
+- Bump Cocoa SDK from v8.39.0 to v8.41.0 ([#1890](https://github.com/getsentry/sentry-unity/pull/1890), [#1893](https://github.com/getsentry/sentry-unity/pull/1893), [#1916](https://github.com/getsentry/sentry-unity/pull/1916))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8410)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.39.0...8.41.0)
 - Bump Java SDK from v7.16.0 to v7.18.0 ([#1899](https://github.com/getsentry/sentry-unity/pull/1899), [#1905](https://github.com/getsentry/sentry-unity/pull/1905))
   - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#7180)
   - [diff](https://github.com/getsentry/sentry-java/compare/7.16.0...7.18.0)

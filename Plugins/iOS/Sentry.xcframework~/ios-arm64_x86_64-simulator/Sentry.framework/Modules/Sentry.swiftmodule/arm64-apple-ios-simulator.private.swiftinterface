@@ -100,18 +100,33 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
 }
 @objc @_inheritsConvenienceInitializers @available(iOS 13.0, *)
 @objcMembers public class SentryUserFeedbackThemeConfiguration : ObjectiveC.NSObject {
-  @objc public var font: UIKit.UIFont
+  @objc public var fontFamily: Swift.String? {
+    @objc get
+    @objc set
+  }
   @objc public var foreground: UIKit.UIColor
   @objc public var background: UIKit.UIColor
-  @objc public var accentForeground: UIKit.UIColor
-  @objc public var accentBackground: UIKit.UIColor
+  @objc public var submitForeground: UIKit.UIColor
+  @objc public var submitBackground: UIKit.UIColor
+  @objc public var buttonForeground: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc public var buttonBackground: UIKit.UIColor
   @objc public var successColor: UIKit.UIColor
   @objc public var errorColor: UIKit.UIColor
-  @objc public var outlineColor: UIKit.UIColor
-  @objc public var outlineColorFocussed: UIKit.UIColor?
-  @objc public var outlineThickness: Foundation.NSNumber?
-  @objc public var outlineThicknessFocussed: Foundation.NSNumber?
-  @objc public var cornerRadius: Foundation.NSNumber?
+  public struct OutlineStyle : Swift.Equatable {
+    public var outlineColor: UIKit.UIColor
+    public var cornerRadius: CoreFoundation.CGFloat
+    public var outlineWidth: CoreFoundation.CGFloat
+    public init(outlineColor: UIKit.UIColor = UIColor(white: 204 / 255, alpha: 1), cornerRadius: CoreFoundation.CGFloat = 5, outlineWidth: CoreFoundation.CGFloat = 0.5)
+    public static func == (a: Sentry.SentryUserFeedbackThemeConfiguration.OutlineStyle, b: Sentry.SentryUserFeedbackThemeConfiguration.OutlineStyle) -> Swift.Bool
+  }
+  public var outlineStyle: Sentry.SentryUserFeedbackThemeConfiguration.OutlineStyle {
+    get
+    set
+  }
+  @objc public var inputBackground: UIKit.UIColor
   @objc override dynamic public init()
   @objc deinit
 }
@@ -119,9 +134,15 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
 @objcMembers public class SentryUserFeedbackWidgetConfiguration : ObjectiveC.NSObject {
   @objc public var autoInject: Swift.Bool
   @objc public var animations: Swift.Bool
-  @objc public var labelText: Swift.String?
+  @objc public var labelText: Swift.String? {
+    @objc get
+    @objc set
+  }
   @objc public var showIcon: Swift.Bool
-  @objc public var widgetAccessibilityLabel: Swift.String?
+  @objc public var widgetAccessibilityLabel: Swift.String? {
+    @objc get
+    @objc set
+  }
   @objc public var windowLevel: UIKit.UIWindow.Level
   @objc public var location: UIKit.NSDirectionalRectEdge
   @objc public var layoutUIOffset: UIKit.UIOffset
@@ -134,25 +155,49 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
   @objc public var formTitle: Swift.String
   @objc public var messageLabel: Swift.String
   @objc public var messagePlaceholder: Swift.String
+  @objc public var messageTextViewAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc public var isRequiredLabel: Swift.String
   @objc public var successMessageText: Swift.String
   @objc public var enableScreenshot: Swift.Bool
   @objc public var addScreenshotButtonLabel: Swift.String
+  @objc public var addScreenshotButtonAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc public var removeScreenshotButtonLabel: Swift.String
+  @objc public var removeScreenshotButtonAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc public var isNameRequired: Swift.Bool
   @objc public var showName: Swift.Bool
   @objc public var nameLabel: Swift.String
   @objc public var namePlaceholder: Swift.String
+  @objc public var nameTextFieldAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc public var isEmailRequired: Swift.Bool
   @objc public var showEmail: Swift.Bool
   @objc public var emailLabel: Swift.String
   @objc public var emailPlaceholder: Swift.String
+  @objc public var emailTextFieldAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc public var submitButtonLabel: Swift.String
-  @objc public var submitButtonAccessibilityLabel: Swift.String?
+  @objc public var submitButtonAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc public var cancelButtonLabel: Swift.String
-  @objc public var cancelButtonAccessibilityLabel: Swift.String?
-  @objc public var confirmButtonLabel: Swift.String
-  @objc public var confirmButtonAccessibilityLabel: Swift.String?
+  @objc public var cancelButtonAccessibilityLabel: Swift.String {
+    @objc get
+    @objc set
+  }
   @objc override dynamic public init()
   @objc deinit
 }
@@ -164,19 +209,19 @@ extension UIKit.UIView {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
   @objc func uninstall()
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryId : ObjectiveC.NSObject {
-  @objc public static var empty: Sentry.SentryId
-  @objc public var sentryIdString: Swift.String {
+@objc @_inheritsConvenienceInitializers @objcMembers final public class SentryId : ObjectiveC.NSObject, Swift.Sendable {
+  @objc public static let empty: Sentry.SentryId
+  @objc final public var sentryIdString: Swift.String {
     @objc get
   }
   @objc override dynamic public init()
   @objc public init(uuid: Foundation.UUID)
   @objc(initWithUUIDString:) public init(uuidString: Swift.String)
-  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
-  @objc override dynamic public var description: Swift.String {
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var description: Swift.String {
     @objc get
   }
-  @objc override dynamic public var hash: Swift.Int {
+  @objc override final public var hash: Swift.Int {
     @objc get
   }
   @objc deinit
