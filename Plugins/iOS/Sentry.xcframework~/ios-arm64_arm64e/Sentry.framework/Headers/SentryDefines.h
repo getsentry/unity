@@ -1,5 +1,26 @@
 #import <Foundation/Foundation.h>
 
+// SentryDefines.h is a key header and will be checked early,
+// ensuring this error appears first during the compile process.
+//
+// Setting APPLICATION_EXTENSION_API_ONLY to YES has a side effect of
+// including all Swift classes in the `Sentry-Swift.h` header which is
+// required for the SDK to work.
+//
+// https://github.com/getsentry/sentry-cocoa/issues/4426
+//
+// This mainly came up in RN SDK, because
+// some libraries advice to users
+// to set APPLICATION_EXTENSION_API_ONLY_NO
+// for all cocoapods targets, instead of
+// only to their pod.
+// https://github.com/getsentry/sentry-react-native/issues/3908
+#if APPLICATION_EXTENSION_API_ONLY_NO
+#    error "Set APPLICATION_EXTENSION_API_ONLY to YES in the Sentry build settings.\
+ Setting the flag to YES is required for the SDK to work.\
+ For more information, visit https://docs.sentry.io/platforms/apple/troubleshooting/#unknown-receiver-somereceiver-use-of-undeclared-identifier-someidentifier
+#endif
+
 #ifdef __cplusplus
 #    define SENTRY_EXTERN extern "C" __attribute__((visibility("default")))
 #else
@@ -137,16 +158,6 @@ typedef NSNumber *_Nullable (^SentryTracesSamplerCallback)(
  * @param span The span to be used.
  */
 typedef void (^SentrySpanCallback)(id<SentrySpan> _Nullable span);
-
-/**
- * A callback block which gets called right before a metric is about to be emitted.
-
- * @param key  The key of the metric.
- * @param tags A dictionary of key-value pairs associated with the metric.
- * @return BOOL YES if the metric should be emitted, NO otherwise.
- */
-typedef BOOL (^SentryBeforeEmitMetricCallback)(
-    NSString *_Nonnull key, NSDictionary<NSString *, NSString *> *_Nonnull tags);
 
 /**
  * Log level.

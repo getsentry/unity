@@ -2001,73 +2001,73 @@
         </member>
         <member name="T:Sentry.BuiltInSystemDiagnosticsMeters">
             <summary>
-            Well known values for built in metrics that can be configured for
+            Well known values for built-in metrics that can be configured for
             <see cref="P:Sentry.ExperimentalMetricsOptions.CaptureSystemDiagnosticsMeters"/>
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreHosting">
             <summary>
-            Matches the built in Microsoft.AspNetCore.Hosting metrics
+            Matches the built-in Microsoft.AspNetCore.Hosting metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreRouting">
             <summary>
-            Matches the built in Microsoft.AspNetCore.Routing metrics
+            Matches the built-in Microsoft.AspNetCore.Routing metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreDiagnostics">
             <summary>
-            Matches the built in Microsoft.AspNetCore.Diagnostics metrics
+            Matches the built-in Microsoft.AspNetCore.Diagnostics metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreRateLimiting">
             <summary>
-            Matches the built in Microsoft.AspNetCore.RateLimiting metrics
+            Matches the built-in Microsoft.AspNetCore.RateLimiting metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreHeaderParsing">
             <summary>
-            Matches the built in Microsoft.AspNetCore.HeaderParsing metrics
+            Matches the built-in Microsoft.AspNetCore.HeaderParsing metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreServerKestrel">
             <summary>
-            Matches the built in Microsoft.AspNetCore.Server.Kestrel metrics
+            Matches the built-in Microsoft.AspNetCore.Server.Kestrel metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreHttpConnections">
             <summary>
-            Matches the built in Microsoft.AspNetCore.Http.Connections metrics
+            Matches the built-in Microsoft.AspNetCore.Http.Connections metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftExtensionsDiagnosticsHealthChecks">
             <summary>
-            Matches the built in Microsoft.Extensions.Diagnostics.HealthChecks metrics
+            Matches the built-in Microsoft.Extensions.Diagnostics.HealthChecks metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftExtensionsDiagnosticsResourceMonitoring">
             <summary>
-            Matches the built in Microsoft.Extensions.Diagnostics.ResourceMonitoring metrics
+            Matches the built-in Microsoft.Extensions.Diagnostics.ResourceMonitoring metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.OpenTelemetryInstrumentationRuntime">
             <summary>
-            Matches the built in System.Net.NameResolution metrics
+            Matches the built-in System.Net.NameResolution metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.SystemNetNameResolution">
             <summary>
-            Matches the built in System.Net.NameResolution metrics
+            Matches the built-in System.Net.NameResolution metrics
             </summary>
         </member>
         <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.SystemNetHttp">
             <summary>
-            Matches the built in <see cref="N:System.Net.Http"/> metrics
+            Matches the built-in <see cref="N:System.Net.Http"/> metrics
             </summary>
         </member>
         <member name="P:Sentry.BuiltInSystemDiagnosticsMeters.All">
             <summary>
-            Matches all built in metrics
+            Matches all built-in metrics
             </summary>
             <returns></returns>
         </member>
@@ -2222,7 +2222,7 @@
             matches one of the items in this list will be collected and reported to Sentry.
             </para>
             <para>
-            These can be either custom Instruments that you have created or any of the built in metrics that are available.
+            These can be either custom Instruments that you have created or any of the built-in metrics that are available.
             </para>
             <para>
             See https://learn.microsoft.com/en-us/dotnet/core/diagnostics/built-in-metrics for more information.
@@ -2236,7 +2236,7 @@
             whose name matches one of the items in this list will be collected and reported to Sentry.
             </para>
             <para>
-            These can be either custom Instruments that you have created or any of the built in metrics that are available.
+            These can be either custom Instruments that you have created or any of the built-in metrics that are available.
             </para>
             <para>
             See https://learn.microsoft.com/en-us/dotnet/core/diagnostics/built-in-metrics for more information.
@@ -2661,11 +2661,6 @@
             No-Op.
             </summary>
         </member>
-        <member name="P:Sentry.Extensibility.DisabledHub.Metrics">
-            <summary>
-            Disabled Metrics Aggregator (all methods are no-op).
-            </summary>
-        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.Dispose">
             <summary>
             No-Op.
@@ -2873,9 +2868,6 @@
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>
             </summary>
-        </member>
-        <member name="P:Sentry.Extensibility.HubAdapter.Metrics">
-            <inheritdoc cref="T:Sentry.IMetricAggregator"/>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.CaptureUserFeedback(Sentry.UserFeedback)">
             <summary>
@@ -3799,11 +3791,6 @@
             Last event id recorded in the current scope.
             </summary>
         </member>
-        <member name="P:Sentry.IHub.Metrics">
-            <summary>
-            <inheritdoc cref="T:Sentry.IMetricAggregator"/>
-            </summary>
-        </member>
         <member name="M:Sentry.IHub.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
             <summary>
             Starts a transaction.
@@ -3893,128 +3880,6 @@
             <param name="hint">An optional hint to be provided with the event</param>
             <param name="configureScope">The callback to configure the scope.</param>
             <returns></returns>
-        </member>
-        <member name="T:Sentry.IMetricAggregator">
-            <summary>
-            Exposes EXPERIMENTAL capability to emit metrics. This API is subject to change without major version bumps so use
-            with caution. We advise disabling in production at the moment.
-            </summary>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.Increment(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <summary>
-            Emits a Counter metric
-            </summary>
-            <param name="key">A unique key identifying the metric</param>
-            <param name="value">The value to be added</param>
-            <param name="unit">An optional <see cref="T:Sentry.MeasurementUnit"/></param>
-            <param name="tags">Optional Tags to associate with the metric</param>
-            <param name="timestamp">
-                The time when the metric was emitted. Defaults to the time at which the metric is emitted, if no value is provided.
-            </param>
-            <param name="stackLevel">Optional number of stacks levels to ignore when determining the code location</param>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.Gauge(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <summary>
-            Emits a Gauge metric
-            </summary>
-            <param name="key">A unique key identifying the metric</param>
-            <param name="value">The value to be added</param>
-            <param name="unit">An optional <see cref="T:Sentry.MeasurementUnit"/></param>
-            <param name="tags">Optional Tags to associate with the metric</param>
-            <param name="timestamp">
-                The time when the metric was emitted. Defaults to the time at which the metric is emitted, if no value is provided.
-            </param>
-            <param name="stackLevel">Optional number of stacks levels to ignore when determining the code location</param>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.Distribution(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <summary>
-            Emits a Distribution metric
-            </summary>
-            <param name="key">A unique key identifying the metric</param>
-            <param name="value">The value to be added</param>
-            <param name="unit">An optional <see cref="T:Sentry.MeasurementUnit"/></param>
-            <param name="tags">Optional Tags to associate with the metric</param>
-            <param name="timestamp">
-                The time when the metric was emitted. Defaults to the time at which the metric is emitted, if no value is provided.
-            </param>
-            <param name="stackLevel">Optional number of stacks levels to ignore when determining the code location</param>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.Set(System.String,System.Int32,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <summary>
-            Emits a Set metric
-            </summary>
-            <param name="key">A unique key identifying the metric</param>
-            <param name="value">The value to be added</param>
-            <param name="unit">An optional <see cref="T:Sentry.MeasurementUnit"/></param>
-            <param name="tags">Optional Tags to associate with the metric</param>
-            <param name="timestamp">
-                The time when the metric was emitted. Defaults to the time at which the metric is emitted, if no value is provided.
-            </param>
-            <param name="stackLevel">Optional number of stacks levels to ignore when determining the code location</param>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.Set(System.String,System.String,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <summary>
-            Emits a Set metric a
-            </summary>
-            <param name="key">A unique key identifying the metric</param>
-            <param name="value">The value to be added</param>
-            <param name="unit">An optional <see cref="T:Sentry.MeasurementUnit"/></param>
-            <param name="tags">Optional Tags to associate with the metric</param>
-            <param name="timestamp">
-                The time when the metric was emitted. Defaults to the time at which the metric is emitted, if no value is provided.
-            </param>
-            <param name="stackLevel">Optional number of stacks levels to ignore when determining the code location</param>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.Timing(System.String,System.Double,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <summary>
-            Emits a distribution with the time it takes to run a given code block.
-            </summary>
-            <param name="key">A unique key identifying the metric</param>
-            <param name="value">The value to be added</param>
-            <param name="unit">
-                An optional <see cref="T:Sentry.MeasurementUnit.Duration"/>. Defaults to <see cref="F:Sentry.MeasurementUnit.Duration.Second"/>
-            </param>
-            <param name="tags">Optional Tags to associate with the metric</param>
-            <param name="timestamp">The time when the metric was emitted</param>
-            <param name="stackLevel">Optional number of stacks levels to ignore when determining the code location</param>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.StartTimer(System.String,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Int32)">
-            <summary>
-            Measures the time it takes to run a given code block and emits this as a metric.
-            </summary>
-            <example>
-            using (SentrySdk.Metrics.StartTimer("my-operation"))
-            {
-                ...
-            }
-            </example>
-        </member>
-        <member name="M:Sentry.IMetricAggregator.FlushAsync(System.Boolean,System.Threading.CancellationToken)">
-            <summary>
-            Flushes any flushable metrics and/or code locations.
-            If <paramref name="force"/> is true then the cutoff is ignored and all metrics are flushed.
-            </summary>
-            <param name="force">Forces all buckets to be flushed, ignoring the cutoff</param>
-            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
-            <returns>False if a shutdown is requested during flush, true otherwise</returns>
-        </member>
-        <member name="M:Sentry.IMetricHub.CaptureMetrics(System.Collections.Generic.IEnumerable{Sentry.Protocol.Metrics.Metric})">
-            <summary>
-            Captures one or more metrics to be sent to Sentry.
-            </summary>
-        </member>
-        <member name="M:Sentry.IMetricHub.CaptureCodeLocations(Sentry.Protocol.Metrics.CodeLocations)">
-            <summary>
-            Captures one or more <see cref="T:Sentry.Protocol.Metrics.CodeLocations"/> to be sent to Sentry.
-            </summary>
-        </member>
-        <member name="M:Sentry.IMetricHub.StartSpan(System.String,System.String)">
-            <summary>
-            Starts a child span for the current transaction or, if there is no active transaction, starts a new transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.IMetricHub.GetSpan">
-            <inheritdoc cref="M:Sentry.IHub.GetSpan"/>
         </member>
         <member name="T:Sentry.Infrastructure.ConsoleAndTraceDiagnosticLogger">
             <summary>
@@ -4474,6 +4339,11 @@
             IEnumerator implementation.
             </summary>
         </member>
+        <member name="T:Sentry.Internal.GarbageCollectionMonitor">
+            <summary>
+            Simple class to detect when Full Garbage Collection occurs
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.GraphQL.GraphQLRequestContentReader">
             <summary>
             Adapted from https://github.com/graphql-dotnet/graphql-dotnet/blob/42a299e77748ec588bf34c33334e985098563298/src/GraphQL.SystemTextJson/GraphQLRequestJsonConverter.cs#L64
@@ -4603,18 +4473,6 @@
             </returns>
             <inheritdoc />
         </member>
-        <member name="P:Sentry.Internal.Hub.Metrics">
-            <inheritdoc cref="T:Sentry.IMetricAggregator"/>
-        </member>
-        <member name="M:Sentry.Internal.Hub.CaptureMetrics(System.Collections.Generic.IEnumerable{Sentry.Protocol.Metrics.Metric})">
-            <inheritdoc cref="M:Sentry.IMetricHub.CaptureMetrics(System.Collections.Generic.IEnumerable{Sentry.Protocol.Metrics.Metric})"/>
-        </member>
-        <member name="M:Sentry.Internal.Hub.CaptureCodeLocations(Sentry.Protocol.Metrics.CodeLocations)">
-            <inheritdoc cref="M:Sentry.IMetricHub.CaptureCodeLocations(Sentry.Protocol.Metrics.CodeLocations)"/>
-        </member>
-        <member name="M:Sentry.Internal.Hub.StartSpan(System.String,System.String)">
-            <inheritdoc cref="M:Sentry.IMetricHub.StartSpan(System.String,System.String)"/>
-        </member>
         <member name="M:Sentry.Internal.IClientReportRecorder.RecordDiscardedEvent(Sentry.Internal.DiscardReason,Sentry.Internal.DataCategory,System.Int32)">
             <summary>
             Records one count of a discarded event, with the given <paramref name="reason"/> and <paramref name="category"/>.
@@ -4641,6 +4499,16 @@
             Useful when recovering from failures while sending client reports.
             </remarks>
             <param name="report">The client report to load.</param>
+        </member>
+        <member name="T:Sentry.Internal.IGCImplementation">
+            <summary>
+            This allows us to test the GarbageCollectionMonitor class without a dependency on System.GC, which is static
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.IStringOrRegexMatcher.IsMatch(Sentry.StringOrRegex,System.String)">
+            <summary>
+            Evaluates if the given value matches the string or regex.
+            </summary>
         </member>
         <member name="T:Sentry.Internal.ITransactionProfilerFactory">
             <summary>
@@ -4846,46 +4714,14 @@
             A readable representation of the stack trace.
             </returns>
         </member>
-        <member name="T:Sentry.Internal.StringOrRegex">
+        <member name="T:Sentry.Internal.SystemGCImplementation">
             <summary>
-            Stores either a plain string or a Regular Expression, typically to match against filters in the SentryOptions
+            When not testing we use `System.GC`.
             </summary>
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.#ctor(System.String)">
-            <summary>
-            Constructs a <see cref="T:Sentry.Internal.StringOrRegex"/> instance.
-            </summary>
-            <param name="stringOrRegex">The prefix or regular expression pattern to match on.</param>
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.#ctor(System.Text.RegularExpressions.Regex)">
-            <summary>
-            Constructs a <see cref="T:Sentry.Internal.StringOrRegex"/> instance.
-            </summary>
-            <param name="regex"></param>
             <remarks>
-            Use this constructor when you want the match to be performed using a regular expression.
+            All these methods can throw an exception if concurrent garbage collection has been enabled in the runtime
+            settings for the application.
             </remarks>
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.op_Implicit(System.String)~Sentry.Internal.StringOrRegex">
-            <summary>
-            Implicitly converts a <see cref="T:System.String"/> to a <see cref="T:Sentry.Internal.StringOrRegex"/>.
-            </summary>
-            <param name="stringOrRegex"></param>
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.op_Implicit(System.Text.RegularExpressions.Regex)~Sentry.Internal.StringOrRegex">
-            <summary>
-            Implicitly converts a <see cref="T:System.Text.RegularExpressions.Regex"/> to a <see cref="T:Sentry.Internal.StringOrRegex"/>.
-            </summary>
-            <param name="regex"></param>
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.ToString">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.Equals(System.Object)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.StringOrRegex.GetHashCode">
-            <inheritdoc />
         </member>
         <member name="T:Sentry.Internal.ThreadsafeCounterDictionary`1">
             <summary>
@@ -5332,23 +5168,6 @@
         <member name="M:Sentry.SpanDataExtensions.SetMeasurement(Sentry.ISpanData,System.String,System.Double,Sentry.MeasurementUnit)">
             <inheritdoc cref="M:Sentry.SpanDataExtensions.SetMeasurement(Sentry.ISpanData,System.String,System.Int32,Sentry.MeasurementUnit)" />
         </member>
-        <member name="T:Sentry.ITraceContextInternal">
-            <summary>
-             Internal interface defining members to be added to the TraceContexts for the next major release
-             (since adding members to interfaces is a breaking change).
-            </summary>
-            <remarks>
-            TODO: Remove this interface in the next major version.
-            </remarks>
-        </member>
-        <member name="P:Sentry.ITraceContextInternal.Origin">
-            <summary>
-            Specifies the origin of the trace. If no origin is set then the trace origin is assumed to be "manual".
-            </summary>
-            <remarks>
-            See https://develop.sentry.dev/sdk/performance/trace-origin/ for more information.
-            </remarks>
-        </member>
         <member name="T:Sentry.ITransactionContext">
             <summary>
             Transaction metadata.
@@ -5608,47 +5427,6 @@
             <summary>
             Implicitly casts a <see cref="T:Sentry.MeasurementUnit.Information"/> to a <see cref="T:Sentry.MeasurementUnit"/>.
             </summary>
-        </member>
-        <member name="M:Sentry.MetricAggregator.Increment(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.Increment(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.Gauge(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.Gauge(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.Distribution(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.Distribution(System.String,System.Double,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.Set(System.String,System.Int32,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.Set(System.String,System.Int32,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.Set(System.String,System.String,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.Set(System.String,System.String,System.Nullable{Sentry.MeasurementUnit},System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.Timing(System.String,System.Double,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.Timing(System.String,System.Double,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Nullable{System.DateTimeOffset},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.StartTimer(System.String,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Int32)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.StartTimer(System.String,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Int32)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.FlushAsync(System.Boolean,System.Threading.CancellationToken)">
-            <inheritdoc cref="M:Sentry.IMetricAggregator.FlushAsync(System.Boolean,System.Threading.CancellationToken)"/>
-        </member>
-        <member name="M:Sentry.MetricAggregator.GetFlushableBuckets(System.Boolean)">
-            <summary>
-            Returns the keys for any buckets that are ready to be flushed (i.e. are for periods before the cutoff)
-            </summary>
-            <param name="force">Forces all buckets to be flushed, ignoring the cutoff</param>
-            <returns>
-            An enumerable containing the keys for any buckets that are ready to be flushed
-            </returns>
-        </member>
-        <member name="M:Sentry.MetricAggregator.ClearStaleLocations(System.Nullable{System.DateTimeOffset})">
-            <summary>
-            Clear out stale seen locations once a day
-            </summary>
-        </member>
-        <member name="M:Sentry.MetricAggregator.DisposeAsync">
-            <inheritdoc cref="M:System.IAsyncDisposable.DisposeAsync"/>
         </member>
         <member name="F:Sentry.MetricHelper.FlushShift">
             <summary>
@@ -6121,7 +5899,7 @@
         </member>
         <member name="P:Sentry.Protocol.Device.BatteryLevel">
             <summary>
-            If the device has a battery an integer defining the battery level (in the range 0-100).
+            If the device has a battery a number defining the battery level (in the range 0-100).
             </summary>
         </member>
         <member name="P:Sentry.Protocol.Device.IsCharging">
@@ -6754,6 +6532,14 @@
             <summary>
             Operation.
             </summary>
+        </member>
+        <member name="P:Sentry.Protocol.ITraceContext.Origin">
+            <summary>
+            Specifies the origin of the trace. If no origin is set then the trace origin is assumed to be "manual".
+            </summary>
+            <remarks>
+            See https://develop.sentry.dev/sdk/performance/trace-origin/ for more information.
+            </remarks>
         </member>
         <member name="P:Sentry.Protocol.ITraceContext.Description">
             <summary>
@@ -7510,9 +7296,26 @@
         <member name="P:Sentry.Scope.TransactionName">
             <inheritdoc />
         </member>
+        <member name="F:Sentry.Scope._transaction">
+            <summary>
+            <para>
+            Most of the properties on the Scope should have the same affinity as the Scope... For example, when using a
+            GlobalScopeStackContainer, anything you store on the scope will be applied to all events that get sent to Sentry
+            (no matter which thread they are sent from).
+            </para>
+            <para>
+            Transactions are an exception, however. We don't want spans from threads created on the UI thread to be added as
+            children of Transactions/Spans that get created on the background thread, or vice versa. As such,
+            Scope.Transaction is always stored as an AsyncLocal, regardless of the ScopeStackContainer implementation.
+            </para>
+            <para>
+            See https://github.com/getsentry/sentry-dotnet/issues/3590 for more information.
+            </para>
+            </summary>
+        </member>
         <member name="P:Sentry.Scope.Transaction">
             <summary>
-            Transaction.
+            The current Transaction
             </summary>
         </member>
         <member name="P:Sentry.Scope.Sdk">
@@ -7696,6 +7499,11 @@
         <member name="M:Sentry.Scope.AddAttachment(System.String,Sentry.AttachmentType,System.String)">
             <summary>
             Adds an attachment.
+            </summary>
+        </member>
+        <member name="F:Sentry.Scope._transactionLock">
+            <summary>
+            We need this lock to prevent a potential race condition in <see cref="M:Sentry.Scope.ResetTransaction(Sentry.ITransactionTracer)"/>.
             </summary>
         </member>
         <member name="T:Sentry.SdkVersion">
@@ -9169,45 +8977,13 @@
         </member>
         <member name="P:Sentry.SentryOptions.IsPerformanceMonitoringEnabled">
             <summary>
-            Indicates whether the performance feature is enabled, via any combination of
-            <see cref="P:Sentry.SentryOptions.EnableTracing"/>, <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>, or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
+            Indicates whether the performance feature is enabled, via either <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>
+            or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.IsProfilingEnabled">
             <summary>
-            Indicates whether profiling is enabled, via any combination of
-            <see cref="P:Sentry.SentryOptions.EnableTracing"/>, <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>, or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryOptions.EnableTracing">
-            <summary>
-            Simplified option for enabling or disabling tracing.
-            <list type="table">
-              <listheader>
-                <term>Value</term>
-                <description>Effect</description>
-              </listheader>
-              <item>
-                <term><c>true</c></term>
-                <description>
-                  Tracing is enabled. <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> or <see cref="P:Sentry.SentryOptions.TracesSampler"/> will be used if set,
-                  or 100% sample rate will be used otherwise.
-                </description>
-              </item>
-              <item>
-                <term><c>false</c></term>
-                <description>
-                  Tracing is disabled, regardless of <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> or <see cref="P:Sentry.SentryOptions.TracesSampler"/>.
-                </description>
-              </item>
-              <item>
-                <term><c>null</c></term>
-                <description>
-                  <b>The default setting.</b>
-                  Tracing is enabled only if <see cref="P:Sentry.SentryOptions.TracesSampleRate"/> or <see cref="P:Sentry.SentryOptions.TracesSampler"/> are set.
-                </description>
-              </item>
-            </list>
+            Indicates whether profiling is enabled, via <see cref="P:Sentry.SentryOptions.TracesSampleRate"/>, or <see cref="P:Sentry.SentryOptions.TracesSampler"/>
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.TracesSampleRate">
@@ -9221,8 +8997,7 @@
               <item>
                 <term><c>&gt;= 0.0 and &lt;=1.0</c></term>
                 <description>
-                  A custom sample rate is used unless <see cref="P:Sentry.SentryOptions.EnableTracing"/> is <c>false</c>,
-                  or unless overriden by a <see cref="P:Sentry.SentryOptions.TracesSampler"/> function.
+                  A custom sample rate is used unless overriden by a <see cref="P:Sentry.SentryOptions.TracesSampler"/> function.
                   Values outside of this range are invalid.
                 </description>
               </item>
@@ -9230,8 +9005,7 @@
                 <term><c>null</c></term>
                 <description>
                   <b>The default setting.</b>
-                  The tracing sample rate is determined by the <see cref="P:Sentry.SentryOptions.EnableTracing"/> property,
-                  unless overriden by a <see cref="P:Sentry.SentryOptions.TracesSampler"/> function.
+                  The tracing sample rate is determined by the <see cref="P:Sentry.SentryOptions.TracesSampler"/> function.
                 </description>
               </item>
             </list>
@@ -9282,7 +9056,7 @@
         </member>
         <member name="P:Sentry.SentryOptions.TracePropagationTargets">
             <summary>
-            A customizable list of <see cref="T:Sentry.SubstringOrRegexPattern"/> objects, each containing either a
+            A customizable list of <see cref="T:Sentry.StringOrRegex"/> objects, each containing either a
             substring or regular expression pattern that can be used to control which outgoing HTTP requests
             will have the <c>sentry-trace</c> and <c>baggage</c> headers propagated, for purposes of distributed tracing.
             The default value contains a single value of <c>.*</c>, which matches everything.
@@ -9422,18 +9196,6 @@
             <remarks>
             This is for Sentry use only, and can change without a major version bump.
             </remarks>
-        </member>
-        <member name="P:Sentry.SentryOptions.ExperimentalMetrics">
-            <summary>
-            <para>
-            Settings for the EXPERIMENTAL metrics feature. This feature is preview only and subject to change without a
-            major version bump. Currently it's recommended for noodling only - DON'T USE IN PRODUCTION!
-            </para>
-            <para>
-            By default the ExperimentalMetrics Options is null, which means the feature is disabled. If you want to enable
-            Experimental metrics, you must set this property to a non-null value.
-            </para>
-            </summary>
         </member>
         <member name="P:Sentry.SentryOptions.SpotlightUrl">
             <summary>
@@ -10269,9 +10031,6 @@
             If no "sentry-trace" header is provided a random trace ID and span ID is created.
             </remarks>
         </member>
-        <member name="P:Sentry.SentrySdk.Metrics">
-            <inheritdoc cref="T:Sentry.IMetricAggregator"/>
-        </member>
         <member name="M:Sentry.SentrySdk.StartSession">
             <inheritdoc cref="M:Sentry.IHub.StartSession"/>
         </member>
@@ -10687,8 +10446,18 @@
         </member>
         <member name="M:Sentry.SentryTraceHeader.Parse(System.String)">
             <summary>
-            Parses <see cref="T:Sentry.SentryTraceHeader"/> from string.
+            Parses a <see cref="T:Sentry.SentryTraceHeader"/> from a string representation of the Sentry trace header.
             </summary>
+            <param name="value">
+            A string containing the Sentry trace header, expected to follow the format "traceId-spanId-sampled",
+            where "sampled" is optional.
+            </param>
+            <returns>
+            A <see cref="T:Sentry.SentryTraceHeader"/> object if parsing succeeds, or <c>null</c> if the input string is null, empty, or whitespace.
+            </returns>
+            <exception cref="T:System.FormatException">
+            Thrown if the input string does not contain a valid trace header format, specifically if it lacks required trace ID and span ID components.
+            </exception>
         </member>
         <member name="T:Sentry.SentryTransaction">
             <summary>
@@ -10862,11 +10631,6 @@
         <member name="P:Sentry.SentryUser.IpAddress">
             <summary>
             The IP address of the user.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryUser.Segment">
-            <summary>
-            The segment the user belongs to.
             </summary>
         </member>
         <member name="P:Sentry.SentryUser.Other">
@@ -11328,52 +11092,48 @@
         <member name="M:Sentry.StreamAttachmentContent.GetStream">
             <inheritdoc />
         </member>
-        <member name="T:Sentry.SubstringOrRegexPattern">
+        <member name="T:Sentry.StringOrRegex">
             <summary>
-            Provides a pattern that can be used to match against other strings as either a substring or regular expression.
+            Stores either a plain string or a Regular Expression, typically to match against filters in the SentryOptions
             </summary>
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.#ctor(System.String,System.StringComparison)">
+        <member name="M:Sentry.StringOrRegex.#ctor(System.String)">
             <summary>
-            Constructs a <see cref="T:Sentry.SubstringOrRegexPattern"/> instance.
+            Constructs a <see cref="T:Sentry.StringOrRegex"/> instance.
             </summary>
-            <param name="substringOrRegexPattern">The substring or regular expression pattern to match on.</param>
-            <param name="comparison">The string comparison type to use when matching.</param>
+            <param name="stringOrRegex">The prefix or regular expression pattern to match on.</param>
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.#ctor(System.Text.RegularExpressions.Regex)">
+        <member name="M:Sentry.StringOrRegex.#ctor(System.Text.RegularExpressions.Regex)">
             <summary>
-            Constructs a <see cref="T:Sentry.SubstringOrRegexPattern"/> instance.
+            Constructs a <see cref="T:Sentry.StringOrRegex"/> instance.
             </summary>
             <param name="regex"></param>
             <remarks>
-            Use this constructor when you need to control the regular expression matching options.
-            We recommend setting at least <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled"/> for performance, and
-            <see cref="F:System.Text.RegularExpressions.RegexOptions.CultureInvariant"/> (unless you have culture-specific matching needs).
-            The <see cref="M:Sentry.SubstringOrRegexPattern.#ctor(System.String,System.StringComparison)"/> constructor sets these by default.
+            Use this constructor when you want the match to be performed using a regular expression.
             </remarks>
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.op_Implicit(System.String)~Sentry.SubstringOrRegexPattern">
+        <member name="M:Sentry.StringOrRegex.op_Implicit(System.String)~Sentry.StringOrRegex">
             <summary>
-            Implicitly converts a <see cref="T:System.String"/> to a <see cref="T:Sentry.SubstringOrRegexPattern"/>.
+            Implicitly converts a <see cref="T:System.String"/> to a <see cref="T:Sentry.StringOrRegex"/>.
             </summary>
-            <param name="substringOrRegexPattern"></param>
+            <param name="stringOrRegex"></param>
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.op_Implicit(System.Text.RegularExpressions.Regex)~Sentry.SubstringOrRegexPattern">
+        <member name="M:Sentry.StringOrRegex.op_Implicit(System.Text.RegularExpressions.Regex)~Sentry.StringOrRegex">
             <summary>
-            Implicitly converts a <see cref="P:Sentry.SubstringOrRegexPattern.Regex"/> to a <see cref="T:Sentry.SubstringOrRegexPattern"/>.
+            Implicitly converts a <see cref="T:System.Text.RegularExpressions.Regex"/> to a <see cref="T:Sentry.StringOrRegex"/>.
             </summary>
             <param name="regex"></param>
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.ToString">
+        <member name="M:Sentry.StringOrRegex.ToString">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.Equals(System.Object)">
+        <member name="M:Sentry.StringOrRegex.Equals(System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SubstringOrRegexPattern.GetHashCode">
+        <member name="M:Sentry.StringOrRegex.GetHashCode">
             <inheritdoc />
         </member>
-        <member name="M:Sentry.SubstringOrRegexPatternExtensions.WithConfigBinding``1(System.Collections.Generic.IList{``0})">
+        <member name="M:Sentry.StringOrRegexExtensions.WithConfigBinding``1(System.Collections.Generic.IList{``0})">
             <summary>
             During configuration binding, .NET 6 and lower used to just call Add on the existing item.
             .NET 7 changed this to call the setter with an array that already starts with the old value.
@@ -11383,24 +11143,22 @@
             <param name="value">The set of values to be assigned</param>
             <returns>A IList of type T that will be consistent even if it has been set via Config</returns>
         </member>
-        <member name="T:Sentry.Timing">
+        <member name="T:Sentry.StringOrRegexTypeConverter">
             <summary>
-            Measures the time it takes to run a given code block and emits this as a metric.
-            </summary>
-            <example>
-            using (var timing = new Timing("my-operation"))
-            {
-                ...
-            }
-            </example>
-        </member>
-        <member name="M:Sentry.Timing.#ctor(Sentry.MetricAggregator,Sentry.IMetricHub,Sentry.SentryOptions,System.String,Sentry.MeasurementUnit.Duration,System.Collections.Generic.IDictionary{System.String,System.String},System.Int32)">
-            <summary>
-            Creates a new <see cref="T:Sentry.Timing"/> instance.
+            This class allows the TracePropagationTargets option to be set from config, such as appSettings.json
             </summary>
         </member>
-        <member name="M:Sentry.Timing.Dispose">
-            <inheritdoc cref="T:System.IDisposable"/>
+        <member name="T:Sentry.SubstringOrPatternMatcher">
+            <summary>
+            Provides a pattern that can be used to match against other strings as either a substring or regular expression.
+            </summary>
+            <param name="comparison">The string comparison type to use when matching for substrings.</param>
+        </member>
+        <member name="M:Sentry.SubstringOrPatternMatcher.#ctor(System.StringComparison)">
+            <summary>
+            Provides a pattern that can be used to match against other strings as either a substring or regular expression.
+            </summary>
+            <param name="comparison">The string comparison type to use when matching for substrings.</param>
         </member>
         <member name="T:Sentry.TransactionContext">
             <summary>

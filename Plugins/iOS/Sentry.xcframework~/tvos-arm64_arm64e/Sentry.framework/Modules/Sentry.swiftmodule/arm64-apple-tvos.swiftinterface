@@ -32,7 +32,6 @@ import _SwiftConcurrencyShims
   }
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
-  @objc public var sessionReplay: Sentry.SentryReplayOptions
   @objc override dynamic public init()
   @objc deinit
 }
@@ -87,19 +86,19 @@ extension UIKit.UIView {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
   @objc func uninstall()
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryId : ObjectiveC.NSObject {
-  @objc public static var empty: Sentry.SentryId
-  @objc public var sentryIdString: Swift.String {
+@objc @_inheritsConvenienceInitializers @objcMembers final public class SentryId : ObjectiveC.NSObject, Swift.Sendable {
+  @objc public static let empty: Sentry.SentryId
+  @objc final public var sentryIdString: Swift.String {
     @objc get
   }
   @objc override dynamic public init()
   @objc public init(uuid: Foundation.UUID)
   @objc(initWithUUIDString:) public init(uuidString: Swift.String)
-  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
-  @objc override dynamic public var description: Swift.String {
+  @objc override final public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc override final public var description: Swift.String {
     @objc get
   }
-  @objc override dynamic public var hash: Swift.Int {
+  @objc override final public var hash: Swift.Int {
     @objc get
   }
   @objc deinit

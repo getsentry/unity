@@ -412,12 +412,9 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryReplayOptions;
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
-/// Settings to configure the session replay.
-@property (nonatomic, strong) SentryReplayOptions * _Nonnull sessionReplay;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -449,9 +446,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -539,6 +535,14 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@class SentryReplayOptions;
+
+SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
+@interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry20SentryRRWebSpanEvent")
 @interface SentryRRWebSpanEvent : SentryRRWebCustomEvent
@@ -561,6 +565,17 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
+
+
+SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
+@interface SentryRedactDefaultOptions : NSObject <SentryRedactOptions>
+@property (nonatomic) BOOL maskAllText;
+@property (nonatomic) BOOL maskAllImages;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 @class SentryBreadcrumb;
 
@@ -1226,12 +1241,9 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryReplayOptions;
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
-/// Settings to configure the session replay.
-@property (nonatomic, strong) SentryReplayOptions * _Nonnull sessionReplay;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -1263,9 +1275,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -1353,6 +1364,14 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@class SentryReplayOptions;
+
+SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
+@interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry20SentryRRWebSpanEvent")
 @interface SentryRRWebSpanEvent : SentryRRWebCustomEvent
@@ -1375,6 +1394,17 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
+
+
+SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
+@interface SentryRedactDefaultOptions : NSObject <SentryRedactOptions>
+@property (nonatomic) BOOL maskAllText;
+@property (nonatomic) BOOL maskAllImages;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 @class SentryBreadcrumb;
 
@@ -2040,12 +2070,9 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryReplayOptions;
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
-/// Settings to configure the session replay.
-@property (nonatomic, strong) SentryReplayOptions * _Nonnull sessionReplay;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -2077,9 +2104,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -2167,6 +2193,14 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@class SentryReplayOptions;
+
+SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
+@interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry20SentryRRWebSpanEvent")
 @interface SentryRRWebSpanEvent : SentryRRWebCustomEvent
@@ -2189,6 +2223,17 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
+
+
+SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
+@interface SentryRedactDefaultOptions : NSObject <SentryRedactOptions>
+@property (nonatomic) BOOL maskAllText;
+@property (nonatomic) BOOL maskAllImages;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 @class SentryBreadcrumb;
 
@@ -2854,12 +2899,9 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentryReplayOptions;
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
-/// Settings to configure the session replay.
-@property (nonatomic, strong) SentryReplayOptions * _Nonnull sessionReplay;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -2891,9 +2933,8 @@ SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
 SWIFT_CLASS("_TtC6Sentry8SentryId")
 @interface SentryId : NSObject
 /// A @c SentryId with an empty UUID “00000000000000000000000000000000”.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryId * _Nonnull empty;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _Nonnull empty;)
 + (SentryId * _Nonnull)empty SWIFT_WARN_UNUSED_RESULT;
-+ (void)setEmpty:(SentryId * _Nonnull)value;
 /// Returns a 32 lowercase character hexadecimal string description of the @c SentryId, such as
 /// “12c2d058d58442709aa2eca08bf20986”.
 @property (nonatomic, readonly, copy) NSString * _Nonnull sentryIdString;
@@ -2981,6 +3022,14 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+@class SentryReplayOptions;
+
+SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
+@interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry20SentryRRWebSpanEvent")
 @interface SentryRRWebSpanEvent : SentryRRWebCustomEvent
@@ -3003,6 +3052,17 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryRedactOptions_")
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 @property (nonatomic, readonly, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 @end
+
+
+SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
+@interface SentryRedactDefaultOptions : NSObject <SentryRedactOptions>
+@property (nonatomic) BOOL maskAllText;
+@property (nonatomic) BOOL maskAllImages;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
+@property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 @class SentryBreadcrumb;
 

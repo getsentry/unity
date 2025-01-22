@@ -1,14 +1,50 @@
 #import <Sentry/PrivateSentrySDKOnly.h>
+#import <Sentry/SentryOptions+HybridSDKs.h>
 #import <Sentry/Sentry.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 // macOS only
-int SentryNativeBridgeLoadLibrary() { return 0; }
-void *_Nullable SentryNativeBridgeOptionsNew() { return nil; }
-void SentryNativeBridgeOptionsSetString(void *options, const char *name, const char *value) { }
-void SentryNativeBridgeOptionsSetInt(void *options, const char *name, int32_t value) { }
-void SentryNativeBridgeStartWithOptions(void *options) { }
+// On iOS, the SDK is linked statically so we don't need to dlopen() it.
+int SentryNativeBridgeLoadLibrary() { return 1; }
+
+int SentryNativeBridgeIsEnabled() { return [SentrySDK isEnabled] ? 1 : 0; }
+
+const void *SentryNativeBridgeOptionsNew()
+{
+    NSMutableDictionary *dictOptions = [[NSMutableDictionary alloc] init];
+    dictOptions[@"sdk"] = @ { @"name" : @"sentry.cocoa.unity" };
+    dictOptions[@"enableAutoSessionTracking"] = @NO;
+    dictOptions[@"enableAppHangTracking"] = @NO;
+    return CFBridgingRetain(dictOptions);
+}
+
+void SentryNativeBridgeOptionsSetString(const void *options, const char *name, const char *value)
+{
+    NSMutableDictionary *dictOptions = (__bridge NSMutableDictionary *)options;
+    dictOptions[[NSString stringWithUTF8String:name]] = [NSString stringWithUTF8String:value];
+}
+
+void SentryNativeBridgeOptionsSetInt(const void *options, const char *name, int32_t value)
+{
+    NSMutableDictionary *dictOptions = (__bridge NSMutableDictionary *)options;
+    dictOptions[[NSString stringWithUTF8String:name]] = [NSNumber numberWithInt:value];
+}
+
+int SentryNativeBridgeStartWithOptions(const void *options)
+{
+    NSMutableDictionary *dictOptions = (__bridge_transfer NSMutableDictionary *)options;
+    NSError *error = nil;
+
+    SentryOptions *sentryOptions = [[SentryOptions alloc] initWithDict:dictOptions didFailWithError:&error];
+    if (error != nil)
+    {
+        return 0;
+    }
+
+    [SentrySDK startWithOptions:sentryOptions];
+    return 1;
+}
 
 int SentryNativeBridgeCrashedLastRun() { return [SentrySDK crashedLastRun] ? 1 : 0; }
 
