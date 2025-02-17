@@ -19,9 +19,11 @@
 @class SentryEnvelope;
 @class SentryId;
 @class SentrySessionReplayIntegration;
+@class UIView;
 
 @protocol SentryReplayBreadcrumbConverter;
 @protocol SentryViewScreenshotProvider;
+@protocol SentryRedactOptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -185,6 +187,13 @@ typedef void (^SentryOnAppStartMeasurementAvailable)(
 #if SENTRY_TARGET_REPLAY_SUPPORTED
 
 /**
+ * Return an instance of SentryRedactOptions with given option
+ * To be used from SentrySwiftUI, which cannot access the private
+ * `SentryRedactOptions` class.
+ */
++ (UIView *)sessionReplayMaskingOverlay:(id<SentryRedactOptions>)options;
+
+/**
  * Configure session replay with different breadcrumb converter
  * and screeshot provider. Used by the Hybrid SDKs.
  * Passing nil will keep the previous value.
@@ -198,6 +207,7 @@ typedef void (^SentryOnAppStartMeasurementAvailable)(
 + (void)addReplayRedactClasses:(NSArray<Class> *_Nonnull)classes;
 + (void)setIgnoreContainerClass:(Class _Nonnull)containerClass;
 + (void)setRedactContainerClass:(Class _Nonnull)containerClass;
++ (void)setReplayTags:(NSDictionary<NSString *, id> *)tags;
 
 #endif
 + (nullable NSDictionary<NSString *, id> *)appStartMeasurementWithSpans;

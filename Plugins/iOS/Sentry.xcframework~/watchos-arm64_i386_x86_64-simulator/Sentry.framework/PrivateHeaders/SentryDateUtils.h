@@ -1,7 +1,8 @@
 #import "SentryDefines.h"
-#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+SENTRY_EXTERN NSDateFormatter *sentryGetIso8601FormatterWithMillisecondPrecision(void);
 
 SENTRY_EXTERN NSDate *sentry_fromIso8601String(NSString *string);
 

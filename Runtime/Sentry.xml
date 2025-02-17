@@ -3719,6 +3719,21 @@
             Sets the fingerprint to the object.
             </summary>
         </member>
+        <member name="T:Sentry.IHasData">
+            <summary>
+            Implemented by objects that contain a map of untyped additional metadata.
+            </summary>
+        </member>
+        <member name="P:Sentry.IHasData.Data">
+            <summary>
+            An arbitrary mapping of additional metadata to store with the event.
+            </summary>
+        </member>
+        <member name="M:Sentry.IHasData.SetData(System.String,System.Object)">
+            <summary>
+            Sets an extra.
+            </summary>
+        </member>
         <member name="T:Sentry.IHasExtra">
             <summary>
             Implemented by objects that contain a map of untyped extra data.
@@ -7174,6 +7189,18 @@
         <member name="P:Sentry.Protocol.Trace.IsSampled">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.Protocol.Trace.Data">
+            <summary>
+            Get the metadata
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Trace.SetData(System.String,System.Object)">
+            <summary>
+            Adds metadata to the trace
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
         <member name="M:Sentry.Protocol.Trace.Clone">
             <summary>
             Clones this instance.
@@ -8194,7 +8221,8 @@
         </member>
         <member name="T:Sentry.SentryHttpMessageHandler">
             <summary>
-            Special HTTP message handler that can be used to propagate Sentry headers and other contextual information.
+            Special HTTP message handler that can be used to propagate Sentry headers and other contextual information. Will
+            also create events for failed requests if <see cref="P:Sentry.SentryOptions.CaptureFailedRequests"/> is enabled.
             </summary>
         </member>
         <member name="M:Sentry.SentryHttpMessageHandler.#ctor">
@@ -9136,6 +9164,14 @@
             <para>
                 Defaults to <see cref="F:Sentry.Instrumenter.Sentry"/>
             </para>
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.DisableSentryHttpMessageHandler">
+            <summary>
+            <para>
+            Set to `true` to prevents Sentry from automatically registering <see cref="T:Sentry.SentryHttpMessageHandler"/>.
+            </para>
+            <para>Defaults to `false`. Should be set to `true` when using the OpenTelemetry.Instrumentation.Http.</para>
             </summary>
         </member>
         <member name="M:Sentry.SentryOptions.AddJsonConverter(System.Text.Json.Serialization.JsonConverter)">
@@ -10141,6 +10177,12 @@
         <member name="M:Sentry.SentrySpan.UnsetTag(System.String)">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.SentrySpan.Data">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentrySpan.SetData(System.String,System.Object)">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.SentrySpan.Extra">
             <inheritdoc />
         </member>
@@ -10550,9 +10592,6 @@
         <member name="P:Sentry.SentryTransaction.Breadcrumbs">
             <inheritdoc />
         </member>
-        <member name="P:Sentry.SentryTransaction.Extra">
-            <inheritdoc />
-        </member>
         <member name="P:Sentry.SentryTransaction.Tags">
             <inheritdoc />
         </member>
@@ -10582,7 +10621,16 @@
         <member name="M:Sentry.SentryTransaction.AddBreadcrumb(Sentry.Breadcrumb)">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.SentryTransaction.Data">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryTransaction.Extra">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.SentryTransaction.SetExtra(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryTransaction.SetData(System.String,System.Object)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryTransaction.SetTag(System.String,System.String)">
@@ -10991,6 +11039,12 @@
         <member name="M:Sentry.SpanTracer.UnsetTag(System.String)">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.SpanTracer.Data">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SpanTracer.SetData(System.String,System.Object)">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.SpanTracer.Extra">
             <inheritdoc />
         </member>
@@ -11373,6 +11427,9 @@
         <member name="P:Sentry.TransactionTracer.Extra">
             <inheritdoc />
         </member>
+        <member name="P:Sentry.TransactionTracer.Data">
+            <inheritdoc />
+        </member>
         <member name="P:Sentry.TransactionTracer.Tags">
             <inheritdoc />
         </member>
@@ -11412,6 +11469,9 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.SetExtra(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.TransactionTracer.SetData(System.String,System.Object)">
             <inheritdoc />
         </member>
         <member name="M:Sentry.TransactionTracer.SetTag(System.String,System.String)">

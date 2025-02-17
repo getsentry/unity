@@ -32,65 +32,6 @@
 			<key>DebugSymbolsPath</key>
 			<string>dSYMs</string>
 			<key>LibraryIdentifier</key>
-			<string>xros-arm64_arm64e</string>
-			<key>LibraryPath</key>
-			<string>Sentry.framework</string>
-			<key>MergeableMetadata</key>
-			<true/>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-				<string>arm64e</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>xros</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>Sentry.framework/Sentry</string>
-			<key>DebugSymbolsPath</key>
-			<string>dSYMs</string>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64_arm64e</string>
-			<key>LibraryPath</key>
-			<string>Sentry.framework</string>
-			<key>MergeableMetadata</key>
-			<true/>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-				<string>arm64e</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>Sentry.framework/Sentry</string>
-			<key>DebugSymbolsPath</key>
-			<string>dSYMs</string>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64_x86_64-simulator</string>
-			<key>LibraryPath</key>
-			<string>Sentry.framework</string>
-			<key>MergeableMetadata</key>
-			<true/>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-				<string>x86_64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
-			<key>SupportedPlatformVariant</key>
-			<string>simulator</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>Sentry.framework/Sentry</string>
-			<key>DebugSymbolsPath</key>
-			<string>dSYMs</string>
-			<key>LibraryIdentifier</key>
 			<string>watchos-arm64_arm64_32_arm64e_armv7k</string>
 			<key>LibraryPath</key>
 			<string>Sentry.framework</string>
@@ -112,7 +53,29 @@
 			<key>DebugSymbolsPath</key>
 			<string>dSYMs</string>
 			<key>LibraryIdentifier</key>
-			<string>xros-arm64_x86_64-simulator</string>
+			<string>watchos-arm64_i386_x86_64-simulator</string>
+			<key>LibraryPath</key>
+			<string>Sentry.framework</string>
+			<key>MergeableMetadata</key>
+			<false/>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+				<string>i386</string>
+				<string>x86_64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>watchos</string>
+			<key>SupportedPlatformVariant</key>
+			<string>simulator</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>Sentry.framework/Sentry</string>
+			<key>DebugSymbolsPath</key>
+			<string>dSYMs</string>
+			<key>LibraryIdentifier</key>
+			<string>ios-arm64_arm64e</string>
 			<key>LibraryPath</key>
 			<string>Sentry.framework</string>
 			<key>MergeableMetadata</key>
@@ -120,12 +83,10 @@
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
-				<string>x86_64</string>
+				<string>arm64e</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>xros</string>
-			<key>SupportedPlatformVariant</key>
-			<string>simulator</string>
+			<string>ios</string>
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
@@ -154,21 +115,39 @@
 			<key>DebugSymbolsPath</key>
 			<string>dSYMs</string>
 			<key>LibraryIdentifier</key>
-			<string>watchos-arm64_i386_x86_64-simulator</string>
+			<string>ios-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
 			<string>Sentry.framework</string>
 			<key>MergeableMetadata</key>
-			<false/>
+			<true/>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
-				<string>i386</string>
 				<string>x86_64</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>watchos</string>
+			<string>ios</string>
 			<key>SupportedPlatformVariant</key>
 			<string>simulator</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>Sentry.framework/Sentry</string>
+			<key>DebugSymbolsPath</key>
+			<string>dSYMs</string>
+			<key>LibraryIdentifier</key>
+			<string>xros-arm64_arm64e</string>
+			<key>LibraryPath</key>
+			<string>Sentry.framework</string>
+			<key>MergeableMetadata</key>
+			<true/>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+				<string>arm64e</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>xros</string>
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
@@ -208,6 +187,27 @@
 			</array>
 			<key>SupportedPlatform</key>
 			<string>macos</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>Sentry.framework/Sentry</string>
+			<key>DebugSymbolsPath</key>
+			<string>dSYMs</string>
+			<key>LibraryIdentifier</key>
+			<string>xros-arm64_x86_64-simulator</string>
+			<key>LibraryPath</key>
+			<string>Sentry.framework</string>
+			<key>MergeableMetadata</key>
+			<true/>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+				<string>x86_64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>xros</string>
+			<key>SupportedPlatformVariant</key>
+			<string>simulator</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>

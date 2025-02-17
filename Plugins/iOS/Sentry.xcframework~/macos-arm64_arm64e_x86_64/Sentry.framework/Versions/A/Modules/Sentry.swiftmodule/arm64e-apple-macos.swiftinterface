@@ -10,6 +10,28 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+extension Sentry.User : Swift.Decodable {
+  @available(*, deprecated, message: "This method is only deprecated to silence the deprecation warning of the property segment. Our Xcode project has deprecations as warnings and warnings as errors configured. Therefore, compilation fails without marking this init method as deprecated. It is safe to use this deprecated init method. Instead of turning off deprecation warnings for the whole project, we accept the tradeoff of marking this init method as deprecated because we don't expect many users to use it. Sadly, Swift doesn't offer a better way of silencing a deprecation warning.")
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+@objc public protocol SentryRedactOptions {
+  @objc var maskAllText: Swift.Bool { get }
+  @objc var maskAllImages: Swift.Bool { get }
+  @objc var maskedViewClasses: [Swift.AnyClass] { get }
+  @objc var unmaskedViewClasses: [Swift.AnyClass] { get }
+}
+extension Sentry.SentryEventDecodable : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.Frame : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.SentryThread : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.Geo : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
 @objc public enum SentryTransactionNameSource : Swift.Int {
   @objc(kSentryTransactionNameSourceCustom) case custom = 0
   @objc(kSentryTransactionNameSourceUrl) case url
@@ -24,10 +46,20 @@ import _SwiftConcurrencyShims
   }
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
+  @objc public var enableFileManagerSwizzling: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject {
+extension Sentry.MechanismMeta : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.SentryStacktrace : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.Breadcrumb : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject, Sentry.SentryRedactOptions {
   @objc public enum SentryReplayQuality : Swift.Int, Swift.CustomStringConvertible {
     case low
     case medium
@@ -52,6 +84,16 @@ import _SwiftConcurrencyShims
   @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true)
   @objc deinit
 }
+extension Sentry.Mechanism : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.SentryMessage : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryEventDecoder : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
 @objc public enum SentryLevel : Swift.UInt {
   @objc(kSentryLevelNone) case none = 0
   @objc(kSentryLevelDebug) case debug = 1
@@ -69,6 +111,15 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
   public var description: Swift.String {
     get
   }
+}
+extension Sentry.SentryRequest : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+@objc public protocol SentryUIViewControllerDescriptor : ObjectiveC.NSObjectProtocol {
+  @objc var sentryName: Swift.String { get }
+}
+extension Sentry.SentryNSError : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
 }
 @objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
@@ -90,6 +141,12 @@ extension Sentry.SentryLevel : Swift.CustomStringConvertible {
     @objc get
   }
   @objc deinit
+}
+extension Sentry.DebugMeta : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Sentry.Exception : Swift.Decodable {
+  required convenience public init(from decoder: any Swift.Decoder) throws
 }
 extension Swift.FixedWidthInteger {
   @discardableResult

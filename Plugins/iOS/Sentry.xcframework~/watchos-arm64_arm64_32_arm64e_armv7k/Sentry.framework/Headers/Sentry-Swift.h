@@ -302,6 +302,11 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
+
+
+
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -309,6 +314,8 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 + (NSDictionary<NSString *, NSString *> * _Nonnull)sanitizeHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
@@ -342,6 +349,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+
+SWIFT_CLASS("_TtC6Sentry22SentryANRStoppedResult")
+@interface SentryANRStoppedResult : NSObject
+@property (nonatomic, readonly) NSTimeInterval minDuration;
+@property (nonatomic, readonly) NSTimeInterval maxDuration;
+- (nonnull instancetype)initWithMinDuration:(NSTimeInterval)minDuration maxDuration:(NSTimeInterval)maxDuration OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 @protocol SentryANRTrackerDelegate;
 
 SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
@@ -358,7 +375,7 @@ enum SentryANRType : NSInteger;
 SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @protocol SentryANRTrackerDelegate
 - (void)anrDetectedWithType:(enum SentryANRType)type;
-- (void)anrStopped;
+- (void)anrStoppedWithResult:(SentryANRStoppedResult * _Nullable)result;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
@@ -413,13 +430,56 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @end
 
 
+@class NSData;
+@class SentryEvent;
+
+SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
+@interface SentryEventDecoder : NSObject
++ (SentryEvent * _Nullable)decodeEventWithJsonData:(NSData * _Nonnull)jsonData SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+@property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSData;
+@class SentryId;
+
+SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
+@interface SentryFeedback : NSObject
+@property (nonatomic, copy) NSString * _Nullable name;
+@property (nonatomic, copy) NSString * _Nullable email;
+@property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
+/// PNG data for the screenshot image
+@property (nonatomic, copy) NSData * _Nullable screenshot;
+/// The event id that this feedback is associated with, like a crash report.
+@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@class SentryAttachment;
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry))
+/// note:
+/// This dictionary is to pass to the block <code>SentryUserFeedbackConfiguration.onSubmitSuccess</code>, describing the contents submitted. This is different from the serialized form of the feedback for envelope transmission, because there are some internal details in that serialization that are irrelevant to the consumer and are not available at the time <code>onSubmitSuccess</code> is called.
+- (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
+/// note:
+/// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
+- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 @interface SentryFileContents : NSObject
@@ -504,6 +564,8 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 
 
 
+
+
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
 @property (nonatomic, readonly, copy) NSString * _Nonnull tag;
@@ -539,6 +601,7 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 
 SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
 @interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp customOptions:(NSDictionary<NSString *, id> * _Nonnull)customOptions OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
 @end
@@ -667,6 +730,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
 @property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+@property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
 /// Inittialize session replay options disabled
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /// Initialize session replay options
@@ -736,6 +801,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 @end
 
 
+
 SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 @interface SentrySRDefaultBreadcrumbConverter : NSObject <SentryReplayBreadcrumbConverter>
 /// This function will convert the SDK breadcrumbs to session replay breadcrumbs in a format that the front-end understands.
@@ -754,9 +820,65 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
+SWIFT_CLASS_NAMED("SentrySpanOperation")
+@interface SentrySpanOperation : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
++ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
++ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
++ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
++ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
++ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
++ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
++ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
++ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
++ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
++ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
++ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
 + (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
+SWIFT_CLASS_NAMED("SentryTraceOrigin")
+@interface SentryTraceOrigin : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
++ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
++ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
++ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
++ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
++ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
++ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
++ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
++ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
++ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
++ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -768,6 +890,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceComponent SWIFT_COMPILE_NAME("component") = 4,
   kSentryTransactionNameSourceTask SWIFT_COMPILE_NAME("sourceTask") = 5,
 };
+
+
+/// Use this protocol to customize the name used in the automatic
+/// UIViewController performance tracker, view hierarchy, and breadcrumbs.
+SWIFT_PROTOCOL("_TtP6Sentry32SentryUIViewControllerDescriptor_")
+@protocol SentryUIViewControllerDescriptor <NSObject>
+/// The custom name of the UIViewController
+/// that the Sentry SDK uses for transaction names, breadcrumbs, and
+/// view hierarchy.
+@property (nonatomic, readonly, copy) NSString * _Nonnull sentryName;
+@end
 
 @class NSURL;
 
@@ -818,6 +951,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 #endif
 #if __has_attribute(external_source_symbol)
@@ -1131,6 +1265,11 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
+
+
+
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -1138,6 +1277,8 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 + (NSDictionary<NSString *, NSString *> * _Nonnull)sanitizeHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
@@ -1171,6 +1312,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+
+SWIFT_CLASS("_TtC6Sentry22SentryANRStoppedResult")
+@interface SentryANRStoppedResult : NSObject
+@property (nonatomic, readonly) NSTimeInterval minDuration;
+@property (nonatomic, readonly) NSTimeInterval maxDuration;
+- (nonnull instancetype)initWithMinDuration:(NSTimeInterval)minDuration maxDuration:(NSTimeInterval)maxDuration OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 @protocol SentryANRTrackerDelegate;
 
 SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
@@ -1187,7 +1338,7 @@ enum SentryANRType : NSInteger;
 SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @protocol SentryANRTrackerDelegate
 - (void)anrDetectedWithType:(enum SentryANRType)type;
-- (void)anrStopped;
+- (void)anrStoppedWithResult:(SentryANRStoppedResult * _Nullable)result;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
@@ -1242,13 +1393,56 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @end
 
 
+@class NSData;
+@class SentryEvent;
+
+SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
+@interface SentryEventDecoder : NSObject
++ (SentryEvent * _Nullable)decodeEventWithJsonData:(NSData * _Nonnull)jsonData SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+@property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSData;
+@class SentryId;
+
+SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
+@interface SentryFeedback : NSObject
+@property (nonatomic, copy) NSString * _Nullable name;
+@property (nonatomic, copy) NSString * _Nullable email;
+@property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
+/// PNG data for the screenshot image
+@property (nonatomic, copy) NSData * _Nullable screenshot;
+/// The event id that this feedback is associated with, like a crash report.
+@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@class SentryAttachment;
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry))
+/// note:
+/// This dictionary is to pass to the block <code>SentryUserFeedbackConfiguration.onSubmitSuccess</code>, describing the contents submitted. This is different from the serialized form of the feedback for envelope transmission, because there are some internal details in that serialization that are irrelevant to the consumer and are not available at the time <code>onSubmitSuccess</code> is called.
+- (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
+/// note:
+/// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
+- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 @interface SentryFileContents : NSObject
@@ -1333,6 +1527,8 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 
 
 
+
+
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
 @property (nonatomic, readonly, copy) NSString * _Nonnull tag;
@@ -1368,6 +1564,7 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 
 SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
 @interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp customOptions:(NSDictionary<NSString *, id> * _Nonnull)customOptions OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
 @end
@@ -1496,6 +1693,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
 @property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+@property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
 /// Inittialize session replay options disabled
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /// Initialize session replay options
@@ -1565,6 +1764,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 @end
 
 
+
 SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 @interface SentrySRDefaultBreadcrumbConverter : NSObject <SentryReplayBreadcrumbConverter>
 /// This function will convert the SDK breadcrumbs to session replay breadcrumbs in a format that the front-end understands.
@@ -1583,9 +1783,65 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
+SWIFT_CLASS_NAMED("SentrySpanOperation")
+@interface SentrySpanOperation : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
++ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
++ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
++ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
++ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
++ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
++ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
++ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
++ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
++ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
++ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
++ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
 + (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
+SWIFT_CLASS_NAMED("SentryTraceOrigin")
+@interface SentryTraceOrigin : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
++ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
++ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
++ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
++ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
++ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
++ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
++ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
++ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
++ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
++ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1597,6 +1853,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceComponent SWIFT_COMPILE_NAME("component") = 4,
   kSentryTransactionNameSourceTask SWIFT_COMPILE_NAME("sourceTask") = 5,
 };
+
+
+/// Use this protocol to customize the name used in the automatic
+/// UIViewController performance tracker, view hierarchy, and breadcrumbs.
+SWIFT_PROTOCOL("_TtP6Sentry32SentryUIViewControllerDescriptor_")
+@protocol SentryUIViewControllerDescriptor <NSObject>
+/// The custom name of the UIViewController
+/// that the Sentry SDK uses for transaction names, breadcrumbs, and
+/// view hierarchy.
+@property (nonatomic, readonly, copy) NSString * _Nonnull sentryName;
+@end
 
 @class NSURL;
 
@@ -1647,6 +1914,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 #endif
 #if __has_attribute(external_source_symbol)
@@ -1960,6 +2228,11 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
+
+
+
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -1967,6 +2240,8 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 + (NSDictionary<NSString *, NSString *> * _Nonnull)sanitizeHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
@@ -2000,6 +2275,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+
+SWIFT_CLASS("_TtC6Sentry22SentryANRStoppedResult")
+@interface SentryANRStoppedResult : NSObject
+@property (nonatomic, readonly) NSTimeInterval minDuration;
+@property (nonatomic, readonly) NSTimeInterval maxDuration;
+- (nonnull instancetype)initWithMinDuration:(NSTimeInterval)minDuration maxDuration:(NSTimeInterval)maxDuration OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 @protocol SentryANRTrackerDelegate;
 
 SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
@@ -2016,7 +2301,7 @@ enum SentryANRType : NSInteger;
 SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @protocol SentryANRTrackerDelegate
 - (void)anrDetectedWithType:(enum SentryANRType)type;
-- (void)anrStopped;
+- (void)anrStoppedWithResult:(SentryANRStoppedResult * _Nullable)result;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
@@ -2071,13 +2356,56 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @end
 
 
+@class NSData;
+@class SentryEvent;
+
+SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
+@interface SentryEventDecoder : NSObject
++ (SentryEvent * _Nullable)decodeEventWithJsonData:(NSData * _Nonnull)jsonData SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+@property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSData;
+@class SentryId;
+
+SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
+@interface SentryFeedback : NSObject
+@property (nonatomic, copy) NSString * _Nullable name;
+@property (nonatomic, copy) NSString * _Nullable email;
+@property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
+/// PNG data for the screenshot image
+@property (nonatomic, copy) NSData * _Nullable screenshot;
+/// The event id that this feedback is associated with, like a crash report.
+@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@class SentryAttachment;
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry))
+/// note:
+/// This dictionary is to pass to the block <code>SentryUserFeedbackConfiguration.onSubmitSuccess</code>, describing the contents submitted. This is different from the serialized form of the feedback for envelope transmission, because there are some internal details in that serialization that are irrelevant to the consumer and are not available at the time <code>onSubmitSuccess</code> is called.
+- (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
+/// note:
+/// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
+- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 @interface SentryFileContents : NSObject
@@ -2162,6 +2490,8 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 
 
 
+
+
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
 @property (nonatomic, readonly, copy) NSString * _Nonnull tag;
@@ -2197,6 +2527,7 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 
 SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
 @interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp customOptions:(NSDictionary<NSString *, id> * _Nonnull)customOptions OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
 @end
@@ -2325,6 +2656,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
 @property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+@property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
 /// Inittialize session replay options disabled
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /// Initialize session replay options
@@ -2394,6 +2727,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 @end
 
 
+
 SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 @interface SentrySRDefaultBreadcrumbConverter : NSObject <SentryReplayBreadcrumbConverter>
 /// This function will convert the SDK breadcrumbs to session replay breadcrumbs in a format that the front-end understands.
@@ -2412,9 +2746,65 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
+SWIFT_CLASS_NAMED("SentrySpanOperation")
+@interface SentrySpanOperation : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
++ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
++ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
++ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
++ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
++ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
++ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
++ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
++ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
++ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
++ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
++ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
 + (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
+SWIFT_CLASS_NAMED("SentryTraceOrigin")
+@interface SentryTraceOrigin : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
++ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
++ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
++ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
++ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
++ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
++ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
++ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
++ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
++ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
++ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2426,6 +2816,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceComponent SWIFT_COMPILE_NAME("component") = 4,
   kSentryTransactionNameSourceTask SWIFT_COMPILE_NAME("sourceTask") = 5,
 };
+
+
+/// Use this protocol to customize the name used in the automatic
+/// UIViewController performance tracker, view hierarchy, and breadcrumbs.
+SWIFT_PROTOCOL("_TtP6Sentry32SentryUIViewControllerDescriptor_")
+@protocol SentryUIViewControllerDescriptor <NSObject>
+/// The custom name of the UIViewController
+/// that the Sentry SDK uses for transaction names, breadcrumbs, and
+/// view hierarchy.
+@property (nonatomic, readonly, copy) NSString * _Nonnull sentryName;
+@end
 
 @class NSURL;
 
@@ -2476,6 +2877,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 #endif
 #if __has_attribute(external_source_symbol)
@@ -2789,6 +3191,11 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
+
+
+
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -2796,6 +3203,8 @@ SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
 + (NSDictionary<NSString *, NSString *> * _Nonnull)sanitizeHeaders:(NSDictionary<NSString *, NSString *> * _Nonnull)headers SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
@@ -2829,6 +3238,16 @@ SWIFT_CLASS("_TtC6Sentry15RRWebTouchEvent")
 - (nonnull instancetype)initWithType:(enum SentryRRWebEventType)type timestamp:(NSDate * _Nonnull)timestamp data:(NSDictionary<NSString *, id> * _Nullable)data SWIFT_UNAVAILABLE;
 @end
 
+
+SWIFT_CLASS("_TtC6Sentry22SentryANRStoppedResult")
+@interface SentryANRStoppedResult : NSObject
+@property (nonatomic, readonly) NSTimeInterval minDuration;
+@property (nonatomic, readonly) NSTimeInterval maxDuration;
+- (nonnull instancetype)initWithMinDuration:(NSTimeInterval)minDuration maxDuration:(NSTimeInterval)maxDuration OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 @protocol SentryANRTrackerDelegate;
 
 SWIFT_PROTOCOL("_TtP6Sentry16SentryANRTracker_")
@@ -2845,7 +3264,7 @@ enum SentryANRType : NSInteger;
 SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @protocol SentryANRTrackerDelegate
 - (void)anrDetectedWithType:(enum SentryANRType)type;
-- (void)anrStopped;
+- (void)anrStoppedWithResult:(SentryANRStoppedResult * _Nullable)result;
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
@@ -2900,13 +3319,56 @@ SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @end
 
 
+@class NSData;
+@class SentryEvent;
+
+SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
+@interface SentryEventDecoder : NSObject
++ (SentryEvent * _Nullable)decodeEventWithJsonData:(NSData * _Nonnull)jsonData SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+@property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSData;
+@class SentryId;
+
+SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
+@interface SentryFeedback : NSObject
+@property (nonatomic, copy) NSString * _Nullable name;
+@property (nonatomic, copy) NSString * _Nullable email;
+@property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
+/// PNG data for the screenshot image
+@property (nonatomic, copy) NSData * _Nullable screenshot;
+/// The event id that this feedback is associated with, like a crash report.
+@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@class SentryAttachment;
+
+@interface SentryFeedback (SWIFT_EXTENSION(Sentry))
+/// note:
+/// This dictionary is to pass to the block <code>SentryUserFeedbackConfiguration.onSubmitSuccess</code>, describing the contents submitted. This is different from the serialized form of the feedback for envelope transmission, because there are some internal details in that serialization that are irrelevant to the consumer and are not available at the time <code>onSubmitSuccess</code> is called.
+- (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
+/// note:
+/// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
+- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+@end
+
 
 SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 @interface SentryFileContents : NSObject
@@ -2991,6 +3453,8 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 
 
 
+
+
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
 @interface SentryRRWebCustomEvent : SentryRRWebEvent
 @property (nonatomic, readonly, copy) NSString * _Nonnull tag;
@@ -3026,6 +3490,7 @@ SWIFT_CLASS("_TtC6Sentry20SentryRRWebMetaEvent")
 
 SWIFT_CLASS("_TtC6Sentry23SentryRRWebOptionsEvent")
 @interface SentryRRWebOptionsEvent : SentryRRWebCustomEvent
+- (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp customOptions:(NSDictionary<NSString *, id> * _Nonnull)customOptions OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp options:(SentryReplayOptions * _Nonnull)options OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTimestamp:(NSDate * _Nonnull)timestamp tag:(NSString * _Nonnull)tag payload:(NSDictionary<NSString *, id> * _Nonnull)payload SWIFT_UNAVAILABLE;
 @end
@@ -3154,6 +3619,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
 @property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+@property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
 /// Inittialize session replay options disabled
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /// Initialize session replay options
@@ -3223,6 +3690,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 @end
 
 
+
 SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 @interface SentrySRDefaultBreadcrumbConverter : NSObject <SentryReplayBreadcrumbConverter>
 /// This function will convert the SDK breadcrumbs to session replay breadcrumbs in a format that the front-end understands.
@@ -3241,9 +3709,65 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
+SWIFT_CLASS_NAMED("SentrySpanOperation")
+@interface SentrySpanOperation : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
++ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
++ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
++ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
++ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
++ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
++ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
++ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
++ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
++ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
++ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
++ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
 + (BOOL)shouldExcludeClassWithClassName:(NSString * _Nonnull)className swizzleClassNameExcludes:(NSSet<NSString *> * _Nonnull)swizzleClassNameExcludes SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
+SWIFT_CLASS_NAMED("SentryTraceOrigin")
+@interface SentryTraceOrigin : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
++ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
++ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
++ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
++ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
++ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
++ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
++ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
++ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
++ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
++ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3255,6 +3779,17 @@ typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceComponent SWIFT_COMPILE_NAME("component") = 4,
   kSentryTransactionNameSourceTask SWIFT_COMPILE_NAME("sourceTask") = 5,
 };
+
+
+/// Use this protocol to customize the name used in the automatic
+/// UIViewController performance tracker, view hierarchy, and breadcrumbs.
+SWIFT_PROTOCOL("_TtP6Sentry32SentryUIViewControllerDescriptor_")
+@protocol SentryUIViewControllerDescriptor <NSObject>
+/// The custom name of the UIViewController
+/// that the Sentry SDK uses for transaction names, breadcrumbs, and
+/// view hierarchy.
+@property (nonatomic, readonly, copy) NSString * _Nonnull sentryName;
+@end
 
 @class NSURL;
 
@@ -3305,6 +3840,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 #endif
 #if __has_attribute(external_source_symbol)
