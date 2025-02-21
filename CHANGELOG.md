@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.0.1
+
+### Fixes
+
+- Then targeting desktop platforms, the SDK now also uploads debugging symbols when native support is disabled. ([#2021](https://github.com/getsentry/sentry-unity/pull/2021))
+- The SDK will now upload debugging symobol files for macOS mono builds.([#2021](https://github.com/getsentry/sentry-unity/pull/2021))
+
+### Dependencies
+
+- Bump CLI from v2.41.1 to v2.42.1 ([#2026](https://github.com/getsentry/sentry-unity/pull/2026))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2421)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.41.1...2.42.1)
+
 ## 3.0.0
 
 ### API Changes
