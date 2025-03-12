@@ -4354,6 +4354,16 @@
             IEnumerator implementation.
             </summary>
         </member>
+        <member name="T:Sentry.Internal.FnvHash">
+             <summary>
+             FNV is a non-cryptographic hash.
+            
+             See https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV_hash_parameters
+             </summary>
+             <remarks>
+             We use a struct to avoid heap allocations.
+             </remarks>
+        </member>
         <member name="T:Sentry.Internal.GarbageCollectionMonitor">
             <summary>
             Simple class to detect when Full Garbage Collection occurs
