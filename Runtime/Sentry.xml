@@ -2626,6 +2626,11 @@
             No-Op.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
             <summary>
             No-Op.
@@ -2825,6 +2830,11 @@
             <inheritdoc cref="M:Sentry.ISentryClient.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)"/>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.CaptureEvent(Sentry.SentryEvent,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -4211,6 +4221,14 @@
              <param name="statusCode"></param>
              <exception cref="T:System.Net.Http.HttpRequestException"></exception>
         </member>
+        <member name="M:Sentry.Internal.Extensions.JsonExtensions.GetSafeDateTimeOffset(System.Text.Json.JsonElement,System.String)">
+            <summary>
+            Safety value to deal with native serialization - allows datetimeoffset to come in as a long or string value
+            </summary>
+            <param name="json"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
         <member name="M:Sentry.Internal.Extensions.MiscExtensions.IsNull(System.Object)">
             <summary>
             Determines whether an object is <c>null</c>.
@@ -4360,9 +4378,6 @@
             
              See https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV_hash_parameters
              </summary>
-             <remarks>
-             We use a struct to avoid heap allocations.
-             </remarks>
         </member>
         <member name="T:Sentry.Internal.GarbageCollectionMonitor">
             <summary>
@@ -4856,6 +4871,11 @@
             Sets the user information.
             </summary>
         </member>
+        <member name="M:Sentry.IScopeObserver.SetTrace(Sentry.SentryId,Sentry.SpanId)">
+            <summary>
+            Sets the current trace
+            </summary>
+        </member>
         <member name="T:Sentry.ISentryClient">
             <summary>
             Sentry Client interface.
@@ -4881,6 +4901,14 @@
             <param name="scope">An optional scope to be applied to the event.</param>
             <param name="hint">An optional hint providing high level context for the source of the event</param>
             <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.ISentryClient.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
+            <param name="feedback">The feedback to send to Sentry.</param>
+            <param name="scope">An optional scope to be applied to the event.</param>
+            <param name="hint">An optional hint providing high level context for the source of the event</param>
         </member>
         <member name="M:Sentry.ISentryClient.CaptureUserFeedback(Sentry.UserFeedback)">
             <summary>
@@ -6192,6 +6220,11 @@
             Creates an envelope that contains a single event.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromFeedback(Sentry.SentryEvent,Sentry.Extensibility.IDiagnosticLogger,System.Collections.Generic.IReadOnlyCollection{Sentry.SentryAttachment},Sentry.SessionUpdate)">
+            <summary>
+            Creates an envelope that contains a single feedback event.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.FromUserFeedback(Sentry.UserFeedback)">
             <summary>
             Creates an envelope that contains a single user feedback.
@@ -6287,6 +6320,11 @@
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromEvent(Sentry.SentryEvent)">
             <summary>
             Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from <paramref name="event"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromFeedback(Sentry.SentryEvent)">
+            <summary>
+            Creates an <see cref="T:Sentry.Protocol.Envelopes.EnvelopeItem"/> from a feedback <paramref name="event"/>.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.EnvelopeItem.FromUserFeedback(Sentry.UserFeedback)">
@@ -7756,6 +7794,9 @@
         <member name="M:Sentry.SentryClient.CaptureEvent(Sentry.SentryEvent,Sentry.Scope,Sentry.SentryHint)">
             <inheritdoc />
         </member>
+        <member name="M:Sentry.SentryClient.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.SentryClient.CaptureUserFeedback(Sentry.UserFeedback)">
             <inheritdoc />
         </member>
@@ -7807,6 +7848,11 @@
             <param name="message">The message to send.</param>
             <param name="level">The message level.</param>
             <returns>The Id of the event</returns>
+        </member>
+        <member name="M:Sentry.SentryClientExtensions.CaptureFeedback(Sentry.ISentryClient,System.String,System.String,System.String,System.String,System.String,System.Nullable{Sentry.SentryId},Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
         </member>
         <member name="M:Sentry.SentryClientExtensions.CaptureUserFeedback(Sentry.ISentryClient,Sentry.SentryId,System.String,System.String,System.String)">
             <summary>
@@ -7891,6 +7937,11 @@
         <member name="P:Sentry.SentryContexts.Device">
             <summary>
             Describes the device.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryContexts.Feedback">
+            <summary>
+            Holds user feedback.
             </summary>
         </member>
         <member name="P:Sentry.SentryContexts.OperatingSystem">
@@ -8133,6 +8184,59 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.SentryEvent.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
+        </member>
+        <member name="T:Sentry.SentryFeedback">
+            <summary>
+            Sentry User Feedback.
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryFeedback.Type">
+            <summary>
+            Tells Sentry which type of context this is.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryFeedback.Message">
+            <summary>
+            Message containing the user's feedback.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryFeedback.ContactEmail">
+            <summary>
+            The user's contact email address.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryFeedback.Name">
+            <summary>
+            The name of the user.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryFeedback.ReplayId">
+            <summary>
+            Optional ID of the Replay session associated with the feedback.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryFeedback.Url">
+            <summary>
+            Url that the feedback relates to
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryFeedback.AssociatedEventId">
+            <summary>
+            Optional ID of the event that the user feedback is associated with.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryFeedback.#ctor(System.String,System.String,System.String,System.String,System.String,System.Nullable{Sentry.SentryId})">
+            <summary>
+            Creates an instance of <see cref="T:Sentry.SentryFeedback"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryFeedback.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryFeedback.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses from JSON.
             </summary>
@@ -9096,7 +9200,8 @@
             <summary>
             A customizable list of <see cref="T:Sentry.StringOrRegex"/> objects, each containing either a
             substring or regular expression pattern that can be used to control which outgoing HTTP requests
-            will have the <c>sentry-trace</c> and <c>baggage</c> headers propagated, for purposes of distributed tracing.
+            will have the <c>sentry-trace</c>, <c>traceparent</c>, and <c>baggage</c> headers propagated,
+            for purposes of distributed tracing.
             The default value contains a single value of <c>.*</c>, which matches everything.
             To disable propagation completely, clear this collection or set it to an empty collection.
             </summary>
@@ -9953,6 +10058,16 @@
             <param name="configureScope">The callback to configure the scope.</param>
             <param name="level">The message level.</param>
             <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureFeedback(System.String,System.String,System.String,System.String,System.String,System.Nullable{Sentry.SentryId},Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
         </member>
         <member name="M:Sentry.SentrySdk.CaptureUserFeedback(Sentry.UserFeedback)">
             <summary>
@@ -11618,6 +11733,62 @@
             <summary>
             Gets automatically called and writes additional properties during <see cref="M:Sentry.ViewHierarchyNode.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)"/>
             </summary>
+        </member>
+        <member name="T:Sentry.W3CTraceHeader">
+            <summary>
+            Extension methods for working with Sentry trace headers.
+            </summary>
+        </member>
+        <member name="F:Sentry.W3CTraceHeader.HttpHeaderName">
+            <summary>
+            The name of the W3C trace context header used for distributed tracing.
+            This field contains the value "traceparent" which is part of the W3C Trace Context specification.
+            </summary>
+        </member>
+        <member name="F:Sentry.W3CTraceHeader.TraceFlagsSampled">
+            <summary>
+            Represents the sampled trace flags value ("01") in W3C Trace Context specification.
+            This flag indicates that the trace is part of the sampling set and should be recorded.
+            </summary>
+        </member>
+        <member name="F:Sentry.W3CTraceHeader.TraceFlagsNotSampled">
+            <summary>
+            Represents the unsampled trace flags value ("00") in W3C Trace Context specification.
+            This flag indicates that the trace is not part of the sampling set and should not be recorded.
+            </summary>
+        </member>
+        <member name="M:Sentry.W3CTraceHeader.#ctor(Sentry.SentryTraceHeader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sentry.W3CTraceHeader"/> class from a Sentry trace header.
+            </summary>
+            <param name="source">The source Sentry trace header to create the W3C trace header from.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
+        </member>
+        <member name="P:Sentry.W3CTraceHeader.SentryTraceHeader">
+            <summary>
+            Gets the Sentry trace header containing trace identification and sampling information.
+            </summary>
+            <value>
+            The Sentry trace header that contains the trace ID, span ID, and sampling decision.
+            </value>
+        </member>
+        <member name="M:Sentry.W3CTraceHeader.Parse(System.String)">
+            <summary>
+            Parses a <see cref="P:Sentry.W3CTraceHeader.SentryTraceHeader"/> from a string representation of the Sentry trace header.
+            </summary>
+            <param name="value">
+            A string containing the Sentry trace header, expected to follow the format "traceId-spanId-sampled",
+            where "sampled" is optional.
+            </param>
+            <returns>
+            A <see cref="P:Sentry.W3CTraceHeader.SentryTraceHeader"/> object if parsing succeeds, or <c>null</c> if the input string is null, empty, or whitespace.
+            </returns>
+            <exception cref="T:System.FormatException">
+            Thrown if the input string does not contain a valid trace header format, specifically if it lacks required trace ID and span ID components.
+            </exception>
+        </member>
+        <member name="M:Sentry.W3CTraceHeader.ToString">
+            <inheritdoc/>
         </member>
         <member name="T:SentryExceptionExtensions">
             <summary>

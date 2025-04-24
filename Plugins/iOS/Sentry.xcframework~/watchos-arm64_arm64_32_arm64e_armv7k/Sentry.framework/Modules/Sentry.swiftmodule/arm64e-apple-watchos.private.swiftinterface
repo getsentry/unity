@@ -20,6 +20,25 @@ extension Sentry.User : Swift.Decodable {
   @objc var maskedViewClasses: [Swift.AnyClass] { get }
   @objc var unmaskedViewClasses: [Swift.AnyClass] { get }
 }
+@objc @objcMembers public class SentryFeedback : ObjectiveC.NSObject {
+  @objc public enum SentryFeedbackSource : Swift.Int {
+    public var serialize: Swift.String {
+      get
+    }
+    case widget
+    case custom
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public init(message: Swift.String, name: Swift.String?, email: Swift.String?, source: Sentry.SentryFeedback.SentryFeedbackSource = .widget, associatedEventId: Sentry.SentryId? = nil, attachments: [Foundation.Data]? = nil)
+  @objc deinit
+}
+extension Sentry.SentryFeedback : Sentry.SentrySerializable {
+  @objc dynamic public func serialize() -> [Swift.String : Any]
+}
 extension Sentry.SentryEventDecodable : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
 }
@@ -31,6 +50,15 @@ extension Sentry.SentryThread : Swift.Decodable {
 }
 extension Sentry.Geo : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Foundation.FileManager {
+  public func createFileWithSentryTracing(atPath path: Swift.String, contents data: Foundation.Data?, attributes attr: [Foundation.FileAttributeKey : Any]? = nil) -> Swift.Bool
+  public func removeItemWithSentryTracing(at url: Foundation.URL) throws
+  public func removeItemWithSentryTracing(atPath path: Swift.String) throws
+  public func copyItemWithSentryTracing(at srcURL: Foundation.URL, to dstURL: Foundation.URL) throws
+  public func copyItemWithSentryTracing(atPath srcPath: Swift.String, toPath dstPath: Swift.String) throws
+  public func moveItemWithSentryTracing(at srcURL: Foundation.URL, to dstURL: Foundation.URL) throws
+  public func moveItemWithSentryTracing(atPath srcPath: Swift.String, toPath dstPath: Swift.String) throws
 }
 @objc public enum SentryTransactionNameSource : Swift.Int {
   @objc(kSentryTransactionNameSourceCustom) case custom = 0
@@ -46,6 +74,7 @@ extension Sentry.Geo : Swift.Decodable {
   }
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
+  @objc public var enableDataSwizzling: Swift.Bool
   @objc public var enableFileManagerSwizzling: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
@@ -80,8 +109,10 @@ extension Sentry.Breadcrumb : Swift.Decodable {
   @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
   @objc public var maskedViewClasses: [Swift.AnyClass]
   @objc public var unmaskedViewClasses: [Swift.AnyClass]
+  @objc public var enableExperimentalViewRenderer: Swift.Bool
+  @objc public var enableFastViewRendering: Swift.Bool
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableExperimentalViewRenderer: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
   @objc deinit
 }
 extension Sentry.Mechanism : Swift.Decodable {
@@ -121,6 +152,10 @@ extension Sentry.SentryRequest : Swift.Decodable {
 extension Sentry.SentryNSError : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
 }
+extension Foundation.Data {
+  public init(contentsOfWithSentryTracing url: Foundation.URL, options: Foundation.Data.ReadingOptions = []) throws
+  public func writeWithSentryTracing(to url: Foundation.URL, options: Foundation.Data.WritingOptions = []) throws
+}
 @objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
   @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
   @objc func uninstall()
@@ -155,6 +190,9 @@ extension Swift.FixedWidthInteger {
         return lhs
     }
 }
+extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.Equatable {}
+extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.Hashable {}
+extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.RawRepresentable {}
 extension Sentry.SentryTransactionNameSource : Swift.Equatable {}
 extension Sentry.SentryTransactionNameSource : Swift.Hashable {}
 extension Sentry.SentryTransactionNameSource : Swift.RawRepresentable {}

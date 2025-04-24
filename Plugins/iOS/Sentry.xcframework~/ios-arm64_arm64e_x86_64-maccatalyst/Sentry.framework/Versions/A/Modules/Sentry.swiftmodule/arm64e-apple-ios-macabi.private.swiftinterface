@@ -25,6 +25,25 @@ extension Sentry.User : Swift.Decodable {
   @objc var maskedViewClasses: [Swift.AnyClass] { get }
   @objc var unmaskedViewClasses: [Swift.AnyClass] { get }
 }
+@objc @objcMembers public class SentryFeedback : ObjectiveC.NSObject {
+  @objc public enum SentryFeedbackSource : Swift.Int {
+    public var serialize: Swift.String {
+      get
+    }
+    case widget
+    case custom
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public init(message: Swift.String, name: Swift.String?, email: Swift.String?, source: Sentry.SentryFeedback.SentryFeedbackSource = .widget, associatedEventId: Sentry.SentryId? = nil, attachments: [Foundation.Data]? = nil)
+  @objc deinit
+}
+extension Sentry.SentryFeedback : Sentry.SentrySerializable {
+  @objc dynamic public func serialize() -> [Swift.String : Any]
+}
 extension Sentry.SentryEventDecodable : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
 }
@@ -36,6 +55,15 @@ extension Sentry.SentryThread : Swift.Decodable {
 }
 extension Sentry.Geo : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
+}
+extension Foundation.FileManager {
+  public func createFileWithSentryTracing(atPath path: Swift.String, contents data: Foundation.Data?, attributes attr: [Foundation.FileAttributeKey : Any]? = nil) -> Swift.Bool
+  public func removeItemWithSentryTracing(at url: Foundation.URL) throws
+  public func removeItemWithSentryTracing(atPath path: Swift.String) throws
+  public func copyItemWithSentryTracing(at srcURL: Foundation.URL, to dstURL: Foundation.URL) throws
+  public func copyItemWithSentryTracing(atPath srcPath: Swift.String, toPath dstPath: Swift.String) throws
+  public func moveItemWithSentryTracing(at srcURL: Foundation.URL, to dstURL: Foundation.URL) throws
+  public func moveItemWithSentryTracing(atPath srcPath: Swift.String, toPath dstPath: Swift.String) throws
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class SentryRedactViewHelper : ObjectiveC.NSObject {
   @objc public static func clipOutView(_ view: UIKit.UIView)
@@ -56,6 +84,7 @@ extension Sentry.Geo : Swift.Decodable {
   }
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
+  @objc public var enableDataSwizzling: Swift.Bool
   @objc public var enableFileManagerSwizzling: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
@@ -90,8 +119,10 @@ extension Sentry.Breadcrumb : Swift.Decodable {
   @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
   @objc public var maskedViewClasses: [Swift.AnyClass]
   @objc public var unmaskedViewClasses: [Swift.AnyClass]
+  @objc public var enableExperimentalViewRenderer: Swift.Bool
+  @objc public var enableFastViewRendering: Swift.Bool
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableExperimentalViewRenderer: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
   @objc deinit
 }
 extension Sentry.Mechanism : Swift.Decodable {
@@ -112,7 +143,6 @@ extension Sentry.SentryMessage : Swift.Decodable {
   @objc public var showFormForScreenshots: Swift.Bool
   @objc public var configureForm: ((Sentry.SentryUserFeedbackFormConfiguration) -> Swift.Void)?
   @objc public var tags: [Swift.String : Any]?
-  @objc public var useSentryUser: Swift.Bool
   @objc public var onFormOpen: (() -> Swift.Void)?
   @objc public var onFormClose: (() -> Swift.Void)?
   @objc public var onSubmitSuccess: (([Swift.String : Any]) -> Swift.Void)?
@@ -158,20 +188,20 @@ extension Sentry.SentryRequest : Swift.Decodable {
     @objc set
   }
   @objc public var buttonBackground: UIKit.UIColor
-  @objc public var successColor: UIKit.UIColor
   @objc public var errorColor: UIKit.UIColor
-  public struct OutlineStyle : Swift.Equatable {
-    public var outlineColor: UIKit.UIColor
+  @objc public class SentryFormElementOutlineStyle : ObjectiveC.NSObject {
+    public var color: UIKit.UIColor
     public var cornerRadius: CoreFoundation.CGFloat
     public var outlineWidth: CoreFoundation.CGFloat
-    public init(outlineColor: UIKit.UIColor = UIColor(white: 204 / 255, alpha: 1), cornerRadius: CoreFoundation.CGFloat = 5, outlineWidth: CoreFoundation.CGFloat = 0.5)
-    public static func == (a: Sentry.SentryUserFeedbackThemeConfiguration.OutlineStyle, b: Sentry.SentryUserFeedbackThemeConfiguration.OutlineStyle) -> Swift.Bool
+    @objc public init(color: UIKit.UIColor = UIColor(white: 204 / 255, alpha: 1), cornerRadius: CoreFoundation.CGFloat = 5, outlineWidth: CoreFoundation.CGFloat = 0.5)
+    @objc deinit
   }
-  public var outlineStyle: Sentry.SentryUserFeedbackThemeConfiguration.OutlineStyle {
-    get
-    set
+  @objc public var outlineStyle: Sentry.SentryUserFeedbackThemeConfiguration.SentryFormElementOutlineStyle {
+    @objc get
+    @objc set
   }
   @objc public var inputBackground: UIKit.UIColor
+  @objc public var inputForeground: UIKit.UIColor
   @objc override dynamic public init()
   @objc deinit
 }
@@ -199,8 +229,29 @@ extension Sentry.SentryRequest : Swift.Decodable {
 extension Sentry.SentryNSError : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
 }
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryProfileOptions : ObjectiveC.NSObject {
+  @objc public enum SentryProfileLifecycle : Swift.Int {
+    case manual
+    case trace
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public var lifecycle: Sentry.SentryProfileOptions.SentryProfileLifecycle
+  @objc public var sessionSampleRate: Swift.Float
+  @objc public var profileAppStarts: Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension Foundation.Data {
+  public init(contentsOfWithSentryTracing url: Foundation.URL, options: Foundation.Data.ReadingOptions = []) throws
+  public func writeWithSentryTracing(to url: Foundation.URL, options: Foundation.Data.WritingOptions = []) throws
+}
 @objc @_inheritsConvenienceInitializers @available(iOS 13.0, *)
 @objcMembers public class SentryUserFeedbackFormConfiguration : ObjectiveC.NSObject {
+  @objc public var useSentryUser: Swift.Bool
   @objc public var showBranding: Swift.Bool
   @objc public var formTitle: Swift.String
   @objc public var messageLabel: Swift.String
@@ -210,7 +261,6 @@ extension Sentry.SentryNSError : Swift.Decodable {
     @objc set
   }
   @objc public var isRequiredLabel: Swift.String
-  @objc public var successMessageText: Swift.String
   @objc public var removeScreenshotButtonLabel: Swift.String
   @objc public var removeScreenshotButtonAccessibilityLabel: Swift.String {
     @objc get
@@ -283,6 +333,9 @@ extension Swift.FixedWidthInteger {
         return lhs
     }
 }
+extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.Equatable {}
+extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.Hashable {}
+extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.RawRepresentable {}
 extension Sentry.SentryTransactionNameSource : Swift.Equatable {}
 extension Sentry.SentryTransactionNameSource : Swift.Hashable {}
 extension Sentry.SentryTransactionNameSource : Swift.RawRepresentable {}
@@ -292,3 +345,6 @@ extension Sentry.SentryReplayOptions.SentryReplayQuality : Swift.RawRepresentabl
 extension Sentry.SentryLevel : Swift.Equatable {}
 extension Sentry.SentryLevel : Swift.Hashable {}
 extension Sentry.SentryLevel : Swift.RawRepresentable {}
+extension Sentry.SentryProfileOptions.SentryProfileLifecycle : Swift.Equatable {}
+extension Sentry.SentryProfileOptions.SentryProfileLifecycle : Swift.Hashable {}
+extension Sentry.SentryProfileOptions.SentryProfileLifecycle : Swift.RawRepresentable {}

@@ -308,6 +308,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -380,15 +381,18 @@ SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
-  SentryANRTypeFullyBlocking = 0,
-  SentryANRTypeNonFullyBlocking = 1,
-  SentryANRTypeUnknown = 2,
+  SentryANRTypeFatalFullyBlocking = 0,
+  SentryANRTypeFatalNonFullyBlocking = 1,
+  SentryANRTypeFullyBlocking = 2,
+  SentryANRTypeNonFullyBlocking = 3,
+  SentryANRTypeUnknown = 4,
 };
 
 
 SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
 @interface SentryAppHangTypeMapper : NSObject
 + (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (NSString * _Nonnull)getFatalExceptionTypeWithNonFatalErrorType:(NSString * _Nonnull)nonFatalErrorType SWIFT_WARN_UNUSED_RESULT;
 + (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -426,7 +430,7 @@ SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
 
 SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @interface SentryEnabledFeaturesBuilder : NSObject
-+ (NSArray<NSString *> * _Nonnull)getEnabledFeaturesWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
++ (NSArray<NSString *> * _Nonnull)getEnabledFeaturesWithOptions:(SentryOptions * _Nullable)options SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -443,12 +447,25 @@ SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSData</code> to automatically track file operations.
+/// note:
+/// Swizzling is enabled by setting <code>SentryOptions.enableSwizzling</code> to <code>true</code>.
+/// This option allows you to disable swizzling for <code>NSData</code> only, while keeping swizzling enabled for other classes.
+/// This is useful if you want to use manual tracing for file operations.
+@property (nonatomic) BOOL enableDataSwizzling;
 /// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+/// note:
+/// Swizzling is enabled by setting <code>SentryOptions.enableSwizzling</code> to <code>true</code>.
+/// This option allows you to disable swizzling for <code>NSFileManager</code> only, while keeping swizzling enabled for other classes.
+/// This is useful if you want to use manual tracing for file operations.
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future release.
 @property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+enum SentryFeedbackSource : NSInteger;
 @class SentryId;
 
 SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
@@ -456,14 +473,23 @@ SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 @property (nonatomic, copy) NSString * _Nullable name;
 @property (nonatomic, copy) NSString * _Nullable email;
 @property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic) enum SentryFeedbackSource source;
 @property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
-/// PNG data for the screenshot image
-@property (nonatomic, copy) NSData * _Nullable screenshot;
 /// The event id that this feedback is associated with, like a crash report.
-@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+@property (nonatomic, strong) SentryId * _Nullable associatedEventId;
+/// \param associatedEventId The ID for an event you’d like associated with the feedback. 
+///
+/// \param attachments Data objects for any attachments. Currently the web UI only supports showing one attached image, like for a screenshot. 
+///
+- (nonnull instancetype)initWithMessage:(NSString * _Nonnull)message name:(NSString * _Nullable)name email:(NSString * _Nullable)email source:(enum SentryFeedbackSource)source associatedEventId:(SentryId * _Nullable)associatedEventId attachments:(NSArray<NSData *> * _Nullable)attachments OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
+  SentryFeedbackSourceWidget = 0,
+  SentryFeedbackSourceCustom = 1,
+};
 
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
@@ -478,7 +504,7 @@ SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 - (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
 /// note:
 /// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
-- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -490,6 +516,7 @@ SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
@@ -630,6 +657,104 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryMXManagerDelegate_") SWIFT_AVAILABILITY(watch
 @end
 
 
+
+enum SentryProfileLifecycle : NSInteger;
+
+/// An object containing configuration for the Sentry profiler.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// If either <code>SentryOptions.profilesSampleRate</code> or <code>SentryOptions.profilesSampler</code> are
+/// set to a non-nil value such that transaction-based profiling is being used, these settings
+/// will have no effect, nor will <code>SentrySDK.startProfiler()</code> or <code>SentrySDK.stopProfiler()</code>.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+SWIFT_CLASS("_TtC6Sentry20SentryProfileOptions")
+@interface SentryProfileOptions : NSObject
+/// The mode to use for starting and stopping the profiler, either manually or automatically.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// Default: <code>SentryProfileLifecycleManual</code>.
+/// note:
+/// If either <code>SentryOptions.profilesSampleRate</code> or <code>SentryOptions.profilesSampler</code> are
+/// set to a non-nil value such that transaction-based profiling is being used, then setting
+/// this property has no effect.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) enum SentryProfileLifecycle lifecycle;
+/// The % of user sessions in which to enable profiling.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// The decision whether or not to sample profiles is computed using this sample rate
+/// when the SDK is started, and applies to any requests to start the profiler–regardless of
+/// <code>lifecycle</code>– until the app resigns its active status. It is then reevaluated on subsequent
+/// foreground events. The duration of time that a sample decision prevails between
+/// launch/foreground and background is referred to as a profile session.
+/// note:
+/// Backgrounding and foregrounding the app starts a new user session and sampling is
+/// re-evaluated. If there is no active trace when the app is backgrounded, profiling stops
+/// before the app backgrounds. If there is an active trace and profiling is in-flight when the
+/// app is foregrounded again, the same profiling session should continue until the last root
+/// span in that trace finishes — this means that the re-evaluated sample rate does not actually
+/// take effect until the profiler is started again.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) float sessionSampleRate;
+/// Start the profiler as early as possible during the app lifecycle to capture more activity
+/// during your app’s launch.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// <code>sessionSampleRate</code> is evaluated on the previous launch and only takes effect when
+/// app start profiling activates on the next launch.
+/// note:
+/// If <code>lifecycle</code> is <code>manual</code>, profiling is started automatically on startup, but you
+/// must manually call <code>SentrySDK.stopProfiler()</code> whenever you app startup to be complete. If
+/// <code>lifecycle</code> is <code>trace</code>, profiling is started automatically on startup, and will
+/// automatically be stopped when the root span that is associated with app startup ends.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) BOOL profileAppStarts;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Different modes for starting and stopping the profiler.
+typedef SWIFT_ENUM(NSInteger, SentryProfileLifecycle, open) {
+/// Profiling is controlled manually, and is independent of transactions & spans. Developers
+/// must use<code>SentrySDK.startProfiler()</code> and <code>SentrySDK.stopProfiler()</code> to manage the profile
+/// session. If the session is sampled, <code>SentrySDK.startProfiler()</code> will always start
+/// profiling.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+  SentryProfileLifecycleManual = 0,
+/// Profiling is automatically started when there is at least 1 active root span, and
+/// automatically stopped when there are 0 root spans.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// This mode only works if tracing is enabled.
+/// note:
+/// Profiling respects both <code>SentryProfileOptions.profileSessionSampleRate</code> and
+/// the existing sampling configuration for tracing
+/// (<code>SentryOptions.tracesSampleRate</code>/<code>SentryOptions.tracesSampler</code>). Sampling will be
+/// re-evaluated on a per root span basis.
+/// note:
+/// If there are multiple overlapping root spans, where some are sampled and some or
+/// not, profiling will continue until the end of the last sampled root span. Profiling data
+/// will not be linked with spans that are not sampled.
+/// note:
+/// When the last root span finishes, the profiler will continue running until the
+/// end of the current timed interval. If a new root span starts before this interval
+/// completes, the profiler will instead continue running until the next root span stops, at
+/// which time it will attempt to stop again in the same way.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+  SentryProfileLifecycleTrace = 1,
+};
 
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
@@ -781,6 +906,33 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
+/// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
+/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
+/// remove this feature flag and use the experimental view renderer by default.
+@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
+/// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
+/// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
+/// up to <em>5x faster render times</em> (reducing <code>~160ms</code> to <code>~30ms</code> per frame).
+/// This flag controls the way the view hierarchy is drawn into a graphics context for the session replay. By default, the view hierarchy is drawn using
+/// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
+/// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
+/// note:
+/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// warning:
+/// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
+/// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
+/// set this option to <code>true</code>.
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
+/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
+/// mark this feature as stable and remove the experimental flag, but will keep it disabled by default.
+@property (nonatomic) BOOL enableFastViewRendering;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -813,7 +965,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -877,34 +1029,6 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
-SWIFT_CLASS_NAMED("SentrySpanOperation")
-@interface SentrySpanOperation : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
-+ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
-+ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
-+ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
-+ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
-+ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
-+ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
-+ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
-+ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
-+ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
-+ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
-+ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
@@ -912,32 +1036,6 @@ SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-
-
-SWIFT_CLASS_NAMED("SentryTraceOrigin")
-@interface SentryTraceOrigin : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
-+ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
-+ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
-+ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
-+ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
-+ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
-+ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
-+ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
-+ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
-+ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
-+ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceCustom SWIFT_COMPILE_NAME("custom") = 0,
@@ -1328,6 +1426,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -1400,15 +1499,18 @@ SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
-  SentryANRTypeFullyBlocking = 0,
-  SentryANRTypeNonFullyBlocking = 1,
-  SentryANRTypeUnknown = 2,
+  SentryANRTypeFatalFullyBlocking = 0,
+  SentryANRTypeFatalNonFullyBlocking = 1,
+  SentryANRTypeFullyBlocking = 2,
+  SentryANRTypeNonFullyBlocking = 3,
+  SentryANRTypeUnknown = 4,
 };
 
 
 SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
 @interface SentryAppHangTypeMapper : NSObject
 + (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (NSString * _Nonnull)getFatalExceptionTypeWithNonFatalErrorType:(NSString * _Nonnull)nonFatalErrorType SWIFT_WARN_UNUSED_RESULT;
 + (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -1446,7 +1548,7 @@ SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
 
 SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @interface SentryEnabledFeaturesBuilder : NSObject
-+ (NSArray<NSString *> * _Nonnull)getEnabledFeaturesWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
++ (NSArray<NSString *> * _Nonnull)getEnabledFeaturesWithOptions:(SentryOptions * _Nullable)options SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1463,12 +1565,25 @@ SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSData</code> to automatically track file operations.
+/// note:
+/// Swizzling is enabled by setting <code>SentryOptions.enableSwizzling</code> to <code>true</code>.
+/// This option allows you to disable swizzling for <code>NSData</code> only, while keeping swizzling enabled for other classes.
+/// This is useful if you want to use manual tracing for file operations.
+@property (nonatomic) BOOL enableDataSwizzling;
 /// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+/// note:
+/// Swizzling is enabled by setting <code>SentryOptions.enableSwizzling</code> to <code>true</code>.
+/// This option allows you to disable swizzling for <code>NSFileManager</code> only, while keeping swizzling enabled for other classes.
+/// This is useful if you want to use manual tracing for file operations.
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future release.
 @property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+enum SentryFeedbackSource : NSInteger;
 @class SentryId;
 
 SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
@@ -1476,14 +1591,23 @@ SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 @property (nonatomic, copy) NSString * _Nullable name;
 @property (nonatomic, copy) NSString * _Nullable email;
 @property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic) enum SentryFeedbackSource source;
 @property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
-/// PNG data for the screenshot image
-@property (nonatomic, copy) NSData * _Nullable screenshot;
 /// The event id that this feedback is associated with, like a crash report.
-@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+@property (nonatomic, strong) SentryId * _Nullable associatedEventId;
+/// \param associatedEventId The ID for an event you’d like associated with the feedback. 
+///
+/// \param attachments Data objects for any attachments. Currently the web UI only supports showing one attached image, like for a screenshot. 
+///
+- (nonnull instancetype)initWithMessage:(NSString * _Nonnull)message name:(NSString * _Nullable)name email:(NSString * _Nullable)email source:(enum SentryFeedbackSource)source associatedEventId:(SentryId * _Nullable)associatedEventId attachments:(NSArray<NSData *> * _Nullable)attachments OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
+  SentryFeedbackSourceWidget = 0,
+  SentryFeedbackSourceCustom = 1,
+};
 
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
@@ -1498,7 +1622,7 @@ SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 - (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
 /// note:
 /// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
-- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -1510,6 +1634,7 @@ SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
@@ -1650,6 +1775,104 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryMXManagerDelegate_") SWIFT_AVAILABILITY(watch
 @end
 
 
+
+enum SentryProfileLifecycle : NSInteger;
+
+/// An object containing configuration for the Sentry profiler.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// If either <code>SentryOptions.profilesSampleRate</code> or <code>SentryOptions.profilesSampler</code> are
+/// set to a non-nil value such that transaction-based profiling is being used, these settings
+/// will have no effect, nor will <code>SentrySDK.startProfiler()</code> or <code>SentrySDK.stopProfiler()</code>.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+SWIFT_CLASS("_TtC6Sentry20SentryProfileOptions")
+@interface SentryProfileOptions : NSObject
+/// The mode to use for starting and stopping the profiler, either manually or automatically.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// Default: <code>SentryProfileLifecycleManual</code>.
+/// note:
+/// If either <code>SentryOptions.profilesSampleRate</code> or <code>SentryOptions.profilesSampler</code> are
+/// set to a non-nil value such that transaction-based profiling is being used, then setting
+/// this property has no effect.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) enum SentryProfileLifecycle lifecycle;
+/// The % of user sessions in which to enable profiling.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// The decision whether or not to sample profiles is computed using this sample rate
+/// when the SDK is started, and applies to any requests to start the profiler–regardless of
+/// <code>lifecycle</code>– until the app resigns its active status. It is then reevaluated on subsequent
+/// foreground events. The duration of time that a sample decision prevails between
+/// launch/foreground and background is referred to as a profile session.
+/// note:
+/// Backgrounding and foregrounding the app starts a new user session and sampling is
+/// re-evaluated. If there is no active trace when the app is backgrounded, profiling stops
+/// before the app backgrounds. If there is an active trace and profiling is in-flight when the
+/// app is foregrounded again, the same profiling session should continue until the last root
+/// span in that trace finishes — this means that the re-evaluated sample rate does not actually
+/// take effect until the profiler is started again.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) float sessionSampleRate;
+/// Start the profiler as early as possible during the app lifecycle to capture more activity
+/// during your app’s launch.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// <code>sessionSampleRate</code> is evaluated on the previous launch and only takes effect when
+/// app start profiling activates on the next launch.
+/// note:
+/// If <code>lifecycle</code> is <code>manual</code>, profiling is started automatically on startup, but you
+/// must manually call <code>SentrySDK.stopProfiler()</code> whenever you app startup to be complete. If
+/// <code>lifecycle</code> is <code>trace</code>, profiling is started automatically on startup, and will
+/// automatically be stopped when the root span that is associated with app startup ends.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) BOOL profileAppStarts;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Different modes for starting and stopping the profiler.
+typedef SWIFT_ENUM(NSInteger, SentryProfileLifecycle, open) {
+/// Profiling is controlled manually, and is independent of transactions & spans. Developers
+/// must use<code>SentrySDK.startProfiler()</code> and <code>SentrySDK.stopProfiler()</code> to manage the profile
+/// session. If the session is sampled, <code>SentrySDK.startProfiler()</code> will always start
+/// profiling.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+  SentryProfileLifecycleManual = 0,
+/// Profiling is automatically started when there is at least 1 active root span, and
+/// automatically stopped when there are 0 root spans.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// This mode only works if tracing is enabled.
+/// note:
+/// Profiling respects both <code>SentryProfileOptions.profileSessionSampleRate</code> and
+/// the existing sampling configuration for tracing
+/// (<code>SentryOptions.tracesSampleRate</code>/<code>SentryOptions.tracesSampler</code>). Sampling will be
+/// re-evaluated on a per root span basis.
+/// note:
+/// If there are multiple overlapping root spans, where some are sampled and some or
+/// not, profiling will continue until the end of the last sampled root span. Profiling data
+/// will not be linked with spans that are not sampled.
+/// note:
+/// When the last root span finishes, the profiler will continue running until the
+/// end of the current timed interval. If a new root span starts before this interval
+/// completes, the profiler will instead continue running until the next root span stops, at
+/// which time it will attempt to stop again in the same way.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+  SentryProfileLifecycleTrace = 1,
+};
 
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
@@ -1801,6 +2024,33 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
+/// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
+/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
+/// remove this feature flag and use the experimental view renderer by default.
+@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
+/// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
+/// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
+/// up to <em>5x faster render times</em> (reducing <code>~160ms</code> to <code>~30ms</code> per frame).
+/// This flag controls the way the view hierarchy is drawn into a graphics context for the session replay. By default, the view hierarchy is drawn using
+/// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
+/// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
+/// note:
+/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// warning:
+/// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
+/// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
+/// set this option to <code>true</code>.
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
+/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
+/// mark this feature as stable and remove the experimental flag, but will keep it disabled by default.
+@property (nonatomic) BOOL enableFastViewRendering;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -1833,7 +2083,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -1897,34 +2147,6 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
-SWIFT_CLASS_NAMED("SentrySpanOperation")
-@interface SentrySpanOperation : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
-+ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
-+ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
-+ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
-+ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
-+ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
-+ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
-+ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
-+ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
-+ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
-+ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
-+ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
@@ -1932,32 +2154,6 @@ SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-
-
-SWIFT_CLASS_NAMED("SentryTraceOrigin")
-@interface SentryTraceOrigin : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
-+ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
-+ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
-+ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
-+ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
-+ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
-+ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
-+ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
-+ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
-+ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
-+ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceCustom SWIFT_COMPILE_NAME("custom") = 0,
@@ -2348,6 +2544,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+
 @class NSString;
 
 SWIFT_CLASS("_TtC6Sentry19HTTPHeaderSanitizer")
@@ -2420,15 +2617,18 @@ SWIFT_PROTOCOL("_TtP6Sentry24SentryANRTrackerDelegate_")
 @end
 
 typedef SWIFT_ENUM(NSInteger, SentryANRType, closed) {
-  SentryANRTypeFullyBlocking = 0,
-  SentryANRTypeNonFullyBlocking = 1,
-  SentryANRTypeUnknown = 2,
+  SentryANRTypeFatalFullyBlocking = 0,
+  SentryANRTypeFatalNonFullyBlocking = 1,
+  SentryANRTypeFullyBlocking = 2,
+  SentryANRTypeNonFullyBlocking = 3,
+  SentryANRTypeUnknown = 4,
 };
 
 
 SWIFT_CLASS("_TtC6Sentry23SentryAppHangTypeMapper")
 @interface SentryAppHangTypeMapper : NSObject
 + (NSString * _Nonnull)getExceptionTypeWithAnrType:(enum SentryANRType)anrType SWIFT_WARN_UNUSED_RESULT;
++ (NSString * _Nonnull)getFatalExceptionTypeWithNonFatalErrorType:(NSString * _Nonnull)nonFatalErrorType SWIFT_WARN_UNUSED_RESULT;
 + (BOOL)isExceptionTypeAppHangWithExceptionType:(NSString * _Nonnull)exceptionType SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -2466,7 +2666,7 @@ SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
 
 SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
 @interface SentryEnabledFeaturesBuilder : NSObject
-+ (NSArray<NSString *> * _Nonnull)getEnabledFeaturesWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
++ (NSArray<NSString *> * _Nonnull)getEnabledFeaturesWithOptions:(SentryOptions * _Nullable)options SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2483,12 +2683,25 @@ SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
 
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
+/// Enables swizzling of<code>NSData</code> to automatically track file operations.
+/// note:
+/// Swizzling is enabled by setting <code>SentryOptions.enableSwizzling</code> to <code>true</code>.
+/// This option allows you to disable swizzling for <code>NSData</code> only, while keeping swizzling enabled for other classes.
+/// This is useful if you want to use manual tracing for file operations.
+@property (nonatomic) BOOL enableDataSwizzling;
 /// Enables swizzling of<code>NSFileManager</code> to automatically track file operations.
+/// note:
+/// Swizzling is enabled by setting <code>SentryOptions.enableSwizzling</code> to <code>true</code>.
+/// This option allows you to disable swizzling for <code>NSFileManager</code> only, while keeping swizzling enabled for other classes.
+/// This is useful if you want to use manual tracing for file operations.
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future release.
 @property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+enum SentryFeedbackSource : NSInteger;
 @class SentryId;
 
 SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
@@ -2496,14 +2709,23 @@ SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 @property (nonatomic, copy) NSString * _Nullable name;
 @property (nonatomic, copy) NSString * _Nullable email;
 @property (nonatomic, copy) NSString * _Nonnull message;
+@property (nonatomic) enum SentryFeedbackSource source;
 @property (nonatomic, readonly, strong) SentryId * _Nonnull eventId;
-/// PNG data for the screenshot image
-@property (nonatomic, copy) NSData * _Nullable screenshot;
 /// The event id that this feedback is associated with, like a crash report.
-@property (nonatomic, copy) NSString * _Nullable associatedEventId;
+@property (nonatomic, strong) SentryId * _Nullable associatedEventId;
+/// \param associatedEventId The ID for an event you’d like associated with the feedback. 
+///
+/// \param attachments Data objects for any attachments. Currently the web UI only supports showing one attached image, like for a screenshot. 
+///
+- (nonnull instancetype)initWithMessage:(NSString * _Nonnull)message name:(NSString * _Nullable)name email:(NSString * _Nullable)email source:(enum SentryFeedbackSource)source associatedEventId:(SentryId * _Nullable)associatedEventId attachments:(NSArray<NSData *> * _Nullable)attachments OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
+  SentryFeedbackSourceWidget = 0,
+  SentryFeedbackSourceCustom = 1,
+};
 
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry)) <SentrySerializable>
@@ -2518,7 +2740,7 @@ SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 - (NSDictionary<NSString *, id> * _Nonnull)dataDictionary SWIFT_WARN_UNUSED_RESULT;
 /// note:
 /// Currently there is only a single attachment possible, for the screenshot, of which there can be only one.
-- (NSArray<SentryAttachment *> * _Nonnull)attachments SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -2530,6 +2752,7 @@ SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 SWIFT_CLASS("_TtC6Sentry23SentryFramesDelayResult")
@@ -2670,6 +2893,104 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryMXManagerDelegate_") SWIFT_AVAILABILITY(watch
 @end
 
 
+
+enum SentryProfileLifecycle : NSInteger;
+
+/// An object containing configuration for the Sentry profiler.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// If either <code>SentryOptions.profilesSampleRate</code> or <code>SentryOptions.profilesSampler</code> are
+/// set to a non-nil value such that transaction-based profiling is being used, these settings
+/// will have no effect, nor will <code>SentrySDK.startProfiler()</code> or <code>SentrySDK.stopProfiler()</code>.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+SWIFT_CLASS("_TtC6Sentry20SentryProfileOptions")
+@interface SentryProfileOptions : NSObject
+/// The mode to use for starting and stopping the profiler, either manually or automatically.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// Default: <code>SentryProfileLifecycleManual</code>.
+/// note:
+/// If either <code>SentryOptions.profilesSampleRate</code> or <code>SentryOptions.profilesSampler</code> are
+/// set to a non-nil value such that transaction-based profiling is being used, then setting
+/// this property has no effect.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) enum SentryProfileLifecycle lifecycle;
+/// The % of user sessions in which to enable profiling.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// The decision whether or not to sample profiles is computed using this sample rate
+/// when the SDK is started, and applies to any requests to start the profiler–regardless of
+/// <code>lifecycle</code>– until the app resigns its active status. It is then reevaluated on subsequent
+/// foreground events. The duration of time that a sample decision prevails between
+/// launch/foreground and background is referred to as a profile session.
+/// note:
+/// Backgrounding and foregrounding the app starts a new user session and sampling is
+/// re-evaluated. If there is no active trace when the app is backgrounded, profiling stops
+/// before the app backgrounds. If there is an active trace and profiling is in-flight when the
+/// app is foregrounded again, the same profiling session should continue until the last root
+/// span in that trace finishes — this means that the re-evaluated sample rate does not actually
+/// take effect until the profiler is started again.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) float sessionSampleRate;
+/// Start the profiler as early as possible during the app lifecycle to capture more activity
+/// during your app’s launch.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// <code>sessionSampleRate</code> is evaluated on the previous launch and only takes effect when
+/// app start profiling activates on the next launch.
+/// note:
+/// If <code>lifecycle</code> is <code>manual</code>, profiling is started automatically on startup, but you
+/// must manually call <code>SentrySDK.stopProfiler()</code> whenever you app startup to be complete. If
+/// <code>lifecycle</code> is <code>trace</code>, profiling is started automatically on startup, and will
+/// automatically be stopped when the root span that is associated with app startup ends.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+@property (nonatomic) BOOL profileAppStarts;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Different modes for starting and stopping the profiler.
+typedef SWIFT_ENUM(NSInteger, SentryProfileLifecycle, open) {
+/// Profiling is controlled manually, and is independent of transactions & spans. Developers
+/// must use<code>SentrySDK.startProfiler()</code> and <code>SentrySDK.stopProfiler()</code> to manage the profile
+/// session. If the session is sampled, <code>SentrySDK.startProfiler()</code> will always start
+/// profiling.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+  SentryProfileLifecycleManual = 0,
+/// Profiling is automatically started when there is at least 1 active root span, and
+/// automatically stopped when there are 0 root spans.
+/// warning:
+/// Continuous profiling is an experimental feature and may still contain bugs.
+/// note:
+/// This mode only works if tracing is enabled.
+/// note:
+/// Profiling respects both <code>SentryProfileOptions.profileSessionSampleRate</code> and
+/// the existing sampling configuration for tracing
+/// (<code>SentryOptions.tracesSampleRate</code>/<code>SentryOptions.tracesSampler</code>). Sampling will be
+/// re-evaluated on a per root span basis.
+/// note:
+/// If there are multiple overlapping root spans, where some are sampled and some or
+/// not, profiling will continue until the end of the last sampled root span. Profiling data
+/// will not be linked with spans that are not sampled.
+/// note:
+/// When the last root span finishes, the profiler will continue running until the
+/// end of the current timed interval. If a new root span starts before this interval
+/// completes, the profiler will instead continue running until the next root span stops, at
+/// which time it will attempt to stop again in the same way.
+/// note:
+/// Profiling is automatically disabled if a thread sanitizer is attached.
+  SentryProfileLifecycleTrace = 1,
+};
 
 
 SWIFT_CLASS("_TtC6Sentry22SentryRRWebCustomEvent")
@@ -2821,6 +3142,33 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
+/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
+/// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
+/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
+/// remove this feature flag and use the experimental view renderer by default.
+@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
+/// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
+/// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
+/// up to <em>5x faster render times</em> (reducing <code>~160ms</code> to <code>~30ms</code> per frame).
+/// This flag controls the way the view hierarchy is drawn into a graphics context for the session replay. By default, the view hierarchy is drawn using
+/// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
+/// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
+/// note:
+/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// warning:
+/// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
+/// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
+/// set this option to <code>true</code>.
+/// experiment:
+/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
+/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
+/// mark this feature as stable and remove the experimental flag, but will keep it disabled by default.
+@property (nonatomic) BOOL enableFastViewRendering;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 @property (nonatomic, readonly) NSInteger replayBitRate;
@@ -2853,7 +3201,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -2917,34 +3265,6 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 
-SWIFT_CLASS_NAMED("SentrySpanOperation")
-@interface SentrySpanOperation : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull appLifecycle;)
-+ (NSString * _Nonnull)appLifecycle SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataFetchOperation;)
-+ (NSString * _Nonnull)coredataFetchOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull coredataSaveOperation;)
-+ (NSString * _Nonnull)coredataSaveOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileRead;)
-+ (NSString * _Nonnull)fileRead SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull fileWrite;)
-+ (NSString * _Nonnull)fileWrite SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull networkRequestOperation;)
-+ (NSString * _Nonnull)networkRequestOperation SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiAction;)
-+ (NSString * _Nonnull)uiAction SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiActionClick;)
-+ (NSString * _Nonnull)uiActionClick SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoad;)
-+ (NSString * _Nonnull)uiLoad SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadInitialDisplay;)
-+ (NSString * _Nonnull)uiLoadInitialDisplay SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull uiLoadFullDisplay;)
-+ (NSString * _Nonnull)uiLoadFullDisplay SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 
 SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 @interface SentrySwizzleClassNameExclude : NSObject
@@ -2952,32 +3272,6 @@ SWIFT_CLASS("_TtC6Sentry29SentrySwizzleClassNameExclude")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-
-
-SWIFT_CLASS_NAMED("SentryTraceOrigin")
-@interface SentryTraceOrigin : NSObject
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStart;)
-+ (NSString * _Nonnull)autoAppStart SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoAppStartProfile;)
-+ (NSString * _Nonnull)autoAppStartProfile SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoDBCoreData;)
-+ (NSString * _Nonnull)autoDBCoreData SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoHttpNSURLSession;)
-+ (NSString * _Nonnull)autoHttpNSURLSession SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoNSData;)
-+ (NSString * _Nonnull)autoNSData SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUiEventTracker;)
-+ (NSString * _Nonnull)autoUiEventTracker SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUITimeToDisplay;)
-+ (NSString * _Nonnull)autoUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull autoUIViewController;)
-+ (NSString * _Nonnull)autoUIViewController SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manual;)
-+ (NSString * _Nonnull)manual SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull manualUITimeToDisplay;)
-+ (NSString * _Nonnull)manualUITimeToDisplay SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
 
 typedef SWIFT_ENUM(NSInteger, SentryTransactionNameSource, open) {
   kSentryTransactionNameSourceCustom SWIFT_COMPILE_NAME("custom") = 0,
