@@ -2626,6 +2626,11 @@
             No-Op.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.CaptureFeedback(Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
             <summary>
             No-Op.
@@ -2830,6 +2835,11 @@
             <inheritdoc cref="M:Sentry.ISentryClient.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)"/>
         </member>
         <member name="M:Sentry.Extensibility.HubAdapter.CaptureEvent(Sentry.SentryEvent,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.CaptureFeedback(Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3905,6 +3915,14 @@
             <param name="hint">An optional hint to be provided with the event</param>
             <param name="configureScope">The callback to configure the scope.</param>
             <returns></returns>
+        </member>
+        <member name="M:Sentry.IHub.CaptureFeedback(Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
+            <param name="feedback">The feedback to send to Sentry.</param>
+            <param name="configureScope">Callback method to configure the scope.</param>
+            <param name="hint">An optional hint providing high level context for the source of the event, including attachments</param>
         </member>
         <member name="T:Sentry.Infrastructure.ConsoleAndTraceDiagnosticLogger">
             <summary>
@@ -10058,6 +10076,11 @@
             <param name="configureScope">The callback to configure the scope.</param>
             <param name="level">The message level.</param>
             <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
         </member>
         <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
             <summary>

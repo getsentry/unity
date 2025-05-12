@@ -742,15 +742,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
-/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Alias for <code>enableViewRendererV2</code>.
+/// This flag is deprecated and will be removed in a future version.
+/// Please use <code>enableViewRendererV2</code> instead.
+@property (nonatomic) BOOL enableExperimentalViewRenderer SWIFT_DEPRECATED_MSG("", "enableViewRendererV2");
+/// Enables the up to 5x faster new view renderer used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
-/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame) on older devices.
 /// experiment:
-/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
-/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
-/// remove this feature flag and use the experimental view renderer by default.
-@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
+/// Eventually, we will remove this feature flag and use the new view renderer by default.
+@property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
@@ -759,7 +762,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
 /// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
 /// note:
-/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// This flag can only be used together with <code>enableViewRendererV2</code> with up to 20% faster render times.
 /// warning:
 /// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
 /// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
@@ -801,7 +804,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -1705,15 +1708,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
-/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Alias for <code>enableViewRendererV2</code>.
+/// This flag is deprecated and will be removed in a future version.
+/// Please use <code>enableViewRendererV2</code> instead.
+@property (nonatomic) BOOL enableExperimentalViewRenderer SWIFT_DEPRECATED_MSG("", "enableViewRendererV2");
+/// Enables the up to 5x faster new view renderer used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
-/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame) on older devices.
 /// experiment:
-/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
-/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
-/// remove this feature flag and use the experimental view renderer by default.
-@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
+/// Eventually, we will remove this feature flag and use the new view renderer by default.
+@property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
@@ -1722,7 +1728,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
 /// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
 /// note:
-/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// This flag can only be used together with <code>enableViewRendererV2</code> with up to 20% faster render times.
 /// warning:
 /// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
 /// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
@@ -1764,7 +1770,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -2668,15 +2674,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
-/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Alias for <code>enableViewRendererV2</code>.
+/// This flag is deprecated and will be removed in a future version.
+/// Please use <code>enableViewRendererV2</code> instead.
+@property (nonatomic) BOOL enableExperimentalViewRenderer SWIFT_DEPRECATED_MSG("", "enableViewRendererV2");
+/// Enables the up to 5x faster new view renderer used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
-/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame) on older devices.
 /// experiment:
-/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
-/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
-/// remove this feature flag and use the experimental view renderer by default.
-@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
+/// Eventually, we will remove this feature flag and use the new view renderer by default.
+@property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
@@ -2685,7 +2694,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
 /// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
 /// note:
-/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// This flag can only be used together with <code>enableViewRendererV2</code> with up to 20% faster render times.
 /// warning:
 /// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
 /// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
@@ -2727,7 +2736,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -3631,15 +3640,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
-/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Alias for <code>enableViewRendererV2</code>.
+/// This flag is deprecated and will be removed in a future version.
+/// Please use <code>enableViewRendererV2</code> instead.
+@property (nonatomic) BOOL enableExperimentalViewRenderer SWIFT_DEPRECATED_MSG("", "enableViewRendererV2");
+/// Enables the up to 5x faster new view renderer used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
-/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame) on older devices.
 /// experiment:
-/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
-/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
-/// remove this feature flag and use the experimental view renderer by default.
-@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
+/// Eventually, we will remove this feature flag and use the new view renderer by default.
+@property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
@@ -3648,7 +3660,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
 /// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
 /// note:
-/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// This flag can only be used together with <code>enableViewRendererV2</code> with up to 20% faster render times.
 /// warning:
 /// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
 /// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
@@ -3690,7 +3702,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 

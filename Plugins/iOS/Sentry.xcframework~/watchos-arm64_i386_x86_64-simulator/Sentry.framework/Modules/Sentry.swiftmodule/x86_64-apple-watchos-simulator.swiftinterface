@@ -109,10 +109,15 @@ extension Sentry.Breadcrumb : Swift.Decodable {
   @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
   @objc public var maskedViewClasses: [Swift.AnyClass]
   @objc public var unmaskedViewClasses: [Swift.AnyClass]
-  @objc public var enableExperimentalViewRenderer: Swift.Bool
+  @objc @available(*, deprecated, renamed: "enableViewRendererV2")
+  public var enableExperimentalViewRenderer: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc public var enableViewRendererV2: Swift.Bool
   @objc public var enableFastViewRendering: Swift.Bool
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableExperimentalViewRenderer: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableViewRendererV2: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
   @objc deinit
 }
 extension Sentry.Mechanism : Swift.Decodable {

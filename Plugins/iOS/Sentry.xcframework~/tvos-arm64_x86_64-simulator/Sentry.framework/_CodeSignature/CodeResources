@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/Sentry-Swift.h</key>
 		<data>
-		ZwompdXiTYCQP43jV1yBhKHFrf8=
+		30a93usYjtH6CrolNkbd+Cdm6RU=
 		</data>
 		<key>Headers/Sentry.h</key>
 		<data>
@@ -102,7 +102,7 @@
 		</data>
 		<key>Headers/SentryOptions.h</key>
 		<data>
-		TJY7IfLUrP7iu8MX8mSKSQm5BGI=
+		jDTRwJorhc2bys5GZo5yeKAesxA=
 		</data>
 		<key>Headers/SentryProfilingConditionals.h</key>
 		<data>
@@ -186,47 +186,47 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		MZdZppnxu9NPgb9+FhuOp+RpbhA=
+		24zC1gUMrg4/9Hyn0IIhJGlRmQ8=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.abi.json</key>
 		<data>
-		10wecMyHGhwSlXg0UlSiGBW5WoU=
+		zLoAnnjvkiXrS6hfSueAbbII5zc=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.private.swiftinterface</key>
 		<data>
-		btF6r3AdyzSsnFbUhrEJHd6mRUo=
+		27ok3y/1E49ynXbsn0aLDwv43pg=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.swiftdoc</key>
 		<data>
-		7AD/BxAa23HVo8xB9orpiH23GUY=
+		/UIEIcBk8MAmxX0cS9stXkcw6v4=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.swiftinterface</key>
 		<data>
-		btF6r3AdyzSsnFbUhrEJHd6mRUo=
+		27ok3y/1E49ynXbsn0aLDwv43pg=
 		</data>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.swiftmodule</key>
 		<data>
-		Tan26hPcQMZ2GjS10/sraJ+zWEk=
+		XshiXp7jCqlhtkpWf8zeo7pVcwA=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.abi.json</key>
 		<data>
-		10wecMyHGhwSlXg0UlSiGBW5WoU=
+		zLoAnnjvkiXrS6hfSueAbbII5zc=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.private.swiftinterface</key>
 		<data>
-		9bpw1UWJrY3HjpUiJOS0VhwkZYw=
+		9VmMGpUT8raB44M0h4nanTFb6ko=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.swiftdoc</key>
 		<data>
-		jVVIbsJulOYBLaXSfmNshxZtNq4=
+		aMohk5bnhXbWsZml+4yEXRN/w3w=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.swiftinterface</key>
 		<data>
-		9bpw1UWJrY3HjpUiJOS0VhwkZYw=
+		9VmMGpUT8raB44M0h4nanTFb6ko=
 		</data>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.swiftmodule</key>
 		<data>
-		WOx7ohveyfpEXwLduSYQiaEompY=
+		6+JY6CNTGhodmK/NdfqaETkcqjA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -258,7 +258,7 @@
 		</data>
 		<key>PrivateHeaders/SentryBaseIntegration.h</key>
 		<data>
-		2t/8D2T3VoxcHZgwqIJHJN19umg=
+		KdWqdsOjZEQxIzGk9qTE9VMiSUg=
 		</data>
 		<key>PrivateHeaders/SentryBinaryImageCache.h</key>
 		<data>
@@ -290,7 +290,7 @@
 		</data>
 		<key>PrivateHeaders/SentryDependencyContainer.h</key>
 		<data>
-		bG5S3gpIgRvB9BDtQa8wDMPvONA=
+		0FY0M+7WUfv5b/Uueifs5HMEVhc=
 		</data>
 		<key>PrivateHeaders/SentryEnvelope.h</key>
 		<data>
@@ -334,7 +334,7 @@
 		</data>
 		<key>PrivateHeaders/SentryOptions+Private.h</key>
 		<data>
-		tIExSQ2UwZ21X7Z3tctNxIRkk6g=
+		eLzpyjdLTyQYW18CVDUbxTsez0Y=
 		</data>
 		<key>PrivateHeaders/SentryRequestOperation.h</key>
 		<data>
@@ -383,7 +383,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GZjQRcMqKSmMjR4bQzDeJ4QvtmDyAa74FqM2bSK6r1E=
+			yspdWeppBy7beqUPCijcyCu/2EainBKQSmF7mOudyE8=
 			</data>
 		</dict>
 		<key>Headers/Sentry.h</key>
@@ -551,7 +551,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			noNb1HHcMeDd0jt9NVBtbIGlHOP0iq2i6E2MZ3BA7qo=
+			zlvwkDUnKwmp2HF0MhWHNgeseGF6ueRwtdrKPZtQbpI=
 			</data>
 		</dict>
 		<key>Headers/SentryProfilingConditionals.h</key>
@@ -698,70 +698,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CF1PaIX/yQAxtOTIhHjV5/FqAI27b5yupvjipf8PU+g=
+			Zc8aF7SoqLj4DLtEC82Kq/T8ScHPOweSzfwgqg+XoyU=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AbUx1l3SbOfECpyCizHIcmRVVQKRbj8N7ofXSmv/6DI=
+			f8jJNvgP+Ly91YMavz2VQnny205DOXQOvKU0prWObeI=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UdHAxYZq93SV6SqGBTipAv39wdPj6+AokIkfOSk8Omw=
+			l/KoUU5ZsnOIfSgfuTERhxpl79mg8jhL9mbhsOiuY1M=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AbUx1l3SbOfECpyCizHIcmRVVQKRbj8N7ofXSmv/6DI=
+			f8jJNvgP+Ly91YMavz2VQnny205DOXQOvKU0prWObeI=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/arm64-apple-tvos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			LtQYvNOp8pD0usVHDMTEv3utJIE3Yeqz4ewq4PEpsQ8=
+			Zvgw9nAsm4e7sXkKGt4Dn4mf/r1+wGauKg9VofzHIN4=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CF1PaIX/yQAxtOTIhHjV5/FqAI27b5yupvjipf8PU+g=
+			Zc8aF7SoqLj4DLtEC82Kq/T8ScHPOweSzfwgqg+XoyU=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gN1ONSWQdKABIia7T5GcpmjUy5N3RREjzw8dUVusyw8=
+			QffOg41DCRf3Q4ZdVx5aC2I6C5SAOlmy/9xMGheJWjI=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			K5ae8/+CdUyXYT4jWOn9OsQhCgDAQ0AzGDBA6CCHD6U=
+			H7giMKbIN6uYrPJKsAlYI/m4XkGHvr9Ig9RitGb+Wcs=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gN1ONSWQdKABIia7T5GcpmjUy5N3RREjzw8dUVusyw8=
+			QffOg41DCRf3Q4ZdVx5aC2I6C5SAOlmy/9xMGheJWjI=
 			</data>
 		</dict>
 		<key>Modules/Sentry.swiftmodule/x86_64-apple-tvos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lO4N4Keujs9oVPn4UPt8NIrmSa4UBhBJ6Wys76VqP14=
+			Ga1MD2aNSv99YmdEzc7ew3Lh13W2Z+/htFC9IkP+YoQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -817,7 +817,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			d0UKoSl6T0yd1fC9KOuAJuUTarmPC0fme3Ot+tSkoYU=
+			oU0X61NaRlWiESKlJetPHmRuly/TtIJkSRtz1ve2P/8=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryBinaryImageCache.h</key>
@@ -873,7 +873,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pwaZX7XDYA10PS8+RiVrmEVkFNGC4W463mIBiCS8jtU=
+			xj2liq8IhnHoa76EP9X7RPoPSOOBc0tpVISFAGH7Dgk=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryEnvelope.h</key>
@@ -950,7 +950,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			sHkUx99INonK5BcImsT7o5kg1ePh3fNzOlLZoE/C/Z0=
+			uK7NU9QBG5xXkT2uYT/exbkiRvtzCViua0hJQIXfXfU=
 			</data>
 		</dict>
 		<key>PrivateHeaders/SentryRequestOperation.h</key>

@@ -4,6 +4,7 @@
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFoundation
 import CoreGraphics
+import CoreMedia
 import Foundation
 import MetricKit
 import ObjectiveC.NSObjCRuntime
@@ -119,10 +120,15 @@ extension Sentry.Breadcrumb : Swift.Decodable {
   @objc public var quality: Sentry.SentryReplayOptions.SentryReplayQuality
   @objc public var maskedViewClasses: [Swift.AnyClass]
   @objc public var unmaskedViewClasses: [Swift.AnyClass]
-  @objc public var enableExperimentalViewRenderer: Swift.Bool
+  @objc @available(*, deprecated, renamed: "enableViewRendererV2")
+  public var enableExperimentalViewRenderer: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc public var enableViewRendererV2: Swift.Bool
   @objc public var enableFastViewRendering: Swift.Bool
   @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableExperimentalViewRenderer: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
+  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableViewRendererV2: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
   @objc deinit
 }
 extension Sentry.Mechanism : Swift.Decodable {
@@ -141,6 +147,7 @@ extension Sentry.SentryMessage : Swift.Decodable {
   @objc public var configureWidget: ((Sentry.SentryUserFeedbackWidgetConfiguration) -> Swift.Void)?
   @objc public var useShakeGesture: Swift.Bool
   @objc public var showFormForScreenshots: Swift.Bool
+  @objc public var customButton: UIKit.UIButton?
   @objc public var configureForm: ((Sentry.SentryUserFeedbackFormConfiguration) -> Swift.Void)?
   @objc public var tags: [Swift.String : Any]?
   @objc public var onFormOpen: (() -> Swift.Void)?

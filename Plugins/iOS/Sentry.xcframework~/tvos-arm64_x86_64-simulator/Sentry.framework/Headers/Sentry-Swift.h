@@ -466,12 +466,6 @@ SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry30SentryExperimentalMaskRenderer")
-@interface SentryExperimentalMaskRenderer : SentryDefaultMaskRenderer
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
 /// Enables swizzling of<code>NSData</code> to automatically track file operations.
@@ -490,16 +484,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-SWIFT_CLASS("_TtC6Sentry30SentryExperimentalViewRenderer")
-@interface SentryExperimentalViewRenderer : NSObject <SentryViewRenderer>
-@property (nonatomic, readonly) BOOL enableFastViewRendering;
-- (nonnull instancetype)initWithEnableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
-- (UIImage * _Nonnull)renderWithView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 enum SentryFeedbackSource : NSInteger;
@@ -628,6 +612,12 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @end
 
 
+
+SWIFT_CLASS("_TtC6Sentry20SentryMaskRendererV2")
+@interface SentryMaskRendererV2 : SentryDefaultMaskRenderer
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @protocol SentryRedactOptions;
 @class NSCoder;
 
@@ -652,6 +642,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 @end
 
 @class SentryDispatchQueueWrapper;
+@class NSValue;
 
 SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 @interface SentryOnDemandReplay : NSObject <SentryReplayVideoMaker>
@@ -667,6 +658,19 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 - (void)releaseFramesUntil:(NSDate * _Nonnull)date;
 @property (nonatomic, readonly, copy) NSDate * _Nullable oldestFrameDate;
 - (NSArray<SentryVideoInfo *> * _Nullable)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)createVideoSettingsWithWidth:(CGFloat)width height:(CGFloat)height SWIFT_WARN_UNUSED_RESULT;
+/// Calculates the presentation time for a frame at a given index and frame rate.
+/// The return value is an <code>NSValue</code> containing a <code>CMTime</code> object representing the calculated presentation time.
+/// The <code>CMTime</code> must be wrapped as this class is exposed to Objective-C via <code>Sentry-Swift.h</code>, and Objective-C does not support <code>CMTime</code>
+/// as a return value.
+/// \param index Index of the frame, counted from 0.
+///
+/// \param frameRate Number of frames per second.
+///
+///
+/// returns:
+/// <code>NSValue</code> containing the <code>CMTime</code> representing the calculated presentation time. Can be accessed using the <code>timeValue</code> property.
++ (NSValue * _Nonnull)calculatePresentationTimeForFrameAtIndex:(NSInteger)index frameRate:(NSInteger)frameRate SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -836,15 +840,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
-/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Alias for <code>enableViewRendererV2</code>.
+/// This flag is deprecated and will be removed in a future version.
+/// Please use <code>enableViewRendererV2</code> instead.
+@property (nonatomic) BOOL enableExperimentalViewRenderer SWIFT_DEPRECATED_MSG("", "enableViewRendererV2");
+/// Enables the up to 5x faster new view renderer used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
-/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame) on older devices.
 /// experiment:
-/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
-/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
-/// remove this feature flag and use the experimental view renderer by default.
-@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
+/// Eventually, we will remove this feature flag and use the new view renderer by default.
+@property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
@@ -853,7 +860,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
 /// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
 /// note:
-/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// This flag can only be used together with <code>enableViewRendererV2</code> with up to 20% faster render times.
 /// warning:
 /// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
 /// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
@@ -895,7 +902,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -1066,15 +1073,15 @@ SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 @property (nonatomic, strong) id <SentryViewRenderer> _Nonnull renderer;
 /// Creates a view photographer used to convert a view hierarchy to an image.
 /// note:
-/// The option <code>enableExperimentalMaskRenderer</code> is an internal flag, which is not part of the public API.
+/// The option <code>enableMaskRendererV2</code> is an internal flag, which is not part of the public API.
 /// Therefore, it is not part of the the <code>redactOptions</code> parameter, to not further expose it.
 /// \param renderer Implementation of the view renderer.
 ///
 /// \param redactOptions Options provided to redact sensitive information.
 ///
-/// \param enableExperimentalMaskRenderer Flag to enable experimental view renderer.
+/// \param enableMaskRendererV2 Flag to enable experimental view renderer.
 ///
-- (nonnull instancetype)initWithRenderer:(id <SentryViewRenderer> _Nonnull)renderer redactOptions:(id <SentryRedactOptions> _Nonnull)redactOptions enableExperimentalMaskRenderer:(BOOL)enableExperimentalMaskRenderer OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithRenderer:(id <SentryViewRenderer> _Nonnull)renderer redactOptions:(id <SentryRedactOptions> _Nonnull)redactOptions enableMaskRendererV2:(BOOL)enableMaskRendererV2 OBJC_DESIGNATED_INITIALIZER;
 - (void)imageWithView:(UIView * _Nonnull)view onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
 - (UIImage * _Nonnull)imageWithView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
@@ -1085,6 +1092,16 @@ SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+
+
+SWIFT_CLASS("_TtC6Sentry20SentryViewRendererV2")
+@interface SentryViewRendererV2 : NSObject <SentryViewRenderer>
+@property (nonatomic, readonly) BOOL enableFastViewRendering;
+- (nonnull instancetype)initWithEnableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (UIImage * _Nonnull)renderWithView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
 
 
 @class UIViewController;
@@ -1599,12 +1616,6 @@ SWIFT_CLASS("_TtC6Sentry18SentryEventDecoder")
 @end
 
 
-SWIFT_CLASS("_TtC6Sentry30SentryExperimentalMaskRenderer")
-@interface SentryExperimentalMaskRenderer : SentryDefaultMaskRenderer
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
 SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @interface SentryExperimentalOptions : NSObject
 /// Enables swizzling of<code>NSData</code> to automatically track file operations.
@@ -1623,16 +1634,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 @property (nonatomic) BOOL enableFileManagerSwizzling;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-
-SWIFT_CLASS("_TtC6Sentry30SentryExperimentalViewRenderer")
-@interface SentryExperimentalViewRenderer : NSObject <SentryViewRenderer>
-@property (nonatomic, readonly) BOOL enableFastViewRendering;
-- (nonnull instancetype)initWithEnableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
-- (UIImage * _Nonnull)renderWithView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 enum SentryFeedbackSource : NSInteger;
@@ -1761,6 +1762,12 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @end
 
 
+
+SWIFT_CLASS("_TtC6Sentry20SentryMaskRendererV2")
+@interface SentryMaskRendererV2 : SentryDefaultMaskRenderer
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 @protocol SentryRedactOptions;
 @class NSCoder;
 
@@ -1785,6 +1792,7 @@ SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
 @end
 
 @class SentryDispatchQueueWrapper;
+@class NSValue;
 
 SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 @interface SentryOnDemandReplay : NSObject <SentryReplayVideoMaker>
@@ -1800,6 +1808,19 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 - (void)releaseFramesUntil:(NSDate * _Nonnull)date;
 @property (nonatomic, readonly, copy) NSDate * _Nullable oldestFrameDate;
 - (NSArray<SentryVideoInfo *> * _Nullable)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)createVideoSettingsWithWidth:(CGFloat)width height:(CGFloat)height SWIFT_WARN_UNUSED_RESULT;
+/// Calculates the presentation time for a frame at a given index and frame rate.
+/// The return value is an <code>NSValue</code> containing a <code>CMTime</code> object representing the calculated presentation time.
+/// The <code>CMTime</code> must be wrapped as this class is exposed to Objective-C via <code>Sentry-Swift.h</code>, and Objective-C does not support <code>CMTime</code>
+/// as a return value.
+/// \param index Index of the frame, counted from 0.
+///
+/// \param frameRate Number of frames per second.
+///
+///
+/// returns:
+/// <code>NSValue</code> containing the <code>CMTime</code> representing the calculated presentation time. Can be accessed using the <code>timeValue</code> property.
++ (NSValue * _Nonnull)calculatePresentationTimeForFrameAtIndex:(NSInteger)index frameRate:(NSInteger)frameRate SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -1969,15 +1990,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
-/// Enables the up to 5x faster experimental view renderer used by the Session Replay integration.
+/// Alias for <code>enableViewRendererV2</code>.
+/// This flag is deprecated and will be removed in a future version.
+/// Please use <code>enableViewRendererV2</code> instead.
+@property (nonatomic) BOOL enableExperimentalViewRenderer SWIFT_DEPRECATED_MSG("", "enableViewRendererV2");
+/// Enables the up to 5x faster new view renderer used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
-/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame).
+/// <em>up to 4-5x faster rendering</em> (reducing <code>~160ms</code> to <code>~36ms</code> per frame) on older devices.
 /// experiment:
-/// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
-/// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
-/// remove this feature flag and use the experimental view renderer by default.
-@property (nonatomic) BOOL enableExperimentalViewRenderer;
+/// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
+/// Eventually, we will remove this feature flag and use the new view renderer by default.
+@property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
 /// interruptions and visual lag. <a href="https://github.com/getsentry/sentry-cocoa/pull/4940">Our benchmarks</a> have shown a significant improvement of
@@ -1986,7 +2010,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// the <code>UIView.drawHierarchy(in:afterScreenUpdates:)</code> method, which is the most complete way to render the view hierarchy. However,
 /// this method can be slow, especially when rendering complex views, therefore enabling this flag will switch to render the underlying <code>CALayer</code> instead.
 /// note:
-/// This flag can only be used together with <code>enableExperimentalViewRenderer</code> with up to 20% faster render times.
+/// This flag can only be used together with <code>enableViewRendererV2</code> with up to 20% faster render times.
 /// warning:
 /// Rendering the view hiearchy using the <code>CALayer.render(in:)</code> method can lead to rendering issues, especially when using custom views.
 /// For complete rendering, it is recommended to set this option to <code>false</code>. In case you prefer performance over completeness, you can
@@ -2028,7 +2052,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 ///     error events.
 ///   </li>
 /// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableExperimentalViewRenderer:(BOOL)enableExperimentalViewRenderer enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
 @end
 
@@ -2199,15 +2223,15 @@ SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 @property (nonatomic, strong) id <SentryViewRenderer> _Nonnull renderer;
 /// Creates a view photographer used to convert a view hierarchy to an image.
 /// note:
-/// The option <code>enableExperimentalMaskRenderer</code> is an internal flag, which is not part of the public API.
+/// The option <code>enableMaskRendererV2</code> is an internal flag, which is not part of the public API.
 /// Therefore, it is not part of the the <code>redactOptions</code> parameter, to not further expose it.
 /// \param renderer Implementation of the view renderer.
 ///
 /// \param redactOptions Options provided to redact sensitive information.
 ///
-/// \param enableExperimentalMaskRenderer Flag to enable experimental view renderer.
+/// \param enableMaskRendererV2 Flag to enable experimental view renderer.
 ///
-- (nonnull instancetype)initWithRenderer:(id <SentryViewRenderer> _Nonnull)renderer redactOptions:(id <SentryRedactOptions> _Nonnull)redactOptions enableExperimentalMaskRenderer:(BOOL)enableExperimentalMaskRenderer OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithRenderer:(id <SentryViewRenderer> _Nonnull)renderer redactOptions:(id <SentryRedactOptions> _Nonnull)redactOptions enableMaskRendererV2:(BOOL)enableMaskRendererV2 OBJC_DESIGNATED_INITIALIZER;
 - (void)imageWithView:(UIView * _Nonnull)view onComplete:(void (^ _Nonnull)(UIImage * _Nonnull))onComplete;
 - (UIImage * _Nonnull)imageWithView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
 - (void)addIgnoreClasses:(NSArray<Class> * _Nonnull)classes;
@@ -2218,6 +2242,16 @@ SWIFT_CLASS("_TtC6Sentry22SentryViewPhotographer")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+
+
+SWIFT_CLASS("_TtC6Sentry20SentryViewRendererV2")
+@interface SentryViewRendererV2 : NSObject <SentryViewRenderer>
+@property (nonatomic, readonly) BOOL enableFastViewRendering;
+- (nonnull instancetype)initWithEnableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+- (UIImage * _Nonnull)renderWithView:(UIView * _Nonnull)view SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
 
 
 @class UIViewController;
