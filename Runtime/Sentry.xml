@@ -4,6 +4,24 @@
         <name>Sentry</name>
     </assembly>
     <members>
+        <member name="T:System.Runtime.CompilerServices.CallerArgumentExpressionAttribute">
+            <summary>
+            Indicates that a parameter captures the expression passed for another parameter as a string.
+            </summary>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.CallerArgumentExpressionAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.CallerArgumentExpressionAttribute"/> class.
+            </summary>
+            <param name="parameterName">
+            The name of the parameter whose expression should be captured as a string.
+            </param>
+        </member>
+        <member name="P:System.Runtime.CompilerServices.CallerArgumentExpressionAttribute.ParameterName">
+            <summary>
+            Gets the name of the parameter whose expression should be captured as a string.
+            </summary>
+        </member>
         <member name="T:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute">
             <summary>
             Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
@@ -13,6 +31,7 @@
             <summary>
             Initialize a new instance of <see cref="T:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute"/>
             </summary>
+            <param name="featureName">The name of the required compiler feature.</param>
         </member>
         <member name="P:System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.FeatureName">
             <summary>
@@ -79,7 +98,9 @@
             </remarks>
         </member>
         <member name="T:System.Runtime.CompilerServices.InterpolatedStringHandlerAttribute">
-            <summary>Indicates the attributed type is to be used as an interpolated string handler.</summary>
+            <summary>
+            Indicates the attributed type is to be used as an interpolated string handler.
+            </summary>
         </member>
         <member name="T:System.Runtime.CompilerServices.IsExternalInit">
             <summary>
@@ -275,210 +296,42 @@
             Optional. If omitted, no named export is emitted during compilation.
             </summary>
         </member>
-        <member name="T:System.Index">
-            <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
+        <member name="T:System.Diagnostics.CodeAnalysis.ExperimentalAttribute">
+            <summary>
+            Indicates that a parameter captures the expression passed for another parameter as a string.
+            </summary>
+            <summary>
+             Indicates that an API is experimental and it may change in the future.
+            </summary>
             <remarks>
-            Index is used by the C# compiler to support the new index syntax
-            <code>
-            int[] someArray = new int[5] { 1, 2, 3, 4, 5 } ;
-            int lastElement = someArray[^1]; // lastElement = 5
-            </code>
+              This attribute allows call sites to be flagged with a diagnostic that indicates that an experimental
+              feature is used. Authors can use this attribute to ship preview features in their assemblies.
             </remarks>
         </member>
-        <member name="M:System.Index.#ctor(System.Int32,System.Boolean)">
-            <summary>Construct an Index using a value and indicating if the index is from the start or from the end.</summary>
-            <param name="value">The index value. it has to be zero or positive number.</param>
-            <param name="fromEnd">Indicating if the index is from the start or from the end.</param>
+        <member name="M:System.Diagnostics.CodeAnalysis.ExperimentalAttribute.#ctor(System.String)">
+            <summary>
+             Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.ExperimentalAttribute"/> class, specifying the ID that the compiler will use
+             when reporting a use of the API the attribute applies to.
+            </summary>
+            <param name="diagnosticId">The ID that the compiler will use when reporting a use of the API the attribute applies to.</param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.ExperimentalAttribute.DiagnosticId">
+            <summary>
+             Gets the ID that the compiler will use when reporting a use of the API the attribute applies to.
+            </summary>
+            <value>The unique diagnostic ID.</value>
             <remarks>
-            If the Index constructed from the end, index value 1 means pointing at the last element and index value 0 means pointing at beyond last element.
+             The diagnostic ID is shown in build output for warnings and errors.
+             <para>This property represents the unique ID that can be used to suppress the warnings or errors, if needed.</para>
             </remarks>
         </member>
-        <member name="P:System.Index.Start">
-            <summary>Create an Index pointing at first element.</summary>
-        </member>
-        <member name="P:System.Index.End">
-            <summary>Create an Index pointing at beyond last element.</summary>
-        </member>
-        <member name="M:System.Index.FromStart(System.Int32)">
-            <summary>Create an Index from the start at the position indicated by the value.</summary>
-            <param name="value">The index value from the start.</param>
-        </member>
-        <member name="M:System.Index.FromEnd(System.Int32)">
-            <summary>Create an Index from the end at the position indicated by the value.</summary>
-            <param name="value">The index value from the end.</param>
-        </member>
-        <member name="P:System.Index.Value">
-            <summary>Returns the index value.</summary>
-        </member>
-        <member name="P:System.Index.IsFromEnd">
-            <summary>Indicates whether the index is from the start or the end.</summary>
-        </member>
-        <member name="M:System.Index.GetOffset(System.Int32)">
-            <summary>Calculate the offset from the start using the giving collection length.</summary>
-            <param name="length">The length of the collection that the Index will be used with. length has to be a positive value</param>
-            <remarks>
-            For performance reason, we don't validate the input length parameter and the returned offset value against negative values.
-            we don't validate either the returned offset is greater than the input length.
-            It is expected Index will be used with collections which always have non negative length/count. If the returned offset is negative and
-            then used to index a collection will get out of range exception which will be same affect as the validation.
-            </remarks>
-        </member>
-        <member name="M:System.Index.Equals(System.Object)">
-            <summary>Indicates whether the current Index object is equal to another object of the same type.</summary>
-            <param name="value">An object to compare with this object</param>
-        </member>
-        <member name="M:System.Index.Equals(System.Index)">
-            <summary>Indicates whether the current Index object is equal to another Index object.</summary>
-            <param name="other">An object to compare with this object</param>
-        </member>
-        <member name="M:System.Index.GetHashCode">
-            <summary>Returns the hash code for this instance.</summary>
-        </member>
-        <member name="M:System.Index.op_Implicit(System.Int32)~System.Index">
-            <summary>Converts integer number to an Index.</summary>
-        </member>
-        <member name="M:System.Index.ToString">
-            <summary>Converts the value of the current Index object to its equivalent string representation.</summary>
-        </member>
-        <member name="T:System.Range">
-            <summary>Represent a range has start and end indexes.</summary>
-            <remarks>
-            Range is used by the C# compiler to support the range syntax.
-            <code>
-            int[] someArray = new int[5] { 1, 2, 3, 4, 5 };
-            int[] subArray1 = someArray[0..2]; // { 1, 2 }
-            int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
-            </code>
-            </remarks>
-        </member>
-        <member name="M:System.Range.#ctor(System.Index,System.Index)">
-            <summary>Represent a range has start and end indexes.</summary>
-            <remarks>
-            Range is used by the C# compiler to support the range syntax.
-            <code>
-            int[] someArray = new int[5] { 1, 2, 3, 4, 5 };
-            int[] subArray1 = someArray[0..2]; // { 1, 2 }
-            int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
-            </code>
-            </remarks>
-        </member>
-        <member name="M:System.Range.ToString">
-            <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
-        </member>
-        <member name="M:System.Range.StartAt(System.Index)">
-            <summary>Create a Range object starting from start index to the end of the collection.</summary>
-        </member>
-        <member name="M:System.Range.EndAt(System.Index)">
-            <summary>Create a Range object starting from first element in the collection to the end Index.</summary>
-        </member>
-        <member name="P:System.Range.All">
-            <summary>Create a Range object starting from first element to the end.</summary>
-        </member>
-        <member name="M:System.Range.GetOffsetAndLength(System.Int32)">
-            <summary>Calculate the start offset and length of range object using a collection length.</summary>
-            <param name="length">The length of the collection that the range will be used with. length has to be a positive value.</param>
-            <remarks>
-            For performance reason, we don't validate the input length parameter against negative values.
-            It is expected Range will be used with collections which always have non negative length/count.
-            We validate the range is inside the length scope though.
-            </remarks>
-        </member>
-        <member name="T:System.Reflection.NullabilityInfo">
+        <member name="P:System.Diagnostics.CodeAnalysis.ExperimentalAttribute.UrlFormat">
             <summary>
-            A class that represents nullability info
+             Gets or sets the URL for corresponding documentation.
+             The API accepts a format string instead of an actual URL, creating a generic URL that includes the diagnostic ID.
             </summary>
-        </member>
-        <member name="P:System.Reflection.NullabilityInfo.Type">
-            <summary>
-            The <see cref="T:System.Type" /> of the member or generic parameter
-            to which this NullabilityInfo belongs
-            </summary>
-        </member>
-        <member name="P:System.Reflection.NullabilityInfo.ReadState">
-            <summary>
-            The nullability read state of the member
-            </summary>
-        </member>
-        <member name="P:System.Reflection.NullabilityInfo.WriteState">
-            <summary>
-            The nullability write state of the member
-            </summary>
-        </member>
-        <member name="P:System.Reflection.NullabilityInfo.ElementType">
-            <summary>
-            If the member type is an array, gives the <see cref="T:System.Reflection.NullabilityInfo" /> of the elements of the array, null otherwise
-            </summary>
-        </member>
-        <member name="P:System.Reflection.NullabilityInfo.GenericTypeArguments">
-            <summary>
-            If the member type is a generic type, gives the array of <see cref="T:System.Reflection.NullabilityInfo" /> for each type parameter
-            </summary>
-        </member>
-        <member name="T:System.Reflection.NullabilityState">
-            <summary>
-            An enum that represents nullability state
-            </summary>
-        </member>
-        <member name="F:System.Reflection.NullabilityState.Unknown">
-            <summary>
-            Nullability context not enabled (oblivious)
-            </summary>
-        </member>
-        <member name="F:System.Reflection.NullabilityState.NotNull">
-            <summary>
-            Non nullable value or reference type
-            </summary>
-        </member>
-        <member name="F:System.Reflection.NullabilityState.Nullable">
-            <summary>
-            Nullable value or reference type
-            </summary>
-        </member>
-        <member name="T:System.Reflection.NullabilityInfoContext">
-            <summary>
-            Provides APIs for populating nullability information/context from reflection members:
-            <see cref="T:System.Reflection.ParameterInfo"/>, <see cref="T:System.Reflection.FieldInfo"/>, <see cref="T:System.Reflection.PropertyInfo"/> and <see cref="T:System.Reflection.EventInfo"/>.
-            </summary>
-        </member>
-        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.ParameterInfo)">
-            <summary>
-            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.ParameterInfo" />.
-            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
-            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
-            </summary>
-            <param name="parameterInfo">The parameter which nullability info gets populated</param>
-            <exception cref="T:System.ArgumentNullException">If the parameterInfo parameter is null</exception>
-            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
-        </member>
-        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.PropertyInfo)">
-            <summary>
-            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.PropertyInfo" />.
-            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
-            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
-            </summary>
-            <param name="propertyInfo">The parameter which nullability info gets populated</param>
-            <exception cref="T:System.ArgumentNullException">If the propertyInfo parameter is null</exception>
-            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
-        </member>
-        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.EventInfo)">
-            <summary>
-            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.EventInfo" />.
-            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
-            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
-            </summary>
-            <param name="eventInfo">The parameter which nullability info gets populated</param>
-            <exception cref="T:System.ArgumentNullException">If the eventInfo parameter is null</exception>
-            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
-        </member>
-        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.FieldInfo)">
-            <summary>
-            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.FieldInfo" />
-            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
-            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
-            </summary>
-            <param name="fieldInfo">The parameter which nullability info gets populated</param>
-            <exception cref="T:System.ArgumentNullException">If the fieldInfo parameter is null</exception>
-            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
+            <value>The format string that represents a URL to corresponding documentation.</value>
+            <remarks>An example format string is <c>https://contoso.com/obsoletion-warnings/{0}</c>.</remarks>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
             <summary>
@@ -1109,6 +962,34 @@
             and Exception.StackTrace
             </summary>
         </member>
+        <member name="T:System.Diagnostics.UnreachableException">
+            <summary>
+            Exception thrown when the program executes an instruction that was thought to be unreachable.
+            </summary>
+            <seealso href="https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.unreachableexception"/>
+            <seealso href="https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Diagnostics/UnreachableException.cs"/>
+        </member>
+        <member name="M:System.Diagnostics.UnreachableException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Diagnostics.UnreachableException"/> class with the default error message.
+            </summary>
+        </member>
+        <member name="M:System.Diagnostics.UnreachableException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Diagnostics.UnreachableException"/>
+            class with a specified error message.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:System.Diagnostics.UnreachableException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Diagnostics.UnreachableException"/>
+            class with a specified error message and a reference to the inner exception that is the cause of
+            this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception.</param>
+        </member>
         <member name="M:System.Diagnostics.EnhancedStackFrame.GetFileColumnNumber">
             <summary>
                  Gets the column number in the file that contains the code that is executing. 
@@ -1238,6 +1119,211 @@
             Returns a name of given generic type without '`'.
             </summary>
         </member>
+        <member name="T:System.Index">
+            <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
+            <remarks>
+            Index is used by the C# compiler to support the new index syntax
+            <code>
+            int[] someArray = new int[5] { 1, 2, 3, 4, 5 } ;
+            int lastElement = someArray[^1]; // lastElement = 5
+            </code>
+            </remarks>
+        </member>
+        <member name="M:System.Index.#ctor(System.Int32,System.Boolean)">
+            <summary>Construct an Index using a value and indicating if the index is from the start or from the end.</summary>
+            <param name="value">The index value. it has to be zero or positive number.</param>
+            <param name="fromEnd">Indicating if the index is from the start or from the end.</param>
+            <remarks>
+            If the Index constructed from the end, index value 1 means pointing at the last element and index value 0 means pointing at beyond last element.
+            </remarks>
+        </member>
+        <member name="P:System.Index.Start">
+            <summary>Create an Index pointing at first element.</summary>
+        </member>
+        <member name="P:System.Index.End">
+            <summary>Create an Index pointing at beyond last element.</summary>
+        </member>
+        <member name="M:System.Index.FromStart(System.Int32)">
+            <summary>Create an Index from the start at the position indicated by the value.</summary>
+            <param name="value">The index value from the start.</param>
+        </member>
+        <member name="M:System.Index.FromEnd(System.Int32)">
+            <summary>Create an Index from the end at the position indicated by the value.</summary>
+            <param name="value">The index value from the end.</param>
+        </member>
+        <member name="P:System.Index.Value">
+            <summary>Returns the index value.</summary>
+        </member>
+        <member name="P:System.Index.IsFromEnd">
+            <summary>Indicates whether the index is from the start or the end.</summary>
+        </member>
+        <member name="M:System.Index.GetOffset(System.Int32)">
+            <summary>Calculate the offset from the start using the giving collection length.</summary>
+            <param name="length">The length of the collection that the Index will be used with. length has to be a positive value</param>
+            <remarks>
+            For performance reason, we don't validate the input length parameter and the returned offset value against negative values.
+            we don't validate either the returned offset is greater than the input length.
+            It is expected Index will be used with collections which always have non negative length/count. If the returned offset is negative and
+            then used to index a collection will get out of range exception which will be same affect as the validation.
+            </remarks>
+        </member>
+        <member name="M:System.Index.Equals(System.Object)">
+            <summary>Indicates whether the current Index object is equal to another object of the same type.</summary>
+            <param name="value">An object to compare with this object</param>
+        </member>
+        <member name="M:System.Index.Equals(System.Index)">
+            <summary>Indicates whether the current Index object is equal to another Index object.</summary>
+            <param name="other">An object to compare with this object</param>
+        </member>
+        <member name="M:System.Index.GetHashCode">
+            <summary>Returns the hash code for this instance.</summary>
+        </member>
+        <member name="M:System.Index.op_Implicit(System.Int32)~System.Index">
+            <summary>Converts integer number to an Index.</summary>
+        </member>
+        <member name="M:System.Index.ToString">
+            <summary>Converts the value of the current Index object to its equivalent string representation.</summary>
+        </member>
+        <member name="T:System.Range">
+            <summary>Represent a range has start and end indexes.</summary>
+            <remarks>
+            Range is used by the C# compiler to support the range syntax.
+            <code>
+            int[] someArray = new int[5] { 1, 2, 3, 4, 5 };
+            int[] subArray1 = someArray[0..2]; // { 1, 2 }
+            int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:System.Range.#ctor(System.Index,System.Index)">
+            <summary>Represent a range has start and end indexes.</summary>
+            <remarks>
+            Range is used by the C# compiler to support the range syntax.
+            <code>
+            int[] someArray = new int[5] { 1, 2, 3, 4, 5 };
+            int[] subArray1 = someArray[0..2]; // { 1, 2 }
+            int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:System.Range.ToString">
+            <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
+        </member>
+        <member name="M:System.Range.StartAt(System.Index)">
+            <summary>Create a Range object starting from start index to the end of the collection.</summary>
+        </member>
+        <member name="M:System.Range.EndAt(System.Index)">
+            <summary>Create a Range object starting from first element in the collection to the end Index.</summary>
+        </member>
+        <member name="P:System.Range.All">
+            <summary>Create a Range object starting from first element to the end.</summary>
+        </member>
+        <member name="M:System.Range.GetOffsetAndLength(System.Int32)">
+            <summary>Calculate the start offset and length of range object using a collection length.</summary>
+            <param name="length">The length of the collection that the range will be used with. length has to be a positive value.</param>
+            <remarks>
+            For performance reason, we don't validate the input length parameter against negative values.
+            It is expected Range will be used with collections which always have non negative length/count.
+            We validate the range is inside the length scope though.
+            </remarks>
+        </member>
+        <member name="T:System.Reflection.NullabilityInfo">
+            <summary>
+            A class that represents nullability info
+            </summary>
+        </member>
+        <member name="P:System.Reflection.NullabilityInfo.Type">
+            <summary>
+            The <see cref="T:System.Type" /> of the member or generic parameter
+            to which this NullabilityInfo belongs
+            </summary>
+        </member>
+        <member name="P:System.Reflection.NullabilityInfo.ReadState">
+            <summary>
+            The nullability read state of the member
+            </summary>
+        </member>
+        <member name="P:System.Reflection.NullabilityInfo.WriteState">
+            <summary>
+            The nullability write state of the member
+            </summary>
+        </member>
+        <member name="P:System.Reflection.NullabilityInfo.ElementType">
+            <summary>
+            If the member type is an array, gives the <see cref="T:System.Reflection.NullabilityInfo" /> of the elements of the array, null otherwise
+            </summary>
+        </member>
+        <member name="P:System.Reflection.NullabilityInfo.GenericTypeArguments">
+            <summary>
+            If the member type is a generic type, gives the array of <see cref="T:System.Reflection.NullabilityInfo" /> for each type parameter
+            </summary>
+        </member>
+        <member name="T:System.Reflection.NullabilityState">
+            <summary>
+            An enum that represents nullability state
+            </summary>
+        </member>
+        <member name="F:System.Reflection.NullabilityState.Unknown">
+            <summary>
+            Nullability context not enabled (oblivious)
+            </summary>
+        </member>
+        <member name="F:System.Reflection.NullabilityState.NotNull">
+            <summary>
+            Non nullable value or reference type
+            </summary>
+        </member>
+        <member name="F:System.Reflection.NullabilityState.Nullable">
+            <summary>
+            Nullable value or reference type
+            </summary>
+        </member>
+        <member name="T:System.Reflection.NullabilityInfoContext">
+            <summary>
+            Provides APIs for populating nullability information/context from reflection members:
+            <see cref="T:System.Reflection.ParameterInfo"/>, <see cref="T:System.Reflection.FieldInfo"/>, <see cref="T:System.Reflection.PropertyInfo"/> and <see cref="T:System.Reflection.EventInfo"/>.
+            </summary>
+        </member>
+        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.ParameterInfo)">
+            <summary>
+            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.ParameterInfo" />.
+            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
+            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
+            </summary>
+            <param name="parameterInfo">The parameter which nullability info gets populated</param>
+            <exception cref="T:System.ArgumentNullException">If the parameterInfo parameter is null</exception>
+            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
+        </member>
+        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.PropertyInfo)">
+            <summary>
+            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.PropertyInfo" />.
+            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
+            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
+            </summary>
+            <param name="propertyInfo">The parameter which nullability info gets populated</param>
+            <exception cref="T:System.ArgumentNullException">If the propertyInfo parameter is null</exception>
+            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
+        </member>
+        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.EventInfo)">
+            <summary>
+            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.EventInfo" />.
+            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
+            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
+            </summary>
+            <param name="eventInfo">The parameter which nullability info gets populated</param>
+            <exception cref="T:System.ArgumentNullException">If the eventInfo parameter is null</exception>
+            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
+        </member>
+        <member name="M:System.Reflection.NullabilityInfoContext.Create(System.Reflection.FieldInfo)">
+            <summary>
+            Populates <see cref="T:System.Reflection.NullabilityInfo" /> for the given <see cref="T:System.Reflection.FieldInfo" />
+            If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
+            nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
+            </summary>
+            <param name="fieldInfo">The parameter which nullability info gets populated</param>
+            <exception cref="T:System.ArgumentNullException">If the fieldInfo parameter is null</exception>
+            <returns><see cref="T:System.Reflection.NullabilityInfo" /></returns>
+        </member>
         <member name="P:System.Collections.Generic.Enumerable.EnumerableIList`1.Item(System.Int32)">
             <inheritdoc />
         </member>
@@ -1276,12 +1362,90 @@
             Static and thread safe wrapper around NullabilityInfoContext.
             </summary>
         </member>
+        <member name="M:PolyfillExtensions.UnsafeRegister(System.Threading.CancellationToken,System.Action{System.Object},System.Object)">
+            <summary>
+            Registers a delegate that will be called when this
+            <see cref="T:System.Threading.CancellationToken">CancellationToken</see> is canceled.
+            </summary>
+            <remarks>
+            <para>
+            If this token is already in the canceled state, the delegate will be run immediately and synchronously.
+            Any exception the delegate generates will be propagated out of this method call.
+            </para>
+            <para>
+            <see cref="T:System.Threading.ExecutionContext">ExecutionContext</see> is not captured nor flowed
+            to the callback's invocation.
+            </para>
+            </remarks>
+            <param name="callback">The delegate to be executed when the <see cref="T:System.Threading.CancellationToken">CancellationToken</see> is canceled.</param>
+            <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
+            <returns>The <see cref="T:System.Threading.CancellationTokenRegistration"/> instance that can
+            be used to unregister the callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callback"/> is null.</exception>
+        </member>
+        <member name="M:PolyfillExtensions.Register(System.Threading.CancellationToken,System.Action{System.Object,System.Threading.CancellationToken},System.Object)">
+            <summary>Registers a delegate that will be called when this <see cref="T:System.Threading.CancellationToken">CancellationToken</see> is canceled.</summary>
+            <remarks>
+            If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate
+            generates will be propagated out of this method call. The current <see cref="T:System.Threading.ExecutionContext">ExecutionContext</see>, if one exists,
+            will be captured along with the delegate and will be used when executing it. The current <see cref="T:System.Threading.SynchronizationContext"/> is not captured.
+            </remarks>
+            <param name="callback">The delegate to be executed when the <see cref="T:System.Threading.CancellationToken">CancellationToken</see> is canceled.</param>
+            <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
+            <returns>The <see cref="T:System.Threading.CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callback"/> is null.</exception>
+        </member>
+        <member name="M:PolyfillExtensions.UnsafeRegister(System.Threading.CancellationToken,System.Action{System.Object,System.Threading.CancellationToken},System.Object)">
+            <summary>Registers a delegate that will be called when this <see cref="T:System.Threading.CancellationToken">CancellationToken</see> is canceled.</summary>
+            <remarks>
+            If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate
+            generates will be propagated out of this method call. <see cref="T:System.Threading.ExecutionContext"/> is not captured nor flowed to the callback's invocation.
+            </remarks>
+            <param name="callback">The delegate to be executed when the <see cref="T:System.Threading.CancellationToken">CancellationToken</see> is canceled.</param>
+            <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
+            <returns>The <see cref="T:System.Threading.CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="callback"/> is null.</exception>
+        </member>
+        <member name="M:PolyfillExtensions.CancelAsync(System.Threading.CancellationTokenSource)">
+            <summary>Communicates a request for cancellation asynchronously.</summary>
+            <remarks>
+            <para>
+            The associated <see cref="T:System.Threading.CancellationToken" /> will be notified of the cancellation
+            and will synchronously transition to a state where <see cref="P:System.Threading.CancellationToken.IsCancellationRequested"/> returns true.
+            Any callbacks or cancelable operations registered with the <see cref="T:System.Threading.CancellationToken"/>  will be executed asynchronously,
+            with the returned <see cref="T:System.Threading.Tasks.Task"/> representing their eventual completion.
+            </para>
+            <para>
+            Callbacks registered with the token should not throw exceptions.
+            However, any such exceptions that are thrown will be aggregated into an <see cref="T:System.AggregateException"/>,
+            such that one callback throwing an exception will not prevent other registered callbacks from being executed.
+            </para>
+            <para>
+            The <see cref="T:System.Threading.ExecutionContext"/> that was captured when each callback was registered
+            will be reestablished when the callback is invoked.
+            </para>
+            </remarks>
+            <exception cref="T:System.ObjectDisposedException">This <see cref="T:System.Threading.CancellationTokenSource"/> has been disposed.</exception>
+        </member>
+        <member name="M:PolyfillExtensions.Remove``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1@)">
+            <summary>
+            Removes the value with the specified key from the <see cref="T:System.Collections.Generic.Dictionary`2"/>, and copies the element
+            to the value parameter.
+            </summary>
+            <param name="target">A dictionary with keys of type TKey and values of type TValue.</param>
+            <param name="key">The key of the element to remove.</param>
+            <param name="value">The removed element.</param>
+            <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+            <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+            <returns><code>true</code> if the element is successfully found and removed; otherwise, <code>false</code>.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is <code>null</code>.</exception>
+        </member>
         <member name="M:PolyfillExtensions.GetStreamAsync(System.Net.Http.HttpClient,System.String,System.Threading.CancellationToken)">
             <summary>
             Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
             </summary>
             <remarks>
-            This operation will not block. The returned <see cref="!:Task&lt;string&gt;"/> object will complete after the response headers are read.
+            This operation will not block. The returned <see cref="T:System.Threading.Tasks.Task`1"/> object will complete after the response headers are read.
             This method does not read nor buffer the response body.
             </remarks>
             <param name="requestUri">The Uri the request is sent to.</param>
@@ -1293,7 +1457,7 @@
             Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
             </summary>
             <remarks>
-            This operation will not block. The returned <see cref="!:Task&lt;string&gt;"/> object will complete after the response headers are read.
+            This operation will not block. The returned <see cref="T:System.Threading.Tasks.Task`1"/> object will complete after the response headers are read.
             This method does not read nor buffer the response body.
             </remarks>
             <param name="requestUri">The Uri the request is sent to.</param>
@@ -1305,7 +1469,7 @@
             Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
             </summary>
             <remarks>
-            This operation will not block. The returned <see cref="!:Task&lt;byte[]&gt;"/> object will complete after the response headers are read.
+            This operation will not block. The returned Task{Byte[]} object will complete after the response headers are read.
             This method does not read nor buffer the response body.
             </remarks>
             <param name="requestUri">The Uri the request is sent to.</param>
@@ -1317,7 +1481,7 @@
             Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
             </summary>
             <remarks>
-            This operation will not block. The returned <see cref="!:Task&lt;byte[]&gt;"/> object will complete after the response headers are read.
+            This operation will not block. The returned Task{byte[]} object will complete after the response headers are read.
             This method does not read nor buffer the response body.
             </remarks>
             <param name="requestUri">The Uri the request is sent to.</param>
@@ -1329,7 +1493,7 @@
             Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
             </summary>
             <remarks>
-            This operation will not block. The returned <see cref="!:Task&lt;string&gt;"/> object will complete after the response headers are read.
+            This operation will not block. The returned <see cref="T:System.Threading.Tasks.Task`1"/> object will complete after the response headers are read.
             This method does not read nor buffer the response body.
             </remarks>
             <param name="requestUri">The Uri the request is sent to.</param>
@@ -1341,7 +1505,7 @@
             Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
             </summary>
             <remarks>
-            This operation will not block. The returned <see cref="!:Task&lt;string&gt;"/> object will complete after the response headers are read.
+            This operation will not block. The returned <see cref="T:System.Threading.Tasks.Task`1"/> object will complete after the response headers are read.
             This method does not read nor buffer the response body.
             </remarks>
             <param name="requestUri">The Uri the request is sent to.</param>
@@ -1387,11 +1551,32 @@
             </param>
             <returns>The task object representing the asynchronous operation.</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0[])" -->
+        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0,System.Collections.Generic.IEqualityComparer{``0})" -->
+        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEqualityComparer{``0},``0[])" -->
+        <member name="M:PolyfillExtensions.Chunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Split the elements of a sequence into chunks of size at most <paramref name="size"/>.
+            </summary>
+            <remarks>
+            Every chunk except the last will be of size <paramref name="size"/>.
+            The last chunk will contain the remaining elements and may be of a smaller size.
+            </remarks>
+            <param name="source">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements to chunk.</param>
+            <param name="size">Maximum size of each chunk.</param>
+            <typeparam name="TSource">The type of the elements of source.</typeparam>
+            <returns>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains the elements the input sequence split into chunks of size <paramref name="size"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="source"/> is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="size"/> is below 1.</exception>
+        </member>
         <member name="M:PolyfillExtensions.MaxBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
             <summary>
             Returns the maximum value in a generic sequence according to a specified key selector function.
             </summary>
-            <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
             <typeparam name="TKey">The type of key to compare elements by.</typeparam>
             <param name="source">A sequence of values to determine the maximum value of.</param>
             <param name="keySelector">A function to extract the key for each element.</param>
@@ -1404,7 +1589,7 @@
         </member>
         <member name="M:PolyfillExtensions.MaxBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
             <summary>Returns the maximum value in a generic sequence according to a specified key selector function.</summary>
-            <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
             <typeparam name="TKey">The type of key to compare elements by.</typeparam>
             <param name="source">A sequence of values to determine the maximum value of.</param>
             <param name="keySelector">A function to extract the key for each element.</param>
@@ -1420,7 +1605,7 @@
             <summary>
             Returns the minimum value in a generic sequence according to a specified key selector function.
             </summary>
-            <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
             <typeparam name="TKey">The type of key to compare elements by.</typeparam>
             <param name="source">A sequence of values to determine the minby value of.</param>
             <param name="keySelector">A function to extract the key for each element.</param>
@@ -1433,14 +1618,14 @@
         </member>
         <member name="M:PolyfillExtensions.MinBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
             <summary>Returns the minimum value in a generic sequence according to a specified key selector function.</summary>
-            <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
             <typeparam name="TKey">The type of key to compare elements by.</typeparam>
             <param name="source">A sequence of values to determine the minimum value of.</param>
             <param name="keySelector">A function to extract the key for each element.</param>
             <param name="comparer">The <see cref="T:System.Collections.Generic.IComparer`1" /> to compare keys.</param>
             <returns>The value with the minimum key in the sequence.</returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="source" /> is <see langword="null" />.</exception>
-            <exception cref="T:System.ArgumentException">No key extracted from <paramref name="source" /> implements the <see cref="T:System.IComparable" /> or <see cref="T:System.IComparable`1" /> interface.</exception>
+            <exception cref="T:System.ArgumentException">No key extracted from <paramref name="target" /> implements the <see cref="T:System.IComparable" /> or <see cref="T:System.IComparable`1" /> interface.</exception>
             <remarks>
             <para>If <typeparamref name="TKey" /> is a reference type and the source sequence is empty or contains only values that are <see langword="null" />, this method returns <see langword="null" />.</para>
             </remarks>
@@ -1483,20 +1668,76 @@
             the specified key. When the method fails, it returns the default value for TValue.
             </returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Deconstruct``2(System.Collections.Generic.KeyValuePair{``0,``1},``0@,``1@)" -->
+        <member name="M:PolyfillExtensions.Deconstruct``2(System.Collections.Generic.KeyValuePair{``0,``1},``0@,``1@)">
+            <summary>
+            Deconstructs the current <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            </summary>
+            <param name="key">The key of the current <see cref="T:System.Collections.Generic.KeyValuePair`2"/>.</param>
+            <param name="value">The value of the current <see cref="T:System.Collections.Generic.KeyValuePair`2"/>.</param>
+        </member>
         <member name="M:PolyfillExtensions.Contains``1(System.ReadOnlySpan{``0},``0)">
             <summary>
             Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
             </summary>
             <param name="value">The value to search for.</param>
-            <returns>true if found, false otherwise.</returns>
+            <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
         </member>
         <member name="M:PolyfillExtensions.Contains``1(System.Span{``0},``0)">
             <summary>
             Indicates whether a specified value is found in a only span. Values are compared using IEquatable{T}.Equals(T).
             </summary>
             <param name="value">The value to search for.</param>
-            <returns>true if found, false otherwise.</returns>
+            <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.SequenceEqual(System.ReadOnlySpan{System.Char},System.String)">
+            <summary>
+            Determines whether two sequences are equal by comparing the elements using IEquatable{T}.Equals(T).
+            </summary>
+            <param name="target">The first sequence to compare.</param>
+            <param name="other">The second sequence to compare.</param>
+            <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.SequenceEqual(System.Span{System.Char},System.String)">
+            <summary>
+            Determines whether two sequences are equal by comparing the elements using IEquatable{T}.Equals(T).
+            </summary>
+            <param name="target">The first sequence to compare.</param>
+            <param name="other">The second sequence to compare.</param>
+            <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.StartsWith(System.ReadOnlySpan{System.Char},System.String,System.StringComparison)">
+            <summary>
+            Determines whether a read-only character span begins with a specified value when compared using a specified <see cref="T:System.StringComparison"/> value.
+            </summary>
+            <param name="target">The source span.</param>
+            <param name="other">The sequence to compare to the beginning of the source span.</param>
+            <param name="comparison">An enumeration value that determines how span and value are compared.</param>
+            <returns><c>true</c> if value matches the beginning of span; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.StartsWith(System.Span{System.Char},System.String)">
+            <summary>
+            Determines whether a specified sequence appears at the start of a span.
+            </summary>
+            <param name="target">The source span.</param>
+            <param name="other">The sequence to compare to the beginning of the source span.</param>
+            <returns><c>true</c> if value matches the beginning of span; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.EndsWith(System.ReadOnlySpan{System.Char},System.String,System.StringComparison)">
+            <summary>
+            Determines whether the end of the span matches the specified value when compared using the specified <paramref name="comparison"/> option.
+            </summary>
+            <param name="target">The source span.</param>
+            <param name="other">The sequence to compare to the end of the source span.</param>
+            <param name="comparison">An enumeration value that determines how span and value are compared.</param>
+            <returns><c>true</c> if value matches the end of span; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.EndsWith(System.Span{System.Char},System.String)">
+            <summary>
+            Determines whether the specified sequence appears at the end of a span.
+            </summary>
+            <param name="target">The source span.</param>
+            <param name="other">The sequence to compare to the end of the source span.</param>
+            <returns><c>true</c> if value matches the end of span; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:PolyfillExtensions.Nanoseconds(System.TimeSpan)">
             <summary>
@@ -1537,6 +1778,19 @@
             <summary>
             Returns a new <see cref="T:System.DateTimeOffset"/> object that adds a specified number of microseconds to the value of this instance..
             </summary>
+        </member>
+        <member name="M:PolyfillExtensions.WaitForExitAsync(System.Diagnostics.Process,System.Threading.CancellationToken)">
+            <summary>
+            Instructs the Process component to wait for the associated process to exit, or
+            for the <paramref name="cancellationToken"/> to be canceled.
+            </summary>
+            <remarks>
+            Calling this method will set <see cref="!:EnableRaisingEvents"/> to <see langword="true" />.
+            </remarks>
+            <returns>
+            A task that will complete when the process has exited, cancellation has been requested,
+            or an error occurs.
+            </returns>
         </member>
         <member name="M:PolyfillExtensions.ReadAsync(System.IO.Stream,System.Memory{System.Byte},System.Threading.CancellationToken)">
             <summary>
@@ -1678,6 +1932,44 @@
             </remarks>
             <returns>true if the characters in this instance and span are the same; otherwise, false.</returns>
         </member>
+        <member name="M:PolyfillExtensions.WaitAsync(System.Threading.Tasks.Task,System.Threading.CancellationToken)">
+            <summary>Gets a <see cref="T:System.Threading.Tasks.Task"/> that will complete when this <see cref="T:System.Threading.Tasks.Task"/> completes or when the specified <see cref="T:System.Threading.CancellationToken"/> has cancellation requested.</summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> to monitor for a cancellation request.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.WaitAsync(System.Threading.Tasks.Task,System.TimeSpan)">
+            <summary>Gets a <see cref="T:System.Threading.Tasks.Task"/> that will complete when this <see cref="T:System.Threading.Tasks.Task"/> completes or when the specified timeout expires.</summary>
+            <param name="timeout">The timeout after which the <see cref="T:System.Threading.Tasks.Task"/> should be faulted with a <see cref="T:System.TimeoutException"/> if it hasn't otherwise completed.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.WaitAsync(System.Threading.Tasks.Task,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>Gets a <see cref="T:System.Threading.Tasks.Task"/> that will complete when this <see cref="T:System.Threading.Tasks.Task"/> completes, when the specified timeout expires, or when the specified <see cref="T:System.Threading.CancellationToken"/> has cancellation requested.</summary>
+            <param name="timeout">The timeout after which the <see cref="T:System.Threading.Tasks.Task"/> should be faulted with a <see cref="T:System.TimeoutException"/> if it hasn't otherwise completed.</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> to monitor for a cancellation request.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.WaitAsync``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationToken)">
+            <summary>
+            Gets a <see cref="T:System.Threading.Tasks.Task"/> that will complete when this <see cref="T:System.Threading.Tasks.Task"/> completes, or when the specified <see cref="T:System.Threading.CancellationToken"/> has cancellation requested.
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> to monitor for a cancellation request.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.WaitAsync``1(System.Threading.Tasks.Task{``0},System.TimeSpan)">
+            <summary>
+            Gets a <see cref="T:System.Threading.Tasks.Task"/> that will complete when this <see cref="T:System.Threading.Tasks.Task"/> completes, or when the specified timeout expires.
+            </summary>
+            <param name="timeout">The timeout after which the <see cref="T:System.Threading.Tasks.Task"/> should be faulted with a <see cref="T:System.TimeoutException"/> if it hasn't otherwise completed.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.WaitAsync``1(System.Threading.Tasks.Task{``0},System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Gets a <see cref="T:System.Threading.Tasks.Task"/> that will complete when this <see cref="T:System.Threading.Tasks.Task"/> completes, when the specified timeout expires, or when the specified <see cref="T:System.Threading.CancellationToken"/> has cancellation requested.
+            </summary>
+            <param name="timeout">The timeout after which the <see cref="T:System.Threading.Tasks.Task"/> should be faulted with a <see cref="T:System.TimeoutException"/> if it hasn't otherwise completed.</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> to monitor for a cancellation request.</param>
+            <returns>The <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
+        </member>
         <member name="M:PolyfillExtensions.ReadAsync(System.IO.TextReader,System.Memory{System.Char},System.Threading.CancellationToken)">
             <summary>
             Asynchronously reads the characters from the current stream into a memory block.
@@ -1707,6 +1999,17 @@
             <exception cref="T:System.ObjectDisposedException">The stream reader has been disposed.</exception>
             <exception cref="T:System.InvalidOperationException">The reader is currently in use by a previous read operation.</exception>
         </member>
+        <member name="M:PolyfillExtensions.ReadLineAsync(System.IO.TextReader,System.Threading.CancellationToken)">
+            <summary>
+            Reads a line of characters asynchronously and returns the data as a string.
+            </summary>
+            <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+            <returns>A value task that represents the asynchronous read operation. The value of the <c>TResult</c>
+            parameter contains the next line from the text reader, or is <see langword="null" /> if all of the characters have been read.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">The number of characters in the next line is larger than <see cref="F:System.Int32.MaxValue"/>.</exception>
+            <exception cref="T:System.ObjectDisposedException">The text reader has been disposed.</exception>
+            <exception cref="T:System.InvalidOperationException">The reader is currently in use by a previous read operation.</exception>
+        </member>
         <member name="M:PolyfillExtensions.WriteAsync(System.IO.TextWriter,System.ReadOnlyMemory{System.Char},System.Threading.CancellationToken)">
             <summary>
             Asynchronously writes a character memory region to the stream.
@@ -1714,7 +2017,7 @@
             <param name="buffer">The character memory region to write to the stream.</param>
             <param name="cancellationToken">
             The token to monitor for cancellation requests.
-            The default value is <see cref="!:Cancellation.None"/>.
+            The default value is <see cref="P:System.Threading.CancellationToken.None"/>.
             </param>
             <returns>A task that represents the asynchronous write operation.</returns>
         </member>
@@ -1725,7 +2028,7 @@
             <param name="buffer">The character memory region to write to the stream.</param>
             <param name="cancellationToken">
             The token to monitor for cancellation requests.
-            The default value is <see cref="!:Cancellation.None"/>.
+            The default value is <see cref="P:System.Threading.CancellationToken.None"/>.
             </param>
             <returns>A task that represents the asynchronous write operation.</returns>
         </member>
@@ -2083,6 +2386,25 @@
         </member>
         <member name="M:Sentry.ByteAttachmentContent.GetStream">
             <inheritdoc />
+        </member>
+        <member name="T:Sentry.CompilerServices.BuildProperties">
+            <summary>
+            This class is not meant for external usage
+            </summary>
+        </member>
+        <member name="P:Sentry.CompilerServices.BuildProperties.Values">
+            <summary>
+            The Build Variables generated from you csproj file and initialized by the Sentry Source Generated Module Initializer
+            </summary>
+        </member>
+        <member name="M:Sentry.CompilerServices.BuildProperties.Initialize(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            This is called by a Sentry Source-Generator module initializers to help us determine things like
+                Is your app AOT
+                Has your application been trimmed
+                What build configuration is being used
+            </summary>
+            <param name="properties"></param>
         </member>
         <member name="T:Sentry.CrashType">
             <summary>
@@ -2541,7 +2863,27 @@
             No-Op.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.ConfigureScope``1(System.Action{Sentry.Scope,``0},``0)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.DisabledHub.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.ConfigureScopeAsync``1(System.Func{Sentry.Scope,``0,System.Threading.Tasks.Task},``0)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.SetTag(System.String,System.String)">
+            <summary>
+            No-Op.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.DisabledHub.UnsetTag(System.String)">
             <summary>
             No-Op.
             </summary>
@@ -2731,7 +3073,27 @@
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
         </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.ConfigureScope``1(System.Action{Sentry.Scope,``0},``0)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
         <member name="M:Sentry.Extensibility.HubAdapter.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.ConfigureScopeAsync``1(System.Func{Sentry.Scope,``0,System.Threading.Tasks.Task},``0)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.SetTag(System.String,System.String)">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Extensibility.HubAdapter.UnsetTag(System.String)">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3510,6 +3872,11 @@
             Starts a transaction from the specified trace header.
             </summary>
         </member>
+        <member name="M:Sentry.HubExtensions.StartSpan(Sentry.IHub,System.String,System.String)">
+            <summary>
+            Starts a span or transaction if a transaction is not already active on the scope
+            </summary>
+        </member>
         <member name="M:Sentry.HubExtensions.AddBreadcrumb(Sentry.IHub,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)">
             <summary>
             Adds a breadcrumb to the current scope.
@@ -4219,6 +4586,18 @@
             This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
             </summary>
         </member>
+        <member name="T:Sentry.Internal.EmailValidator">
+            <summary>
+            Helper class for email validation.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.EmailValidator.IsValidEmail(System.String)">
+            <summary>
+            Validates an email address.
+            </summary>
+            <param name="email">The email address to validate.</param>
+            <returns>True if the email is valid, false otherwise.</returns>
+        </member>
         <member name="T:Sentry.Internal.ExceptionHandlingSynchronizationContext">
             <summary>
             See https://www.jamescrosswell.dev/posts/catching-async-void-exceptions/ for a detailed explanation
@@ -4859,6 +5238,16 @@
             Useless, but required by the IReadOnlyDictionary interface.
             </remarks>
         </member>
+        <member name="T:Sentry.Internal.UnsampledTransaction">
+            <summary>
+            We know already, when starting a transaction, whether it's going to be sampled or not. When it's not sampled, we can
+            avoid lots of unecessary processing. The only thing we need to track is the number of spans that would have been
+            created (the client reports detailing discarded events includes this detail).
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.UnsampledTransaction.GetTraceHeader">
+            <inheritdoc />
+        </member>
         <member name="T:Sentry.IScopeObserver">
             <summary>
             Observer for the sync. of Scopes across SDKs.
@@ -5012,16 +5401,41 @@
         </member>
         <member name="M:Sentry.ISentryScopeManager.ConfigureScope(System.Action{Sentry.Scope})">
             <summary>
-            Configures the current scope.
+            Configures the current scope through the callback.
             </summary>
-            <param name="configureScope">The configure scope.</param>
+            <param name="configureScope">The configure scope callback.</param>
+        </member>
+        <member name="M:Sentry.ISentryScopeManager.ConfigureScope``1(System.Action{Sentry.Scope,``0},``0)">
+            <summary>
+            Configures the current scope through the callback.
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <param name="arg">The argument to pass to the configure scope callback.</param>
         </member>
         <member name="M:Sentry.ISentryScopeManager.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
             <summary>
-            Asynchronously configure the current scope.
+            Configures the current scope through the callback asynchronously.
             </summary>
-            <param name="configureScope">The configure scope.</param>
+            <param name="configureScope">The configure scope callback.</param>
             <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
+        </member>
+        <member name="M:Sentry.ISentryScopeManager.ConfigureScopeAsync``1(System.Func{Sentry.Scope,``0,System.Threading.Tasks.Task},``0)">
+            <summary>
+            Configures the current scope through the callback asynchronously.
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <param name="arg">The argument to pass to the configure scope callback.</param>
+            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
+        </member>
+        <member name="M:Sentry.ISentryScopeManager.SetTag(System.String,System.String)">
+            <summary>
+            Sets a tag on the current scope.
+            </summary>
+        </member>
+        <member name="M:Sentry.ISentryScopeManager.UnsetTag(System.String)">
+            <summary>
+            Removes a tag from the current scope.
+            </summary>
         </member>
         <member name="M:Sentry.ISentryScopeManager.BindClient(Sentry.ISentryClient)">
             <summary>
@@ -7910,6 +8324,18 @@
             <param name="client">The Sentry client.</param>
             <returns>A task to await for the flush operation.</returns>
         </member>
+        <member name="M:Sentry.SentryClientExtensions.GetInternalSentryOptions(Sentry.ISentryClient)">
+             <summary>
+             <para>
+             Gets internal SentryOptions for integrations like Hangfire that don't support strong assembly names.
+             </para>
+            <remarks>
+             *** This is not meant for external use !!! ***
+             </remarks>>
+             </summary>
+             <param name="clientOrHub"></param>
+             <returns></returns>
+        </member>
         <member name="T:Sentry.SentryConstants">
             <summary>
             Constant values.
@@ -9129,7 +9555,7 @@
         </member>
         <member name="P:Sentry.SentryOptions.DefaultTags">
             <summary>
-            Defaults tags to add to all events. (These are indexed by Sentry).
+            Default tags to add to all events. (These are indexed by Sentry).
             </summary>
             <remarks>
             If the key already exists in the event, it will not be overwritten by a default tag.
@@ -9218,8 +9644,7 @@
             <summary>
             A customizable list of <see cref="T:Sentry.StringOrRegex"/> objects, each containing either a
             substring or regular expression pattern that can be used to control which outgoing HTTP requests
-            will have the <c>sentry-trace</c>, <c>traceparent</c>, and <c>baggage</c> headers propagated,
-            for purposes of distributed tracing.
+            will have the <c>sentry-trace</c> and <c>baggage</c> headers propagated, for purposes of distributed tracing.
             The default value contains a single value of <c>.*</c>, which matches everything.
             To disable propagation completely, clear this collection or set it to an empty collection.
             </summary>
@@ -9997,12 +10422,52 @@
             </summary>
             <param name="configureScope">The configure scope callback.</param>
         </member>
-        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
+        <member name="M:Sentry.SentrySdk.ConfigureScope``1(System.Action{Sentry.Scope,``0},``0)">
             <summary>
-            Configures the scope asynchronously.
+            Configures the scope through the callback.
+            <example>
+            <code>
+            object someValue = ...;
+            SentrySdk.ConfigureScope(static (scope, arg) => scope.SetExtra("key", arg), someValue);
+            </code>
+            </example>
             </summary>
             <param name="configureScope">The configure scope callback.</param>
-            <returns>The Id of the event.</returns>
+            <param name="arg">The argument to pass to the configure scope callback.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
+            <summary>
+            Configures the scope through the callback asynchronously.
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync``1(System.Func{Sentry.Scope,``0,System.Threading.Tasks.Task},``0)">
+            <summary>
+            Configures the scope through the callback asynchronously.
+            <example>
+            <code>
+            object someValue = ...;
+            SentrySdk.ConfigureScopeAsync(static async (scope, arg) =>
+            {
+                scope.SetExtra("key", arg);
+            }, someValue);
+            </code>
+            </example>
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <param name="arg">The argument to pass to the configure scope callback.</param>
+            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.SetTag(System.String,System.String)">
+            <summary>
+            Sets a tag on the current scope.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.UnsetTag(System.String)">
+            <summary>
+            Removes a tag from the current scope.
+            </summary>
         </member>
         <member name="M:Sentry.SentrySdk.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)">
             <inheritdoc cref="M:Sentry.ISentryClient.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)"/>
@@ -11756,62 +12221,6 @@
             <summary>
             Gets automatically called and writes additional properties during <see cref="M:Sentry.ViewHierarchyNode.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)"/>
             </summary>
-        </member>
-        <member name="T:Sentry.W3CTraceHeader">
-            <summary>
-            Extension methods for working with Sentry trace headers.
-            </summary>
-        </member>
-        <member name="F:Sentry.W3CTraceHeader.HttpHeaderName">
-            <summary>
-            The name of the W3C trace context header used for distributed tracing.
-            This field contains the value "traceparent" which is part of the W3C Trace Context specification.
-            </summary>
-        </member>
-        <member name="F:Sentry.W3CTraceHeader.TraceFlagsSampled">
-            <summary>
-            Represents the sampled trace flags value ("01") in W3C Trace Context specification.
-            This flag indicates that the trace is part of the sampling set and should be recorded.
-            </summary>
-        </member>
-        <member name="F:Sentry.W3CTraceHeader.TraceFlagsNotSampled">
-            <summary>
-            Represents the unsampled trace flags value ("00") in W3C Trace Context specification.
-            This flag indicates that the trace is not part of the sampling set and should not be recorded.
-            </summary>
-        </member>
-        <member name="M:Sentry.W3CTraceHeader.#ctor(Sentry.SentryTraceHeader)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Sentry.W3CTraceHeader"/> class from a Sentry trace header.
-            </summary>
-            <param name="source">The source Sentry trace header to create the W3C trace header from.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="source"/> is null.</exception>
-        </member>
-        <member name="P:Sentry.W3CTraceHeader.SentryTraceHeader">
-            <summary>
-            Gets the Sentry trace header containing trace identification and sampling information.
-            </summary>
-            <value>
-            The Sentry trace header that contains the trace ID, span ID, and sampling decision.
-            </value>
-        </member>
-        <member name="M:Sentry.W3CTraceHeader.Parse(System.String)">
-            <summary>
-            Parses a <see cref="P:Sentry.W3CTraceHeader.SentryTraceHeader"/> from a string representation of the Sentry trace header.
-            </summary>
-            <param name="value">
-            A string containing the Sentry trace header, expected to follow the format "traceId-spanId-sampled",
-            where "sampled" is optional.
-            </param>
-            <returns>
-            A <see cref="P:Sentry.W3CTraceHeader.SentryTraceHeader"/> object if parsing succeeds, or <c>null</c> if the input string is null, empty, or whitespace.
-            </returns>
-            <exception cref="T:System.FormatException">
-            Thrown if the input string does not contain a valid trace header format, specifically if it lacks required trace ID and span ID components.
-            </exception>
-        </member>
-        <member name="M:Sentry.W3CTraceHeader.ToString">
-            <inheritdoc/>
         </member>
         <member name="T:SentryExceptionExtensions">
             <summary>

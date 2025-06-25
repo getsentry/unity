@@ -99,7 +99,19 @@ extension Sentry.SentryStacktrace : Swift.Decodable {
 extension Sentry.Breadcrumb : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
 }
-@objc @_inheritsConvenienceInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject, Sentry.SentryRedactOptions {
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class SentryReplayOptions : ObjectiveC.NSObject, Sentry.SentryRedactOptions {
+  @_hasMissingDesignatedInitializers public class DefaultValues {
+    public static let sessionSampleRate: Swift.Float
+    public static let onErrorSampleRate: Swift.Float
+    public static let maskAllText: Swift.Bool
+    public static let maskAllImages: Swift.Bool
+    public static let enableViewRendererV2: Swift.Bool
+    public static let enableFastViewRendering: Swift.Bool
+    public static let quality: Sentry.SentryReplayOptions.SentryReplayQuality
+    public static let maskedViewClasses: [Swift.AnyClass]
+    public static let unmaskedViewClasses: [Swift.AnyClass]
+    @objc deinit
+  }
   @objc public enum SentryReplayQuality : Swift.Int, Swift.CustomStringConvertible {
     case low
     case medium
@@ -127,8 +139,8 @@ extension Sentry.Breadcrumb : Swift.Decodable {
   }
   @objc public var enableViewRendererV2: Swift.Bool
   @objc public var enableFastViewRendering: Swift.Bool
-  @objc override dynamic public init()
-  @objc public init(sessionSampleRate: Swift.Float = 0, onErrorSampleRate: Swift.Float = 0, maskAllText: Swift.Bool = true, maskAllImages: Swift.Bool = true, enableViewRendererV2: Swift.Bool = false, enableFastViewRendering: Swift.Bool = false)
+  @objc convenience override dynamic public init()
+  @objc convenience public init(sessionSampleRate: Swift.Float = DefaultValues.sessionSampleRate, onErrorSampleRate: Swift.Float = DefaultValues.onErrorSampleRate, maskAllText: Swift.Bool = DefaultValues.maskAllText, maskAllImages: Swift.Bool = DefaultValues.maskAllImages, enableViewRendererV2: Swift.Bool = DefaultValues.enableViewRendererV2, enableFastViewRendering: Swift.Bool = DefaultValues.enableFastViewRendering)
   @objc deinit
 }
 extension Sentry.Mechanism : Swift.Decodable {
@@ -305,10 +317,6 @@ extension Foundation.Data {
 extension UIKit.UIView {
   @_Concurrency.MainActor(unsafe) public func sentryReplayMask()
   @_Concurrency.MainActor(unsafe) public func sentryReplayUnmask()
-}
-@objc public protocol SentryIntegrationProtocol : ObjectiveC.NSObjectProtocol {
-  @objc(installWithOptions:) func install(with options: Sentry.Options) -> Swift.Bool
-  @objc func uninstall()
 }
 @objc @_inheritsConvenienceInitializers @objcMembers final public class SentryId : ObjectiveC.NSObject, Swift.Sendable {
   @objc public static let empty: Sentry.SentryId

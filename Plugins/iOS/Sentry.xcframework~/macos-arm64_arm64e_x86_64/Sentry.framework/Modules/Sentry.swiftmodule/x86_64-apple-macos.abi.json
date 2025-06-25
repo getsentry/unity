@@ -1077,6 +1077,13 @@
         "moduleName": "Sentry"
       },
       {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
         "kind": "TypeDecl",
         "name": "SentryTransactionNameSource",
         "printedName": "SentryTransactionNameSource",
@@ -1860,7 +1867,8 @@
         "declKind": "Import",
         "moduleName": "Sentry",
         "declAttributes": [
-          "ImplementationOnly"
+          "ImplementationOnly",
+          "RawDocComment"
         ]
       },
       {
@@ -1875,6 +1883,538 @@
         "name": "SentryReplayOptions",
         "printedName": "SentryReplayOptions",
         "children": [
+          {
+            "kind": "TypeDecl",
+            "name": "DefaultValues",
+            "printedName": "DefaultValues",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "sessionSampleRate",
+                "printedName": "sessionSampleRate",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Float",
+                    "printedName": "Swift.Float",
+                    "usr": "s:Sf"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC17sessionSampleRateSfvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC17sessionSampleRateSfvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Float",
+                        "printedName": "Swift.Float",
+                        "usr": "s:Sf"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC17sessionSampleRateSfvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC17sessionSampleRateSfvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "onErrorSampleRate",
+                "printedName": "onErrorSampleRate",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Float",
+                    "printedName": "Swift.Float",
+                    "usr": "s:Sf"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC17onErrorSampleRateSfvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC17onErrorSampleRateSfvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Float",
+                        "printedName": "Swift.Float",
+                        "usr": "s:Sf"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC17onErrorSampleRateSfvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC17onErrorSampleRateSfvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "maskAllText",
+                "printedName": "maskAllText",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC11maskAllTextSbvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC11maskAllTextSbvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC11maskAllTextSbvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC11maskAllTextSbvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "maskAllImages",
+                "printedName": "maskAllImages",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC13maskAllImagesSbvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC13maskAllImagesSbvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC13maskAllImagesSbvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC13maskAllImagesSbvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "enableViewRendererV2",
+                "printedName": "enableViewRendererV2",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC20enableViewRendererV2SbvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC20enableViewRendererV2SbvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC20enableViewRendererV2SbvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC20enableViewRendererV2SbvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "enableFastViewRendering",
+                "printedName": "enableFastViewRendering",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC23enableFastViewRenderingSbvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC23enableFastViewRenderingSbvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC23enableFastViewRenderingSbvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC23enableFastViewRenderingSbvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "quality",
+                "printedName": "quality",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SentryReplayQuality",
+                    "printedName": "Sentry.SentryReplayOptions.SentryReplayQuality",
+                    "usr": "s:6Sentry0A13ReplayOptionsC0aB7QualityO"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC7qualityAC0aB7QualityOvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC7qualityAC0aB7QualityOvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "SentryReplayQuality",
+                        "printedName": "Sentry.SentryReplayOptions.SentryReplayQuality",
+                        "usr": "s:6Sentry0A13ReplayOptionsC0aB7QualityO"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC7qualityAC0aB7QualityOvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC7qualityAC0aB7QualityOvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "maskedViewClasses",
+                "printedName": "maskedViewClasses",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[AnyObject.Type]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ExistentialMetatype",
+                        "printedName": "AnyObject.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "ProtocolComposition",
+                            "printedName": "AnyObject"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC17maskedViewClassesSayyXlXpGvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC17maskedViewClassesSayyXlXpGvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl",
+                  "RawDocComment"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[AnyObject.Type]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "ExistentialMetatype",
+                            "printedName": "AnyObject.Type",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "ProtocolComposition",
+                                "printedName": "AnyObject"
+                              }
+                            ]
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC17maskedViewClassesSayyXlXpGvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC17maskedViewClassesSayyXlXpGvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "unmaskedViewClasses",
+                "printedName": "unmaskedViewClasses",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[AnyObject.Type]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ExistentialMetatype",
+                        "printedName": "AnyObject.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "ProtocolComposition",
+                            "printedName": "AnyObject"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC19unmaskedViewClassesSayyXlXpGvpZ",
+                "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC19unmaskedViewClassesSayyXlXpGvpZ",
+                "moduleName": "Sentry",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "Final",
+                  "HasStorage",
+                  "AccessControl"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[AnyObject.Type]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "ExistentialMetatype",
+                            "printedName": "AnyObject.Type",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "ProtocolComposition",
+                                "printedName": "AnyObject"
+                              }
+                            ]
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC19unmaskedViewClassesSayyXlXpGvgZ",
+                    "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC19unmaskedViewClassesSayyXlXpGvgZ",
+                    "moduleName": "Sentry",
+                    "static": true,
+                    "implicit": true,
+                    "declAttributes": [
+                      "Final"
+                    ],
+                    "accessorKind": "get"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Class",
+            "usr": "s:6Sentry0A13ReplayOptionsC13DefaultValuesC",
+            "mangledName": "$s6Sentry0A13ReplayOptionsC13DefaultValuesC",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasMissingDesignatedInitializers": true
+          },
           {
             "kind": "TypeDecl",
             "name": "SentryReplayQuality",
@@ -2379,7 +2919,6 @@
             "moduleName": "Sentry",
             "objc_name": "maskAllText",
             "declAttributes": [
-              "HasInitialValue",
               "ObjC",
               "HasStorage",
               "AccessControl",
@@ -2475,7 +3014,6 @@
             "moduleName": "Sentry",
             "objc_name": "maskAllImages",
             "declAttributes": [
-              "HasInitialValue",
               "ObjC",
               "HasStorage",
               "AccessControl",
@@ -2570,7 +3108,6 @@
             "mangledName": "$s6Sentry0A13ReplayOptionsC7qualityAC0aB7QualityOvp",
             "moduleName": "Sentry",
             "declAttributes": [
-              "HasInitialValue",
               "HasStorage",
               "AccessControl",
               "RawDocComment",
@@ -2679,7 +3216,6 @@
             "moduleName": "Sentry",
             "objc_name": "maskedViewClasses",
             "declAttributes": [
-              "HasInitialValue",
               "ObjC",
               "HasStorage",
               "AccessControl",
@@ -2817,7 +3353,6 @@
             "moduleName": "Sentry",
             "objc_name": "unmaskedViewClasses",
             "declAttributes": [
-              "HasInitialValue",
               "ObjC",
               "HasStorage",
               "AccessControl",
@@ -3035,7 +3570,6 @@
             "mangledName": "$s6Sentry0A13ReplayOptionsC20enableViewRendererV2Sbvp",
             "moduleName": "Sentry",
             "declAttributes": [
-              "HasInitialValue",
               "HasStorage",
               "AccessControl",
               "RawDocComment",
@@ -3129,7 +3663,6 @@
             "mangledName": "$s6Sentry0A13ReplayOptionsC23enableFastViewRenderingSbvp",
             "moduleName": "Sentry",
             "declAttributes": [
-              "HasInitialValue",
               "HasStorage",
               "AccessControl",
               "RawDocComment",
@@ -3228,10 +3761,11 @@
               "Dynamic",
               "ObjC",
               "Override",
+              "Convenience",
               "AccessControl",
               "RawDocComment"
             ],
-            "init_kind": "Designated"
+            "init_kind": "Convenience"
           },
           {
             "kind": "Constructor",
@@ -3292,11 +3826,12 @@
             "mangledName": "$s6Sentry0A13ReplayOptionsC17sessionSampleRate07onErroreF011maskAllText0iJ6Images20enableViewRendererV20m4FastN9RenderingACSf_SfS4btcfc",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Convenience",
               "AccessControl",
               "RawDocComment",
               "ObjC"
             ],
-            "init_kind": "Designated"
+            "init_kind": "Convenience"
           }
         ],
         "declKind": "Class",
@@ -3309,6 +3844,7 @@
           "ObjC"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
         "inheritsConvenienceInitializers": true,
         "superclassNames": [
           "ObjectiveC.NSObject"
@@ -4149,16 +4685,6 @@
       },
       {
         "kind": "Import",
-        "name": "_SentryPrivate",
-        "printedName": "_SentryPrivate",
-        "declKind": "Import",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "ImplementationOnly"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -4848,88 +5374,6 @@
       },
       {
         "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "Sentry"
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "SentryIntegrationProtocol",
-        "printedName": "SentryIntegrationProtocol",
-        "children": [
-          {
-            "kind": "Function",
-            "name": "install",
-            "printedName": "install(with:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Options",
-                "printedName": "Sentry.Options",
-                "usr": "c:objc(cs)SentryOptions"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(pl)SentryIntegrationProtocol(im)installWithOptions:",
-            "mangledName": "$s6Sentry0A19IntegrationProtocolP7install4withSbSo0A7OptionsC_tF",
-            "moduleName": "Sentry",
-            "genericSig": "<τ_0_0 where τ_0_0 : Sentry.SentryIntegrationProtocol>",
-            "sugared_genericSig": "<Self where Self : Sentry.SentryIntegrationProtocol>",
-            "protocolReq": true,
-            "objc_name": "installWithOptions:",
-            "declAttributes": [
-              "ObjC",
-              "RawDocComment"
-            ],
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "uninstall",
-            "printedName": "uninstall()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(pl)SentryIntegrationProtocol(im)uninstall",
-            "mangledName": "$s6Sentry0A19IntegrationProtocolP9uninstallyyF",
-            "moduleName": "Sentry",
-            "genericSig": "<τ_0_0 where τ_0_0 : Sentry.SentryIntegrationProtocol>",
-            "sugared_genericSig": "<Self where Self : Sentry.SentryIntegrationProtocol>",
-            "protocolReq": true,
-            "declAttributes": [
-              "ObjC",
-              "RawDocComment"
-            ],
-            "reqNewWitnessTableEntry": true,
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Protocol",
-        "usr": "c:@M@Sentry@objc(pl)SentryIntegrationProtocol",
-        "mangledName": "$s6Sentry0A19IntegrationProtocolP",
-        "moduleName": "Sentry",
-        "genericSig": "<τ_0_0 : ObjectiveC.NSObjectProtocol>",
-        "sugared_genericSig": "<Self : ObjectiveC.NSObjectProtocol>",
-        "declAttributes": [
-          "AccessControl",
-          "ObjC"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "_SentryPrivate",
         "printedName": "_SentryPrivate",
         "declKind": "Import",
@@ -5386,16 +5830,6 @@
             "usr": "s:s28CustomDebugStringConvertibleP",
             "mangledName": "$ss28CustomDebugStringConvertibleP"
           }
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "_SentryPrivate",
-        "printedName": "_SentryPrivate",
-        "declKind": "Import",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "ImplementationOnly"
         ]
       },
       {
@@ -9582,380 +10016,324 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 563,
-      "length": 6,
-      "value": "1"
+      "offset": 440,
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 665,
-      "length": 4,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "StringLiteral",
-      "offset": 768,
-      "length": 5,
-      "value": "\"low\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "StringLiteral",
-      "offset": 807,
-      "length": 8,
-      "value": "\"medium\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "StringLiteral",
-      "offset": 847,
-      "length": 6,
-      "value": "\"high\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "StringLiteral",
-      "offset": 1068,
-      "length": 5,
-      "value": "\"low\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "StringLiteral",
-      "offset": 1104,
-      "length": 8,
-      "value": "\"medium\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "StringLiteral",
-      "offset": 1146,
-      "length": 6,
-      "value": "\"high\""
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 563,
-      "length": 6,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 665,
-      "length": 4,
-      "value": "2"
+      "offset": 495,
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 2178,
+      "offset": 543,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 2405,
+      "offset": 596,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4484,
+      "offset": 656,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 6361,
+      "offset": 719,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 6565,
-      "length": 6,
-      "value": "20000"
+      "kind": "Array",
+      "offset": 937,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "Array",
+      "offset": 1000,
+      "length": 2,
+      "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 6574,
-      "length": 6,
-      "value": "20000"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "FloatLiteral",
-      "offset": 6737,
-      "length": 3,
-      "value": "0.8"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "FloatLiteral",
-      "offset": 6743,
-      "length": 3,
-      "value": "1.0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 7000,
+      "offset": 1204,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 7016,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 6952,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 7153,
+      "offset": 1273,
       "length": 2,
       "value": "30"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 7284,
+      "offset": 1346,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 7392,
-      "length": 5,
-      "value": "3600"
+      "offset": 1411,
+      "length": 2,
+      "value": "60"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 7661,
-      "length": 1,
-      "value": "0"
+      "offset": 1416,
+      "length": 2,
+      "value": "60"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 7696,
-      "length": 1,
-      "value": "0"
+      "offset": 1769,
+      "length": 6,
+      "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 8051,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 8081,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 8104,
+      "offset": 1871,
       "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 8132,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 8167,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 8206,
-      "length": 5,
-      "value": "false"
+      "value": "2"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 8620,
+      "offset": 1974,
+      "length": 5,
+      "value": "\"low\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 2013,
+      "length": 8,
+      "value": "\"medium\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 2053,
+      "length": 6,
+      "value": "\"high\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 2274,
+      "length": 5,
+      "value": "\"low\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 2310,
+      "length": 8,
+      "value": "\"medium\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 2352,
+      "length": 6,
+      "value": "\"high\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3180,
+      "length": 6,
+      "value": "20000"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3189,
+      "length": 6,
+      "value": "20000"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "FloatLiteral",
+      "offset": 3277,
+      "length": 3,
+      "value": "0.8"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "FloatLiteral",
+      "offset": 3283,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1769,
+      "length": 6,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1871,
+      "length": 4,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 10101,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "IntegerLiteral",
+      "offset": 10133,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 12389,
       "length": 19,
       "value": "\"sessionSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 8670,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 8716,
+      "offset": 12480,
       "length": 17,
       "value": "\"errorSampleRate\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 8764,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 8804,
+      "offset": 12563,
       "length": 13,
       "value": "\"maskAllText\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 8847,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 8892,
+      "offset": 12643,
       "length": 15,
       "value": "\"maskAllImages\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 8937,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 8989,
+      "offset": 12732,
       "length": 22,
       "value": "\"enableViewRendererV2\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9053,
+      "offset": 12808,
       "length": 32,
       "value": "\"enableExperimentalViewRenderer\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 9115,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9171,
+      "offset": 12917,
       "length": 25,
       "value": "\"enableFastViewRendering\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "BooleanLiteral",
-      "offset": 9226,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9604,
+      "offset": 13013,
       "length": 19,
       "value": "\"maskedViewClasses\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "Array",
-      "offset": 9641,
-      "length": 2,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9723,
+      "offset": 13130,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9786,
+      "offset": 13195,
       "length": 21,
       "value": "\"unmaskedViewClasses\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "Array",
-      "offset": 9825,
-      "length": 2,
-      "value": "[]"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9907,
+      "offset": 13314,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 9988,
+      "offset": 13401,
       "length": 9,
       "value": "\"quality\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
-      "kind": "IntegerLiteral",
-      "offset": 10010,
-      "length": 2,
-      "value": "-1"
+      "kind": "StringLiteral",
+      "offset": 13454,
+      "length": 9,
+      "value": "\"sdkInfo\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
       "kind": "StringLiteral",
-      "offset": 10090,
-      "length": 9,
-      "value": "\"sdkInfo\""
+      "offset": 13519,
+      "length": 11,
+      "value": "\"frameRate\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 13603,
+      "length": 21,
+      "value": "\"errorReplayDuration\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 13702,
+      "length": 24,
+      "value": "\"sessionSegmentDuration\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentryReplayOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 13797,
+      "length": 17,
+      "value": "\"maximumDuration\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/SentryIconography.swift",
@@ -11052,28 +11430,28 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SentryProfileOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2713,
+      "offset": 2670,
       "length": 5,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SentryProfileOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2713,
+      "offset": 2670,
       "length": 5,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SentryProfileOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 4666,
+      "offset": 4623,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Performance\/SentryProfileOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 5559,
+      "offset": 5516,
       "length": 5,
       "value": "false"
     },

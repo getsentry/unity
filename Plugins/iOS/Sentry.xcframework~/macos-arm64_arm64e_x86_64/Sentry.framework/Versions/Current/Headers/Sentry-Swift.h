@@ -421,8 +421,11 @@ SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
 @interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+/// Returns the absolute timestamp, which has no defined reference point or unit
+/// as it is platform dependent.
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
++ (uint64_t)getAbsoluteTime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -551,15 +554,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @property (nonatomic, readonly) NSUInteger hash;
-@end
-
-
-SWIFT_PROTOCOL("_TtP6Sentry25SentryIntegrationProtocol_")
-@protocol SentryIntegrationProtocol <NSObject>
-/// Installs the integration and returns YES if successful.
-- (BOOL)installWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
-/// Uninstalls the integration.
-- (void)uninstall;
 @end
 
 typedef SWIFT_ENUM(NSUInteger, SentryLevel, open) {
@@ -861,10 +855,10 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @interface SentryReplayOptions : NSObject <SentryRedactOptions>
 /// Indicates the percentage in which the replay for the session will be created.
 /// note:
-/// The value needs to be >= 0.0 and <= 1.0. When setting a value out of range the SDK sets it
+/// The value needs to be <code>>= 0.0</code> and <code><= 1.0</code>. When setting a value out of range the SDK sets it
 /// to the default.
 /// note:
-/// The default is 0.
+/// See <code>SentryReplayOptions.DefaultValues.sessionSegmentDuration</code> for the default duration of the replay.
 /// <ul>
 ///   <li>
 ///     Specifying @c 0 means never, @c 1.0 means always.
@@ -876,7 +870,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The value needs to be >= 0.0 and <= 1.0. When setting a value out of range the SDK sets it
 /// to the default.
 /// note:
-/// The default is 0.
+/// See <code>SentryReplayOptions.DefaultValues.errorReplayDuration</code> for the default duration of the replay.
 /// <ul>
 ///   <li>
 ///     Specifying 0 means never, 1.0 means always.
@@ -886,25 +880,31 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Indicates whether session replay should redact all text in the app
 /// by drawing a black rectangle over it.
 /// note:
-/// The default is true
+/// See <code>SentryReplayOptions.DefaultValues.maskAllText</code> for the default value.
 @property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
-/// The default is true
+/// See <code>SentryReplayOptions.DefaultValues.maskAllImages</code> for the default value.
 @property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.quality</code> for the default value.
 @property (nonatomic) enum SentryReplayQuality quality;
 /// A list of custom UIView subclasses that need
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.maskedViewClasses</code> for the default value.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.unmaskedViewClasses</code> for the default value.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Alias for <code>enableViewRendererV2</code>.
 /// This flag is deprecated and will be removed in a future version.
@@ -917,6 +917,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// experiment:
 /// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
 /// Eventually, we will remove this feature flag and use the new view renderer by default.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.enableViewRendererV2</code> for the default value.
 @property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
@@ -935,41 +937,65 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
 /// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
 /// mark this feature as stable and remove the experimental flag, but will keep it disabled by default.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.enableFastViewRendering</code> for the default value.
 @property (nonatomic) BOOL enableFastViewRendering;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.quality</code> for the default value.
 @property (nonatomic, readonly) NSInteger replayBitRate;
 /// The scale related to the window size at which the replay will be created
+/// note:
+/// The scale is used to reduce the size of the replay.
 @property (nonatomic, readonly) float sizeScale;
 /// Number of frames per second of the replay.
 /// The more the havier the process is.
 /// The minimum is 1, if set to zero this will change to 1.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.frameRate</code> for the default value.
 @property (nonatomic) NSUInteger frameRate;
 /// The maximum duration of replays for error events.
-@property (nonatomic, readonly) NSTimeInterval errorReplayDuration;
+@property (nonatomic) NSTimeInterval errorReplayDuration;
 /// The maximum duration of the segment of a session replay.
-@property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
+@property (nonatomic) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
-@property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// note:
+/// See  <code>SentryReplayOptions.DefaultValues.maximumDuration</code> for the default value.
+@property (nonatomic) NSTimeInterval maximumDuration;
 /// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.sdkInfo</code> for the default value.
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
-/// Inittialize session replay options disabled
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-/// Initialize session replay options
-/// <ul>
-///   <li>
-///     parameters:
-///   </li>
-///   <li>
-///     sessionSampleRate Indicates the percentage in which the replay for the session will be created.
-///   </li>
-///   <li>
-///     errorSampleRate Indicates the percentage in which a 30 seconds replay will be send with
-///     error events.
-///   </li>
-/// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+/// Initialize session replay options disabled
+/// note:
+/// This initializer is added for Objective-C compatibility, as constructors with default values
+/// are not supported in Objective-C.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues</code> for the default values of each parameter.
+- (nonnull instancetype)init;
+/// Initializes a new instance of <code>SentryReplayOptions</code> using a dictionary.
+/// warning:
+/// This initializer is primarily used by Hybrid SDKs and is not intended for public use.
+/// \param dictionary A dictionary containing the configuration options for the session replay.
+///
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
+/// Initializes a new instance of <code>SentryReplayOptions</code> with the specified parameters.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues</code> for the default values of each parameter.
+/// \param sessionSampleRate Sample rate used to determine the percentage of replays of sessions that will be uploaded.
+///
+/// \param onErrorSampleRate Sample rate used to determine the percentage of replays of error events that will be uploaded.
+///
+/// \param maskAllText Flag to redact all text in the app by drawing a rectangle over it.
+///
+/// \param maskAllImages Flag to redact all images in the app by drawing a rectangle over it.
+///
+/// \param enableViewRendererV2 Enables the up to 5x faster view renderer.
+///
+/// \param enableFastViewRendering Enables faster but incomplete view rendering. See <code>SentryReplayOptions.enableFastViewRendering</code> for more information.
+///
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering;
 @end
 
 /// Enum to define the quality of the session replay.
@@ -1542,8 +1568,11 @@ SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
 @interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+/// Returns the absolute timestamp, which has no defined reference point or unit
+/// as it is platform dependent.
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
++ (uint64_t)getAbsoluteTime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1672,15 +1701,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @property (nonatomic, readonly) NSUInteger hash;
-@end
-
-
-SWIFT_PROTOCOL("_TtP6Sentry25SentryIntegrationProtocol_")
-@protocol SentryIntegrationProtocol <NSObject>
-/// Installs the integration and returns YES if successful.
-- (BOOL)installWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
-/// Uninstalls the integration.
-- (void)uninstall;
 @end
 
 typedef SWIFT_ENUM(NSUInteger, SentryLevel, open) {
@@ -1982,10 +2002,10 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @interface SentryReplayOptions : NSObject <SentryRedactOptions>
 /// Indicates the percentage in which the replay for the session will be created.
 /// note:
-/// The value needs to be >= 0.0 and <= 1.0. When setting a value out of range the SDK sets it
+/// The value needs to be <code>>= 0.0</code> and <code><= 1.0</code>. When setting a value out of range the SDK sets it
 /// to the default.
 /// note:
-/// The default is 0.
+/// See <code>SentryReplayOptions.DefaultValues.sessionSegmentDuration</code> for the default duration of the replay.
 /// <ul>
 ///   <li>
 ///     Specifying @c 0 means never, @c 1.0 means always.
@@ -1997,7 +2017,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The value needs to be >= 0.0 and <= 1.0. When setting a value out of range the SDK sets it
 /// to the default.
 /// note:
-/// The default is 0.
+/// See <code>SentryReplayOptions.DefaultValues.errorReplayDuration</code> for the default duration of the replay.
 /// <ul>
 ///   <li>
 ///     Specifying 0 means never, 1.0 means always.
@@ -2007,25 +2027,31 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Indicates whether session replay should redact all text in the app
 /// by drawing a black rectangle over it.
 /// note:
-/// The default is true
+/// See <code>SentryReplayOptions.DefaultValues.maskAllText</code> for the default value.
 @property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
-/// The default is true
+/// See <code>SentryReplayOptions.DefaultValues.maskAllImages</code> for the default value.
 @property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.quality</code> for the default value.
 @property (nonatomic) enum SentryReplayQuality quality;
 /// A list of custom UIView subclasses that need
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.maskedViewClasses</code> for the default value.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.unmaskedViewClasses</code> for the default value.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Alias for <code>enableViewRendererV2</code>.
 /// This flag is deprecated and will be removed in a future version.
@@ -2038,6 +2064,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// experiment:
 /// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
 /// Eventually, we will remove this feature flag and use the new view renderer by default.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.enableViewRendererV2</code> for the default value.
 @property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
@@ -2056,41 +2084,65 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
 /// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
 /// mark this feature as stable and remove the experimental flag, but will keep it disabled by default.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.enableFastViewRendering</code> for the default value.
 @property (nonatomic) BOOL enableFastViewRendering;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.quality</code> for the default value.
 @property (nonatomic, readonly) NSInteger replayBitRate;
 /// The scale related to the window size at which the replay will be created
+/// note:
+/// The scale is used to reduce the size of the replay.
 @property (nonatomic, readonly) float sizeScale;
 /// Number of frames per second of the replay.
 /// The more the havier the process is.
 /// The minimum is 1, if set to zero this will change to 1.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.frameRate</code> for the default value.
 @property (nonatomic) NSUInteger frameRate;
 /// The maximum duration of replays for error events.
-@property (nonatomic, readonly) NSTimeInterval errorReplayDuration;
+@property (nonatomic) NSTimeInterval errorReplayDuration;
 /// The maximum duration of the segment of a session replay.
-@property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
+@property (nonatomic) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
-@property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// note:
+/// See  <code>SentryReplayOptions.DefaultValues.maximumDuration</code> for the default value.
+@property (nonatomic) NSTimeInterval maximumDuration;
 /// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.sdkInfo</code> for the default value.
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
-/// Inittialize session replay options disabled
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-/// Initialize session replay options
-/// <ul>
-///   <li>
-///     parameters:
-///   </li>
-///   <li>
-///     sessionSampleRate Indicates the percentage in which the replay for the session will be created.
-///   </li>
-///   <li>
-///     errorSampleRate Indicates the percentage in which a 30 seconds replay will be send with
-///     error events.
-///   </li>
-/// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+/// Initialize session replay options disabled
+/// note:
+/// This initializer is added for Objective-C compatibility, as constructors with default values
+/// are not supported in Objective-C.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues</code> for the default values of each parameter.
+- (nonnull instancetype)init;
+/// Initializes a new instance of <code>SentryReplayOptions</code> using a dictionary.
+/// warning:
+/// This initializer is primarily used by Hybrid SDKs and is not intended for public use.
+/// \param dictionary A dictionary containing the configuration options for the session replay.
+///
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
+/// Initializes a new instance of <code>SentryReplayOptions</code> with the specified parameters.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues</code> for the default values of each parameter.
+/// \param sessionSampleRate Sample rate used to determine the percentage of replays of sessions that will be uploaded.
+///
+/// \param onErrorSampleRate Sample rate used to determine the percentage of replays of error events that will be uploaded.
+///
+/// \param maskAllText Flag to redact all text in the app by drawing a rectangle over it.
+///
+/// \param maskAllImages Flag to redact all images in the app by drawing a rectangle over it.
+///
+/// \param enableViewRendererV2 Enables the up to 5x faster view renderer.
+///
+/// \param enableFastViewRendering Enables faster but incomplete view rendering. See <code>SentryReplayOptions.enableFastViewRendering</code> for more information.
+///
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering;
 @end
 
 /// Enum to define the quality of the session replay.
@@ -2663,8 +2715,11 @@ SWIFT_CLASS("_TtC6Sentry32SentryDefaultCurrentDateProvider")
 @interface SentryDefaultCurrentDateProvider : NSObject <SentryCurrentDateProvider>
 - (NSDate * _Nonnull)date SWIFT_WARN_UNUSED_RESULT;
 - (NSInteger)timezoneOffset SWIFT_WARN_UNUSED_RESULT;
+/// Returns the absolute timestamp, which has no defined reference point or unit
+/// as it is platform dependent.
 - (uint64_t)systemTime SWIFT_WARN_UNUSED_RESULT;
 - (NSTimeInterval)systemUptime SWIFT_WARN_UNUSED_RESULT;
++ (uint64_t)getAbsoluteTime SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2793,15 +2848,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryId * _
 - (BOOL)isEqual:(id _Nullable)object SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly, copy) NSString * _Nonnull description;
 @property (nonatomic, readonly) NSUInteger hash;
-@end
-
-
-SWIFT_PROTOCOL("_TtP6Sentry25SentryIntegrationProtocol_")
-@protocol SentryIntegrationProtocol <NSObject>
-/// Installs the integration and returns YES if successful.
-- (BOOL)installWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
-/// Uninstalls the integration.
-- (void)uninstall;
 @end
 
 typedef SWIFT_ENUM(NSUInteger, SentryLevel, open) {
@@ -3103,10 +3149,10 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 @interface SentryReplayOptions : NSObject <SentryRedactOptions>
 /// Indicates the percentage in which the replay for the session will be created.
 /// note:
-/// The value needs to be >= 0.0 and <= 1.0. When setting a value out of range the SDK sets it
+/// The value needs to be <code>>= 0.0</code> and <code><= 1.0</code>. When setting a value out of range the SDK sets it
 /// to the default.
 /// note:
-/// The default is 0.
+/// See <code>SentryReplayOptions.DefaultValues.sessionSegmentDuration</code> for the default duration of the replay.
 /// <ul>
 ///   <li>
 ///     Specifying @c 0 means never, @c 1.0 means always.
@@ -3118,7 +3164,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// The value needs to be >= 0.0 and <= 1.0. When setting a value out of range the SDK sets it
 /// to the default.
 /// note:
-/// The default is 0.
+/// See <code>SentryReplayOptions.DefaultValues.errorReplayDuration</code> for the default duration of the replay.
 /// <ul>
 ///   <li>
 ///     Specifying 0 means never, 1.0 means always.
@@ -3128,25 +3174,31 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Indicates whether session replay should redact all text in the app
 /// by drawing a black rectangle over it.
 /// note:
-/// The default is true
+/// See <code>SentryReplayOptions.DefaultValues.maskAllText</code> for the default value.
 @property (nonatomic) BOOL maskAllText;
 /// Indicates whether session replay should redact all non-bundled image
 /// in the app by drawing a black rectangle over it.
 /// note:
-/// The default is true
+/// See <code>SentryReplayOptions.DefaultValues.maskAllImages</code> for the default value.
 @property (nonatomic) BOOL maskAllImages;
 /// Indicates the quality of the replay.
 /// The higher the quality, the higher the CPU and bandwidth usage.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.quality</code> for the default value.
 @property (nonatomic) enum SentryReplayQuality quality;
 /// A list of custom UIView subclasses that need
 /// to be masked during session replay.
 /// By default Sentry already mask text and image elements from UIKit
 /// Every child of a view that is redacted will also be redacted.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.maskedViewClasses</code> for the default value.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull maskedViewClasses;
 /// A list of custom UIView subclasses to be ignored
 /// during masking step of the session replay.
 /// The views of given classes will not be redacted but their children may be.
 /// This property has precedence over <code>redactViewTypes</code>.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.unmaskedViewClasses</code> for the default value.
 @property (nonatomic, copy) NSArray<Class> * _Nonnull unmaskedViewClasses;
 /// Alias for <code>enableViewRendererV2</code>.
 /// This flag is deprecated and will be removed in a future version.
@@ -3159,6 +3211,8 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// experiment:
 /// In case you are noticing issues with the new view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>.
 /// Eventually, we will remove this feature flag and use the new view renderer by default.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.enableViewRendererV2</code> for the default value.
 @property (nonatomic) BOOL enableViewRendererV2;
 /// Enables up to 5x faster but incommpelte view rendering used by the Session Replay integration.
 /// Enabling this flag will reduce the amount of time it takes to render each frame of the session replay on the main thread, therefore reducing
@@ -3177,41 +3231,65 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// This is an experimental feature and is therefore disabled by default. In case you are noticing issues with the experimental
 /// view renderer, please report the issue on <a href="https://github.com/getsentry/sentry-cocoa">GitHub</a>. Eventually, we will
 /// mark this feature as stable and remove the experimental flag, but will keep it disabled by default.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.enableFastViewRendering</code> for the default value.
 @property (nonatomic) BOOL enableFastViewRendering;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.quality</code> for the default value.
 @property (nonatomic, readonly) NSInteger replayBitRate;
 /// The scale related to the window size at which the replay will be created
+/// note:
+/// The scale is used to reduce the size of the replay.
 @property (nonatomic, readonly) float sizeScale;
 /// Number of frames per second of the replay.
 /// The more the havier the process is.
 /// The minimum is 1, if set to zero this will change to 1.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.frameRate</code> for the default value.
 @property (nonatomic) NSUInteger frameRate;
 /// The maximum duration of replays for error events.
-@property (nonatomic, readonly) NSTimeInterval errorReplayDuration;
+@property (nonatomic) NSTimeInterval errorReplayDuration;
 /// The maximum duration of the segment of a session replay.
-@property (nonatomic, readonly) NSTimeInterval sessionSegmentDuration;
+@property (nonatomic) NSTimeInterval sessionSegmentDuration;
 /// The maximum duration of a replay session.
-@property (nonatomic, readonly) NSTimeInterval maximumDuration;
+/// note:
+/// See  <code>SentryReplayOptions.DefaultValues.maximumDuration</code> for the default value.
+@property (nonatomic) NSTimeInterval maximumDuration;
 /// Used by hybrid SDKs to be able to configure SDK info for Session Replay
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues.sdkInfo</code> for the default value.
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable sdkInfo;
-/// Inittialize session replay options disabled
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-/// Initialize session replay options
-/// <ul>
-///   <li>
-///     parameters:
-///   </li>
-///   <li>
-///     sessionSampleRate Indicates the percentage in which the replay for the session will be created.
-///   </li>
-///   <li>
-///     errorSampleRate Indicates the percentage in which a 30 seconds replay will be send with
-///     error events.
-///   </li>
-/// </ul>
-- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering OBJC_DESIGNATED_INITIALIZER;
+/// Initialize session replay options disabled
+/// note:
+/// This initializer is added for Objective-C compatibility, as constructors with default values
+/// are not supported in Objective-C.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues</code> for the default values of each parameter.
+- (nonnull instancetype)init;
+/// Initializes a new instance of <code>SentryReplayOptions</code> using a dictionary.
+/// warning:
+/// This initializer is primarily used by Hybrid SDKs and is not intended for public use.
+/// \param dictionary A dictionary containing the configuration options for the session replay.
+///
 - (nonnull instancetype)initWithDictionary:(NSDictionary<NSString *, id> * _Nonnull)dictionary;
+/// Initializes a new instance of <code>SentryReplayOptions</code> with the specified parameters.
+/// note:
+/// See <code>SentryReplayOptions.DefaultValues</code> for the default values of each parameter.
+/// \param sessionSampleRate Sample rate used to determine the percentage of replays of sessions that will be uploaded.
+///
+/// \param onErrorSampleRate Sample rate used to determine the percentage of replays of error events that will be uploaded.
+///
+/// \param maskAllText Flag to redact all text in the app by drawing a rectangle over it.
+///
+/// \param maskAllImages Flag to redact all images in the app by drawing a rectangle over it.
+///
+/// \param enableViewRendererV2 Enables the up to 5x faster view renderer.
+///
+/// \param enableFastViewRendering Enables faster but incomplete view rendering. See <code>SentryReplayOptions.enableFastViewRendering</code> for more information.
+///
+- (nonnull instancetype)initWithSessionSampleRate:(float)sessionSampleRate onErrorSampleRate:(float)onErrorSampleRate maskAllText:(BOOL)maskAllText maskAllImages:(BOOL)maskAllImages enableViewRendererV2:(BOOL)enableViewRendererV2 enableFastViewRendering:(BOOL)enableFastViewRendering;
 @end
 
 /// Enum to define the quality of the session replay.

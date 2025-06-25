@@ -1,14 +1,42 @@
 # Changelog
 
+## 3.2.3
+
+### Significant change in behavior
+
+- The SDK no longer attaches screenshots when capturing errors in the Unity Editor. ([#2163](https://github.com/getsentry/sentry-unity/pull/2163))
+
+### Fixes
+
+- When targeting Android, the SDK no longer causes `SIGABORT` crashes due to `attempting to detach while still running code`. ([#2215](https://github.com/getsentry/sentry-unity/pull/2215))
+- The SDK no longer causes crashes with `EXCEPTION_ACCESS_VIOLATION_READ` when using the Mono scripting backend. The SDK now adds the active scene name to the context in IL2CPP builds only ([#2206](https://github.com/getsentry/sentry-unity/pull/2206))
+
+### Dependencies
+
+- Bump .NET SDK from v5.7.0-beta.0 to v5.11.2 ([#2154](https://github.com/getsentry/sentry-unity/pull/2154), [#2188](https://github.com/getsentry/sentry-unity/pull/2188), [#2207](https://github.com/getsentry/sentry-unity/pull/2207), [#2214](https://github.com/getsentry/sentry-unity/pull/2214))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#5112)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/5.7.0-beta.0...5.11.2)
+- Bump Java SDK from v8.11.1 to v8.14.0 ([#2155](https://github.com/getsentry/sentry-unity/pull/2155), [#2199](https://github.com/getsentry/sentry-unity/pull/2199))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8140)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.11.1...8.14.0)
+- Bump Cocoa SDK from v8.50.1 to v8.51.0 ([#2160](https://github.com/getsentry/sentry-unity/pull/2160), [#2166](https://github.com/getsentry/sentry-unity/pull/2166))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8510)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.50.1...8.51.0)
+- Bump Native SDK from v0.8.4 to v0.9.0 ([#2159](https://github.com/getsentry/sentry-unity/pull/2159), [#2186](https://github.com/getsentry/sentry-unity/pull/2186))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#090)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.8.4...0.9.0)
+- Bump CLI from v2.45.0 to v2.46.0 ([#2176](https://github.com/getsentry/sentry-unity/pull/2176))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2460)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.45.0...2.46.0)
+
 ## 3.2.2
 
 ### Fixes
 
 - When targeting WebGL with an unsupported configuration (i.e. when the exception support is set to `none`), the SDK now shows an error at build time instead of a runtime failure ([#2141](https://github.com/getsentry/sentry-unity/pull/2141))
-- When targeting Desktop Platforms, Sentry-CLI now respects the SDK's debug logging verbosity ([#2138](https://github.com/getsentry/sentry-unity/pull/2138)) 
-- When targeting iOS, the SDK now correctly updates the Sentry CLI options used for debug symbol upload when appending builds ([#2146](https://github.com/getsentry/sentry-unity/pull/2146))
-- When targeting Desktop Platforms, Sentry CLI now respects the SDK's debug logging verbosity ([#2138](https://github.com/getsentry/sentry-unity/pull/2138)) 
+- When targeting Desktop Platforms, Sentry CLI now respects the SDK's debug logging verbosity ([#2138](https://github.com/getsentry/sentry-unity/pull/2138))
 - When targeting iOS and setting `IgnoreCliErrors = true`, the Xcode build will now succeed even if the symbol upload itself failed. This is aimed to allow users to unblock themselves ([#2136](https://github.com/getsentry/sentry-unity/pull/2136)) 
+- When targeting iOS, the SDK now correctly updates the Sentry CLI options used for debug symbol upload when appending builds ([#2146](https://github.com/getsentry/sentry-unity/pull/2146))
 - Sentry CLI no longer requires the 'Organisation' option, and they have been removed from the configuration window. If you're providing an Organisation right now, nothing changes. Fresh setups will have the option omitted  ([#2137](https://github.com/getsentry/sentry-unity/pull/2137))
 
 ### Dependencies
