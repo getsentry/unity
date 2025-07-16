@@ -1,5 +1,42 @@
 # Changelog
 
+## 4.0.0-beta.0
+
+### Breaking Changes
+
+- Removed Unity 2019 support, which reached End of Life in 2022. Minimum supported version now is 2020. ([#2231](https://github.com/getsentry/sentry-unity/pull/2231))
+
+- **Breaking Change**: The Unity SDK's static API has been moved from `Sentry.Unity.SentryUnity` and `Sentry.SentrySdk` to `Sentry.Unity.SentrySdk`. 
+  This change enables [manual/programatic SDK initialization](https://docs.sentry.io/platforms/unity/configuration/options/programmatic-configuration/) with full functionality, previously only available through auto-initialization.
+  The underlying .NET SDK's `SentrySdk` class is now internal, and several previously public classes like `SentryInitialization` 
+  and `SentryIntegrations` are now internal.
+  
+  **Migration**: Update your `using` directives from `using Sentry;` to `using Sentry.Unity;`. IDEs like Rider can automatically 
+  import the missing references. In some cases, you may need both `using Sentry.Unity;` (for the static API) and `using Sentry;` 
+  (for types like `SentryId`). No changes are required to your actual SDK method calls (e.g., `SentrySdk.CaptureException()` 
+  remains the same). ([#2227](https://github.com/getsentry/sentry-unity/pull/2227), [#2239](https://github.com/getsentry/sentry-unity/pull/2239))
+
+### Features
+
+- The SDK now comes with a `SentryUserFeedback` prefab ready to be used. You can drag and drop it into your scene or 
+  customize it by creating your own variant. The user feedback feature allows your users to provide feedback in form
+  of a written message that can optionally have a screenshot attached. Read more about it ([here](https://docs.sentry.io/product/user-feedback/)). ([#2220](https://github.com/getsentry/sentry-unity/pull/2220))
+
+### Dependencies
+
+- Bump Java SDK from v8.14.0 to v8.17.0 ([#2218](https://github.com/getsentry/sentry-unity/pull/2218), [#2223](https://github.com/getsentry/sentry-unity/pull/2223), [#2238](https://github.com/getsentry/sentry-unity/pull/2238))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8170)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.14.0...8.17.0)
+- Bump Native SDK from v0.9.0 to v0.9.1 ([#2217](https://github.com/getsentry/sentry-unity/pull/2217))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#091)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.9.0...0.9.1)
+- Bump .NET SDK from v5.11.2 to v5.12.0 ([#2242](https://github.com/getsentry/sentry-unity/pull/2242))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#5120)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/5.11.2...5.12.0)
+- Bump CLI from v2.46.0 to v2.47.1 ([#2232](https://github.com/getsentry/sentry-unity/pull/2232), [#2241](https://github.com/getsentry/sentry-unity/pull/2241))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2471)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.46.0...2.47.1)
+
 ## 3.2.3
 
 ### Significant change in behavior
