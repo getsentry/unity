@@ -7204,6 +7204,11 @@
             Creates an envelope that contains a client report.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromAttachment(Sentry.SentryId,Sentry.SentryAttachment,Sentry.Extensibility.IDiagnosticLogger)">
+            <summary>
+            Creates an envelope that contains only an attachment for an existing event.
+            </summary>
+        </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
             <summary>
             Deserializes envelope from stream.
