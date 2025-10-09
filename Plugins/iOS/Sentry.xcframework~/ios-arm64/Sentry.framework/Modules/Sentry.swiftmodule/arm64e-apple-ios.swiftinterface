@@ -19,9 +19,33 @@ import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+import ObjectiveC.runtime
 extension Sentry.User : Swift.Decodable {
   @available(*, deprecated)
   required convenience public init(from decoder: any Swift.Decoder) throws
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class SentryViewScreenshotOptions : ObjectiveC.NSObject, Sentry.SentryRedactOptions {
+  @_hasMissingDesignatedInitializers public class DefaultValues {
+    public static let enableViewRendererV2: Swift.Bool
+    public static let enableFastViewRendering: Swift.Bool
+    public static let maskAllText: Swift.Bool
+    public static let maskAllImages: Swift.Bool
+    public static let maskedViewClasses: [Swift.AnyClass]
+    public static let unmaskedViewClasses: [Swift.AnyClass]
+    @objc deinit
+  }
+  @objc public var enableViewRendererV2: Swift.Bool
+  @objc public var enableFastViewRendering: Swift.Bool
+  @objc public var maskAllImages: Swift.Bool
+  @objc public var maskAllText: Swift.Bool
+  @objc public var maskedViewClasses: [Swift.AnyClass]
+  @objc public var unmaskedViewClasses: [Swift.AnyClass]
+  @objc convenience override dynamic public init()
+  @objc public init(enableViewRendererV2: Swift.Bool = DefaultValues.enableViewRendererV2, enableFastViewRendering: Swift.Bool = DefaultValues.enableFastViewRendering, maskAllText: Swift.Bool = DefaultValues.maskAllText, maskAllImages: Swift.Bool = DefaultValues.maskAllImages, maskedViewClasses: [Swift.AnyClass] = DefaultValues.maskedViewClasses, unmaskedViewClasses: [Swift.AnyClass] = DefaultValues.unmaskedViewClasses)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
 }
 @objc @objcMembers public class SentryFeedback : ObjectiveC.NSObject {
   @objc public enum SentryFeedbackSource : Swift.Int {

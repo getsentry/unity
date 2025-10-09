@@ -1,5 +1,41 @@
 # Changelog
 
+## 4.0.0-beta.3
+
+### Breaking Changes
+
+- The SDK will now always add a breadcrumb when capturing an exception. The option to opt-out of this has been removed. ([#2335](https://github.com/getsentry/sentry-unity/pull/2335))
+- The deprecated Runtime- and BuildTime-Configuration have been removed in favor of the single `OptionsConfiguration` script. When migrating you can make use of preprocessor directives to set specific options for specific platforms. Check out the ([Migration Guide](https://docs.sentry.io/platforms/unity/migration/#changes-to-the-programmatic-configuration)). ([#2337](https://github.com/getsentry/sentry-unity/pull/2337))
+
+### Features
+
+- Added Xbox Native Support ([#2314](https://github.com/getsentry/sentry-unity/pull/2314), [#2329](https://github.com/getsentry/sentry-unity/pull/2329))
+
+### Fixes
+
+- Fixed crashes when adding breadcrumbs on iOS/macOS. This was caused by invalid date parsing and corrupted string data in the native bridge responsible for scope sync ([#2327](https://github.com/getsentry/sentry-unity/pull/2327), [#2338](https://github.com/getsentry/sentry-unity/pull/2338))
+- Fixed input handling in samples to work with old and new input system ([#2319](https://github.com/getsentry/sentry-unity/pull/2319))
+- The SDK now captures exceptions on WebGL through the logging integration instead of the incompatible log handler, providing better stack trace support . ([#2322](https://github.com/getsentry/sentry-unity/pull/2322))
+- Fixed input handling in samples to work with old and new input system. ([#2319](https://github.com/getsentry/sentry-unity/pull/2319))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.55.1 to v8.56.2 ([#2318](https://github.com/getsentry/sentry-unity/pull/2318), [#2331](https://github.com/getsentry/sentry-unity/pull/2331), [#2340](https://github.com/getsentry/sentry-unity/pull/2340))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8562)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.55.1...8.56.2)
+- Bump Native SDK from v0.10.1 to v0.11.2 ([#2323](https://github.com/getsentry/sentry-unity/pull/2323), [#2332](https://github.com/getsentry/sentry-unity/pull/2332), [#2347](https://github.com/getsentry/sentry-unity/pull/2347))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0112)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.10.1...0.11.2)
+- Bump CLI from v2.53.0 to v2.56.0 ([#2324](https://github.com/getsentry/sentry-unity/pull/2324), [#2330](https://github.com/getsentry/sentry-unity/pull/2330), [#2343](https://github.com/getsentry/sentry-unity/pull/2343))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2560)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.53.0...2.56.0)
+- Bump .NET SDK from v5.15.0 to v5.16.0 ([#2326](https://github.com/getsentry/sentry-unity/pull/2326), [#2345](https://github.com/getsentry/sentry-unity/pull/2345))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#5160)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/5.15.0...5.16.0)
+- Bump Java SDK from v8.21.1 to v8.23.0 ([#2328](https://github.com/getsentry/sentry-unity/pull/2328), [#2346](https://github.com/getsentry/sentry-unity/pull/2346))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8230)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.21.1...8.23.0)
+
 ## 4.0.0-beta.2
 
 ### Breaking Changes
