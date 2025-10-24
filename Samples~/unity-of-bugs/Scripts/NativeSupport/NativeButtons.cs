@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Sentry;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Sentry.Unity;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.UI;

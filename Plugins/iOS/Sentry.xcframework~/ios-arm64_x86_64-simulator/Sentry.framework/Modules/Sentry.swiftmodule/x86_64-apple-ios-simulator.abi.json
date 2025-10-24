@@ -8998,6 +8998,128 @@
         ]
       },
       {
+        "kind": "TypeDecl",
+        "name": "SentryInfoPlistWrapperProvider",
+        "printedName": "SentryInfoPlistWrapperProvider",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "getAppValueString",
+            "printedName": "getAppValueString(for:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(pl)SentryInfoPlistWrapperProvider(im)getAppValueStringFor:error:",
+            "mangledName": "$s6Sentry0A24InfoPlistWrapperProviderP17getAppValueString3forS2S_tKF",
+            "moduleName": "Sentry",
+            "genericSig": "<τ_0_0 where τ_0_0 : Sentry.SentryInfoPlistWrapperProvider>",
+            "sugared_genericSig": "<Self where Self : Sentry.SentryInfoPlistWrapperProvider>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment",
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "throwing": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getAppValueBoolean",
+            "printedName": "getAppValueBoolean(for:errorPtr:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AutoreleasingUnsafeMutablePointer",
+                    "printedName": "Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "Foundation.NSError?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "NSError",
+                            "printedName": "Foundation.NSError",
+                            "usr": "c:objc(cs)NSError"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      }
+                    ],
+                    "usr": "s:SA"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(pl)SentryInfoPlistWrapperProvider(im)getAppValueBooleanFor:errorPtr:",
+            "mangledName": "$s6Sentry0A24InfoPlistWrapperProviderP18getAppValueBoolean3for8errorPtrSbSS_SAySo7NSErrorCSgGSgtF",
+            "moduleName": "Sentry",
+            "genericSig": "<τ_0_0 where τ_0_0 : Sentry.SentryInfoPlistWrapperProvider>",
+            "sugared_genericSig": "<Self where Self : Sentry.SentryInfoPlistWrapperProvider>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment",
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "c:@M@Sentry@objc(pl)SentryInfoPlistWrapperProvider",
+        "mangledName": "$s6Sentry0A24InfoPlistWrapperProviderP",
+        "moduleName": "Sentry",
+        "genericSig": "<τ_0_0 : AnyObject>",
+        "sugared_genericSig": "<Self : AnyObject>",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "SPIAccessControl"
+        ],
+        "spi_group_names": [
+          "Private"
+        ]
+      },
+      {
         "kind": "Import",
         "name": "_SentryPrivate",
         "printedName": "_SentryPrivate",
@@ -10381,6 +10503,175 @@
           "ObjectiveC.NSObject"
         ],
         "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SentrySessionReplayEnvironmentChecker",
+        "printedName": "SentrySessionReplayEnvironmentChecker",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(infoPlistWrapper:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentrySessionReplayEnvironmentChecker",
+                "printedName": "Sentry.SentrySessionReplayEnvironmentChecker",
+                "usr": "c:@M@Sentry@objc(cs)SentrySessionReplayEnvironmentChecker"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentryInfoPlistWrapperProvider",
+                "printedName": "Sentry.SentryInfoPlistWrapperProvider",
+                "usr": "c:@M@Sentry@objc(pl)SentryInfoPlistWrapperProvider"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentrySessionReplayEnvironmentChecker(im)initWithInfoPlistWrapper:",
+            "mangledName": "$s6Sentry0A31SessionReplayEnvironmentCheckerC16infoPlistWrapperAcA0a4InfogH8Provider_p_tcfc",
+            "moduleName": "Sentry",
+            "objc_name": "initWithInfoPlistWrapper:",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "isReliable",
+            "printedName": "isReliable()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentrySessionReplayEnvironmentChecker(im)isReliable",
+            "mangledName": "$s6Sentry0A31SessionReplayEnvironmentCheckerC10isReliableSbyF",
+            "moduleName": "Sentry",
+            "objc_name": "isReliable",
+            "declAttributes": [
+              "ObjC",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentrySessionReplayEnvironmentChecker",
+                "printedName": "Sentry.SentrySessionReplayEnvironmentChecker",
+                "usr": "c:@M@Sentry@objc(cs)SentrySessionReplayEnvironmentChecker"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentrySessionReplayEnvironmentChecker(im)init",
+            "mangledName": "$s6Sentry0A31SessionReplayEnvironmentCheckerCACycfc",
+            "moduleName": "Sentry",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@Sentry@objc(cs)SentrySessionReplayEnvironmentChecker",
+        "mangledName": "$s6Sentry0A31SessionReplayEnvironmentCheckerC",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "AccessControl",
+          "SPIAccessControl",
+          "ObjC"
+        ],
+        "spi_group_names": [
+          "Private"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "SentrySessionReplayEnvironmentCheckerProvider",
+            "printedName": "SentrySessionReplayEnvironmentCheckerProvider",
+            "usr": "c:@M@Sentry@objc(pl)SentrySessionReplayEnvironmentCheckerProvider",
+            "mangledName": "$s6Sentry0A39SessionReplayEnvironmentCheckerProviderP"
+          },
           {
             "kind": "Conformance",
             "name": "Equatable",
@@ -12895,6 +13186,243 @@
         ],
         "spi_group_names": [
           "Private"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SentryInfoPlistWrapper",
+        "printedName": "SentryInfoPlistWrapper",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryInfoPlistWrapper",
+                "printedName": "Sentry.SentryInfoPlistWrapper",
+                "usr": "c:@M@Sentry@objc(cs)SentryInfoPlistWrapper"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentryInfoPlistWrapper(im)init",
+            "mangledName": "$s6Sentry0A16InfoPlistWrapperCACycfc",
+            "moduleName": "Sentry",
+            "overriding": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override",
+              "AccessControl"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(bundle:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryInfoPlistWrapper",
+                "printedName": "Sentry.SentryInfoPlistWrapper",
+                "usr": "c:@M@Sentry@objc(cs)SentryInfoPlistWrapper"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bundle",
+                "printedName": "Foundation.Bundle",
+                "usr": "c:objc(cs)NSBundle"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:6Sentry0A16InfoPlistWrapperC6bundleACSo8NSBundleC_tcfc",
+            "mangledName": "$s6Sentry0A16InfoPlistWrapperC6bundleACSo8NSBundleC_tcfc",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "getAppValueBoolean",
+            "printedName": "getAppValueBoolean(for:errorPtr:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AutoreleasingUnsafeMutablePointer",
+                    "printedName": "Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "Foundation.NSError?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "NSError",
+                            "printedName": "Foundation.NSError",
+                            "usr": "c:objc(cs)NSError"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      }
+                    ],
+                    "usr": "s:SA"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentryInfoPlistWrapper(im)getAppValueBooleanFor:errorPtr:",
+            "mangledName": "$s6Sentry0A16InfoPlistWrapperC18getAppValueBoolean3for8errorPtrSbSS_SAySo7NSErrorCSgGSgtF",
+            "moduleName": "Sentry",
+            "objc_name": "getAppValueBooleanFor:errorPtr:",
+            "declAttributes": [
+              "ObjC",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getAppValueString",
+            "printedName": "getAppValueString(for:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentryInfoPlistWrapper(im)getAppValueStringFor:error:",
+            "mangledName": "$s6Sentry0A16InfoPlistWrapperC17getAppValueString3forS2S_tKF",
+            "moduleName": "Sentry",
+            "objc_name": "getAppValueStringFor:error:",
+            "declAttributes": [
+              "ObjC",
+              "AccessControl"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@Sentry@objc(cs)SentryInfoPlistWrapper",
+        "mangledName": "$s6Sentry0A16InfoPlistWrapperC",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "AccessControl",
+          "SPIAccessControl",
+          "ObjC"
+        ],
+        "spi_group_names": [
+          "Private"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "SentryInfoPlistWrapperProvider",
+            "printedName": "SentryInfoPlistWrapperProvider",
+            "usr": "c:@M@Sentry@objc(pl)SentryInfoPlistWrapperProvider",
+            "mangledName": "$s6Sentry0A24InfoPlistWrapperProviderP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
         ]
       },
       {
@@ -33000,6 +33528,56 @@
         "moduleName": "Sentry"
       },
       {
+        "kind": "TypeDecl",
+        "name": "SentrySessionReplayEnvironmentCheckerProvider",
+        "printedName": "SentrySessionReplayEnvironmentCheckerProvider",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "isReliable",
+            "printedName": "isReliable()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(pl)SentrySessionReplayEnvironmentCheckerProvider(im)isReliable",
+            "mangledName": "$s6Sentry0A39SessionReplayEnvironmentCheckerProviderP10isReliableSbyF",
+            "moduleName": "Sentry",
+            "genericSig": "<τ_0_0 where τ_0_0 : Sentry.SentrySessionReplayEnvironmentCheckerProvider>",
+            "sugared_genericSig": "<Self where Self : Sentry.SentrySessionReplayEnvironmentCheckerProvider>",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment",
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "c:@M@Sentry@objc(pl)SentrySessionReplayEnvironmentCheckerProvider",
+        "mangledName": "$s6Sentry0A39SessionReplayEnvironmentCheckerProviderP",
+        "moduleName": "Sentry",
+        "genericSig": "<τ_0_0 : AnyObject>",
+        "sugared_genericSig": "<Self : AnyObject>",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "SPIAccessControl"
+        ],
+        "spi_group_names": [
+          "Private"
+        ]
+      },
+      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -33287,6 +33865,100 @@
                 "declKind": "Accessor",
                 "usr": "s:6Sentry0A19ExperimentalOptionsC30enableUnhandledCPPExceptionsV2SbvM",
                 "mangledName": "$s6Sentry0A19ExperimentalOptionsC30enableUnhandledCPPExceptionsV2SbvM",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "enableSessionReplayInUnreliableEnvironment",
+            "printedName": "enableSessionReplayInUnreliableEnvironment",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@Sentry@objc(cs)SentryExperimentalOptions(py)enableSessionReplayInUnreliableEnvironment",
+            "mangledName": "$s6Sentry0A19ExperimentalOptionsC42enableSessionReplayInUnreliableEnvironmentSbvp",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryExperimentalOptions(im)enableSessionReplayInUnreliableEnvironment",
+                "mangledName": "$s6Sentry0A19ExperimentalOptionsC42enableSessionReplayInUnreliableEnvironmentSbvg",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryExperimentalOptions(im)setEnableSessionReplayInUnreliableEnvironment:",
+                "mangledName": "$s6Sentry0A19ExperimentalOptionsC42enableSessionReplayInUnreliableEnvironmentSbvs",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:6Sentry0A19ExperimentalOptionsC42enableSessionReplayInUnreliableEnvironmentSbvM",
+                "mangledName": "$s6Sentry0A19ExperimentalOptionsC42enableSessionReplayInUnreliableEnvironmentSbvM",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "accessorKind": "_modify"
@@ -39784,7 +40456,10 @@
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
-        "moduleName": "Sentry"
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       },
       {
         "kind": "Import",
@@ -40427,7 +41102,7 @@
           {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(replayOptions:replayFolderPath:screenshotProvider:replayMaker:breadcrumbConverter:touchTracker:dateProvider:delegate:displayLinkWrapper:)",
+            "printedName": "init(replayOptions:experimentalOptions:replayFolderPath:screenshotProvider:replayMaker:breadcrumbConverter:touchTracker:dateProvider:delegate:displayLinkWrapper:environmentChecker:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -40440,6 +41115,12 @@
                 "name": "SentryReplayOptions",
                 "printedName": "Sentry.SentryReplayOptions",
                 "usr": "c:@M@Sentry@objc(cs)SentryReplayOptions"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentryExperimentalOptions",
+                "printedName": "Sentry.SentryExperimentalOptions",
+                "usr": "c:@M@Sentry@objc(cs)SentryExperimentalOptions"
               },
               {
                 "kind": "TypeNominal",
@@ -40496,11 +41177,17 @@
                 "name": "SentryReplayDisplayLinkWrapper",
                 "printedName": "Sentry.SentryReplayDisplayLinkWrapper",
                 "usr": "c:@M@Sentry@objc(pl)SentryReplayDisplayLinkWrapper"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentrySessionReplayEnvironmentCheckerProvider",
+                "printedName": "Sentry.SentrySessionReplayEnvironmentCheckerProvider",
+                "usr": "c:@M@Sentry@objc(pl)SentrySessionReplayEnvironmentCheckerProvider"
               }
             ],
             "declKind": "Constructor",
-            "usr": "c:@M@Sentry@objc(cs)SentrySessionReplay(im)initWithReplayOptions:replayFolderPath:screenshotProvider:replayMaker:breadcrumbConverter:touchTracker:dateProvider:delegate:displayLinkWrapper:",
-            "mangledName": "$s6Sentry0A13SessionReplayC13replayOptions0D10FolderPath18screenshotProvider0D5Maker19breadcrumbConverter12touchTracker04dateI08delegate18displayLinkWrapperAcA0acE0C_10Foundation3URLVAA0a14ViewScreenshotI0_pAA0ac5VideoJ0_pAA0ac10BreadcrumbL0_pAA0a5TouchN0CSgAA0a11CurrentDateI0_pAA0abC8Delegate_pAA0ac7DisplayrS0_ptcfc",
+            "usr": "c:@M@Sentry@objc(cs)SentrySessionReplay(im)initWithReplayOptions:experimentalOptions:replayFolderPath:screenshotProvider:replayMaker:breadcrumbConverter:touchTracker:dateProvider:delegate:displayLinkWrapper:environmentChecker:",
+            "mangledName": "$s6Sentry0A13SessionReplayC13replayOptions012experimentalE00D10FolderPath18screenshotProvider0D5Maker19breadcrumbConverter12touchTracker04dateJ08delegate18displayLinkWrapper18environmentCheckerAcA0acE0C_AA0a12ExperimentalE0C10Foundation3URLVAA0a14ViewScreenshotJ0_pAA0ac5VideoK0_pAA0ac10BreadcrumbM0_pAA0a5TouchO0CSgAA0a11CurrentDateJ0_pAA0abC8Delegate_pAA0ac7DisplaysT0_pAA0abc11EnvironmentvJ0_ptcfc",
             "moduleName": "Sentry",
             "declAttributes": [
               "AccessControl",
@@ -59007,6 +59694,48 @@
       "value": "\"Sentry.UserFeedback\""
     },
     {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryXcodeVersion.swift",
+      "kind": "IntegerLiteral",
+      "offset": 52,
+      "length": 5,
+      "value": "1640"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryXcodeVersion.swift",
+      "kind": "IntegerLiteral",
+      "offset": 77,
+      "length": 5,
+      "value": "2600"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryXcodeVersion.swift",
+      "kind": "IntegerLiteral",
+      "offset": 52,
+      "length": 5,
+      "value": "1640"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryXcodeVersion.swift",
+      "kind": "IntegerLiteral",
+      "offset": 77,
+      "length": 5,
+      "value": "2600"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryXcodeVersion.swift",
+      "kind": "IntegerLiteral",
+      "offset": 52,
+      "length": 5,
+      "value": "1640"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryXcodeVersion.swift",
+      "kind": "IntegerLiteral",
+      "offset": 77,
+      "length": 5,
+      "value": "2600"
+    },
+    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Protocol\/SentryLogMessage.swift",
       "kind": "Array",
       "offset": 1118,
@@ -59075,6 +59804,34 @@
       "offset": 4608,
       "length": 1,
       "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryInfoPlistKey.swift",
+      "kind": "StringLiteral",
+      "offset": 118,
+      "length": 9,
+      "value": "\"DTXcode\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryInfoPlistKey.swift",
+      "kind": "StringLiteral",
+      "offset": 980,
+      "length": 31,
+      "value": "\"UIDesignRequiresCompatibility\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryInfoPlistKey.swift",
+      "kind": "StringLiteral",
+      "offset": 118,
+      "length": 9,
+      "value": "\"DTXcode\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryInfoPlistKey.swift",
+      "kind": "StringLiteral",
+      "offset": 980,
+      "length": 31,
+      "value": "\"UIDesignRequiresCompatibility\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Protocol\/Codable\/SentryFrameCodable.swift",
@@ -59728,6 +60485,174 @@
       "value": "\"Sentry.SentryClientReport\""
     },
     {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1606,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1691,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1771,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 1893,
+      "length": 85,
+      "value": "\"[Session Replay] Detected environment as unreliable - no proof of reliability found\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1995,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 2136,
+      "length": 67,
+      "value": "\"[Session Replay] Running on iOS version prior to 26.0+ - reliable\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 2271,
+      "length": 39,
+      "value": "\"[Session Replay] Running on iOS 26.0+\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 2788,
+      "length": 65,
+      "value": "\"[Session Replay] UIDesignRequiresCompatibility = YES - reliable\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 2946,
+      "length": 66,
+      "value": "\"[Session Replay] UIDesignRequiresCompatibility = NO - unreliable\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 3139,
+      "length": 49,
+      "value": "\"[Session Replay] Info.plist not found - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 3388,
+      "length": 66,
+      "value": "\"[Session Replay] UIDesignRequiresCompatibility not set - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 3533,
+      "length": 64,
+      "value": "\"[Session Replay] Failed to read Info.plist: \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 3586,
+      "length": 1,
+      "value": "\" - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4041,
+      "length": 89,
+      "value": "\"[Session Replay] DTXcode value '\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4095,
+      "length": 36,
+      "value": "\"' is not a valid integer - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4282,
+      "length": 80,
+      "value": "\"[Session Replay] Built with Xcode \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4338,
+      "length": 1,
+      "value": "\" (>= 26.0) - unreliable\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4445,
+      "length": 77,
+      "value": "\"[Session Replay] Built with Xcode \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4501,
+      "length": 1,
+      "value": "\" (< 26.0) - reliable\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4647,
+      "length": 49,
+      "value": "\"[Session Replay] Info.plist not found - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4808,
+      "length": 60,
+      "value": "\"[Session Replay] DTXcode not found in Info.plist - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 4947,
+      "length": 64,
+      "value": "\"[Session Replay] Failed to read Info.plist: \""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 5000,
+      "length": 1,
+      "value": "\" - unclear\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplayEnvironmentChecker.swift",
+      "kind": "StringLiteral",
+      "offset": 34,
+      "length": 37,
+      "value": "\"Sentry.SentrySessionReplayEnvironmentChecker\""
+    },
+    {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/UserFeedback\/SentryUserFeedbackWidgetButtonMegaphoneIconView.swift",
       "kind": "BooleanLiteral",
       "offset": 774,
@@ -60132,6 +61057,13 @@
       "offset": 979,
       "length": 3,
       "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/InfoPlist\/SentryInfoPlistWrapper.swift",
+      "kind": "BooleanLiteral",
+      "offset": 821,
+      "length": 5,
+      "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/RRWeb\/SentryRRWebMetaEvent.swift",
@@ -63615,7 +64547,14 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryExperimentalOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 1939,
+      "offset": 2918,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryExperimentalOptions.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3002,
       "length": 5,
       "value": "false"
     },
@@ -64525,693 +65464,707 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 451,
+      "offset": 484,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 740,
+      "offset": 773,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 838,
+      "offset": 871,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 879,
+      "offset": 912,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 926,
+      "offset": 959,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 971,
+      "offset": 1004,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2533,
+      "offset": 2946,
       "length": 76,
       "value": "\"[Session Replay] Starting session replay with full session: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2608,
+      "offset": 3021,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 2675,
+      "offset": 3088,
       "length": 72,
       "value": "\"[Session Replay] Session replay is already running, not starting again\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
+      "kind": "StringLiteral",
+      "offset": 3603,
+      "length": 204,
+      "value": "\"[Session Replay] Detected environment potentially causing PII leaks, disabling Session Replay. To override this mechanism, set `options.experimental.enableSessionReplayInUnreliableEnvironment` to `true`\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
+      "kind": "StringLiteral",
+      "offset": 3879,
+      "length": 196,
+      "value": "\"[Session Replay] Detected environment potentially causing PII leaks, but `options.experimental.enableSessionReplayInUnreliableEnvironment` is set to `true`, ignoring and enabling Session Replay.\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 2994,
+      "offset": 4311,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 3059,
+      "offset": 4376,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 3199,
+      "offset": 4516,
       "length": 47,
       "value": "\"[Session Replay] Starting full session replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 3310,
+      "offset": 4627,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 3520,
+      "offset": 4837,
       "length": 39,
       "value": "\"[Session Replay] Pausing session mode\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 3653,
+      "offset": 4970,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 3759,
+      "offset": 5076,
       "length": 34,
       "value": "\"[Session Replay] Pausing session\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4011,
+      "offset": 5328,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4078,
+      "offset": 5395,
       "length": 35,
       "value": "\"[Session Replay] Resuming session\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 4235,
+      "offset": 5552,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4358,
+      "offset": 5675,
       "length": 57,
       "value": "\"[Session Replay] Reached maximum duration, not resuming\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4511,
+      "offset": 5828,
       "length": 59,
       "value": "\"[Session Replay] Session is already running, not resuming\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4804,
+      "offset": 6121,
       "length": 55,
       "value": "\"[Session Replay] Capturing replay for event: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4858,
+      "offset": 6175,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 4924,
+      "offset": 6241,
       "length": 70,
       "value": "\"[Session Replay] Session replay is not running, not capturing replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5084,
+      "offset": 6401,
       "length": 80,
       "value": "\"[Session Replay] Session replay is in full session mode, setting event context\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 5304,
+      "offset": 6621,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5369,
+      "offset": 6686,
       "length": 94,
       "value": "\"[Session Replay] Not capturing replay, reason: event is not an error or exceptions are empty\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5675,
+      "offset": 6992,
       "length": 70,
       "value": "\"[Session Replay] Session replay is not running, not capturing replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 5766,
+      "offset": 7083,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 5851,
+      "offset": 7168,
       "length": 63,
       "value": "\"[Session Replay] Session replay is full, not capturing replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 5935,
+      "offset": 7252,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 6022,
+      "offset": 7339,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6065,
+      "offset": 7382,
       "length": 83,
       "value": "\"[Session Replay] Not capturing replay, reason: delegate should not capture replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 6169,
+      "offset": 7486,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "FloatLiteral",
-      "offset": 6349,
+      "offset": 7666,
       "length": 3,
       "value": "2.0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 6453,
+      "offset": 7770,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6541,
+      "offset": 7858,
       "length": 40,
       "value": "\"[Session Replay] Setting event context\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6650,
+      "offset": 7967,
       "length": 14,
       "value": "\"replay_video\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6704,
+      "offset": 8021,
       "length": 108,
       "value": "\"[Session Replay] Not setting event context, reason: session replay id is nil or event type is replay_video\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Dictionary",
-      "offset": 6884,
+      "offset": 8201,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6904,
+      "offset": 8221,
       "length": 8,
       "value": "\"replay\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 6917,
+      "offset": 8234,
       "length": 11,
       "value": "\"replay_id\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7015,
+      "offset": 8332,
       "length": 10,
       "value": "\"replayId\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 7683,
+      "offset": 9000,
       "length": 60,
       "value": "\"[Session Replay] Reached maximum duration, pausing session\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 7782,
+      "offset": 9099,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 7896,
+      "offset": 9213,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8434,
+      "offset": 9751,
       "length": 56,
       "value": "\"[Session Replay] Preparing segment until date: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8489,
+      "offset": 9806,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8561,
+      "offset": 9878,
       "length": 10,
       "value": "\"segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 8612,
+      "offset": 9929,
       "length": 90,
       "value": "\"[Session Replay] Not preparing segment, reason: could not create path to segments folder\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 8968,
+      "offset": 10285,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9026,
+      "offset": 10343,
       "length": 73,
       "value": "\"[Session Replay] Created segments folder at path: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9098,
+      "offset": 10415,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9158,
+      "offset": 10475,
       "length": 82,
       "value": "\"Can't create session replay segment folder. Error: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9239,
+      "offset": 10556,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9351,
+      "offset": 10668,
       "length": 25,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9371,
+      "offset": 10688,
       "length": 1,
       "value": "\".mp4\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9718,
+      "offset": 11035,
       "length": 97,
       "value": "\"[Session Replay] Creating replay video started at date: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9787,
+      "offset": 11104,
       "length": 1,
       "value": "\", replayType: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9814,
+      "offset": 11131,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10068,
+      "offset": 11385,
       "length": 69,
       "value": "\"[Session Replay] Created replay video with \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10127,
+      "offset": 11444,
       "length": 8,
       "value": "\" segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10310,
+      "offset": 11627,
       "length": 81,
       "value": "\"[Session Replay] Finished processing replay video with \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10381,
+      "offset": 11698,
       "length": 8,
       "value": "\" segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10543,
+      "offset": 11860,
       "length": 106,
       "value": "\"[Session Replay] Processing new segment available for replayType: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10623,
+      "offset": 11940,
       "length": 1,
       "value": "\", videoInfo: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10648,
+      "offset": 11965,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10743,
+      "offset": 12060,
       "length": 68,
       "value": "\"[Session Replay] No session replay ID available, ignoring segment.\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11111,
+      "offset": 12428,
       "length": 91,
       "value": "\"[Session Replay] Processed segment, incrementing currentSegmentId to: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11201,
+      "offset": 12518,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11364,
+      "offset": 12681,
       "length": 98,
       "value": "\"[Session Replay] Capturing segment: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11411,
+      "offset": 12728,
       "length": 1,
       "value": "\", replayId: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11434,
+      "offset": 12751,
       "length": 1,
       "value": "\", replayType: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11461,
+      "offset": 12778,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 11829,
+      "offset": 13146,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12012,
+      "offset": 13329,
       "length": 46,
       "value": "\"[Session Replay] Adding touch tracker events\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 12271,
+      "offset": 13588,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12306,
+      "offset": 13623,
       "length": 52,
       "value": "\"[Session Replay] Adding options event to segment 0\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13007,
+      "offset": 14324,
       "length": 51,
       "value": "\"[Session Replay] Deleted replay segment from disk\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13109,
+      "offset": 14426,
       "length": 70,
       "value": "\"[Session Replay] Could not delete replay segment from disk: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13178,
+      "offset": 14495,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13353,
+      "offset": 14670,
       "length": 71,
       "value": "\"[Session Replay] Converting breadcrumbs from: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13407,
+      "offset": 14724,
       "length": 5,
       "value": "\" until: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13423,
+      "offset": 14740,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 13469,
+      "offset": 14786,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 13535,
+      "offset": 14852,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14065,
+      "offset": 15382,
       "length": 12,
       "value": "\"navigation\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "FloatLiteral",
-      "offset": 14144,
+      "offset": 15461,
       "length": 4,
       "value": "0.05"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14507,
+      "offset": 15824,
       "length": 91,
       "value": "\"[Session Replay] Not taking screenshot, reason: root view is nil or processing screenshot\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14657,
+      "offset": 15974,
       "length": 62,
       "value": "\"[Session Replay] Taking screenshot of root view: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14718,
+      "offset": 16035,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14824,
+      "offset": 16141,
       "length": 71,
       "value": "\"[Session Replay] Not taking screenshot, reason: processing screenshot\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 14983,
+      "offset": 16300,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15046,
+      "offset": 16363,
       "length": 62,
       "value": "\"[Session Replay] Getting screenshot from screenshot provider\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15545,
+      "offset": 16862,
       "length": 70,
       "value": "\"[Session Replay] New frame available, for screen: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15608,
+      "offset": 16925,
       "length": 5,
       "value": "\"nil\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15614,
+      "offset": 16931,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 15680,
+      "offset": 16997,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 375,
+      "offset": 408,
       "length": 19,
       "value": "\"Sentry.SentrySessionReplay\""
     },

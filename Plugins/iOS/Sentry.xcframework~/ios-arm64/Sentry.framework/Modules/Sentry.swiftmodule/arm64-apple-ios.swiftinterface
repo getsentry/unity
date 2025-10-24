@@ -403,6 +403,7 @@ extension Swift.FixedWidthInteger {
   @objc public var enableDataSwizzling: Swift.Bool
   @objc public var enableFileManagerSwizzling: Swift.Bool
   @objc public var enableUnhandledCPPExceptionsV2: Swift.Bool
+  @objc public var enableSessionReplayInUnreliableEnvironment: Swift.Bool
   @objc public var enableLogs: Swift.Bool
   @objc override dynamic public init()
   @objc deinit

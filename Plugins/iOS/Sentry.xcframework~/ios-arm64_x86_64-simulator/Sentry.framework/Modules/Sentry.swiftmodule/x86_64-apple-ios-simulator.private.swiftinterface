@@ -243,6 +243,10 @@ extension Sentry.Geo : Swift.Decodable {
   @_spi(Private) convenience public init(from decoder: any Swift.Decoder) throws
   @_spi(Private) final public func encode(to encoder: any Swift.Encoder) throws
 }
+@_spi(Private) @objc public protocol SentryInfoPlistWrapperProvider {
+  @_spi(Private) @objc func getAppValueString(for key: Swift.String) throws -> Swift.String
+  @_spi(Private) @objc func getAppValueBoolean(for key: Swift.String, errorPtr: Foundation.NSErrorPointer) -> Swift.Bool
+}
 @_spi(Private) @_inheritsConvenienceInitializers @objc final public class SentrySDKSettings : ObjectiveC.NSObject {
   @_spi(Private) @objc override dynamic public init()
   @_spi(Private) @objc public init(options: Sentry.Options?)
@@ -289,6 +293,11 @@ extension Foundation.FileManager {
 @_spi(Private) @objc final public class SentryClientReport : ObjectiveC.NSObject, Sentry.SentrySerializable {
   @_spi(Private) @objc(initWithDiscardedEvents:dateProvider:) public init(discardedEvents: [Sentry.SentryDiscardedEvent], dateProvider: any Sentry.SentryCurrentDateProvider)
   @_spi(Private) @objc final public func serialize() -> [Swift.String : Any]
+  @_spi(Private) @objc deinit
+}
+@_spi(Private) @objc public class SentrySessionReplayEnvironmentChecker : ObjectiveC.NSObject, Sentry.SentrySessionReplayEnvironmentCheckerProvider {
+  @_spi(Private) @objc public init(infoPlistWrapper: any Sentry.SentryInfoPlistWrapperProvider)
+  @_spi(Private) @objc public func isReliable() -> Swift.Bool
   @_spi(Private) @objc deinit
 }
 @objc final public class SentryLogger : ObjectiveC.NSObject {
@@ -365,6 +374,13 @@ extension Sentry.Breadcrumb : Swift.Decodable {
   @_spi(Private) @objc func releaseFramesUntil(_ date: Foundation.Date)
   @_spi(Private) @objc func createVideoInBackgroundWith(beginning: Foundation.Date, end: Foundation.Date, completion: @escaping ([Sentry.SentryVideoInfo]) -> Swift.Void)
   @_spi(Private) @objc func createVideoWith(beginning: Foundation.Date, end: Foundation.Date) -> [Sentry.SentryVideoInfo]
+}
+@_spi(Private) @_inheritsConvenienceInitializers @objc public class SentryInfoPlistWrapper : ObjectiveC.NSObject, Sentry.SentryInfoPlistWrapperProvider {
+  @_spi(Private) @objc override dynamic public init()
+  @_spi(Private) public init(bundle: Foundation.Bundle)
+  @_spi(Private) @objc public func getAppValueBoolean(for key: Swift.String, errorPtr errPtr: Foundation.NSErrorPointer) -> Swift.Bool
+  @_spi(Private) @objc public func getAppValueString(for key: Swift.String) throws -> Swift.String
+  @_spi(Private) @objc deinit
 }
 @_spi(Private) @_inheritsConvenienceInitializers @objc public class SentryThreadWrapper : ObjectiveC.NSObject {
   @_spi(Private) @objc public func sleep(forTimeInterval timeInterval: Foundation.TimeInterval)
@@ -965,10 +981,14 @@ extension Swift.FixedWidthInteger {
         return lhs
     }
 }
+@_spi(Private) @objc public protocol SentrySessionReplayEnvironmentCheckerProvider {
+  @_spi(Private) @objc func isReliable() -> Swift.Bool
+}
 @objc @_inheritsConvenienceInitializers @objcMembers public class SentryExperimentalOptions : ObjectiveC.NSObject {
   @objc public var enableDataSwizzling: Swift.Bool
   @objc public var enableFileManagerSwizzling: Swift.Bool
   @objc public var enableUnhandledCPPExceptionsV2: Swift.Bool
+  @objc public var enableSessionReplayInUnreliableEnvironment: Swift.Bool
   @objc public var enableLogs: Swift.Bool
   @_spi(Private) @objc public func validateOptions(_ options: [Swift.String : Any]?)
   @objc override dynamic public init()
@@ -1142,7 +1162,7 @@ extension Sentry.SentryNSError : Swift.Decodable {
   @_spi(Private) @objc public var replayTags: [Swift.String : Any]?
   @_spi(Private) @objc public var screenshotProvider: any Sentry.SentryViewScreenshotProvider
   @_spi(Private) @objc public var breadcrumbConverter: any Sentry.SentryReplayBreadcrumbConverter
-  @_spi(Private) @objc public init(replayOptions: Sentry.SentryReplayOptions, replayFolderPath: Foundation.URL, screenshotProvider: any Sentry.SentryViewScreenshotProvider, replayMaker: any Sentry.SentryReplayVideoMaker, breadcrumbConverter: any Sentry.SentryReplayBreadcrumbConverter, touchTracker: Sentry.SentryTouchTracker?, dateProvider: any Sentry.SentryCurrentDateProvider, delegate: any Sentry.SentrySessionReplayDelegate, displayLinkWrapper: any Sentry.SentryReplayDisplayLinkWrapper)
+  @_spi(Private) @objc public init(replayOptions: Sentry.SentryReplayOptions, experimentalOptions: Sentry.SentryExperimentalOptions, replayFolderPath: Foundation.URL, screenshotProvider: any Sentry.SentryViewScreenshotProvider, replayMaker: any Sentry.SentryReplayVideoMaker, breadcrumbConverter: any Sentry.SentryReplayBreadcrumbConverter, touchTracker: Sentry.SentryTouchTracker?, dateProvider: any Sentry.SentryCurrentDateProvider, delegate: any Sentry.SentrySessionReplayDelegate, displayLinkWrapper: any Sentry.SentryReplayDisplayLinkWrapper, environmentChecker: any Sentry.SentrySessionReplayEnvironmentCheckerProvider)
   @_spi(Private) @objc deinit
   @_spi(Private) @objc public func start(rootView: UIKit.UIView, fullSession: Swift.Bool)
   @_spi(Private) @objc public func pauseSessionMode()

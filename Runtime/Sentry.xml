@@ -2302,6 +2302,78 @@
             Critical breadcrumb level.
             </summary>
         </member>
+        <member name="T:Sentry.BuiltInSystemDiagnosticsMeters">
+            <summary>
+            Well known values for built-in metrics that can be configured for
+            <see cref="P:Sentry.ExperimentalMetricsOptions.CaptureSystemDiagnosticsMeters"/>
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreHosting">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.Hosting metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreRouting">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.Routing metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreDiagnostics">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.Diagnostics metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreRateLimiting">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.RateLimiting metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreHeaderParsing">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.HeaderParsing metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreServerKestrel">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.Server.Kestrel metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftAspNetCoreHttpConnections">
+            <summary>
+            Matches the built-in Microsoft.AspNetCore.Http.Connections metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftExtensionsDiagnosticsHealthChecks">
+            <summary>
+            Matches the built-in Microsoft.Extensions.Diagnostics.HealthChecks metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.MicrosoftExtensionsDiagnosticsResourceMonitoring">
+            <summary>
+            Matches the built-in Microsoft.Extensions.Diagnostics.ResourceMonitoring metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.OpenTelemetryInstrumentationRuntime">
+            <summary>
+            Matches the built-in System.Net.NameResolution metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.SystemNetNameResolution">
+            <summary>
+            Matches the built-in System.Net.NameResolution metrics
+            </summary>
+        </member>
+        <member name="F:Sentry.BuiltInSystemDiagnosticsMeters.SystemNetHttp">
+            <summary>
+            Matches the built-in <see cref="N:System.Net.Http"/> metrics
+            </summary>
+        </member>
+        <member name="P:Sentry.BuiltInSystemDiagnosticsMeters.All">
+            <summary>
+            Matches all built-in metrics
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Sentry.ByteAttachmentContent">
             <summary>
             Attachment sourced from a provided byte array.
@@ -2449,9 +2521,48 @@
             </summary>
             <seealso href="https://develop.sentry.dev/sdk/performance/dynamic-sampling-context"/>
         </member>
-        <member name="M:Sentry.DynamicSamplingContext.Empty">
+        <member name="F:Sentry.DynamicSamplingContext.Empty">
             <summary>
             Gets an empty <see cref="T:Sentry.DynamicSamplingContext"/> that can be used to "freeze" the DSC on a transaction.
+            </summary>
+        </member>
+        <member name="T:Sentry.ExperimentalMetricsOptions">
+            <summary>
+            Settings for the experimental Metrics feature. This feature is preview only and will very likely change in the future
+            without a major version bump... so use at your own risk.
+            </summary>
+        </member>
+        <member name="P:Sentry.ExperimentalMetricsOptions.EnableCodeLocations">
+            <summary>
+            Determines whether code locations should be recorded for Metrics
+            </summary>
+        </member>
+        <member name="P:Sentry.ExperimentalMetricsOptions.CaptureSystemDiagnosticsInstruments">
+            <summary>
+            <para>
+            A list of Substrings or Regular Expressions. Any `System.Diagnostics.Metrics.Instrument` whose name
+            matches one of the items in this list will be collected and reported to Sentry.
+            </para>
+            <para>
+            These can be either custom Instruments that you have created or any of the built-in metrics that are available.
+            </para>
+            <para>
+            See https://learn.microsoft.com/en-us/dotnet/core/diagnostics/built-in-metrics for more information.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Sentry.ExperimentalMetricsOptions.CaptureSystemDiagnosticsMeters">
+            <summary>
+            <para>
+            A list of Substrings or Regular Expressions. Instruments for any `System.Diagnostics.Metrics.Meter`
+            whose name matches one of the items in this list will be collected and reported to Sentry.
+            </para>
+            <para>
+            These can be either custom Instruments that you have created or any of the built-in metrics that are available.
+            </para>
+            <para>
+            See https://learn.microsoft.com/en-us/dotnet/core/diagnostics/built-in-metrics for more information.
+            </para>
             </summary>
         </member>
         <member name="T:Sentry.Extensibility.BaseRequestPayloadExtractor">
@@ -2518,11 +2629,6 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug``2(Sentry.SentryOptions,System.String,``0,``1)">
-            <summary>
-            Log a debug message.
-            </summary>
-        </member>
-        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogDebug``3(Sentry.Extensibility.IDiagnosticLogger,System.String,``0,``1,``2)">
             <summary>
             Log a debug message.
             </summary>
@@ -2618,11 +2724,6 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning``2(Sentry.SentryOptions,System.String,``0,``1)">
-            <summary>
-            Log a warning message.
-            </summary>
-        </member>
-        <member name="M:Sentry.Extensibility.DiagnosticLoggerExtensions.LogWarning``3(Sentry.Extensibility.IDiagnosticLogger,System.String,``0,``1,``2)">
             <summary>
             Log a warning message.
             </summary>
@@ -2927,11 +3028,6 @@
             No-Op.
             </summary>
         </member>
-        <member name="P:Sentry.Extensibility.DisabledHub.Logger">
-            <summary>
-            Disabled Logger.
-            </summary>
-        </member>
         <member name="T:Sentry.Extensibility.FormRequestPayloadExtractor">
             <summary>
             Form based request extractor.
@@ -2968,11 +3064,6 @@
             </summary>
         </member>
         <member name="P:Sentry.Extensibility.HubAdapter.LastEventId">
-            <summary>
-            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
-            </summary>
-        </member>
-        <member name="P:Sentry.Extensibility.HubAdapter.Logger">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3327,7 +3418,7 @@
         </member>
         <member name="T:Sentry.Extensibility.ISentryStackTraceFactory">
             <summary>
-            Factory to create a <see cref="T:Sentry.SentryStackTrace" /> from an <see cref="T:System.Exception" />.
+            Factory to <see cref="T:Sentry.SentryStackTrace" /> from an <see cref="T:System.Exception" />.
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.ISentryStackTraceFactory.Create(System.Exception)">
@@ -3456,7 +3547,11 @@
             </summary>
         </member>
         <member name="M:Sentry.Extensibility.SentryStackTraceFactory.Create(System.Exception)">
-            <inheritdoc />
+            <summary>
+            Creates a <see cref="T:Sentry.SentryStackTrace" /> from the optional <see cref="T:System.Exception" />.
+            </summary>
+            <param name="exception">The exception to create the stacktrace from.</param>
+            <returns>A Sentry stack trace.</returns>
         </member>
         <member name="T:Sentry.FileAttachmentContent">
             <summary>
@@ -3623,15 +3718,6 @@
             Constructor for this class.
             </summary>
             <param name="options">The Sentry options.</param>
-            <param name="getEnvironmentVariable">An optional method used to read environment variables.</param>
-            <param name="clock">An optional system clock - used for testing.</param>
-        </member>
-        <member name="M:Sentry.Http.HttpTransportBase.#ctor(Sentry.SentryOptions,Sentry.Internal.BackpressureMonitor,System.Func{System.String,System.String},Sentry.Infrastructure.ISystemClock)">
-            <summary>
-            Constructor for this class.
-            </summary>
-            <param name="options">The Sentry options.</param>
-            <param name="backpressureMonitor">The Sentry options.</param>
             <param name="getEnvironmentVariable">An optional method used to read environment variables.</param>
             <param name="clock">An optional system clock - used for testing.</param>
         </member>
@@ -4107,18 +4193,6 @@
             Last event id recorded in the current scope.
             </summary>
         </member>
-        <member name="P:Sentry.IHub.Logger">
-            <summary>
-            Creates and sends logs to Sentry.
-            </summary>
-            <remarks>
-            Available options:
-            <list type="bullet">
-            <item><see cref="P:Sentry.SentryOptions.SentryExperimentalOptions.EnableLogs"/></item>
-            <item><see cref="M:Sentry.SentryOptions.SentryExperimentalOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})"/></item>
-            </list>
-            </remarks>
-        </member>
         <member name="M:Sentry.IHub.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
             <summary>
             Starts a transaction.
@@ -4246,11 +4320,6 @@
         </member>
         <member name="M:Sentry.Infrastructure.ConsoleDiagnosticLogger.LogMessage(System.String)">
             <inheritdoc />
-        </member>
-        <member name="F:Sentry.Infrastructure.DiagnosticId.ExperimentalFeature">
-            <summary>
-            Indicates that the feature is experimental and may be subject to change or removal in future versions.
-            </summary>
         </member>
         <member name="T:Sentry.Infrastructure.DiagnosticLogger">
             <summary>
@@ -4422,40 +4491,6 @@
             </summary>
             <inheritdoc />
         </member>
-        <member name="T:Sentry.Internal.BackpressureMonitor">
-            <summary>
-            <para>
-            Monitors system health and calculates a DownsampleFactor that can be applied to events and transactions when the
-            system is under load.
-            </para>
-            <para>
-            The health checks used by the monitor are:
-            </para>
-            <list type="number">
-                <item>if any events have been dropped due to queue being full in the last 2 seconds</item>
-                <item>if any new rate limits have been applied since the last check</item>
-            </list>
-            This check is performed every 10 seconds. With each negative health check we halve tracesSampleRate up to 10 times, meaning the original tracesSampleRate is multiplied by 1, 1/2, 1/4, ... up to 1/1024 (~ 0.001%). Any positive health check resets to the original tracesSampleRate set in SentryOptions.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/traces/backpressure/">Backpressure Management</seealso>
-        </member>
-        <member name="M:Sentry.Internal.BackpressureMonitor.SetDownsampleLevel(System.Int32)">
-            <summary>
-            For testing purposes only. Sets the downsample level directly.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.BackpressureMonitor.DownsampleFactor">
-            <summary>
-            A multiplier that can be applied to the SampleRate or TracesSampleRate to reduce the amount of data sent to
-            Sentry when the system is under pressure.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.BackpressureMonitor.IsHealthy">
-            <summary>
-            Checks for any recent queue overflows or any rate limit events since the last check.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Sentry.Internal.ClientReport.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
@@ -4550,27 +4585,6 @@
             Remove return type from module in a Task with a Lambda with a return value.
             This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
             </summary>
-        </member>
-        <member name="M:Sentry.Internal.DefaultSentryStructuredLogger.CaptureLog(Sentry.SentryLogLevel,System.String,System.Object[],System.Action{Sentry.SentryLog})">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.DefaultSentryStructuredLogger.CaptureLog(Sentry.SentryLog)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.DefaultSentryStructuredLogger.Flush">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.DefaultSentryStructuredLogger.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.DisabledSentryStructuredLogger.CaptureLog(Sentry.SentryLogLevel,System.String,System.Object[],System.Action{Sentry.SentryLog})">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.DisabledSentryStructuredLogger.CaptureLog(Sentry.SentryLog)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Internal.DisabledSentryStructuredLogger.Flush">
-            <inheritdoc />
         </member>
         <member name="T:Sentry.Internal.EmailValidator">
             <summary>
@@ -5136,136 +5150,6 @@
             <returns>
             A readable representation of the stack trace.
             </returns>
-        </member>
-        <member name="T:Sentry.Internal.StructuredLogBatchBuffer">
-            <summary>
-            A wrapper over an <see cref="T:System.Array"/>, intended for reusable buffering.
-            </summary>
-            <remarks>
-            Must be attempted to flush via <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.TryEnterFlushScope"/> when either the <see cref="P:Sentry.Internal.StructuredLogBatchBuffer.Capacity"/> is reached,
-            or when the <see cref="F:Sentry.Internal.StructuredLogBatchBuffer._timeout"/> is exceeded.
-            Utilizes a <see cref="T:Sentry.Threading.ScopedCountdownLock"/>, basically used as an inverse <see cref="T:System.Threading.ReaderWriterLockSlim"/>,
-            allowing multiple threads for <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> or exclusive access for <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Flush"/>.
-            </remarks>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.#ctor(System.Int32,System.TimeSpan,System.Action{Sentry.Internal.StructuredLogBatchBuffer},System.String)">
-            <summary>
-            Create a new buffer.
-            </summary>
-            <param name="capacity">Length of the new buffer.</param>
-            <param name="timeout">When the timeout exceeds after an item has been added and the <paramref name="capacity"/> not yet been exceeded, <paramref name="timeoutExceededAction"/> is invoked.</param>
-            <param name="timeoutExceededAction">The operation to execute when the <paramref name="timeout"/> exceeds if the buffer is neither empty nor full.</param>
-            <param name="name">Name of the new buffer.</param>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.Name">
-            <summary>
-            Name of the buffer.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.Capacity">
-            <summary>
-            Maximum number of elements that can be added to the buffer.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.IsEmpty">
-            <summary>
-            Gets a value indicating whether this buffer is empty.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.AddCount">
-            <summary>
-            Number of <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> operations in progress.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)">
-            <summary>
-            Attempt to add one element to the buffer.
-            Is thread-safe.
-            </summary>
-            <param name="item">Element attempted to be added.</param>
-            <returns>An <see cref="T:Sentry.Internal.StructuredLogBatchBufferAddStatus"/> describing the result of the thread-safe operation.</returns>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.TryEnterFlushScope">
-            <summary>
-            Enters a <see cref="T:Sentry.Internal.StructuredLogBatchBuffer.FlushScope"/> used to ensure that only a single flush operation is in progress.
-            </summary>
-            <remarks>
-            Must be disposed to exit.
-            </remarks>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.ExitFlushScope">
-            <summary>
-            Exits the <see cref="T:Sentry.Internal.StructuredLogBatchBuffer.FlushScope"/> through <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Dispose"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.OnIntervalElapsed(System.Object)">
-            <summary>
-            Callback when Timer has elapsed after first item has been added and buffer is not full yet.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.ToArrayAndClear">
-            <summary>
-            Returns a new Array consisting of the elements successfully added.
-            </summary>
-            <returns>An Array with Length of successful additions.</returns>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.ToArrayAndClear(System.Int32)">
-            <summary>
-            Returns a new Array consisting of <paramref name="length"/> elements successfully added.
-            </summary>
-            <param name="length">The Length of the buffer a new Array is created from.</param>
-            <returns>An Array with Length of <paramref name="length"/>.</returns>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:Sentry.Internal.StructuredLogBatchBuffer.FlushScope">
-            <summary>
-            A scope than ensures only a single <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Flush"/> operation is in progress,
-            and blocks the calling thread until all <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> operations have finished.
-            When <see cref="P:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.IsEntered"/> is <see langword="true"/>, no more <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> can be started,
-            which will then return <see cref="F:Sentry.Internal.StructuredLogBatchBufferAddStatus.IgnoredIsFlushing"/> immediately.
-            </summary>
-            <remarks>
-            Only <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Flush"/> when scope <see cref="P:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.IsEntered"/>.
-            </remarks>
-        </member>
-        <member name="T:Sentry.Internal.StructuredLogBatchProcessor">
-            <summary>
-            The Batch Processor for Sentry Logs.
-            </summary>
-            <remarks>
-            Uses a double buffer strategy to achieve synchronous and lock-free adding.
-            Switches the active buffer either when full or timeout exceeded (after first item added).
-            Logs are dropped when both buffers are either full or being flushed.
-            Logs are not enqueued when the Hub is disabled (Hub is being or has been disposed).
-            Flushing blocks the calling thread until all pending add operations have completed.
-            <code>
-            Implementation:
-            - When Hub is disabled (i.e. disposed), does not enqueue log
-            - Try to enqueue log into currently active buffer
-              - when currently active buffer is full, try to enqueue log into the other buffer
-              - when the other buffer is also full, or currently being flushed, then the log is dropped and a discarded event is recorded as a client report
-            - Swap currently active buffer when
-              - buffer is full
-              - timeout has exceeded
-            - Batch and Capture logs after swapping currently active buffer
-              - wait until all pending add/enqueue operations have completed (required for timeout)
-              - flush the buffer and capture an envelope containing the batched logs
-            - After flush, logs can be enqueued again into the buffer
-            </code>
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/">Sentry Logs</seealso>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/spans/batch-processor/">Sentry Batch Processor</seealso>
-            <seealso href="https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor/batchprocessor/README.md">OpenTelemetry Batch Processor</seealso>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchProcessor.OnIntervalElapsed">
-            <summary>
-            Forces invocation of a Timeout of the active buffer.
-            </summary>
-            <remarks>
-            Intended for Testing only.
-            </remarks>
         </member>
         <member name="T:Sentry.Internal.SystemGCImplementation">
             <summary>
@@ -6249,527 +6133,6 @@
             <param name="runtime">The runtime instance to check.</param>
             <returns>True if it's Browser WASM, otherwise false.</returns>
         </member>
-        <member name="T:Sentry.SentrySdk">
-            <summary>
-            Internal Sentry SDK entrypoint.
-            </summary>
-            <remarks>
-            This class is now internal. Use <c>Sentry.Unity.SentrySdk</c> instead.
-            <para>
-            To migrate your code:
-            <list type="number">
-            <item>Change <c>using Sentry;</c> to <c>using Sentry.Unity;</c></item>
-            <item>Keep using the <c>SentrySdk</c> API itself - no changes needed to method calls</item>
-            <item>Add <c>using Sentry;</c> if you need access to types like <c>SentryId</c>, <c>SentryLevel</c>, etc.</item>
-            </list>
-            </para>
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentrySdk.LastEventId">
-            <summary>
-            Last event id recorded in the current scope.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.Init">
-            <summary>
-            Initializes the SDK while attempting to locate the DSN.
-            </summary>
-            <remarks>
-            If the DSN is not found, the SDK will not change state.
-            </remarks>
-            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
-            <remarks>
-            Disposing the result will flush previously-captured events and disable the SDK.
-            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
-            sense to dispose:
-            <list type="bullet">
-            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
-            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
-            </list>
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.Init(System.String)">
-            <summary>
-            Initializes the SDK with the specified DSN.
-            </summary>
-            <remarks>
-            An empty string is interpreted as a disabled SDK.
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/overview/#usage-for-end-users"/>
-            <param name="dsn">The dsn.</param>
-            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
-            <remarks>
-            Disposing the result will flush previously-captured events and disable the SDK.
-            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
-            sense to dispose:
-            <list type="bullet">
-            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
-            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
-            </list>
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.Init(System.Action{Sentry.SentryOptions})">
-            <summary>
-            Initializes the SDK with an optional configuration options callback.
-            </summary>
-            <param name="configureOptions">The configuration options callback.</param>
-            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
-            <remarks>
-            Disposing the result will flush previously-captured events and disable the SDK.
-            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
-            sense to dispose:
-            <list type="bullet">
-            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
-            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
-            </list>
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.Init(Sentry.SentryOptions)">
-            <summary>
-            Initializes the SDK with the specified options instance.
-            </summary>
-            <param name="options">The options instance</param>
-            <remarks>
-            Used by integrations which have their own delegates.
-            </remarks>
-            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
-            <remarks>
-            Disposing the result will flush previously-captured events and disable the SDK.
-            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
-            sense to dispose:
-            <list type="bullet">
-            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
-            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
-            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
-            </list>
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.Flush">
-            <summary>
-            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
-            is reached.
-            </summary>
-            <remarks>
-            Blocks synchronously. Prefer <see cref="M:Sentry.SentrySdk.FlushAsync"/> in async code.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.Flush(System.TimeSpan)">
-            <summary>
-            Flushes the queue of captured events until the timeout is reached.
-            </summary>
-            <param name="timeout">The amount of time allowed for flushing.</param>
-            <remarks>
-            Blocks synchronously. Prefer <see cref="M:Sentry.SentrySdk.FlushAsync(System.TimeSpan)"/> in async code.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.FlushAsync">
-            <summary>
-            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
-            is reached.
-            </summary>
-            <returns>A task to await for the flush operation.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.FlushAsync(System.TimeSpan)">
-            <summary>
-            Flushes the queue of captured events until the timeout is reached.
-            </summary>
-            <param name="timeout">The amount of time allowed for flushing.</param>
-            <returns>A task to await for the flush operation.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.Close">
-            <summary>
-            Close the SDK.
-            </summary>
-            <remarks>
-            Flushes the events and disables the SDK.
-            This method is mostly used for testing the library since
-            Init returns a IDisposable that can be used to shutdown the SDK.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentrySdk.IsEnabled">
-            <summary>
-            Whether the SDK is enabled or not.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentrySdk.Logger">
-            <inheritdoc cref="P:Sentry.IHub.Logger" />
-        </member>
-        <member name="M:Sentry.SentrySdk.PushScope``1(``0)">
-            <summary>
-            Creates a new scope that will terminate when disposed.
-            </summary>
-            <remarks>
-            Pushes a new scope while inheriting the current scope's data.
-            </remarks>
-            <param name="state">A state object to be added to the scope.</param>
-            <returns>A disposable that when disposed, ends the created scope.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.PushScope">
-            <summary>
-            Creates a new scope that will terminate when disposed.
-            </summary>
-            <returns>A disposable that when disposed, ends the created scope.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.BindClient(Sentry.ISentryClient)">
-            <summary>
-            <para>
-            Binds the client to the current scope.
-            </para>
-            <para>
-            This might be used to bind a client with a different DSN or configuration (e.g. so that a particular thread or
-            part of the application sends events to a different Sentry project).
-            </para>
-            </summary>
-            <param name="client">The client.</param>
-        </member>
-        <member name="M:Sentry.SentrySdk.AddBreadcrumb(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)">
-            <summary>
-            Adds a breadcrumb to the current Scope.
-            </summary>
-            <param name="message">
-            If a message is provided it’s rendered as text and the whitespace is preserved.
-            Very long text might be abbreviated in the UI.</param>
-            <param name="category">
-            Categories are dotted strings that indicate what the crumb is or where it comes from.
-            Typically it’s a module name or a descriptive string.
-            For instance ui.click could be used to indicate that a click happened in the UI or flask could be used to indicate that the event originated in the Flask framework.
-            </param>
-            <param name="type">
-            The type of breadcrumb.
-            The default type is default which indicates no specific handling.
-            Other types are currently http for HTTP requests and navigation for navigation events.
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/#breadcrumb-types"/>
-            </param>
-            <param name="data">
-            Data associated with this breadcrumb.
-            Contains a sub-object whose contents depend on the breadcrumb type.
-            Additional parameters that are unsupported by the type are rendered as a key/value table.
-            </param>
-            <param name="level">Breadcrumb level.</param>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.AddBreadcrumb(Sentry.Infrastructure.ISystemClock,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)">
-            <summary>
-            Adds a breadcrumb to the current scope.
-            </summary>
-            <remarks>
-            This overload is intended to be used by integrations only.
-            The objective is to allow better testability by allowing control of the timestamp set to the breadcrumb.
-            </remarks>
-            <param name="clock">An optional <see cref="T:Sentry.Infrastructure.ISystemClock"/>.</param>
-            <param name="message">The message.</param>
-            <param name="category">The category.</param>
-            <param name="type">The type.</param>
-            <param name="data">The data.</param>
-            <param name="level">The level.</param>
-        </member>
-        <member name="M:Sentry.SentrySdk.AddBreadcrumb(Sentry.Breadcrumb,Sentry.SentryHint)">
-            <summary>
-            Adds a breadcrumb to the current Scope.
-            </summary>
-            <param name="breadcrumb">The breadcrumb to be added</param>
-            <param name="hint">A hint providing additional context that can be used in the BeforeBreadcrumb callback</param>
-            <see cref="M:Sentry.SentrySdk.AddBreadcrumb(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.ConfigureScope(System.Action{Sentry.Scope})">
-            <summary>
-            Configures the scope through the callback.
-            </summary>
-            <param name="configureScope">The configure scope callback.</param>
-        </member>
-        <member name="M:Sentry.SentrySdk.ConfigureScope``1(System.Action{Sentry.Scope,``0},``0)">
-            <summary>
-            Configures the scope through the callback.
-            <example>
-            <code>
-            object someValue = ...;
-            SentrySdk.ConfigureScope(static (scope, arg) => scope.SetExtra("key", arg), someValue);
-            </code>
-            </example>
-            </summary>
-            <param name="configureScope">The configure scope callback.</param>
-            <param name="arg">The argument to pass to the configure scope callback.</param>
-        </member>
-        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
-            <summary>
-            Configures the scope through the callback asynchronously.
-            </summary>
-            <param name="configureScope">The configure scope callback.</param>
-            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync``1(System.Func{Sentry.Scope,``0,System.Threading.Tasks.Task},``0)">
-            <summary>
-            Configures the scope through the callback asynchronously.
-            <example>
-            <code>
-            object someValue = ...;
-            SentrySdk.ConfigureScopeAsync(static async (scope, arg) =>
-            {
-                scope.SetExtra("key", arg);
-            }, someValue);
-            </code>
-            </example>
-            </summary>
-            <param name="configureScope">The configure scope callback.</param>
-            <param name="arg">The argument to pass to the configure scope callback.</param>
-            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.SetTag(System.String,System.String)">
-            <summary>
-            Sets a tag on the current scope.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.UnsetTag(System.String)">
-            <summary>
-            Removes a tag from the current scope.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)">
-            <inheritdoc cref="M:Sentry.ISentryClient.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,Sentry.Scope,Sentry.SentryHint)">
-            <summary>
-            Captures the event, passing a hint, using the specified scope.
-            </summary>
-            <param name="evt">The event.</param>
-            <param name="scope">The scope.</param>
-            <param name="hint">a hint for the event.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
-            <summary>
-            Captures an event with a configurable scope.
-            </summary>
-            <remarks>
-            This allows modifying a scope without affecting other events.
-            </remarks>
-            <param name="evt">The event.</param>
-            <param name="configureScope">The callback to configure the scope.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,Sentry.SentryHint,System.Action{Sentry.Scope})">
-            <summary>
-            Captures an event with a configurable scope.
-            </summary>
-            <remarks>
-            This allows modifying a scope without affecting other events.
-            </remarks>
-            <param name="evt">The event.</param>
-            <param name="hint">An optional hint to be provided with the event</param>
-            <param name="configureScope">The callback to configure the scope.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception)">
-            <summary>
-            Captures the exception.
-            </summary>
-            <param name="exception">The exception.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception,System.Action{Sentry.Scope})">
-            <summary>
-            Captures the exception with a configurable scope.
-            </summary>
-            <remarks>
-            This allows modifying a scope without affecting other events.
-            </remarks>
-            <param name="exception">The exception.</param>
-            <param name="configureScope">The callback to configure the scope.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureMessage(System.String,Sentry.SentryLevel)">
-            <summary>
-            Captures the message.
-            </summary>
-            <param name="message">The message to send.</param>
-            <param name="level">The message level.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureMessage(System.String,System.Action{Sentry.Scope},Sentry.SentryLevel)">
-            <summary>
-            Captures the message with a configurable scope.
-            </summary>
-            <remarks>
-            This allows modifying a scope without affecting other events.
-            </remarks>
-            <param name="message">The message to send.</param>
-            <param name="configureScope">The callback to configure the scope.</param>
-            <param name="level">The message level.</param>
-            <returns>The Id of the event.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
-            <summary>
-            Captures feedback from the user.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
-            <summary>
-            Captures feedback from the user.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureFeedback(System.String,System.String,System.String,System.String,System.String,System.Nullable{Sentry.SentryId},Sentry.Scope,Sentry.SentryHint)">
-            <summary>
-            Captures feedback from the user.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureUserFeedback(Sentry.UserFeedback)">
-            <summary>
-            Captures a user feedback.
-            </summary>
-            <param name="userFeedback">The user feedback to send to Sentry.</param>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureUserFeedback(Sentry.SentryId,System.String,System.String,System.String)">
-            <summary>
-            Captures a user feedback.
-            </summary>
-            <param name="eventId">The event Id.</param>
-            <param name="email">The user email.</param>
-            <param name="comments">The user comments.</param>
-            <param name="name">The optional username.</param>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureTransaction(Sentry.SentryTransaction)">
-            <summary>
-            Captures a transaction.
-            </summary>
-            <remarks>
-            Note: this method is NOT meant to be called from user code!
-            Instead, call <see cref="M:Sentry.ISpan.Finish"/> on the transaction.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureTransaction(Sentry.SentryTransaction,Sentry.Scope,Sentry.SentryHint)">
-            <summary>
-            Captures a transaction.
-            </summary>
-            <remarks>
-            Note: this method is NOT meant to be called from user code!
-            Instead, call <see cref="M:Sentry.ISpan.Finish"/> on the transaction.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureSession(Sentry.SessionUpdate)">
-            <summary>
-            Captures a session update.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
-            <summary>
-            Captures a check-in.
-            </summary>
-            <remarks>
-            Capturing a check-in returns an ID. The ID can be used to update the status. I.e. to update a check-in you
-            captured from `CheckInStatus.InProgress` to `CheckInStatus.Ok`.
-            </remarks>
-            <param name="monitorSlug">The monitor slug of the check-in.</param>
-            <param name="status">The status of the check-in.</param>
-            <param name="sentryId">The <see cref="T:Sentry.SentryId"/> associated with the check-in.</param>
-            <param name="duration">The duration of the check-in.</param>
-            <param name="scope">The scope of the check-in.</param>
-            <param name="configureMonitorOptions">The optional monitor config used to create a Check-In programmatically.</param>
-            <returns>The ID of the check-in.</returns>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartSpan(System.String,System.String)">
-            <summary>
-            Starts a transaction if there is not already one active on the scope, otherwise starts a new child span on the
-            currently active transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
-            <summary>
-            Starts a transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},Sentry.DynamicSamplingContext)">
-            <summary>
-            Starts a transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext)">
-            <summary>
-            Starts a transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartTransaction(System.String,System.String)">
-            <summary>
-            Starts a transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartTransaction(System.String,System.String,System.String)">
-            <summary>
-            Starts a transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartTransaction(System.String,System.String,Sentry.SentryTraceHeader)">
-            <summary>
-            Starts a transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.BindException(System.Exception,Sentry.ISpan)">
-            <summary>
-            Binds specified exception the specified span.
-            </summary>
-            <remarks>
-            This method is used internally and is not meant for public use.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.GetTransaction">
-            <summary>
-            Gets the currently active transaction.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.GetSpan">
-            <summary>
-            Gets the last active span
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.GetTraceHeader">
-            <summary>
-            Gets the Sentry trace header of the parent that allows tracing across services
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.GetBaggage">
-            <summary>
-            Gets the Sentry "baggage" header that allows tracing across services
-            </summary>
-        </member>
-        <member name="M:Sentry.SentrySdk.ContinueTrace(System.String,System.String,System.String,System.String)">
-            <summary>
-            Continues a trace based on HTTP header values provided as strings.
-            </summary>
-            <remarks>
-            If no "sentry-trace" header is provided a random trace ID and span ID is created.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
-            <summary>
-            Continues a trace based on HTTP header values.
-            </summary>
-            <remarks>
-            If no "sentry-trace" header is provided a random trace ID and span ID is created.
-            </remarks>
-        </member>
-        <member name="M:Sentry.SentrySdk.StartSession">
-            <inheritdoc cref="M:Sentry.IHub.StartSession"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.EndSession(Sentry.SessionEndStatus)">
-            <inheritdoc cref="M:Sentry.IHub.EndSession(Sentry.SessionEndStatus)"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.PauseSession">
-            <inheritdoc cref="M:Sentry.IHub.PauseSession"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.ResumeSession">
-            <inheritdoc cref="M:Sentry.IHub.ResumeSession"/>
-        </member>
-        <member name="M:Sentry.SentrySdk.CauseCrash(Sentry.CrashType)">
-            <summary>
-            Deliberately crashes an application, which is useful for testing and demonstration purposes.
-            </summary>
-            <remarks>
-            The method is marked obsolete only to discourage accidental misuse.
-            We do not intend to remove it.
-            </remarks>
-        </member>
         <member name="T:Sentry.Protocol.App">
             <summary>
             Describes the application.
@@ -7327,11 +6690,6 @@
         <member name="M:Sentry.Protocol.Envelopes.Envelope.FromClientReport(Sentry.Internal.ClientReport)">
             <summary>
             Creates an envelope that contains a client report.
-            </summary>
-        </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromAttachment(Sentry.SentryId,Sentry.SentryAttachment,Sentry.Extensibility.IDiagnosticLogger)">
-            <summary>
-            Creates an envelope that contains only an attachment for an existing event.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.DeserializeAsync(System.IO.Stream,System.Threading.CancellationToken)">
@@ -8276,15 +7634,6 @@
             <summary>
             Parses from JSON.
             </summary>
-        </member>
-        <member name="T:Sentry.Protocol.StructuredLog">
-            <summary>
-            Represents the Sentry Log protocol.
-            </summary>
-            <remarks>
-            Sentry Docs: <see href="https://docs.sentry.io/product/explore/logs/"/>.
-            Sentry Developer Documentation: <see href="https://develop.sentry.dev/sdk/telemetry/logs/"/>.
-            </remarks>
         </member>
         <member name="T:Sentry.Protocol.Trace">
             <summary>
@@ -9566,180 +8915,6 @@
             Fatal.
             </summary>
         </member>
-        <member name="T:Sentry.SentryLog">
-            <summary>
-            Represents a Sentry Structured Log.
-            </summary>
-            <remarks>
-            Sentry Docs: <see href="https://docs.sentry.io/product/explore/logs/"/>.
-            Sentry Developer Documentation: <see href="https://develop.sentry.dev/sdk/telemetry/logs/"/>.
-            Sentry .NET SDK Docs: <see href="https://docs.sentry.io/platforms/dotnet/logs/"/>.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryLog.Timestamp">
-            <summary>
-            The timestamp of the log.
-            </summary>
-            <remarks>
-            Sent as seconds since the Unix epoch.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryLog.TraceId">
-            <summary>
-            The trace id of the log.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryLog.Level">
-            <summary>
-            The severity level of the log.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryLog.Message">
-            <summary>
-            The formatted log message.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryLog.Template">
-            <summary>
-            The parameterized template string.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryLog.Parameters">
-            <summary>
-            The parameters to the template string.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryLog.ParentSpanId">
-            <summary>
-            The span id of the span that was active when the log was collected.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentryLog.TryGetAttribute(System.String,System.Object@)">
-            <summary>
-            Gets the attribute value associated with the specified key.
-            </summary>
-            <remarks>
-            Returns <see langword="true"/> if the <see cref="T:Sentry.SentryLog"/> contains an attribute with the specified key and it's value is not <see langword="null"/>.
-            Otherwise <see langword="false"/>.
-            Supported types:
-            <list type="table">
-              <listheader>
-                <term>Type</term>
-                <description>Range</description>
-              </listheader>
-              <item>
-                <term>string</term>
-                <description><see langword="string"/> and <see langword="char"/></description>
-              </item>
-              <item>
-                <term>boolean</term>
-                <description><see langword="false"/> and <see langword="true"/></description>
-              </item>
-              <item>
-                <term>integer</term>
-                <description>64-bit signed integral numeric types</description>
-              </item>
-              <item>
-                <term>double</term>
-                <description>64-bit floating-point numeric types</description>
-              </item>
-            </list>
-            Unsupported types:
-            <list type="table">
-              <listheader>
-                <term>Type</term>
-                <description>Result</description>
-              </listheader>
-              <item>
-                <term><see langword="object"/></term>
-                <description><c>ToString</c> as <c>"type": "string"</c></description>
-              </item>
-              <item>
-                <term>Collections</term>
-                <description><c>ToString</c> as <c>"type": "string"</c></description>
-              </item>
-              <item>
-                <term><see langword="null"/></term>
-                <description>ignored</description>
-              </item>
-            </list>
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
-        </member>
-        <member name="M:Sentry.SentryLog.SetAttribute(System.String,System.Object)">
-            <summary>
-            Set a key-value pair of data attached to the log.
-            </summary>
-        </member>
-        <member name="T:Sentry.SentryLogLevel">
-            <summary>
-            The severity of the structured log.
-            </summary>
-            <remarks>
-            The named constants use the value of the lowest severity number per severity level:
-            <list type="table">
-              <listheader>
-                <term>SeverityNumber</term>
-                <description>SeverityText</description>
-              </listheader>
-              <item>
-                <term>1-4</term>
-                <description>Trace</description>
-              </item>
-              <item>
-                <term>5-8</term>
-                <description>Debug</description>
-              </item>
-              <item>
-                <term>9-12</term>
-                <description>Info</description>
-              </item>
-              <item>
-                <term>13-16</term>
-                <description>Warn</description>
-              </item>
-              <item>
-                <term>17-20</term>
-                <description>Error</description>
-              </item>
-              <item>
-                <term>21-24</term>
-                <description>Fatal</description>
-              </item>
-            </list>
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
-        </member>
-        <member name="F:Sentry.SentryLogLevel.Trace">
-            <summary>
-            A fine-grained debugging event.
-            </summary>
-        </member>
-        <member name="F:Sentry.SentryLogLevel.Debug">
-            <summary>
-            A debugging event.
-            </summary>
-        </member>
-        <member name="F:Sentry.SentryLogLevel.Info">
-            <summary>
-            An informational event.
-            </summary>
-        </member>
-        <member name="F:Sentry.SentryLogLevel.Warning">
-            <summary>
-            A warning event.
-            </summary>
-        </member>
-        <member name="F:Sentry.SentryLogLevel.Error">
-            <summary>
-            An error event.
-            </summary>
-        </member>
-        <member name="F:Sentry.SentryLogLevel.Fatal">
-            <summary>
-            A fatal error such as application or system crash.
-            </summary>
-        </member>
         <member name="T:Sentry.SentryMessage">
             <summary>
             Sentry Message interface.
@@ -9952,12 +9127,6 @@
         <member name="P:Sentry.SentryOptions.EnableScopeSync">
             <summary>
             If true, the SDK's scope will be synced with the observed scope.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryOptions.EnableBackpressureHandling">
-            <summary>
-            Enables or disables automatic backpressure handling. When enabled, the SDK will monitor system health and
-            reduce the sampling rate of events and transactions when the system is under load.
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.Transport">
@@ -10854,16 +10023,7 @@
         </member>
         <member name="M:Sentry.SentryOptions.UseStackTraceFactory(Sentry.Extensibility.ISentryStackTraceFactory)">
             <summary>
-            <para>
-            Use a custom <see cref="T:Sentry.Extensibility.ISentryStackTraceFactory" />.
-            </para>
-            <para>
-            By default, Sentry uses the <see cref="P:Sentry.SentryOptions.SentryStackTraceFactory"/> to create stack traces and this implementation
-            offers the most comprehensive functionality. However, full stack traces are not available in AOT compiled
-            applications. If you are compiling your applications AOT and the stack traces that you see in Sentry are not
-            informative enough, you could consider using the StringStackTraceFactory instead. This is not as functional but
-            is guaranteed to provide at least _something_ useful in AOT compiled applications.
-            </para>
+            Use custom <see cref="T:Sentry.Extensibility.ISentryStackTraceFactory" />.
             </summary>
             <param name="sentryStackTraceFactory">The stack trace factory.</param>
         </member>
@@ -10898,40 +10058,6 @@
             By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
             This method disables that behaviour.
             </summary>
-        </member>
-        <member name="P:Sentry.SentryOptions.Experimental">
-            <summary>
-            Experimental Sentry features.
-            </summary>
-            <remarks>
-            This and related experimental APIs may change in the future.
-            </remarks>
-        </member>
-        <member name="T:Sentry.SentryOptions.SentryExperimentalOptions">
-            <summary>
-            Experimental Sentry SDK options.
-            </summary>
-            <remarks>
-            This and related experimental APIs may change in the future.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryOptions.SentryExperimentalOptions.EnableLogs">
-            <summary>
-            When set to <see langword="true"/>, logs are sent to Sentry.
-            Defaults to <see langword="false"/>.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
-        </member>
-        <member name="M:Sentry.SentryOptions.SentryExperimentalOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})">
-            <summary>
-            Sets a callback function to be invoked before sending the log to Sentry.
-            When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.
-            </summary>
-            <remarks>
-            It can be used to modify the log object before being sent to Sentry.
-            To prevent the log from being sent to Sentry, return <see langword="null"/>.
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
         </member>
         <member name="T:Sentry.SentryPackage">
             <summary>
@@ -11079,6 +10205,501 @@
             <summary>
             Parses from JSON.
             </summary>
+        </member>
+        <member name="T:Sentry.SentrySdk">
+            <summary>
+            Sentry SDK entrypoint.
+            </summary>
+            <remarks>
+            This is a facade to the SDK instance.
+            It allows safe static access to a client and scope management.
+            When the SDK is uninitialized, calls to this class result in no-op so no callbacks are invoked.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentrySdk.LastEventId">
+            <summary>
+            Last event id recorded in the current scope.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.Init">
+            <summary>
+            Initializes the SDK while attempting to locate the DSN.
+            </summary>
+            <remarks>
+            If the DSN is not found, the SDK will not change state.
+            </remarks>
+            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
+            <remarks>
+            Disposing the result will flush previously-captured events and disable the SDK.
+            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
+            sense to dispose:
+            <list type="bullet">
+            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
+            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.Init(System.String)">
+            <summary>
+            Initializes the SDK with the specified DSN.
+            </summary>
+            <remarks>
+            An empty string is interpreted as a disabled SDK.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/overview/#usage-for-end-users"/>
+            <param name="dsn">The dsn.</param>
+            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
+            <remarks>
+            Disposing the result will flush previously-captured events and disable the SDK.
+            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
+            sense to dispose:
+            <list type="bullet">
+            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
+            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.Init(System.Action{Sentry.SentryOptions})">
+            <summary>
+            Initializes the SDK with an optional configuration options callback.
+            </summary>
+            <param name="configureOptions">The configuration options callback.</param>
+            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
+            <remarks>
+            Disposing the result will flush previously-captured events and disable the SDK.
+            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
+            sense to dispose:
+            <list type="bullet">
+            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
+            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.Init(Sentry.SentryOptions)">
+            <summary>
+            Initializes the SDK with the specified options instance.
+            </summary>
+            <param name="options">The options instance</param>
+            <remarks>
+            Used by integrations which have their own delegates.
+            </remarks>
+            <returns>An object that can be disposed to disable the Sentry SDK, if desired.</returns>
+            <remarks>
+            Disposing the result will flush previously-captured events and disable the SDK.
+            In most cases there's no need to dispose the result.  There are only a few exceptions where it makes
+            sense to dispose:
+            <list type="bullet">
+            <item>You have additional work to perform that you don't want Sentry to monitor.</item>
+            <item>You have used <see cref="M:Sentry.SentryOptions.DisableAppDomainProcessExitFlush"/>.</item>
+            <item>You are integrating Sentry into an environment that has custom application lifetime events.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.Flush">
+            <summary>
+            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
+            is reached.
+            </summary>
+            <remarks>
+            Blocks synchronously. Prefer <see cref="M:Sentry.SentrySdk.FlushAsync"/> in async code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.Flush(System.TimeSpan)">
+            <summary>
+            Flushes the queue of captured events until the timeout is reached.
+            </summary>
+            <param name="timeout">The amount of time allowed for flushing.</param>
+            <remarks>
+            Blocks synchronously. Prefer <see cref="M:Sentry.SentrySdk.FlushAsync(System.TimeSpan)"/> in async code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.FlushAsync">
+            <summary>
+            Flushes the queue of captured events until the timeout set in <see cref="P:Sentry.SentryOptions.FlushTimeout"/>
+            is reached.
+            </summary>
+            <returns>A task to await for the flush operation.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.FlushAsync(System.TimeSpan)">
+            <summary>
+            Flushes the queue of captured events until the timeout is reached.
+            </summary>
+            <param name="timeout">The amount of time allowed for flushing.</param>
+            <returns>A task to await for the flush operation.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.Close">
+            <summary>
+            Close the SDK.
+            </summary>
+            <remarks>
+            Flushes the events and disables the SDK.
+            This method is mostly used for testing the library since
+            Init returns a IDisposable that can be used to shutdown the SDK.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentrySdk.IsEnabled">
+            <summary>
+            Whether the SDK is enabled or not.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.PushScope``1(``0)">
+            <summary>
+            Creates a new scope that will terminate when disposed.
+            </summary>
+            <remarks>
+            Pushes a new scope while inheriting the current scope's data.
+            </remarks>
+            <param name="state">A state object to be added to the scope.</param>
+            <returns>A disposable that when disposed, ends the created scope.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.PushScope">
+            <summary>
+            Creates a new scope that will terminate when disposed.
+            </summary>
+            <returns>A disposable that when disposed, ends the created scope.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.BindClient(Sentry.ISentryClient)">
+            <summary>
+            Binds the client to the current scope.
+            </summary>
+            <param name="client">The client.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.AddBreadcrumb(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)">
+            <summary>
+            Adds a breadcrumb to the current Scope.
+            </summary>
+            <param name="message">
+            If a message is provided it’s rendered as text and the whitespace is preserved.
+            Very long text might be abbreviated in the UI.</param>
+            <param name="category">
+            Categories are dotted strings that indicate what the crumb is or where it comes from.
+            Typically it’s a module name or a descriptive string.
+            For instance ui.click could be used to indicate that a click happened in the UI or flask could be used to indicate that the event originated in the Flask framework.
+            </param>
+            <param name="type">
+            The type of breadcrumb.
+            The default type is default which indicates no specific handling.
+            Other types are currently http for HTTP requests and navigation for navigation events.
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/#breadcrumb-types"/>
+            </param>
+            <param name="data">
+            Data associated with this breadcrumb.
+            Contains a sub-object whose contents depend on the breadcrumb type.
+            Additional parameters that are unsupported by the type are rendered as a key/value table.
+            </param>
+            <param name="level">Breadcrumb level.</param>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.AddBreadcrumb(Sentry.Infrastructure.ISystemClock,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)">
+            <summary>
+            Adds a breadcrumb to the current scope.
+            </summary>
+            <remarks>
+            This overload is intended to be used by integrations only.
+            The objective is to allow better testability by allowing control of the timestamp set to the breadcrumb.
+            </remarks>
+            <param name="clock">An optional <see cref="T:Sentry.Infrastructure.ISystemClock"/>.</param>
+            <param name="message">The message.</param>
+            <param name="category">The category.</param>
+            <param name="type">The type.</param>
+            <param name="data">The data.</param>
+            <param name="level">The level.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.AddBreadcrumb(Sentry.Breadcrumb,Sentry.SentryHint)">
+            <summary>
+            Adds a breadcrumb to the current Scope.
+            </summary>
+            <param name="breadcrumb">The breadcrumb to be added</param>
+            <param name="hint">A hint providing additional context that can be used in the BeforeBreadcrumb callback</param>
+            <see cref="M:Sentry.SentrySdk.AddBreadcrumb(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.ConfigureScope(System.Action{Sentry.Scope})">
+            <summary>
+            Configures the scope through the callback.
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.ConfigureScope``1(System.Action{Sentry.Scope,``0},``0)">
+            <summary>
+            Configures the scope through the callback.
+            <example>
+            <code>
+            object someValue = ...;
+            SentrySdk.ConfigureScope(static (scope, arg) => scope.SetExtra("key", arg), someValue);
+            </code>
+            </example>
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <param name="arg">The argument to pass to the configure scope callback.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync(System.Func{Sentry.Scope,System.Threading.Tasks.Task})">
+            <summary>
+            Configures the scope through the callback asynchronously.
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.ConfigureScopeAsync``1(System.Func{Sentry.Scope,``0,System.Threading.Tasks.Task},``0)">
+            <summary>
+            Configures the scope through the callback asynchronously.
+            <example>
+            <code>
+            object someValue = ...;
+            SentrySdk.ConfigureScopeAsync(static async (scope, arg) =>
+            {
+                scope.SetExtra("key", arg);
+            }, someValue);
+            </code>
+            </example>
+            </summary>
+            <param name="configureScope">The configure scope callback.</param>
+            <param name="arg">The argument to pass to the configure scope callback.</param>
+            <returns>A task that completes when the callback is done or a completed task if the SDK is disabled.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.SetTag(System.String,System.String)">
+            <summary>
+            Sets a tag on the current scope.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.UnsetTag(System.String)">
+            <summary>
+            Removes a tag from the current scope.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)">
+            <inheritdoc cref="M:Sentry.ISentryClient.CaptureEnvelope(Sentry.Protocol.Envelopes.Envelope)"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures the event, passing a hint, using the specified scope.
+            </summary>
+            <param name="evt">The event.</param>
+            <param name="scope">The scope.</param>
+            <param name="hint">a hint for the event.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,System.Action{Sentry.Scope})">
+            <summary>
+            Captures an event with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="evt">The event.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureEvent(Sentry.SentryEvent,Sentry.SentryHint,System.Action{Sentry.Scope})">
+            <summary>
+            Captures an event with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="evt">The event.</param>
+            <param name="hint">An optional hint to be provided with the event</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception)">
+            <summary>
+            Captures the exception.
+            </summary>
+            <param name="exception">The exception.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception,System.Action{Sentry.Scope})">
+            <summary>
+            Captures the exception with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="exception">The exception.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureMessage(System.String,Sentry.SentryLevel)">
+            <summary>
+            Captures the message.
+            </summary>
+            <param name="message">The message to send.</param>
+            <param name="level">The message level.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureMessage(System.String,System.Action{Sentry.Scope},Sentry.SentryLevel)">
+            <summary>
+            Captures the message with a configurable scope.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="message">The message to send.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <param name="level">The message level.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureFeedback(Sentry.SentryFeedback,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureFeedback(System.String,System.String,System.String,System.String,System.String,System.Nullable{Sentry.SentryId},Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures feedback from the user.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureUserFeedback(Sentry.UserFeedback)">
+            <summary>
+            Captures a user feedback.
+            </summary>
+            <param name="userFeedback">The user feedback to send to Sentry.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureUserFeedback(Sentry.SentryId,System.String,System.String,System.String)">
+            <summary>
+            Captures a user feedback.
+            </summary>
+            <param name="eventId">The event Id.</param>
+            <param name="email">The user email.</param>
+            <param name="comments">The user comments.</param>
+            <param name="name">The optional username.</param>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureTransaction(Sentry.SentryTransaction)">
+            <summary>
+            Captures a transaction.
+            </summary>
+            <remarks>
+            Note: this method is NOT meant to be called from user code!
+            Instead, call <see cref="M:Sentry.ISpan.Finish"/> on the transaction.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureTransaction(Sentry.SentryTransaction,Sentry.Scope,Sentry.SentryHint)">
+            <summary>
+            Captures a transaction.
+            </summary>
+            <remarks>
+            Note: this method is NOT meant to be called from user code!
+            Instead, call <see cref="M:Sentry.ISpan.Finish"/> on the transaction.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureSession(Sentry.SessionUpdate)">
+            <summary>
+            Captures a session update.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureCheckIn(System.String,Sentry.CheckInStatus,System.Nullable{Sentry.SentryId},System.Nullable{System.TimeSpan},Sentry.Scope,System.Action{Sentry.SentryMonitorOptions})">
+            <summary>
+            Captures a check-in.
+            </summary>
+            <remarks>
+            Capturing a check-in returns an ID. The ID can be used to update the status. I.e. to update a check-in you
+            captured from `CheckInStatus.InProgress` to `CheckInStatus.Ok`.
+            </remarks>
+            <param name="monitorSlug">The monitor slug of the check-in.</param>
+            <param name="status">The status of the check-in.</param>
+            <param name="sentryId">The <see cref="T:Sentry.SentryId"/> associated with the check-in.</param>
+            <param name="duration">The duration of the check-in.</param>
+            <param name="scope">The scope of the check-in.</param>
+            <param name="configureMonitorOptions">The optional monitor config used to create a Check-In programmatically.</param>
+            <returns>The ID of the check-in.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object})">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext,System.Collections.Generic.IReadOnlyDictionary{System.String,System.Object},Sentry.DynamicSamplingContext)">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(Sentry.ITransactionContext)">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(System.String,System.String)">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(System.String,System.String,System.String)">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartTransaction(System.String,System.String,Sentry.SentryTraceHeader)">
+            <summary>
+            Starts a transaction.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.BindException(System.Exception,Sentry.ISpan)">
+            <summary>
+            Binds specified exception the specified span.
+            </summary>
+            <remarks>
+            This method is used internally and is not meant for public use.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.GetSpan">
+            <summary>
+            Gets the last active span.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.GetTraceHeader">
+            <summary>
+            Gets the Sentry trace header of the parent that allows tracing across services
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.GetBaggage">
+            <summary>
+            Gets the Sentry "baggage" header that allows tracing across services
+            </summary>
+        </member>
+        <member name="M:Sentry.SentrySdk.ContinueTrace(System.String,System.String,System.String,System.String)">
+            <summary>
+            Continues a trace based on HTTP header values provided as strings.
+            </summary>
+            <remarks>
+            If no "sentry-trace" header is provided a random trace ID and span ID is created.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.ContinueTrace(Sentry.SentryTraceHeader,Sentry.BaggageHeader,System.String,System.String)">
+            <summary>
+            Continues a trace based on HTTP header values.
+            </summary>
+            <remarks>
+            If no "sentry-trace" header is provided a random trace ID and span ID is created.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentrySdk.StartSession">
+            <inheritdoc cref="M:Sentry.IHub.StartSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.EndSession(Sentry.SessionEndStatus)">
+            <inheritdoc cref="M:Sentry.IHub.EndSession(Sentry.SessionEndStatus)"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.PauseSession">
+            <inheritdoc cref="M:Sentry.IHub.PauseSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.ResumeSession">
+            <inheritdoc cref="M:Sentry.IHub.ResumeSession"/>
+        </member>
+        <member name="M:Sentry.SentrySdk.CauseCrash(Sentry.CrashType)">
+            <summary>
+            Deliberately crashes an application, which is useful for testing and demonstration purposes.
+            </summary>
+            <remarks>
+            The method is marked obsolete only to discourage accidental misuse.
+            We do not intend to remove it.
+            </remarks>
         </member>
         <member name="T:Sentry.SentrySession">
             <summary>
@@ -11409,123 +11030,6 @@
             <summary>
             Parses from JSON.
             </summary>
-        </member>
-        <member name="T:Sentry.SentryStructuredLogger">
-            <summary>
-            Creates and sends logs to Sentry.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.CaptureLog(Sentry.SentryLogLevel,System.String,System.Object[],System.Action{Sentry.SentryLog})">
-            <summary>
-            Buffers a <see href="https://develop.sentry.dev/sdk/telemetry/logs">Sentry Log</see> message
-            via the associated <see href="https://develop.sentry.dev/sdk/telemetry/spans/batch-processor">Batch Processor</see>.
-            </summary>
-            <param name="level">The severity level of the log.</param>
-            <param name="template">The parameterized template string.</param>
-            <param name="parameters">The parameters to the <paramref name="template"/> string.</param>
-            <param name="configureLog">A configuration callback. Will be removed in a future version.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.CaptureLog(Sentry.SentryLog)">
-            <summary>
-            Buffers a <see href="https://develop.sentry.dev/sdk/telemetry/logs">Sentry Log</see> message
-            via the associated <see href="https://develop.sentry.dev/sdk/telemetry/spans/batch-processor">Batch Processor</see>.
-            </summary>
-            <param name="log">The log.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.Flush">
-            <summary>
-            Clears all buffers for this logger and causes any buffered logs to be sent by the underlying <see cref="T:Sentry.ISentryClient"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogTrace(System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Trace"/>, when enabled and sampled.
-            </summary>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogTrace(System.Action{Sentry.SentryLog},System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Trace"/>, when enabled and sampled.
-            </summary>
-            <param name="configureLog">A delegate to set attributes on the <see cref="T:Sentry.SentryLog"/>. When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.</param>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogDebug(System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Debug"/>, when enabled and sampled.
-            </summary>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogDebug(System.Action{Sentry.SentryLog},System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Debug"/>, when enabled and sampled.
-            </summary>
-            <param name="configureLog">A delegate to set attributes on the <see cref="T:Sentry.SentryLog"/>. When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.</param>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogInfo(System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Info"/>, when enabled and sampled.
-            </summary>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogInfo(System.Action{Sentry.SentryLog},System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Info"/>, when enabled and sampled.
-            </summary>
-            <param name="configureLog">A delegate to set attributes on the <see cref="T:Sentry.SentryLog"/>. When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.</param>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogWarning(System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Warning"/>, when enabled and sampled.
-            </summary>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogWarning(System.Action{Sentry.SentryLog},System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Warning"/>, when enabled and sampled.
-            </summary>
-            <param name="configureLog">A delegate to set attributes on the <see cref="T:Sentry.SentryLog"/>. When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.</param>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogError(System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Error"/>, when enabled and sampled.
-            </summary>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogError(System.Action{Sentry.SentryLog},System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Error"/>, when enabled and sampled.
-            </summary>
-            <param name="configureLog">A delegate to set attributes on the <see cref="T:Sentry.SentryLog"/>. When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.</param>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogFatal(System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Fatal"/>, when enabled and sampled.
-            </summary>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-        </member>
-        <member name="M:Sentry.SentryStructuredLogger.LogFatal(System.Action{Sentry.SentryLog},System.String,System.Object[])">
-            <summary>
-            Creates and sends a structured log to Sentry, with severity <see cref="F:Sentry.SentryLogLevel.Fatal"/>, when enabled and sampled.
-            </summary>
-            <param name="configureLog">A delegate to set attributes on the <see cref="T:Sentry.SentryLog"/>. When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.</param>
-            <param name="template">A formattable <see langword="string"/>. When incompatible with the <paramref name="parameters"/>, the log will not be captured. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
-            <param name="parameters">The arguments to the <paramref name="template"/>. See <see href="https://learn.microsoft.com/dotnet/api/system.string.format">System.String.Format</see>.</param>
         </member>
         <member name="T:Sentry.SentryThread">
             <summary>
@@ -12322,65 +11826,6 @@
             Provides a pattern that can be used to match against other strings as either a substring or regular expression.
             </summary>
             <param name="comparison">The string comparison type to use when matching for substrings.</param>
-        </member>
-        <member name="T:Sentry.Threading.ScopedCountdownLock">
-            <summary>
-            A synchronization primitive that tracks the amount of <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/>s held,
-            and is signaled when the count reaches zero while a <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/> is held.
-            </summary>
-            <remarks>
-            Similar to <see cref="T:System.Threading.CountdownEvent"/>,
-            but allows to increment the current count after the count has reached zero without resetting to the initial count before a <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/> is entered.
-            Has a similar API shape to System.Threading.Lock.
-            </remarks>
-        </member>
-        <member name="P:Sentry.Threading.ScopedCountdownLock.IsSet">
-            <summary>
-            <see langword="true"/> if the event is set/signaled; otherwise, <see langword="false"/>.
-            When <see langword="true"/>, the active <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/> can <see cref="M:Sentry.Threading.ScopedCountdownLock.LockScope.Wait"/> until the <see cref="P:Sentry.Threading.ScopedCountdownLock.Count"/> reaches <see langword="0"/>.
-            </summary>
-        </member>
-        <member name="P:Sentry.Threading.ScopedCountdownLock.Count">
-            <summary>
-            Gets the number of remaining <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/> required to exit in order to set/signal the event while a <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/> is active.
-            When <see langword="0"/> and while a <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/> is active, no more <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/> can be entered.
-            </summary>
-        </member>
-        <member name="P:Sentry.Threading.ScopedCountdownLock.IsEngaged">
-            <summary>
-            Returns <see langword="true"/> when a <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/> is active and the event can be set/signaled by <see cref="P:Sentry.Threading.ScopedCountdownLock.Count"/> reaching <see langword="0"/>.
-            Returns <see langword="false"/> when the <see cref="P:Sentry.Threading.ScopedCountdownLock.Count"/> can only reach the initial count of <see langword="1"/> when no <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/> is active any longer.
-            </summary>
-        </member>
-        <member name="M:Sentry.Threading.ScopedCountdownLock.TryEnterCounterScope">
-            <summary>
-            No <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/> will be entered when the <see cref="P:Sentry.Threading.ScopedCountdownLock.Count"/> has reached <see langword="0"/>, or while the lock is engaged via an active <see cref="T:Sentry.Threading.ScopedCountdownLock.LockScope"/>.
-            Check via <see cref="P:Sentry.Threading.ScopedCountdownLock.CounterScope.IsEntered"/> whether the underlying <see cref="T:System.Threading.CountdownEvent"/> has not been set/signaled yet.
-            To signal the underlying <see cref="T:System.Threading.CountdownEvent"/>, ensure <see cref="M:Sentry.Threading.ScopedCountdownLock.CounterScope.Dispose"/> is called.
-            </summary>
-            <remarks>
-            Must be disposed to exit.
-            </remarks>
-        </member>
-        <member name="M:Sentry.Threading.ScopedCountdownLock.TryEnterLockScope">
-            <summary>
-            When successful, the lock <see cref="P:Sentry.Threading.ScopedCountdownLock.IsEngaged"/>, <see cref="P:Sentry.Threading.ScopedCountdownLock.Count"/> can reach <see langword="0"/> when no <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/> is active, and the event can be set/signaled.
-            Check via <see cref="P:Sentry.Threading.ScopedCountdownLock.LockScope.IsEntered"/> whether the Lock <see cref="P:Sentry.Threading.ScopedCountdownLock.IsEngaged"/>.
-            Use <see cref="M:Sentry.Threading.ScopedCountdownLock.LockScope.Wait"/> to block until every active <see cref="T:Sentry.Threading.ScopedCountdownLock.CounterScope"/> has exited before performing the locked operation.
-            After the locked operation has completed, disengage the Lock via <see cref="M:Sentry.Threading.ScopedCountdownLock.LockScope.Dispose"/>.
-            </summary>
-            <remarks>
-            Must be disposed to exit.
-            </remarks>
-        </member>
-        <member name="M:Sentry.Threading.ScopedCountdownLock.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.Threading.ScopedCountdownLock.LockScope.Wait">
-            <summary>
-            Blocks the current thread until the current <see cref="P:Sentry.Threading.ScopedCountdownLock.Count"/> reaches <see langword="0"/> and the event is set/signaled.
-            The caller will return immediately if the event is currently in a set/signaled state.
-            </summary>
         </member>
         <member name="T:Sentry.TransactionContext">
             <summary>

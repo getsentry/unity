@@ -861,6 +861,26 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 /// experiment:
 /// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future major release.
 @property (nonatomic) BOOL enableUnhandledCPPExceptionsV2;
+/// Forces enabling of session replay in unreliable environments.
+/// Due to internal changes with the release of Liquid Glass on iOS 26.0, the masking of text and images can not be reliably guaranteed.
+/// Therefore the SDK uses a defensive programming approach to disable the session replay integration by default, unless the environment is detected as reliable.
+/// Indicators for reliable environments include:
+/// important:
+/// This flag allows to re-enable the session replay integration on iOS 26.0 and later, but please be aware that text and images may not be masked as expected.
+/// note:
+/// See <a href="https://github.com/getsentry/sentry-cocoa/issues/6389">GitHub issues #6389</a> for more information.
+/// <ul>
+///   <li>
+///     Running on an older version of iOS that doesn’t have Liquid Glass (iOS 18 or earlier)
+///   </li>
+///   <li>
+///     UIDesignRequiresCompatibility is explicitly set to YES in Info.plist
+///   </li>
+///   <li>
+///     The app was built with Xcode < 26.0 (DTXcode < 2600)
+///   </li>
+/// </ul>
+@property (nonatomic) BOOL enableSessionReplayInUnreliableEnvironment;
 /// Logs are considered beta.
 @property (nonatomic) BOOL enableLogs;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
@@ -1039,6 +1059,62 @@ SWIFT_CLASS("_TtC6Sentry16SentryInAppLogic")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class NSError;
+
+SWIFT_PROTOCOL("_TtP6Sentry30SentryInfoPlistWrapperProvider_")
+@protocol SentryInfoPlistWrapperProvider
+/// Retrieves a value from the app’s <code>Info.plist</code> file for the given key and trys to cast it to a <code>String</code>.
+/// note:
+/// The return value can not be nullable, because a throwing function in Objective-C uses <code>nil</code> to indicate an error:
+/// \code
+/// Throwing method cannot be a member of an '@objc' protocol because it returns a value of optional type 'String?'; 'nil' indicates failure to Objective-C
+///
+/// \endcode\param key The key for which to retrieve the value from the <code>Info.plist</code>.
+///
+///
+/// throws:
+/// An error if the value cannot be cast to type <code>String</code> or <code>SentryInfoPlistError.keyNotFound</code> if the key was not found or the value is <code>nil</code>
+///
+/// returns:
+/// The value associated with the specified key cast to type <code>String</code>
+- (NSString * _Nullable)getAppValueStringFor:(NSString * _Nonnull)key error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+/// Retrieves a value from the app’s <code>Info.plist</code> file for the given key and trys to cast it to a <code>Bool</code>.
+/// note:
+/// This method can not use <code>throws</code> because a falsy return value would indicate an error in Objective-C:
+/// \code
+/// Throwing method cannot be a member of an '@objc' protocol because it returns a value of type 'Bool'; return 'Void' or a type that bridges to an Objective-C class
+///
+/// \endcode<ul>
+///   <li>
+///     Parameters
+///     <ul>
+///       <li>
+///         key: The key for which to retrieve the value from the <code>Info.plist</code>.
+///       </li>
+///       <li>
+///         error: A pointer to a an <code>NSError</code> to return an error value.
+///       </li>
+///     </ul>
+///   </li>
+/// </ul>
+///
+/// throws:
+/// An error if the value cannot be cast to type <code>String</code> or <code>SentryInfoPlistError.keyNotFound</code> if the value is <code>nil</code>
+///
+/// returns:
+/// The value associated with the specified key cast to type <code>String</code>
+- (BOOL)getAppValueBooleanFor:(NSString * _Nonnull)key errorPtr:(NSError * _Nullable * _Nullable)errorPtr SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry22SentryInfoPlistWrapper")
+@interface SentryInfoPlistWrapper : NSObject <SentryInfoPlistWrapperProvider>
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)getAppValueBooleanFor:(NSString * _Nonnull)key errorPtr:(NSError * _Nullable * _Nullable)errPtr SWIFT_WARN_UNUSED_RESULT;
+- (NSString * _Nullable)getAppValueStringFor:(NSString * _Nonnull)key error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
 typedef SWIFT_ENUM(NSUInteger, SentryLevel, open) {
   kSentryLevelNone SWIFT_COMPILE_NAME("none") = 0,
   kSentryLevelDebug SWIFT_COMPILE_NAME("debug") = 1,
@@ -1084,22 +1160,6 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @interface SentryLog (SWIFT_EXTENSION(Sentry))
 @end
 
-/// Represents the severity level of a structured log entry.
-/// Log levels are ordered by severity from least (<code>trace</code>) to most severe (<code>fatal</code>).
-/// Each level corresponds to a numeric severity value following the OpenTelemetry specification.
-typedef SWIFT_ENUM_NAMED(NSInteger, SentryStructuredLogLevel, "Level", open) {
-  SentryStructuredLogLevelTrace = 0,
-  SentryStructuredLogLevelDebug = 1,
-  SentryStructuredLogLevelInfo = 2,
-  SentryStructuredLogLevelWarn = 3,
-  SentryStructuredLogLevelError = 4,
-  SentryStructuredLogLevelFatal = 5,
-};
-
-
-@interface SentryLog (SWIFT_EXTENSION(Sentry))
-@end
-
 
 /// A typed attribute that can be attached to structured log entries.
 /// <code>Attribute</code> provides a type-safe way to store structured data alongside log messages.
@@ -1119,6 +1179,22 @@ SWIFT_CLASS_NAMED("Attribute")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+
+@interface SentryLog (SWIFT_EXTENSION(Sentry))
+@end
+
+/// Represents the severity level of a structured log entry.
+/// Log levels are ordered by severity from least (<code>trace</code>) to most severe (<code>fatal</code>).
+/// Each level corresponds to a numeric severity value following the OpenTelemetry specification.
+typedef SWIFT_ENUM_NAMED(NSInteger, SentryStructuredLogLevel, "Level", open) {
+  SentryStructuredLogLevelTrace = 0,
+  SentryStructuredLogLevelDebug = 1,
+  SentryStructuredLogLevelInfo = 2,
+  SentryStructuredLogLevelWarn = 3,
+  SentryStructuredLogLevelError = 4,
+  SentryStructuredLogLevelFatal = 5,
+};
 
 
 @class SentryClient;
@@ -2280,6 +2356,7 @@ SWIFT_CLASS("_TtC6Sentry13SentrySession")
 @protocol SentryViewScreenshotProvider;
 @class SentryTouchTracker;
 @protocol SentrySessionReplayDelegate;
+@protocol SentrySessionReplayEnvironmentCheckerProvider;
 
 SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @interface SentrySessionReplay : NSObject
@@ -2288,7 +2365,7 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable replayTags;
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
-- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions experimentalOptions:(SentryExperimentalOptions * _Nonnull)experimentalOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper environmentChecker:(id <SentrySessionReplayEnvironmentCheckerProvider> _Nonnull)environmentChecker OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nonnull)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -2308,6 +2385,26 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
+
+
+SWIFT_PROTOCOL("_TtP6Sentry45SentrySessionReplayEnvironmentCheckerProvider_")
+@protocol SentrySessionReplayEnvironmentCheckerProvider
+/// Checks if the runtime environment is considered unreliable with regards to Session Replay masking.
+///
+/// returns:
+/// <code>true</code> if reliable, otherwise <code>false</code>
+- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry37SentrySessionReplayEnvironmentChecker")
+@interface SentrySessionReplayEnvironmentChecker : NSObject <SentrySessionReplayEnvironmentCheckerProvider>
+- (nonnull instancetype)initWithInfoPlistWrapper:(id <SentryInfoPlistWrapperProvider> _Nonnull)infoPlistWrapper OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 
 typedef SWIFT_ENUM(NSUInteger, SentrySessionStatus, open) {
   SentrySessionStatusOk = 0,
@@ -2616,14 +2713,14 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackIntegrationDriver") SWIFT_AVAILABILI
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+
+
 @class UIPresentationController;
 
 SWIFT_AVAILABILITY(ios_app_extension,unavailable) SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackIntegrationDriver (SWIFT_EXTENSION(Sentry)) <UIAdaptivePresentationControllerDelegate>
 - (void)presentationControllerDidDismiss:(UIPresentationController * _Nonnull)presentationController;
 @end
-
-
 
 
 
@@ -3828,6 +3925,26 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 /// experiment:
 /// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future major release.
 @property (nonatomic) BOOL enableUnhandledCPPExceptionsV2;
+/// Forces enabling of session replay in unreliable environments.
+/// Due to internal changes with the release of Liquid Glass on iOS 26.0, the masking of text and images can not be reliably guaranteed.
+/// Therefore the SDK uses a defensive programming approach to disable the session replay integration by default, unless the environment is detected as reliable.
+/// Indicators for reliable environments include:
+/// important:
+/// This flag allows to re-enable the session replay integration on iOS 26.0 and later, but please be aware that text and images may not be masked as expected.
+/// note:
+/// See <a href="https://github.com/getsentry/sentry-cocoa/issues/6389">GitHub issues #6389</a> for more information.
+/// <ul>
+///   <li>
+///     Running on an older version of iOS that doesn’t have Liquid Glass (iOS 18 or earlier)
+///   </li>
+///   <li>
+///     UIDesignRequiresCompatibility is explicitly set to YES in Info.plist
+///   </li>
+///   <li>
+///     The app was built with Xcode < 26.0 (DTXcode < 2600)
+///   </li>
+/// </ul>
+@property (nonatomic) BOOL enableSessionReplayInUnreliableEnvironment;
 /// Logs are considered beta.
 @property (nonatomic) BOOL enableLogs;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
@@ -4006,6 +4123,62 @@ SWIFT_CLASS("_TtC6Sentry16SentryInAppLogic")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class NSError;
+
+SWIFT_PROTOCOL("_TtP6Sentry30SentryInfoPlistWrapperProvider_")
+@protocol SentryInfoPlistWrapperProvider
+/// Retrieves a value from the app’s <code>Info.plist</code> file for the given key and trys to cast it to a <code>String</code>.
+/// note:
+/// The return value can not be nullable, because a throwing function in Objective-C uses <code>nil</code> to indicate an error:
+/// \code
+/// Throwing method cannot be a member of an '@objc' protocol because it returns a value of optional type 'String?'; 'nil' indicates failure to Objective-C
+///
+/// \endcode\param key The key for which to retrieve the value from the <code>Info.plist</code>.
+///
+///
+/// throws:
+/// An error if the value cannot be cast to type <code>String</code> or <code>SentryInfoPlistError.keyNotFound</code> if the key was not found or the value is <code>nil</code>
+///
+/// returns:
+/// The value associated with the specified key cast to type <code>String</code>
+- (NSString * _Nullable)getAppValueStringFor:(NSString * _Nonnull)key error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+/// Retrieves a value from the app’s <code>Info.plist</code> file for the given key and trys to cast it to a <code>Bool</code>.
+/// note:
+/// This method can not use <code>throws</code> because a falsy return value would indicate an error in Objective-C:
+/// \code
+/// Throwing method cannot be a member of an '@objc' protocol because it returns a value of type 'Bool'; return 'Void' or a type that bridges to an Objective-C class
+///
+/// \endcode<ul>
+///   <li>
+///     Parameters
+///     <ul>
+///       <li>
+///         key: The key for which to retrieve the value from the <code>Info.plist</code>.
+///       </li>
+///       <li>
+///         error: A pointer to a an <code>NSError</code> to return an error value.
+///       </li>
+///     </ul>
+///   </li>
+/// </ul>
+///
+/// throws:
+/// An error if the value cannot be cast to type <code>String</code> or <code>SentryInfoPlistError.keyNotFound</code> if the value is <code>nil</code>
+///
+/// returns:
+/// The value associated with the specified key cast to type <code>String</code>
+- (BOOL)getAppValueBooleanFor:(NSString * _Nonnull)key errorPtr:(NSError * _Nullable * _Nullable)errorPtr SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry22SentryInfoPlistWrapper")
+@interface SentryInfoPlistWrapper : NSObject <SentryInfoPlistWrapperProvider>
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)getAppValueBooleanFor:(NSString * _Nonnull)key errorPtr:(NSError * _Nullable * _Nullable)errPtr SWIFT_WARN_UNUSED_RESULT;
+- (NSString * _Nullable)getAppValueStringFor:(NSString * _Nonnull)key error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
 typedef SWIFT_ENUM(NSUInteger, SentryLevel, open) {
   kSentryLevelNone SWIFT_COMPILE_NAME("none") = 0,
   kSentryLevelDebug SWIFT_COMPILE_NAME("debug") = 1,
@@ -4051,22 +4224,6 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @interface SentryLog (SWIFT_EXTENSION(Sentry))
 @end
 
-/// Represents the severity level of a structured log entry.
-/// Log levels are ordered by severity from least (<code>trace</code>) to most severe (<code>fatal</code>).
-/// Each level corresponds to a numeric severity value following the OpenTelemetry specification.
-typedef SWIFT_ENUM_NAMED(NSInteger, SentryStructuredLogLevel, "Level", open) {
-  SentryStructuredLogLevelTrace = 0,
-  SentryStructuredLogLevelDebug = 1,
-  SentryStructuredLogLevelInfo = 2,
-  SentryStructuredLogLevelWarn = 3,
-  SentryStructuredLogLevelError = 4,
-  SentryStructuredLogLevelFatal = 5,
-};
-
-
-@interface SentryLog (SWIFT_EXTENSION(Sentry))
-@end
-
 
 /// A typed attribute that can be attached to structured log entries.
 /// <code>Attribute</code> provides a type-safe way to store structured data alongside log messages.
@@ -4086,6 +4243,22 @@ SWIFT_CLASS_NAMED("Attribute")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+
+@interface SentryLog (SWIFT_EXTENSION(Sentry))
+@end
+
+/// Represents the severity level of a structured log entry.
+/// Log levels are ordered by severity from least (<code>trace</code>) to most severe (<code>fatal</code>).
+/// Each level corresponds to a numeric severity value following the OpenTelemetry specification.
+typedef SWIFT_ENUM_NAMED(NSInteger, SentryStructuredLogLevel, "Level", open) {
+  SentryStructuredLogLevelTrace = 0,
+  SentryStructuredLogLevelDebug = 1,
+  SentryStructuredLogLevelInfo = 2,
+  SentryStructuredLogLevelWarn = 3,
+  SentryStructuredLogLevelError = 4,
+  SentryStructuredLogLevelFatal = 5,
+};
 
 
 @class SentryClient;
@@ -5247,6 +5420,7 @@ SWIFT_CLASS("_TtC6Sentry13SentrySession")
 @protocol SentryViewScreenshotProvider;
 @class SentryTouchTracker;
 @protocol SentrySessionReplayDelegate;
+@protocol SentrySessionReplayEnvironmentCheckerProvider;
 
 SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @interface SentrySessionReplay : NSObject
@@ -5255,7 +5429,7 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable replayTags;
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
-- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions experimentalOptions:(SentryExperimentalOptions * _Nonnull)experimentalOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper environmentChecker:(id <SentrySessionReplayEnvironmentCheckerProvider> _Nonnull)environmentChecker OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nonnull)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -5275,6 +5449,26 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
+
+
+SWIFT_PROTOCOL("_TtP6Sentry45SentrySessionReplayEnvironmentCheckerProvider_")
+@protocol SentrySessionReplayEnvironmentCheckerProvider
+/// Checks if the runtime environment is considered unreliable with regards to Session Replay masking.
+///
+/// returns:
+/// <code>true</code> if reliable, otherwise <code>false</code>
+- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC6Sentry37SentrySessionReplayEnvironmentChecker")
+@interface SentrySessionReplayEnvironmentChecker : NSObject <SentrySessionReplayEnvironmentCheckerProvider>
+- (nonnull instancetype)initWithInfoPlistWrapper:(id <SentryInfoPlistWrapperProvider> _Nonnull)infoPlistWrapper OBJC_DESIGNATED_INITIALIZER;
+- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 
 typedef SWIFT_ENUM(NSUInteger, SentrySessionStatus, open) {
   SentrySessionStatusOk = 0,
@@ -5583,14 +5777,14 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackIntegrationDriver") SWIFT_AVAILABILI
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+
+
 @class UIPresentationController;
 
 SWIFT_AVAILABILITY(ios_app_extension,unavailable) SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface SentryUserFeedbackIntegrationDriver (SWIFT_EXTENSION(Sentry)) <UIAdaptivePresentationControllerDelegate>
 - (void)presentationControllerDidDismiss:(UIPresentationController * _Nonnull)presentationController;
 @end
-
-
 
 
 
