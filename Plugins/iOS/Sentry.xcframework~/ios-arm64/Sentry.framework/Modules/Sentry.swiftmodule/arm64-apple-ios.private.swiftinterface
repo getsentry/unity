@@ -1162,8 +1162,9 @@ extension Sentry.SentryNSError : Swift.Decodable {
   @_spi(Private) @objc public var replayTags: [Swift.String : Any]?
   @_spi(Private) @objc public var screenshotProvider: any Sentry.SentryViewScreenshotProvider
   @_spi(Private) @objc public var breadcrumbConverter: any Sentry.SentryReplayBreadcrumbConverter
-  @_spi(Private) @objc public init(replayOptions: Sentry.SentryReplayOptions, experimentalOptions: Sentry.SentryExperimentalOptions, replayFolderPath: Foundation.URL, screenshotProvider: any Sentry.SentryViewScreenshotProvider, replayMaker: any Sentry.SentryReplayVideoMaker, breadcrumbConverter: any Sentry.SentryReplayBreadcrumbConverter, touchTracker: Sentry.SentryTouchTracker?, dateProvider: any Sentry.SentryCurrentDateProvider, delegate: any Sentry.SentrySessionReplayDelegate, displayLinkWrapper: any Sentry.SentryReplayDisplayLinkWrapper, environmentChecker: any Sentry.SentrySessionReplayEnvironmentCheckerProvider)
+  @_spi(Private) @objc public init(replayOptions: Sentry.SentryReplayOptions, replayFolderPath: Foundation.URL, screenshotProvider: any Sentry.SentryViewScreenshotProvider, replayMaker: any Sentry.SentryReplayVideoMaker, breadcrumbConverter: any Sentry.SentryReplayBreadcrumbConverter, touchTracker: Sentry.SentryTouchTracker?, dateProvider: any Sentry.SentryCurrentDateProvider, delegate: any Sentry.SentrySessionReplayDelegate, displayLinkWrapper: any Sentry.SentryReplayDisplayLinkWrapper)
   @_spi(Private) @objc deinit
+  @_spi(Private) @objc public static func shouldEnableSessionReplay(environmentChecker: any Sentry.SentrySessionReplayEnvironmentCheckerProvider, experimentalOptions: Sentry.SentryExperimentalOptions) -> Swift.Bool
   @_spi(Private) @objc public func start(rootView: UIKit.UIView, fullSession: Swift.Bool)
   @_spi(Private) @objc public func pauseSessionMode()
   @_spi(Private) @objc public func pause()
