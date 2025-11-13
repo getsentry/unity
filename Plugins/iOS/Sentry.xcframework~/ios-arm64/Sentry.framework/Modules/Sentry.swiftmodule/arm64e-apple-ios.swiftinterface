@@ -469,7 +469,7 @@ extension Sentry.SentryRequest : Swift.Decodable {
 extension Sentry.SentryNSError : Swift.Decodable {
   required convenience public init(from decoder: any Swift.Decoder) throws
 }
-public enum SentryRedactRegionType : Swift.String, Swift.Codable {
+public enum SentryRedactRegionType : Swift.String, Swift.Codable, Swift.Equatable {
   case redact
   case clipOut
   case clipBegin
@@ -584,7 +584,6 @@ extension Sentry.SentryTransactionNameSource : Swift.RawRepresentable {}
 extension Sentry.SentryLevel : Swift.Equatable {}
 extension Sentry.SentryLevel : Swift.Hashable {}
 extension Sentry.SentryLevel : Swift.RawRepresentable {}
-extension Sentry.SentryRedactRegionType : Swift.Equatable {}
 extension Sentry.SentryRedactRegionType : Swift.Hashable {}
 extension Sentry.SentryRedactRegionType : Swift.RawRepresentable {}
 extension Sentry.SentryLog.Level : Swift.Equatable {}

@@ -1245,7 +1245,7 @@ extension Sentry.SentryUserFeedbackIntegrationDriver : UIKit.UIAdaptivePresentat
   @_spi(Private) @objc override dynamic public init()
   @_spi(Private) @objc deinit
 }
-public enum SentryRedactRegionType : Swift.String, Swift.Codable {
+public enum SentryRedactRegionType : Swift.String, Swift.Codable, Swift.Equatable {
   case redact
   case clipOut
   case clipBegin
@@ -1566,7 +1566,6 @@ extension Sentry.SentryLevel : Swift.RawRepresentable {}
 @_spi(Private) extension Sentry.SentryANRType : Swift.Equatable {}
 @_spi(Private) extension Sentry.SentryANRType : Swift.Hashable {}
 @_spi(Private) extension Sentry.SentryANRType : Swift.RawRepresentable {}
-extension Sentry.SentryRedactRegionType : Swift.Equatable {}
 extension Sentry.SentryRedactRegionType : Swift.Hashable {}
 extension Sentry.SentryRedactRegionType : Swift.RawRepresentable {}
 extension Sentry.SentryLog.Level : Swift.Equatable {}

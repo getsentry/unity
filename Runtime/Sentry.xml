@@ -4183,8 +4183,8 @@
             <remarks>
             Available options:
             <list type="bullet">
-            <item><see cref="P:Sentry.SentryOptions.SentryExperimentalOptions.EnableLogs"/></item>
-            <item><see cref="M:Sentry.SentryOptions.SentryExperimentalOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})"/></item>
+            <item><see cref="P:Sentry.SentryOptions.EnableLogs"/></item>
+            <item><see cref="M:Sentry.SentryOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})"/></item>
             </list>
             </remarks>
         </member>
@@ -6900,6 +6900,11 @@
         <member name="P:Sentry.Protocol.App.Build">
             <summary>
             Internal build identifier, as it appears on the platform.
+            </summary>
+        </member>
+        <member name="P:Sentry.Protocol.App.Memory">
+            <summary>
+            Amount of memory used by the application in bytes.
             </summary>
         </member>
         <member name="P:Sentry.Protocol.App.InForeground">
@@ -10306,6 +10311,24 @@
             breadcrumb will be discarded. Otherwise the result of the callback will be stored.
             </remarks>
         </member>
+        <member name="P:Sentry.SentryOptions.EnableLogs">
+            <summary>
+            When set to <see langword="true"/>, logs are sent to Sentry.
+            Defaults to <see langword="false"/>.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
+        </member>
+        <member name="M:Sentry.SentryOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})">
+            <summary>
+            Sets a callback function to be invoked before sending the log to Sentry.
+            When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.
+            </summary>
+            <remarks>
+            It can be used to modify the log object before being sent to Sentry.
+            To prevent the log from being sent to Sentry, return <see langword="null"/>.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
+        </member>
         <member name="P:Sentry.SentryOptions.MaxQueueItems">
             <summary>
             The maximum number of events to keep while the worker attempts to send them.
@@ -11002,40 +11025,6 @@
             By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
             This method disables that behaviour.
             </summary>
-        </member>
-        <member name="P:Sentry.SentryOptions.Experimental">
-            <summary>
-            Experimental Sentry features.
-            </summary>
-            <remarks>
-            This and related experimental APIs may change in the future.
-            </remarks>
-        </member>
-        <member name="T:Sentry.SentryOptions.SentryExperimentalOptions">
-            <summary>
-            Experimental Sentry SDK options.
-            </summary>
-            <remarks>
-            This and related experimental APIs may change in the future.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryOptions.SentryExperimentalOptions.EnableLogs">
-            <summary>
-            When set to <see langword="true"/>, logs are sent to Sentry.
-            Defaults to <see langword="false"/>.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
-        </member>
-        <member name="M:Sentry.SentryOptions.SentryExperimentalOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})">
-            <summary>
-            Sets a callback function to be invoked before sending the log to Sentry.
-            When the delegate throws an <see cref="T:System.Exception"/> during invocation, the log will not be captured.
-            </summary>
-            <remarks>
-            It can be used to modify the log object before being sent to Sentry.
-            To prevent the log from being sent to Sentry, return <see langword="null"/>.
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
         </member>
         <member name="T:Sentry.SentryPackage">
             <summary>

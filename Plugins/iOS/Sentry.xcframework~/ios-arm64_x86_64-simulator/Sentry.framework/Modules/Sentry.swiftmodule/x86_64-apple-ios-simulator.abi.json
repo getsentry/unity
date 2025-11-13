@@ -44486,13 +44486,6 @@
         "conformances": [
           {
             "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
             "name": "Hashable",
             "printedName": "Hashable",
             "usr": "s:SH",
@@ -44533,6 +44526,13 @@
             "printedName": "Encodable",
             "usr": "s:SE",
             "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
           }
         ]
       },
@@ -63090,7 +63090,7 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryViewRendererV2.swift",
       "kind": "BooleanLiteral",
-      "offset": 750,
+      "offset": 752,
       "length": 5,
       "value": "false"
     },
@@ -63958,189 +63958,336 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "StringLiteral",
-      "offset": 660,
+      "offset": 3189,
       "length": 28,
       "value": "\"CameraUI.ChromeSwiftUIView\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "Array",
-      "offset": 2890,
-      "length": 44,
-      "value": "[\"RCTTextView\", \"RCTParagraphComponentView\"]"
+      "offset": 4457,
+      "length": 2,
+      "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "Array",
-      "offset": 3118,
-      "length": 233,
-      "value": "[\"_TtCOCV7SwiftUI11DisplayList11ViewUpdater8Platform13CGDrawingView\", \"_TtC7SwiftUIP33_A34643117F00277B93DEBAB70EC0697122_UIShapeHitTestingView\", \"SwiftUI._UIGraphicsView\", \"SwiftUI.ImageLayer\"]"
+      "offset": 4625,
+      "length": 2,
+      "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
-      "kind": "Array",
-      "offset": 3616,
-      "length": 16,
-      "value": "[\"RCTImageView\"]"
+      "kind": "StringLiteral",
+      "offset": 6245,
+      "length": 13,
+      "value": "\"RCTTextView\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
-      "kind": "Array",
-      "offset": 3846,
-      "length": 546,
-      "value": "[\"UIWebView\", \"SFSafariView\", \"AVPlayerView\"]"
+      "kind": "StringLiteral",
+      "offset": 6376,
+      "length": 27,
+      "value": "\"RCTParagraphComponentView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 6702,
+      "length": 23,
+      "value": "\"SwiftUI.CGDrawingView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 6862,
+      "length": 67,
+      "value": "\"_TtCOCV7SwiftUI11DisplayList11ViewUpdater8Platform13CGDrawingView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 7221,
+      "length": 74,
+      "value": "\"_TtC7SwiftUIP33_A34643117F00277B93DEBAB70EC0697122_UIShapeHitTestingView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 7639,
+      "length": 25,
+      "value": "\"SwiftUI._UIGraphicsView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 7675,
+      "length": 20,
+      "value": "\"SwiftUI.ImageLayer\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 8012,
+      "length": 14,
+      "value": "\"RCTImageView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 8366,
+      "length": 11,
+      "value": "\"UIWebView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 8653,
+      "length": 14,
+      "value": "\"SFSafariView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 8829,
+      "length": 14,
+      "value": "\"AVPlayerView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 9483,
+      "length": 65,
+      "value": "\"_UICollectionViewListLayoutSectionBackgroundColorDecorationView\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12563,
+      "length": 18,
+      "value": "\"UITextFieldLabel\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 12662,
+      "length": 13,
+      "value": "\"UITextField\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 5444,
+      "offset": 14513,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 5542,
+      "offset": 14824,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "BooleanLiteral",
+      "offset": 14935,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 9898,
+      "offset": 19109,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 10114,
+      "offset": 19325,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 10356,
+      "offset": 19567,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 10583,
+      "offset": 20259,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "BooleanLiteral",
+      "offset": 20576,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "BooleanLiteral",
+      "offset": 20786,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 11057,
+      "offset": 21361,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 11083,
+      "offset": 21387,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 11101,
+      "offset": 21417,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "StringLiteral",
-      "offset": 11156,
+      "offset": 21480,
       "length": 19,
       "value": "\"_containingBundle\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 11443,
+      "offset": 21789,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 11539,
+      "offset": 21885,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 12952,
+      "offset": 23562,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 13740,
+      "offset": 24417,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 16702,
+      "offset": 27841,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "StringLiteral",
+      "offset": 28243,
+      "length": 10,
+      "value": "\"UISwitch\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "BooleanLiteral",
+      "offset": 28338,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "BooleanLiteral",
-      "offset": 16732,
+      "offset": 28403,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 17747,
+      "offset": 29392,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 17767,
+      "offset": 29412,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 17895,
+      "offset": 29856,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "BooleanLiteral",
+      "offset": 31702,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "IntegerLiteral",
+      "offset": 32123,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "BooleanLiteral",
+      "offset": 32151,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "IntegerLiteral",
+      "offset": 32453,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
+      "kind": "IntegerLiteral",
+      "offset": 32459,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 18194,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
-      "kind": "IntegerLiteral",
-      "offset": 18270,
+      "offset": 33006,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryUIRedactBuilder.swift",
       "kind": "IntegerLiteral",
-      "offset": 18276,
+      "offset": 33012,
       "length": 1,
       "value": "1"
     },
@@ -65840,372 +65987,372 @@
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
-      "kind": "IntegerLiteral",
-      "offset": 9037,
-      "length": 1,
-      "value": "1"
+      "kind": "FloatLiteral",
+      "offset": 9030,
+      "length": 3,
+      "value": "1.0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9575,
+      "offset": 9577,
       "length": 56,
       "value": "\"[Session Replay] Preparing segment until date: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9630,
+      "offset": 9632,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9702,
+      "offset": 9704,
       "length": 10,
       "value": "\"segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 9753,
+      "offset": 9755,
       "length": 90,
       "value": "\"[Session Replay] Not preparing segment, reason: could not create path to segments folder\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 10109,
+      "offset": 10111,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10167,
+      "offset": 10169,
       "length": 73,
       "value": "\"[Session Replay] Created segments folder at path: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10239,
+      "offset": 10241,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10299,
+      "offset": 10301,
       "length": 82,
       "value": "\"Can't create session replay segment folder. Error: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10380,
+      "offset": 10382,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10492,
+      "offset": 10494,
       "length": 25,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10512,
+      "offset": 10514,
       "length": 1,
       "value": "\".mp4\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10859,
+      "offset": 10861,
       "length": 97,
       "value": "\"[Session Replay] Creating replay video started at date: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10928,
+      "offset": 10930,
       "length": 1,
       "value": "\", replayType: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 10955,
+      "offset": 10957,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11209,
+      "offset": 11211,
       "length": 69,
       "value": "\"[Session Replay] Created replay video with \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11268,
+      "offset": 11270,
       "length": 8,
       "value": "\" segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11451,
+      "offset": 11453,
       "length": 81,
       "value": "\"[Session Replay] Finished processing replay video with \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11522,
+      "offset": 11524,
       "length": 8,
       "value": "\" segments\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11684,
+      "offset": 11686,
       "length": 106,
       "value": "\"[Session Replay] Processing new segment available for replayType: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11764,
+      "offset": 11766,
       "length": 1,
       "value": "\", videoInfo: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11789,
+      "offset": 11791,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 11884,
+      "offset": 11886,
       "length": 68,
       "value": "\"[Session Replay] No session replay ID available, ignoring segment.\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12252,
+      "offset": 12254,
       "length": 91,
       "value": "\"[Session Replay] Processed segment, incrementing currentSegmentId to: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12342,
+      "offset": 12344,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12505,
+      "offset": 12507,
       "length": 98,
       "value": "\"[Session Replay] Capturing segment: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12552,
+      "offset": 12554,
       "length": 1,
       "value": "\", replayId: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12575,
+      "offset": 12577,
       "length": 1,
       "value": "\", replayType: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 12602,
+      "offset": 12604,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 12970,
+      "offset": 12972,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13153,
+      "offset": 13155,
       "length": 46,
       "value": "\"[Session Replay] Adding touch tracker events\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 13412,
+      "offset": 13414,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 13447,
+      "offset": 13449,
       "length": 52,
       "value": "\"[Session Replay] Adding options event to segment 0\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14148,
+      "offset": 14150,
       "length": 51,
       "value": "\"[Session Replay] Deleted replay segment from disk\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14250,
+      "offset": 14252,
       "length": 70,
       "value": "\"[Session Replay] Could not delete replay segment from disk: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14319,
+      "offset": 14321,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14494,
+      "offset": 14496,
       "length": 71,
       "value": "\"[Session Replay] Converting breadcrumbs from: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14548,
+      "offset": 14550,
       "length": 5,
       "value": "\" until: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 14564,
+      "offset": 14566,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "Array",
-      "offset": 14610,
+      "offset": 14612,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "IntegerLiteral",
-      "offset": 14676,
+      "offset": 14678,
       "length": 2,
       "value": "-1"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15206,
+      "offset": 15208,
       "length": 12,
       "value": "\"navigation\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "FloatLiteral",
-      "offset": 15285,
+      "offset": 15287,
       "length": 4,
       "value": "0.05"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15648,
+      "offset": 15650,
       "length": 91,
       "value": "\"[Session Replay] Not taking screenshot, reason: root view is nil or processing screenshot\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15798,
+      "offset": 15800,
       "length": 62,
       "value": "\"[Session Replay] Taking screenshot of root view: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15859,
+      "offset": 15861,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 15965,
+      "offset": 15967,
       "length": 71,
       "value": "\"[Session Replay] Not taking screenshot, reason: processing screenshot\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 16124,
+      "offset": 16126,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 16187,
+      "offset": 16189,
       "length": 62,
       "value": "\"[Session Replay] Getting screenshot from screenshot provider\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 16686,
+      "offset": 16688,
       "length": 70,
       "value": "\"[Session Replay] New frame available, for screen: \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 16749,
+      "offset": 16751,
       "length": 5,
       "value": "\"nil\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "StringLiteral",
-      "offset": 16755,
+      "offset": 16757,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/SentrySessionReplay.swift",
       "kind": "BooleanLiteral",
-      "offset": 16821,
+      "offset": 16823,
       "length": 5,
       "value": "false"
     },
@@ -66562,70 +66709,70 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 100,
+      "offset": 111,
       "length": 8,
       "value": "\"redact\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 213,
+      "offset": 224,
       "length": 10,
       "value": "\"clip_out\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 353,
+      "offset": 364,
       "length": 12,
       "value": "\"clip_begin\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 522,
+      "offset": 533,
       "length": 10,
       "value": "\"clip_end\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 630,
+      "offset": 641,
       "length": 16,
       "value": "\"redact_swiftui\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 100,
+      "offset": 111,
       "length": 8,
       "value": "\"redact\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 213,
+      "offset": 224,
       "length": 10,
       "value": "\"clip_out\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 353,
+      "offset": 364,
       "length": 12,
       "value": "\"clip_begin\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 522,
+      "offset": 533,
       "length": 10,
       "value": "\"clip_end\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/ViewCapture\/SentryRedactRegionType.swift",
       "kind": "StringLiteral",
-      "offset": 630,
+      "offset": 641,
       "length": 16,
       "value": "\"redact_swiftui\""
     },
