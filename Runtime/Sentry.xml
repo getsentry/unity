@@ -4698,6 +4698,60 @@
             <param name="propertyName"></param>
             <returns></returns>
         </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.Boolean">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.GrowableArrayInt32">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.DictionaryStringBoolean">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.DictionaryStringObject">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.Int32">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.Object">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.String">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.Default">
+            <summary>
+            The default <see cref="T:System.Text.Json.Serialization.JsonSerializerContext"/> associated with a default <see cref="T:System.Text.Json.JsonSerializerOptions"/> instance.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.Extensions.SentryJsonContext.GeneratedSerializerOptions">
+            <summary>
+            The source-generated options associated with this context.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.Extensions.SentryJsonContext.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:Sentry.Internal.Extensions.SentryJsonContext.#ctor(System.Text.Json.JsonSerializerOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Sentry.Internal.Extensions.SentryJsonContext.GetTypeInfo(System.Type)">
+            <inheritdoc/>
+        </member>
         <member name="M:Sentry.Internal.Extensions.MiscExtensions.IsNull(System.Object)">
             <summary>
             Determines whether an object is <c>null</c>.
@@ -4871,16 +4925,25 @@
             </summary>
         </member>
         <member name="T:Sentry.Internal.Http.CachingTransport">
-             <summary>
-             A transport that caches envelopes to disk and sends them in the background.
-             </summary>
-             <remarks>
-             Note although this class has a <see cref="M:Sentry.Internal.Http.CachingTransport.DisposeAsync"/>
-             method, it doesn't implement <see cref="T:System.IAsyncDisposable"/> as this caused
-             a dependency issue with Log4Net in some situations.
-            
-             See https://github.com/getsentry/sentry-dotnet/issues/3178
-             </remarks>
+            <summary>
+            Transport that caches envelopes to disk and sends them in the background.
+            </summary>
+            <remarks>
+            <para>
+            Note although this class has a <see cref="M:Sentry.Internal.Http.CachingTransport.DisposeAsync"/>
+            method, it doesn't implement <see cref="T:System.IAsyncDisposable"/> as this caused
+            a dependency issue with Log4Net in some situations.
+            </para>
+            <para>See https://github.com/getsentry/sentry-dotnet/issues/3178</para>
+            </remarks>
+        </member>
+        <member name="M:Sentry.Internal.Http.CachingTransport.MigrateVersion5Cache(System.Threading.CancellationToken)">
+            <summary>
+            When migrating from version 5 to version 6, the cache directory structure changed.
+            In version 5, there were no isolated subdirectories.
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns>An integer return code to facilitate testing.</returns>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -5014,6 +5077,15 @@
             This allows us to test the GarbageCollectionMonitor class without a dependency on System.GC, which is static
             </summary>
         </member>
+        <member name="T:Sentry.Internal.IInitCounter">
+            <summary>
+            This is used internally to track the number of times the SDK has been initialised so that different
+            Hub instances get a different cache directory path, even if they're running in the same process.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.InitCounter">
+            <inheritdoc cref="T:Sentry.Internal.IInitCounter"/>
+        </member>
         <member name="M:Sentry.Internal.IStringOrRegexMatcher.IsMatch(Sentry.StringOrRegex,System.String)">
             <summary>
             Evaluates if the given value matches the string or regex.
@@ -5121,6 +5193,15 @@
             <summary>
             When the device was initialized.
             </summary>
+        </member>
+        <member name="M:Sentry.Internal.ReadWriteFileSystem.TryCreateLockFile(System.String,System.IO.Stream@)">
+            <summary>
+            Tries to create or open a file for exclusive access.
+            </summary>
+            <remarks>
+            This method can throw all of the same exceptions that the <see cref="T:System.IO.FileStream"/> constructor can throw. The
+            caller is responsible for handling those exceptions.
+            </remarks>
         </member>
         <member name="T:Sentry.Internal.ScopeObserver">
             <summary>
@@ -5443,7 +5524,7 @@
         <member name="T:Sentry.Internal.UnsampledTransaction">
             <summary>
             We know already, when starting a transaction, whether it's going to be sampled or not. When it's not sampled, we can
-            avoid lots of unecessary processing. The only thing we need to track is the number of spans that would have been
+            avoid lots of unnecessary processing. The only thing we need to track is the number of spans that would have been
             created (the client reports detailing discarded events includes this detail).
             </summary>
         </member>
