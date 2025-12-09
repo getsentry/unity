@@ -1,11 +1,45 @@
 # Changelog
 
+## 4.0.0-beta.7
+
+### Breaking Changes
+
+- `SetBeforeCaptureScreenshot` signature changed from `Func<bool>` to `Func<SentryEvent, bool>`, now receiving the event that
+  triggered the screenshot capture. This allows context-aware decisions before capture begins. ([#2428](https://github.com/getsentry/sentry-unity/pull/2428))
+- `SetBeforeCaptureViewHierarchy` signature changed from `Func<bool>` to `Func<SentryEvent, bool>`, now receiving the event that
+  triggered the view hierarchy capture. This allows context-aware decisions before capture begins. ([#2429](https://github.com/getsentry/sentry-unity/pull/2429))  
+
+### Fixes
+
+- When targeting Windows or Linux with Mono as the scripting backend, to prevent crashes, the native SDK's debug logger integration is disabled. ([#2445](https://github.com/getsentry/sentry-unity/pull/2445)) 
+
+### Features
+
+- Added PlayStation Native Support. The SDK now automatically syncs the scope - tags, breadcrumbs, context - to the native layer, so native crashes have the same rich context as managed events. ([#2433](https://github.com/getsentry/sentry-unity/pull/2433))
+- On Windows, and with screenshot capture enabled, the SDK will now also capture and attach a screenshot to native crashes ([#2434](https://github.com/getsentry/sentry-unity/pull/2434))
+- Added `SetBeforeSendScreenshot(Func<Texture2D, SentryEvent, Texture2D?>)` callback that provides the captured screenshot as a
+  `Texture2D` before JPEG compression. ([#2428](https://github.com/getsentry/sentry-unity/pull/2428)) 
+  This enables:
+    - **Modifying** the screenshot in-place (e.g., blurring sensitive UI areas, redacting PII)
+    - **Replacing** the screenshot with a different `Texture2D`
+    - **Discarding** the screenshot by returning `null`
+    - Access to the event context for conditional processing
+- Added `SetBeforeSendViewHierarchy(Func<ViewHierarchy, SentryEvent, ViewHierarchy?>)` callback that provides the captured 
+  `ViewHierarchy` to be modified before compression. ([#2429](https://github.com/getsentry/sentry-unity/pull/2429))
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.57.2 to v9.0.0 ([#2424](https://github.com/getsentry/sentry-unity/pull/2424), [#2427](https://github.com/getsentry/sentry-unity/pull/2427), [#2439](https://github.com/getsentry/sentry-unity/pull/2439))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#900)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.57.2...9.0.0)
+- Bump Java SDK from v8.26.0 to v8.28.0 ([#2430](https://github.com/getsentry/sentry-unity/pull/2430), [#2436](https://github.com/getsentry/sentry-unity/pull/2436), [#2443](https://github.com/getsentry/sentry-unity/pull/2443))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8280)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.26.0...8.28.0)
+- Bump Native SDK from v0.12.1 to v0.12.2 ([#2440](https://github.com/getsentry/sentry-unity/pull/2440))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0122)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.12.1...0.12.2)
+
 ## 4.0.0-beta.6
-
-### Various fixes & improvements
-
-- chore: update modules/sentry-java to 8.26.0 (#2419) by @github-actions
-- chore: update modules/sentry-cli.properties to 2.58.2 (#2418) by @github-actions
 
 ## Fixes
 
@@ -97,8 +131,6 @@
 ### Fixes
 
 - When configured, the SDK now no longer treats `Debug.LogError` events as exceptions but resports them as message events instead ([#2377](https://github.com/getsentry/sentry-unity/pull/2377))
-### Fixes
-
 - When targeting Xbox, the SDK now correctly picks up the debug symbols for sentry-native from the `Assets/Plugins/Sentry` directory ([#2363](https://github.com/getsentry/sentry-unity/pull/2363))
 
 ### Dependencies
@@ -249,6 +281,30 @@
 - Bump CLI from v2.46.0 to v2.47.1 ([#2232](https://github.com/getsentry/sentry-unity/pull/2232), [#2241](https://github.com/getsentry/sentry-unity/pull/2241))
   - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#2471)
   - [diff](https://github.com/getsentry/sentry-cli/compare/2.46.0...2.47.1)
+
+## 3.2.4
+
+### Fixes
+
+This release contains the bump of the Cocoa SDK with the following note and resolves `Invalid architecture` errors when submitting to the app store.
+
+> [!Important]
+> Xcode 26 no longer allows individual frameworks to contain arm64e slices anymore if the main binary doesn't contain them.
+> We have decided to split the Dynamic variant and Sentry-WithoutUIKitOrAppKit of Sentry into two variants:
+>
+> - `Sentry-Dynamic`: Without ARM64e
+> - `Sentry-Dynamic-WithARM64e`: _With_ ARM64e slice
+> - `Sentry-WithoutUIKitOrAppKit`: Without ARM64e
+> - `Sentry-WithoutUIKitOrAppKit-WithARM64e`: _With_ ARM64e slice
+>
+> If your app does not need arm64e, you don't need to make any changes.
+> But if your app _needs arm64e_ please use `Sentry-Dynamic-WithARM64e` or `Sentry-WithoutUIKitOrAppKit-WithARM64e` from 8.55.0 so you don't have issues uploading to the App Store.
+
+### Dependencies
+
+- Bump Cocoa SDK from v8.51.0 to v8.57.0 ([#2371](https://github.com/getsentry/sentry-unity/pull/2371))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#8570)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.51.0...8.57.0)
 
 ## 3.2.3
 
