@@ -260,221 +260,6 @@
         "moduleName": "Sentry"
       },
       {
-        "kind": "TypeDecl",
-        "name": "SentryURLRequestFactory",
-        "printedName": "SentryURLRequestFactory",
-        "children": [
-          {
-            "kind": "Function",
-            "name": "envelopeRequest",
-            "printedName": "envelopeRequest(with:data:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "URLRequest",
-                "printedName": "Foundation.URLRequest",
-                "usr": "s:10Foundation10URLRequestV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "SentryDsn",
-                "printedName": "Sentry.SentryDsn",
-                "usr": "c:objc(cs)SentryDsn"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Data",
-                "printedName": "Foundation.Data",
-                "usr": "s:10Foundation4DataV"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryURLRequestFactory(cm)envelopeRequestWith:data:error:",
-            "mangledName": "$s6Sentry0A17URLRequestFactoryC15envelopeRequest4with4data10Foundation0B0VSo0A3DsnC_AG4DataVtKFZ",
-            "moduleName": "Sentry",
-            "static": true,
-            "objc_name": "envelopeRequestWith:data:error:",
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "ObjC"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "envelopeRequest",
-            "printedName": "envelopeRequest(with:data:authHeader:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "URLRequest",
-                "printedName": "Foundation.URLRequest",
-                "usr": "s:10Foundation10URLRequestV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "URL",
-                "printedName": "Foundation.URL",
-                "usr": "s:10Foundation3URLV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Data",
-                "printedName": "Foundation.Data",
-                "usr": "s:10Foundation4DataV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "Swift.String?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryURLRequestFactory(cm)envelopeRequestWith:data:authHeader:error:",
-            "mangledName": "$s6Sentry0A17URLRequestFactoryC15envelopeRequest4with4data10authHeader10Foundation0B0VAH3URLV_AH4DataVSSSgtKFZ",
-            "moduleName": "Sentry",
-            "static": true,
-            "objc_name": "envelopeRequestWith:data:authHeader:error:",
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "ObjC"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "SentryURLRequestFactory",
-                "printedName": "Sentry.SentryURLRequestFactory",
-                "usr": "c:@M@Sentry@objc(cs)SentryURLRequestFactory"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "c:@M@Sentry@objc(cs)SentryURLRequestFactory(im)init",
-            "mangledName": "$s6Sentry0A17URLRequestFactoryCACycfc",
-            "moduleName": "Sentry",
-            "overriding": true,
-            "implicit": true,
-            "objc_name": "init",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC",
-              "Override"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "init_kind": "Designated"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "c:@M@Sentry@objc(cs)SentryURLRequestFactory",
-        "mangledName": "$s6Sentry0A17URLRequestFactoryC",
-        "moduleName": "Sentry",
-        "declAttributes": [
-          "Final",
-          "AccessControl",
-          "ObjC",
-          "SPIAccessControl"
-        ],
-        "spi_group_names": [
-          "Private"
-        ],
-        "superclassUsr": "c:objc(cs)NSObject",
-        "inheritsConvenienceInitializers": true,
-        "superclassNames": [
-          "ObjectiveC.NSObject"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CVarArg",
-            "printedName": "CVarArg",
-            "usr": "s:s7CVarArgP",
-            "mangledName": "$ss7CVarArgP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObservingPublishing",
-            "printedName": "_KeyValueCodingAndObservingPublishing",
-            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
-            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObserving",
-            "printedName": "_KeyValueCodingAndObserving",
-            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
-            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomStringConvertible",
-            "printedName": "CustomStringConvertible",
-            "usr": "s:s23CustomStringConvertibleP",
-            "mangledName": "$ss23CustomStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomDebugStringConvertible",
-            "printedName": "CustomDebugStringConvertible",
-            "usr": "s:s28CustomDebugStringConvertibleP",
-            "mangledName": "$ss28CustomDebugStringConvertibleP"
-          }
-        ]
-      },
-      {
         "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
@@ -8221,6 +8006,23 @@
       },
       {
         "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -8242,203 +8044,6 @@
         "printedName": "UIKit",
         "declKind": "Import",
         "moduleName": "Sentry"
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "SessionTracker",
-        "printedName": "SessionTracker",
-        "children": [
-          {
-            "kind": "Function",
-            "name": "start",
-            "printedName": "start()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker(im)start",
-            "mangledName": "$s6Sentry14SessionTrackerC5startyyF",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "ObjC",
-              "RawDocComment"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "stop",
-            "printedName": "stop()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker(im)stop",
-            "mangledName": "$s6Sentry14SessionTrackerC4stopyyF",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "ObjC"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "removeObservers",
-            "printedName": "removeObservers()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker(im)removeObservers",
-            "mangledName": "$s6Sentry14SessionTrackerC15removeObserversyyF",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "ObjC"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "SessionTracker",
-                "printedName": "Sentry.SessionTracker",
-                "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker(im)init",
-            "mangledName": "$s6Sentry14SessionTrackerCACycfc",
-            "moduleName": "Sentry",
-            "overriding": true,
-            "implicit": true,
-            "objc_name": "init",
-            "declAttributes": [
-              "Dynamic",
-              "ObjC",
-              "Override"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "init_kind": "Designated"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker",
-        "mangledName": "$s6Sentry14SessionTrackerC",
-        "moduleName": "Sentry",
-        "objc_name": "SentrySessionTracker",
-        "declAttributes": [
-          "Final",
-          "AccessControl",
-          "ObjC",
-          "SPIAccessControl",
-          "RawDocComment"
-        ],
-        "spi_group_names": [
-          "Private"
-        ],
-        "superclassUsr": "c:objc(cs)NSObject",
-        "hasMissingDesignatedInitializers": true,
-        "superclassNames": [
-          "ObjectiveC.NSObject"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CVarArg",
-            "printedName": "CVarArg",
-            "usr": "s:s7CVarArgP",
-            "mangledName": "$ss7CVarArgP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObservingPublishing",
-            "printedName": "_KeyValueCodingAndObservingPublishing",
-            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
-            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "_KeyValueCodingAndObserving",
-            "printedName": "_KeyValueCodingAndObserving",
-            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
-            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomStringConvertible",
-            "printedName": "CustomStringConvertible",
-            "usr": "s:s23CustomStringConvertibleP",
-            "mangledName": "$ss23CustomStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "CustomDebugStringConvertible",
-            "printedName": "CustomDebugStringConvertible",
-            "usr": "s:s28CustomDebugStringConvertibleP",
-            "mangledName": "$ss28CustomDebugStringConvertibleP"
-          }
-        ]
       },
       {
         "kind": "Import",
@@ -9053,6 +8658,7 @@
             "mangledName": "$s6Sentry0A13FileIOTrackerC6enableyyF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -9077,6 +8683,7 @@
             "mangledName": "$s6Sentry0A13FileIOTrackerC7disableyyF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -9159,6 +8766,7 @@
             "moduleName": "Sentry",
             "objc_name": "measureNSData:writeToFile:atomically:origin:method:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "DiscardableResult"
@@ -9271,6 +8879,7 @@
             "moduleName": "Sentry",
             "objc_name": "measureNSData:writeToFile:options:origin:error:method:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -9345,6 +8954,7 @@
             "moduleName": "Sentry",
             "objc_name": "measureNSDataFromFile:origin:method:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "RawDocComment"
@@ -9498,6 +9108,7 @@
             "moduleName": "Sentry",
             "objc_name": "measureNSDataFromFile:options:origin:error:method:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "RawDocComment"
@@ -9651,6 +9262,7 @@
             "moduleName": "Sentry",
             "objc_name": "measureNSDataFromURL:options:origin:error:method:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "RawDocComment"
@@ -9766,6 +9378,7 @@
             "moduleName": "Sentry",
             "objc_name": "measureNSFileManagerCreateFileAtPath:data:attributes:origin:method:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "DiscardableResult"
@@ -9810,6 +9423,7 @@
         "mangledName": "$s6Sentry0A13FileIOTrackerC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "ObjC",
           "SPIAccessControl"
@@ -10785,40 +10399,6 @@
             "init_kind": "Designated"
           },
           {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(from:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "SentryLog",
-                "printedName": "Sentry.SentryLog",
-                "usr": "c:@M@Sentry@objc(cs)SentryLog"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Decoder",
-                "printedName": "any Swift.Decoder",
-                "usr": "s:s7DecoderP"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:6Sentry0A3LogC4fromACs7Decoder_p_tKcfc",
-            "mangledName": "$s6Sentry0A3LogC4fromACs7Decoder_p_tKcfc",
-            "moduleName": "Sentry",
-            "declAttributes": [
-              "Convenience",
-              "AccessControl",
-              "SPIAccessControl"
-            ],
-            "isFromExtension": true,
-            "spi_group_names": [
-              "Private"
-            ],
-            "throwing": true,
-            "init_kind": "Convenience"
-          },
-          {
             "kind": "Function",
             "name": "encode",
             "printedName": "encode(to:)",
@@ -11267,39 +10847,6 @@
                 ]
               },
               {
-                "kind": "Constructor",
-                "name": "init",
-                "printedName": "init(from:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Level",
-                    "printedName": "Sentry.SentryLog.Level",
-                    "usr": "s:6Sentry0A3LogC5LevelO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Decoder",
-                    "printedName": "any Swift.Decoder",
-                    "usr": "s:s7DecoderP"
-                  }
-                ],
-                "declKind": "Constructor",
-                "usr": "s:6Sentry0A3LogC5LevelO4fromAEs7Decoder_p_tKcfc",
-                "mangledName": "$s6Sentry0A3LogC5LevelO4fromAEs7Decoder_p_tKcfc",
-                "moduleName": "Sentry",
-                "declAttributes": [
-                  "AccessControl",
-                  "SPIAccessControl"
-                ],
-                "isFromExtension": true,
-                "spi_group_names": [
-                  "Private"
-                ],
-                "throwing": true,
-                "init_kind": "Designated"
-              },
-              {
                 "kind": "Function",
                 "name": "encode",
                 "printedName": "encode(to:)",
@@ -11421,13 +10968,6 @@
                 ],
                 "usr": "s:SY",
                 "mangledName": "$sSY"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Decodable",
-                "printedName": "Decodable",
-                "usr": "s:Se",
-                "mangledName": "$sSe"
               },
               {
                 "kind": "Conformance",
@@ -11711,40 +11251,6 @@
                 "init_kind": "Designated"
               },
               {
-                "kind": "Constructor",
-                "name": "init",
-                "printedName": "init(from:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Attribute",
-                    "printedName": "Sentry.SentryLog.Attribute",
-                    "usr": "s:6Sentry0A3LogC9AttributeC"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Decoder",
-                    "printedName": "any Swift.Decoder",
-                    "usr": "s:s7DecoderP"
-                  }
-                ],
-                "declKind": "Constructor",
-                "usr": "s:6Sentry0A3LogC9AttributeC4fromAEs7Decoder_p_tKcfc",
-                "mangledName": "$s6Sentry0A3LogC9AttributeC4fromAEs7Decoder_p_tKcfc",
-                "moduleName": "Sentry",
-                "declAttributes": [
-                  "Convenience",
-                  "AccessControl",
-                  "SPIAccessControl"
-                ],
-                "isFromExtension": true,
-                "spi_group_names": [
-                  "Private"
-                ],
-                "throwing": true,
-                "init_kind": "Convenience"
-              },
-              {
                 "kind": "Function",
                 "name": "encode",
                 "printedName": "encode(to:)",
@@ -11862,13 +11368,6 @@
               },
               {
                 "kind": "Conformance",
-                "name": "Decodable",
-                "printedName": "Decodable",
-                "usr": "s:Se",
-                "mangledName": "$sSe"
-              },
-              {
-                "kind": "Conformance",
                 "name": "Encodable",
                 "printedName": "Encodable",
                 "usr": "s:SE",
@@ -11956,13 +11455,6 @@
             "printedName": "CustomDebugStringConvertible",
             "usr": "s:s28CustomDebugStringConvertibleP",
             "mangledName": "$ss28CustomDebugStringConvertibleP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Decodable",
-            "printedName": "Decodable",
-            "usr": "s:Se",
-            "mangledName": "$sSe"
           },
           {
             "kind": "Conformance",
@@ -16815,39 +16307,6 @@
             "usr": "c:@M@Sentry@objc(cs)SentryDependencyContainer(im)application",
             "mangledName": "$s6Sentry0A19DependencyContainerC11applicationAA0A11Application_pSgyF",
             "moduleName": "Sentry",
-            "declAttributes": [
-              "Final",
-              "AccessControl",
-              "ObjC"
-            ],
-            "spi_group_names": [
-              "Private"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "getSessionTracker",
-            "printedName": "getSessionTracker(with:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "SessionTracker",
-                "printedName": "Sentry.SessionTracker",
-                "usr": "c:@M@Sentry@objc(cs)SentrySessionTracker"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Options",
-                "printedName": "Sentry.Options",
-                "usr": "c:@M@Sentry@objc(cs)SentryOptions"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "c:@M@Sentry@objc(cs)SentryDependencyContainer(im)getSessionTrackerWithOptions:",
-            "mangledName": "$s6Sentry0A19DependencyContainerC17getSessionTracker4withAA0eF0CAA7OptionsC_tF",
-            "moduleName": "Sentry",
-            "objc_name": "getSessionTrackerWithOptions:",
             "declAttributes": [
               "Final",
               "AccessControl",
@@ -28022,6 +27481,7 @@
             "moduleName": "Sentry",
             "objc_name": "date",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl"
             ],
@@ -28048,6 +27508,7 @@
             "moduleName": "Sentry",
             "objc_name": "timezoneOffset",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl"
             ],
@@ -28074,6 +27535,7 @@
             "moduleName": "Sentry",
             "objc_name": "systemTime",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl",
               "RawDocComment"
@@ -28101,6 +27563,7 @@
             "moduleName": "Sentry",
             "objc_name": "systemUptime",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl"
             ],
@@ -28171,6 +27634,7 @@
         "mangledName": "$s6Sentry0A26DefaultCurrentDateProviderC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -29096,6 +28560,7 @@
         "mangledName": "$s6Sentry19HTTPHeaderSanitizerC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -29242,6 +28707,7 @@
             "moduleName": "Sentry",
             "objc_name": "renderWithView:",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl"
             ],
@@ -29285,6 +28751,7 @@
         "mangledName": "$s6Sentry0A14ViewRendererV2C",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -29368,6 +28835,16 @@
             "usr": "s:s28CustomDebugStringConvertibleP",
             "mangledName": "$ss28CustomDebugStringConvertibleP"
           }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
         ]
       },
       {
@@ -29534,6 +29011,7 @@
             "moduleName": "Sentry",
             "objc_name": "isInApp:",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "RawDocComment"
@@ -29572,6 +29050,7 @@
             "mangledName": "$s6Sentry0A10InAppLogicC07isClassbC0ySbyXlXpF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "RawDocComment"
@@ -29655,6 +29134,7 @@
         "mangledName": "$s6Sentry0A10InAppLogicC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC",
@@ -30506,6 +29986,7 @@
         "mangledName": "$s6Sentry0A16ANRStoppedResultC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -32694,6 +32175,7 @@
             "moduleName": "Sentry",
             "declAttributes": [
               "HasInitialValue",
+              "Final",
               "HasStorage",
               "ReferenceOwnership",
               "AccessControl",
@@ -32731,6 +32213,7 @@
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -32769,6 +32252,7 @@
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -32794,6 +32278,7 @@
                 "implicit": true,
                 "intro_Macosx": "12.0",
                 "declAttributes": [
+                  "Final",
                   "Available",
                   "Available",
                   "Available"
@@ -32821,6 +32306,7 @@
             "mangledName": "$s6Sentry0A9MXManagerC14receiveReportsyyF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -32845,6 +32331,7 @@
             "mangledName": "$s6Sentry0A9MXManagerC12pauseReportsyyF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -32884,6 +32371,7 @@
             "moduleName": "Sentry",
             "objc_name": "didReceiveDiagnosticPayloads:",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl"
             ],
@@ -32928,6 +32416,7 @@
         "moduleName": "Sentry",
         "intro_Macosx": "12.0",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -33555,34 +33044,6 @@
             ],
             "throwing": true,
             "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:6Sentry0A15MXCallStackTreeC6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s6Sentry0A15MXCallStackTreeC6encode2toys7Encoder_p_tKF",
-            "moduleName": "Sentry",
-            "implicit": true,
-            "spi_group_names": [
-              "Private"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Class",
@@ -33610,13 +33071,6 @@
             "printedName": "Decodable",
             "usr": "s:Se",
             "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
           },
           {
             "kind": "Conformance",
@@ -33927,34 +33381,6 @@
             ],
             "throwing": true,
             "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:6Sentry0A11MXCallStackC6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s6Sentry0A11MXCallStackC6encode2toys7Encoder_p_tKF",
-            "moduleName": "Sentry",
-            "implicit": true,
-            "spi_group_names": [
-              "Private"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Class",
@@ -33981,13 +33407,6 @@
             "printedName": "Decodable",
             "usr": "s:Se",
             "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
           },
           {
             "kind": "Conformance",
@@ -34488,34 +33907,6 @@
             ],
             "throwing": true,
             "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "encode",
-            "printedName": "encode(to:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Encoder",
-                "printedName": "any Swift.Encoder",
-                "usr": "s:s7EncoderP"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:6Sentry0A7MXFrameC6encode2toys7Encoder_p_tKF",
-            "mangledName": "$s6Sentry0A7MXFrameC6encode2toys7Encoder_p_tKF",
-            "moduleName": "Sentry",
-            "implicit": true,
-            "spi_group_names": [
-              "Private"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Class",
@@ -34542,13 +33933,6 @@
             "printedName": "Decodable",
             "usr": "s:Se",
             "mangledName": "$sSe"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Encodable",
-            "printedName": "Encodable",
-            "usr": "s:SE",
-            "mangledName": "$sSE"
           },
           {
             "kind": "Conformance",
@@ -38134,6 +37518,7 @@
         "mangledName": "$s6Sentry15SwiftDescriptorC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC"
@@ -38333,6 +37718,7 @@
         "mangledName": "$s6Sentry0A6SDKLogC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC",
@@ -39484,6 +38870,7 @@
         "mangledName": "$s6Sentry0A11LevelHelperC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -39599,6 +38986,7 @@
             "moduleName": "Sentry",
             "objc_name": "renderWithView:",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl"
             ],
@@ -39642,6 +39030,7 @@
         "mangledName": "$s6Sentry0A19DefaultViewRendererC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -39824,6 +39213,7 @@
         "mangledName": "$s6Sentry20URLSessionTaskHelperC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -40044,6 +39434,7 @@
         "mangledName": "$s6Sentry0A20BaggageSerializationC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -40375,6 +39766,7 @@
         "mangledName": "$s6Sentry0A12FileContentsC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -41072,6 +40464,7 @@
         "mangledName": "$s6Sentry0A17AppHangTypeMapperC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC"
@@ -43049,6 +42442,7 @@
             "mangledName": "$s6Sentry12UrlSanitizedC5querySSSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -43081,6 +42475,7 @@
                 "mangledName": "$s6Sentry12UrlSanitizedC5querySSSgvg",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -43123,6 +42518,7 @@
             "mangledName": "$s6Sentry12UrlSanitizedC10queryItemsSay10Foundation12URLQueryItemVGSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -43163,6 +42559,7 @@
                 "mangledName": "$s6Sentry12UrlSanitizedC10queryItemsSay10Foundation12URLQueryItemVGSgvg",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -43197,6 +42594,7 @@
             "mangledName": "$s6Sentry12UrlSanitizedC8fragmentSSSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -43229,6 +42627,7 @@
                 "mangledName": "$s6Sentry12UrlSanitizedC8fragmentSSSgvg",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -43294,6 +42693,7 @@
             "mangledName": "$s6Sentry12UrlSanitizedC09sanitizedB0SSSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -43326,6 +42726,7 @@
                 "mangledName": "$s6Sentry12UrlSanitizedC09sanitizedB0SSSgvg",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -43370,6 +42771,7 @@
         "mangledName": "$s6Sentry12UrlSanitizedC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -44000,6 +43402,7 @@
         "mangledName": "$s6Sentry0A23SwizzleClassNameExcludeC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -44572,6 +43975,200 @@
         "printedName": "UIKit",
         "declKind": "Import",
         "moduleName": "Sentry"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SentryNSURLRequestBuilder",
+        "printedName": "SentryNSURLRequestBuilder",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "createEnvelopeRequest",
+            "printedName": "createEnvelopeRequest(_:dsn:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "URLRequest",
+                "printedName": "Foundation.URLRequest",
+                "usr": "s:10Foundation10URLRequestV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentryEnvelope",
+                "printedName": "Sentry.SentryEnvelope",
+                "usr": "c:@M@Sentry@objc(cs)SentryEnvelope"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentryDsn",
+                "printedName": "Sentry.SentryDsn",
+                "usr": "c:@M@Sentry@objc(cs)SentryDsn"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentryNSURLRequestBuilder(im)createEnvelopeRequest:dsn:error:",
+            "mangledName": "$s6Sentry0A19NSURLRequestBuilderC21createEnvelopeRequest_3dsn10Foundation10URLRequestVAA0aE0C_AA0A3DsnCtKF",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "createEnvelopeRequest",
+            "printedName": "createEnvelopeRequest(_:url:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "URLRequest",
+                "printedName": "Foundation.URLRequest",
+                "usr": "s:10Foundation10URLRequestV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentryEnvelope",
+                "printedName": "Sentry.SentryEnvelope",
+                "usr": "c:@M@Sentry@objc(cs)SentryEnvelope"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentryNSURLRequestBuilder(im)createEnvelopeRequest:url:error:",
+            "mangledName": "$s6Sentry0A19NSURLRequestBuilderC21createEnvelopeRequest_3url10Foundation10URLRequestVAA0aE0C_AF3URLVtKF",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryNSURLRequestBuilder",
+                "printedName": "Sentry.SentryNSURLRequestBuilder",
+                "usr": "c:@M@Sentry@objc(cs)SentryNSURLRequestBuilder"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentryNSURLRequestBuilder(im)init",
+            "mangledName": "$s6Sentry0A19NSURLRequestBuilderCACycfc",
+            "moduleName": "Sentry",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@Sentry@objc(cs)SentryNSURLRequestBuilder",
+        "mangledName": "$s6Sentry0A19NSURLRequestBuilderC",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "SPIAccessControl"
+        ],
+        "spi_group_names": [
+          "Private"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
       },
       {
         "kind": "Import",
@@ -45983,7 +45580,7 @@
                     "kind": "TypeNominal",
                     "name": "SentryDsn",
                     "printedName": "Sentry.SentryDsn",
-                    "usr": "c:objc(cs)SentryDsn"
+                    "usr": "c:@M@Sentry@objc(cs)SentryDsn"
                   }
                 ],
                 "usr": "s:Sq"
@@ -45991,7 +45588,7 @@
             ],
             "declKind": "Var",
             "usr": "c:@M@Sentry@objc(cs)SentryOptions(py)parsedDsn",
-            "mangledName": "$s6Sentry7OptionsC9parsedDsnSo0aD0CSgvp",
+            "mangledName": "$s6Sentry7OptionsC9parsedDsnAA0aD0CSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
               "HasInitialValue",
@@ -46017,7 +45614,7 @@
                         "kind": "TypeNominal",
                         "name": "SentryDsn",
                         "printedName": "Sentry.SentryDsn",
-                        "usr": "c:objc(cs)SentryDsn"
+                        "usr": "c:@M@Sentry@objc(cs)SentryDsn"
                       }
                     ],
                     "usr": "s:Sq"
@@ -46025,7 +45622,7 @@
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryOptions(im)parsedDsn",
-                "mangledName": "$s6Sentry7OptionsC9parsedDsnSo0aD0CSgvg",
+                "mangledName": "$s6Sentry7OptionsC9parsedDsnAA0aD0CSgvg",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -46053,7 +45650,7 @@
                         "kind": "TypeNominal",
                         "name": "SentryDsn",
                         "printedName": "Sentry.SentryDsn",
-                        "usr": "c:objc(cs)SentryDsn"
+                        "usr": "c:@M@Sentry@objc(cs)SentryDsn"
                       }
                     ],
                     "usr": "s:Sq"
@@ -46061,7 +45658,7 @@
                 ],
                 "declKind": "Accessor",
                 "usr": "c:@M@Sentry@objc(cs)SentryOptions(im)setParsedDsn:",
-                "mangledName": "$s6Sentry7OptionsC9parsedDsnSo0aD0CSgvs",
+                "mangledName": "$s6Sentry7OptionsC9parsedDsnAA0aD0CSgvs",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -46082,8 +45679,8 @@
                   }
                 ],
                 "declKind": "Accessor",
-                "usr": "s:6Sentry7OptionsC9parsedDsnSo0aD0CSgvM",
-                "mangledName": "$s6Sentry7OptionsC9parsedDsnSo0aD0CSgvM",
+                "usr": "s:6Sentry7OptionsC9parsedDsnAA0aD0CSgvM",
+                "mangledName": "$s6Sentry7OptionsC9parsedDsnAA0aD0CSgvM",
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
@@ -56549,7 +56146,6 @@
             "mangledName": "$s6Sentry0A14EnvelopeHeaderC7eventIdSo0aE0CSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
-              "HasInitialValue",
               "Final",
               "HasStorage",
               "AccessControl",
@@ -56559,6 +56155,7 @@
             "spi_group_names": [
               "Private"
             ],
+            "isLet": true,
             "hasStorage": true,
             "accessors": [
               {
@@ -56594,69 +56191,6 @@
                   "Private"
                 ],
                 "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Sentry.SentryId?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "SentryId",
-                        "printedName": "Sentry.SentryId",
-                        "usr": "c:objc(cs)SentryId"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryEnvelopeHeader(im)setEventId:",
-                "mangledName": "$s6Sentry0A14EnvelopeHeaderC7eventIdSo0aE0CSgvs",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "Final",
-                  "ObjC"
-                ],
-                "spi_group_names": [
-                  "Private"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:6Sentry0A14EnvelopeHeaderC7eventIdSo0aE0CSgvM",
-                "mangledName": "$s6Sentry0A14EnvelopeHeaderC7eventIdSo0aE0CSgvM",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "Final"
-                ],
-                "spi_group_names": [
-                  "Private"
-                ],
-                "accessorKind": "_modify"
               }
             ]
           },
@@ -56685,7 +56219,6 @@
             "mangledName": "$s6Sentry0A14EnvelopeHeaderC12traceContextSo0a5TraceE0CSgvp",
             "moduleName": "Sentry",
             "declAttributes": [
-              "HasInitialValue",
               "Final",
               "HasStorage",
               "AccessControl",
@@ -56694,6 +56227,7 @@
             "spi_group_names": [
               "Private"
             ],
+            "isLet": true,
             "hasStorage": true,
             "accessors": [
               {
@@ -56729,69 +56263,6 @@
                   "Private"
                 ],
                 "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "Sentry.TraceContext?",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TraceContext",
-                        "printedName": "Sentry.TraceContext",
-                        "usr": "c:objc(cs)SentryTraceContext"
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "c:@M@Sentry@objc(cs)SentryEnvelopeHeader(im)setTraceContext:",
-                "mangledName": "$s6Sentry0A14EnvelopeHeaderC12traceContextSo0a5TraceE0CSgvs",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "Final",
-                  "ObjC"
-                ],
-                "spi_group_names": [
-                  "Private"
-                ],
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:6Sentry0A14EnvelopeHeaderC12traceContextSo0a5TraceE0CSgvM",
-                "mangledName": "$s6Sentry0A14EnvelopeHeaderC12traceContextSo0a5TraceE0CSgvM",
-                "moduleName": "Sentry",
-                "implicit": true,
-                "declAttributes": [
-                  "Final"
-                ],
-                "spi_group_names": [
-                  "Private"
-                ],
-                "accessorKind": "_modify"
               }
             ]
           },
@@ -68411,6 +67882,7 @@
             "mangledName": "$s6Sentry0A18MaskingPreviewViewC7opacitySfvp",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "Preconcurrency",
               "Custom",
               "AccessControl",
@@ -68437,6 +67909,7 @@
                 "mangledName": "$s6Sentry0A18MaskingPreviewViewC7opacitySfvg",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -68466,6 +67939,7 @@
                 "mangledName": "$s6Sentry0A18MaskingPreviewViewC7opacitySfvs",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -68490,6 +67964,7 @@
                 "moduleName": "Sentry",
                 "implicit": true,
                 "declAttributes": [
+                  "Final",
                   "SPIAccessControl"
                 ],
                 "spi_group_names": [
@@ -68550,7 +68025,7 @@
             "overriding": true,
             "objc_name": "didMoveToSuperview",
             "declAttributes": [
-              "Dynamic",
+              "Final",
               "ObjC",
               "Preconcurrency",
               "Custom",
@@ -68607,6 +68082,7 @@
         "declAttributes": [
           "Preconcurrency",
           "Custom",
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjCMembers",
@@ -73597,6 +73073,7 @@
             "mangledName": "$s6Sentry0A21MobileProvisionParserC06mobileC27ProfileProvisionsAllDevicesSbvp",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC",
               "RawDocComment"
@@ -73622,6 +73099,7 @@
                 "mangledName": "$s6Sentry0A21MobileProvisionParserC06mobileC27ProfileProvisionsAllDevicesSbvg",
                 "moduleName": "Sentry",
                 "declAttributes": [
+                  "Final",
                   "ObjC"
                 ],
                 "spi_group_names": [
@@ -73717,6 +73195,7 @@
             "mangledName": "$s6Sentry0A21MobileProvisionParserC011hasEmbeddedbC7ProfileSbyF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -73731,6 +73210,7 @@
         "mangledName": "$s6Sentry0A21MobileProvisionParserC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC"
@@ -74706,6 +74186,7 @@
             "mangledName": "$s6Sentry0A17SwiftUISpanHelperC20reportInitialDisplayyyF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -74798,6 +74279,7 @@
         "mangledName": "$s6Sentry0A17SwiftUISpanHelperC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "ObjC",
           "SPIAccessControl"
@@ -75853,6 +75335,16 @@
         ]
       },
       {
+        "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
         "kind": "TypeDecl",
         "name": "SentryMeasurementValue",
         "printedName": "SentryMeasurementValue",
@@ -76245,6 +75737,45 @@
               "ObjC",
               "Override",
               "AccessControl"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(name:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryDispatchQueueWrapper",
+                "printedName": "Sentry.SentryDispatchQueueWrapper",
+                "usr": "c:@M@Sentry@objc(cs)SentryDispatchQueueWrapper"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UnsafePointer",
+                "printedName": "Swift.UnsafePointer<Swift.Int8>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int8",
+                    "printedName": "Swift.Int8",
+                    "usr": "s:s4Int8V"
+                  }
+                ],
+                "usr": "s:SP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentryDispatchQueueWrapper(im)initWithName:",
+            "mangledName": "$s6Sentry0A20DispatchQueueWrapperC4nameACSPys4Int8VG_tcfc",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
             ],
             "spi_group_names": [
               "Private"
@@ -77930,6 +77461,7 @@
             "moduleName": "Sentry",
             "objc_name": "nextNumber",
             "declAttributes": [
+              "Final",
               "ObjC",
               "AccessControl",
               "RawDocComment"
@@ -77974,6 +77506,7 @@
         "mangledName": "$s6Sentry0A6RandomC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC"
@@ -78161,7 +77694,7 @@
           {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(options:dispatchQueue:delegate:)",
+            "printedName": "init(options:delegate:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -78177,20 +77710,14 @@
               },
               {
                 "kind": "TypeNominal",
-                "name": "SentryDispatchQueueWrapper",
-                "printedName": "Sentry.SentryDispatchQueueWrapper",
-                "usr": "c:@M@Sentry@objc(cs)SentryDispatchQueueWrapper"
-              },
-              {
-                "kind": "TypeNominal",
                 "name": "SentryLogBatcherDelegate",
                 "printedName": "any Sentry.SentryLogBatcherDelegate",
                 "usr": "c:@M@Sentry@objc(pl)SentryLogBatcherDelegate"
               }
             ],
             "declKind": "Constructor",
-            "usr": "c:@M@Sentry@objc(cs)SentryLogBatcher(im)initWithOptions:dispatchQueue:delegate:",
-            "mangledName": "$s6Sentry0A10LogBatcherC7options13dispatchQueue8delegateAcA7OptionsC_AA0a8DispatchF7WrapperCAA0abC8Delegate_ptcfc",
+            "usr": "c:@M@Sentry@objc(cs)SentryLogBatcher(im)initWithOptions:delegate:",
+            "mangledName": "$s6Sentry0A10LogBatcherC7options8delegateAcA7OptionsC_AA0abC8Delegate_ptcfc",
             "moduleName": "Sentry",
             "declAttributes": [
               "Convenience",
@@ -78898,6 +78425,60 @@
           },
           {
             "kind": "Function",
+            "name": "setAttributes",
+            "printedName": "setAttributes(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "[Swift.String : Any]?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Dictionary",
+                    "printedName": "[Swift.String : Any]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "ProtocolComposition",
+                        "printedName": "Any"
+                      }
+                    ],
+                    "usr": "s:SD"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(pl)SentryScopeObserver(im)setAttributes:",
+            "mangledName": "$s6Sentry0A13ScopeObserverP13setAttributesyySDySSypGSgF",
+            "moduleName": "Sentry",
+            "genericSig": "<τ_0_0 where τ_0_0 : Sentry.SentryScopeObserver>",
+            "sugared_genericSig": "<Self where Self : Sentry.SentryScopeObserver>",
+            "protocolReq": true,
+            "declAttributes": [
+              "ObjC"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "addSerializedBreadcrumb",
             "printedName": "addSerializedBreadcrumb(_:)",
             "children": [
@@ -79360,6 +78941,7 @@
             "mangledName": "$s6Sentry0A8DateUtilC10isInFutureySb10Foundation0B0VSgF",
             "moduleName": "Sentry",
             "declAttributes": [
+              "Final",
               "AccessControl",
               "ObjC"
             ],
@@ -79500,6 +79082,7 @@
         "mangledName": "$s6Sentry0A8DateUtilC",
         "moduleName": "Sentry",
         "declAttributes": [
+          "Final",
           "AccessControl",
           "SPIAccessControl",
           "ObjC"
@@ -79997,6 +79580,361 @@
         ],
         "superclassUsr": "c:objc(cs)NSObject",
         "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "_SentryPrivate",
+        "printedName": "_SentryPrivate",
+        "declKind": "Import",
+        "moduleName": "Sentry",
+        "declAttributes": [
+          "ImplementationOnly"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "Import",
+        "name": "CommonCrypto",
+        "printedName": "CommonCrypto",
+        "declKind": "Import",
+        "moduleName": "Sentry"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SentryDsn",
+        "printedName": "SentryDsn",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "url",
+            "printedName": "url",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@Sentry@objc(cs)SentryDsn(py)url",
+            "mangledName": "$s6Sentry0A3DsnC3url10Foundation3URLVvp",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URL",
+                    "printedName": "Foundation.URL",
+                    "usr": "s:10Foundation3URLV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@Sentry@objc(cs)SentryDsn(im)url",
+                "mangledName": "$s6Sentry0A3DsnC3url10Foundation3URLVvg",
+                "moduleName": "Sentry",
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(string:didFailWithError:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Sentry.SentryDsn?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SentryDsn",
+                    "printedName": "Sentry.SentryDsn",
+                    "usr": "c:@M@Sentry@objc(cs)SentryDsn"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AutoreleasingUnsafeMutablePointer",
+                    "printedName": "Swift.AutoreleasingUnsafeMutablePointer<Foundation.NSError?>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Optional",
+                        "printedName": "Foundation.NSError?",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "NSError",
+                            "printedName": "Foundation.NSError",
+                            "usr": "c:objc(cs)NSError"
+                          }
+                        ],
+                        "usr": "s:Sq"
+                      }
+                    ],
+                    "usr": "s:SA"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentryDsn(im)initWithString:didFailWithError:",
+            "mangledName": "$s6Sentry0A3DsnC6string16didFailWithErrorACSgSSSg_SAySo7NSErrorCSgGSgtcfc",
+            "moduleName": "Sentry",
+            "objc_name": "initWithString:didFailWithError:",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(string:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryDsn",
+                "printedName": "Sentry.SentryDsn",
+                "usr": "c:@M@Sentry@objc(cs)SentryDsn"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:6Sentry0A3DsnC6stringACSSSg_tKcfc",
+            "mangledName": "$s6Sentry0A3DsnC6stringACSSSg_tKcfc",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "Convenience",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "init_kind": "Convenience"
+          },
+          {
+            "kind": "Function",
+            "name": "getHash",
+            "printedName": "getHash()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentryDsn(im)getHash",
+            "mangledName": "$s6Sentry0A3DsnC7getHashSSyF",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC",
+              "SPIAccessControl",
+              "RawDocComment"
+            ],
+            "spi_group_names": [
+              "Private"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getEnvelopeEndpoint",
+            "printedName": "getEnvelopeEndpoint()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@Sentry@objc(cs)SentryDsn(im)getEnvelopeEndpoint",
+            "mangledName": "$s6Sentry0A3DsnC19getEnvelopeEndpoint10Foundation3URLVyF",
+            "moduleName": "Sentry",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryDsn",
+                "printedName": "Sentry.SentryDsn",
+                "usr": "c:@M@Sentry@objc(cs)SentryDsn"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@Sentry@objc(cs)SentryDsn(im)init",
+            "mangledName": "$s6Sentry0A3DsnCACycfc",
+            "moduleName": "Sentry",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@Sentry@objc(cs)SentryDsn",
+        "mangledName": "$s6Sentry0A3DsnC",
+        "moduleName": "Sentry",
+        "objc_name": "SentryDsn",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "ObjC",
+          "RawDocComment"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
         "superclassNames": [
           "ObjectiveC.NSObject"
         ],
@@ -82439,14 +82377,14 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryURLRequestFactory.swift",
       "kind": "StringLiteral",
-      "offset": 254,
+      "offset": 216,
       "length": 3,
       "value": "\"7\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Tools\/SentryURLRequestFactory.swift",
       "kind": "IntegerLiteral",
-      "offset": 312,
+      "offset": 274,
       "length": 2,
       "value": "15"
     },
@@ -82915,14 +82853,14 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Session\/SessionTracker.swift",
       "kind": "BooleanLiteral",
-      "offset": 585,
+      "offset": 525,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/Session\/SessionTracker.swift",
       "kind": "StringLiteral",
-      "offset": 884,
+      "offset": 824,
       "length": 32,
       "value": "\"SentryHybridSdkDidBecomeActive\""
     },
@@ -83111,14 +83049,14 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Protocol\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 2973,
+      "offset": 2977,
       "length": 10,
       "value": "\"trace_id\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Protocol\/SentryLog.swift",
       "kind": "StringLiteral",
-      "offset": 3075,
+      "offset": 3079,
       "length": 17,
       "value": "\"severity_number\""
     },
@@ -83279,35 +83217,35 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryDependencyContainer.swift",
       "kind": "BooleanLiteral",
-      "offset": 6473,
+      "offset": 6429,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryDependencyContainer.swift",
       "kind": "StringLiteral",
-      "offset": 7381,
+      "offset": 7337,
       "length": 58,
       "value": "\"io.sentry.watchdog-termination-tracking.fields-processor\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryDependencyContainer.swift",
       "kind": "IntegerLiteral",
-      "offset": 7459,
+      "offset": 7415,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryDependencyContainer.swift",
       "kind": "StringLiteral",
-      "offset": 10419,
+      "offset": 10375,
       "length": 42,
       "value": "\"Could not create file manager - \""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryDependencyContainer.swift",
       "kind": "StringLiteral",
-      "offset": 10460,
+      "offset": 10416,
       "length": 2,
       "value": "\"\""
     },
@@ -84399,7 +84337,7 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/MetricKit\/SentryMXManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 1142,
+      "offset": 1148,
       "length": 4,
       "value": "true"
     },
@@ -84434,7 +84372,7 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/MetricKit\/SentryMXCallStackTree.swift",
       "kind": "Array",
-      "offset": 1242,
+      "offset": 1248,
       "length": 2,
       "value": "[]"
     },
@@ -84518,7 +84456,7 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/SentrySDKLog.swift",
       "kind": "BooleanLiteral",
-      "offset": 1111,
+      "offset": 1117,
       "length": 4,
       "value": "true"
     },
@@ -84560,14 +84498,14 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Helper\/SentryBaggageSerialization.swift",
       "kind": "IntegerLiteral",
-      "offset": 153,
+      "offset": 159,
       "length": 5,
       "value": "8192"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Helper\/SentryBaggageSerialization.swift",
       "kind": "StringLiteral",
-      "offset": 289,
+      "offset": 295,
       "length": 5,
       "value": "\"-_.\""
     },
@@ -84735,35 +84673,35 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Integrations\/ANR\/SentryANRType.swift",
       "kind": "StringLiteral",
-      "offset": 347,
+      "offset": 353,
       "length": 30,
       "value": "\"Fatal App Hang Fully Blocked\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Integrations\/ANR\/SentryANRType.swift",
       "kind": "StringLiteral",
-      "offset": 415,
+      "offset": 421,
       "length": 34,
       "value": "\"Fatal App Hang Non Fully Blocked\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Integrations\/ANR\/SentryANRType.swift",
       "kind": "StringLiteral",
-      "offset": 479,
+      "offset": 485,
       "length": 24,
       "value": "\"App Hang Fully Blocked\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Integrations\/ANR\/SentryANRType.swift",
       "kind": "StringLiteral",
-      "offset": 536,
+      "offset": 542,
       "length": 28,
       "value": "\"App Hang Non Fully Blocked\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Integrations\/ANR\/SentryANRType.swift",
       "kind": "StringLiteral",
-      "offset": 588,
+      "offset": 594,
       "length": 13,
       "value": "\"App Hanging\""
     },
@@ -84819,21 +84757,21 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/UrlSanitized.swift",
       "kind": "StringLiteral",
-      "offset": 128,
+      "offset": 134,
       "length": 12,
       "value": "\"[Filtered]\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/UrlSanitized.swift",
       "kind": "StringLiteral",
-      "offset": 879,
+      "offset": 885,
       "length": 3,
       "value": "\"?\""
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Core\/Tools\/UrlSanitized.swift",
       "kind": "StringLiteral",
-      "offset": 909,
+      "offset": 915,
       "length": 3,
       "value": "\"#\""
     },
@@ -86247,7 +86185,7 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Integrations\/SessionReplay\/Preview\/SentryMaskingPreviewView.swift",
       "kind": "BooleanLiteral",
-      "offset": 825,
+      "offset": 831,
       "length": 4,
       "value": "true"
     },
@@ -86541,7 +86479,7 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/SentryMobileProvisionParser.swift",
       "kind": "BooleanLiteral",
-      "offset": 119,
+      "offset": 125,
       "length": 5,
       "value": "false"
     },
@@ -86555,14 +86493,14 @@
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/SentryDispatchQueueWrapper.swift",
       "kind": "BooleanLiteral",
-      "offset": 2937,
+      "offset": 3064,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/Helper\/SentryDispatchQueueWrapper.swift",
       "kind": "BooleanLiteral",
-      "offset": 3017,
+      "offset": 3144,
       "length": 4,
       "value": "true"
     },
@@ -86649,6 +86587,13 @@
       "offset": 423,
       "length": 11,
       "value": "\"thread_id\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/sentry-cocoa\/sentry-cocoa\/Sources\/Swift\/SentryDsn.swift",
+      "kind": "IntegerLiteral",
+      "offset": 479,
+      "length": 3,
+      "value": "100"
     }
   ]
 }

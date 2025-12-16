@@ -1287,7 +1287,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryDefaultViewRenderer")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentrySessionTracker;
 @class SentryDispatchFactory;
 @class SentryNSTimerFactory;
 @class SentryReachability;
@@ -1311,7 +1310,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryDependencyContainer")
 /// Resets all dependencies.
 + (void)reset;
 - (id <SentryApplication> _Nullable)application SWIFT_WARN_UNUSED_RESULT;
-- (SentrySessionTracker * _Nonnull)getSessionTrackerWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, strong) SentryDispatchQueueWrapper * _Nonnull dispatchQueueWrapper;
 @property (nonatomic, strong) id <SentryRandomProtocol> _Nonnull random;
 @property (nonatomic, strong) SentryThreadWrapper * _Nonnull threadWrapper;
@@ -1382,6 +1380,7 @@ SWIFT_CLASS("_TtC6Sentry21SentryDispatchFactory")
 SWIFT_CLASS("_TtC6Sentry26SentryDispatchQueueWrapper")
 @interface SentryDispatchQueueWrapper : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithName:(char const * _Nonnull)name OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithName:(char const * _Nonnull)name relativePriority:(int32_t)relativePriority OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithName:(char const * _Nonnull)name attributes:(dispatch_queue_attr_t _Nullable)attributes OBJC_DESIGNATED_INITIALIZER;
 @property (nonatomic, readonly, strong) dispatch_queue_t _Nonnull queue;
@@ -1413,6 +1412,38 @@ SWIFT_CLASS("_TtC6Sentry24SentryDisplayLinkWrapper")
 - (void)invalidate;
 - (BOOL)isRunning SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSURL;
+@class NSError;
+/// Represents a Sentry Data Source Name (DSN) which identifies a Sentry project.
+SWIFT_CLASS_NAMED("SentryDsn")
+@interface SentryDsn : NSObject
+/// The parsed URL from the DSN string.
+@property (nonatomic, readonly, copy) NSURL * _Nonnull url;
+/// Initializes a SentryDsn from a DSN string.
+/// \param dsnString The DSN string to parse.
+///
+/// \param error An optional error pointer that will be set if the DSN is invalid.
+///
+///
+/// returns:
+/// A new SentryDsn instance, or nil if the DSN string is invalid.
+- (nullable instancetype)initWithString:(NSString * _Nullable)dsnString didFailWithError:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+/// Generates a SHA1 hash of the DSN URL.
+/// note:
+/// This is internal SDK API, not for public use.
+///
+/// returns:
+/// A hexadecimal string representation of the hash.
+- (NSString * _Nonnull)getHash SWIFT_WARN_UNUSED_RESULT;
+/// Returns the envelope endpoint URL for this DSN.
+///
+/// returns:
+/// The envelope endpoint URL.
+- (NSURL * _Nonnull)getEnvelopeEndpoint SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
@@ -1448,8 +1479,8 @@ SWIFT_CLASS("_TtC6Sentry20SentryEnvelopeHeader")
 /// The event identifier, if available.
 /// An event id exist if the envelope contains an event of items within it are related. i.e
 /// Attachments
-@property (nonatomic, strong) SentryId * _Nullable eventId;
-@property (nonatomic, strong) SentryTraceContext * _Nullable traceContext;
+@property (nonatomic, readonly, strong) SentryId * _Nullable eventId;
+@property (nonatomic, readonly, strong) SentryTraceContext * _Nullable traceContext;
 /// The timestamp when the event was sent from the SDK as string in RFC 3339 format. Used
 /// for clock drift correction of the event timestamp. The time zone must be UTC.
 /// The timestamp should be generated as close as possible to the transmision of the event,
@@ -1465,7 +1496,6 @@ SWIFT_CLASS("_TtC6Sentry20SentryEnvelopeHeader")
 @class SentryAttachment;
 @class SentryReplayEvent;
 @class SentryReplayRecording;
-@class NSURL;
 SWIFT_CLASS("_TtC6Sentry18SentryEnvelopeItem")
 @interface SentryEnvelopeItem : NSObject
 /// The envelope payload.
@@ -1616,12 +1646,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 SWIFT_CLASS("_TtC6Sentry17SentryFeedbackAPI")
@@ -1650,7 +1680,6 @@ SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-@class NSError;
 SWIFT_CLASS("_TtC6Sentry19SentryFileIOTracker")
 @interface SentryFileIOTracker : NSObject
 - (nonnull instancetype)initWithThreadInspector:(SentryThreadInspector * _Nonnull)threadInspector processInfoWrapper:(id <SentryProcessInfoSource> _Nonnull)processInfoWrapper OBJC_DESIGNATED_INITIALIZER;
@@ -2108,18 +2137,17 @@ SWIFT_CLASS_NAMED("Attribute")
 SWIFT_CLASS("_TtC6Sentry16SentryLogBatcher")
 @interface SentryLogBatcher : NSObject
 /// Convenience initializer with default flush timeout, max log count (100), and buffer size.
-/// important:
-/// The <code>dispatchQueue</code> parameter MUST be a serial queue to ensure thread safety.
-/// Passing a concurrent queue will result in undefined behavior and potential data races.
+/// Creates its own serial dispatch queue with DEFAULT QoS for thread-safe access to mutable state.
+/// note:
+/// Uses DEFAULT priority (not LOW) because captureLogs() is called synchronously during
+/// app lifecycle events (willResignActive, willTerminate) and needs to complete quickly.
 /// note:
 /// Setting <code>maxLogCount</code> to 100. While Replay hard limit is 1000, we keep this lower, as it’s hard to lower once released.
 /// \param options The Sentry configuration options
 ///
-/// \param dispatchQueue A <em>serial</em> dispatch queue wrapper for thread-safe access to mutable state
-///
 /// \param delegate The delegate to handle captured log batches
 ///
-- (nonnull instancetype)initWithOptions:(SentryOptions * _Nonnull)options dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue delegate:(id <SentryLogBatcherDelegate> _Nonnull)delegate;
+- (nonnull instancetype)initWithOptions:(SentryOptions * _Nonnull)options delegate:(id <SentryLogBatcherDelegate> _Nonnull)delegate;
 /// Initializes a new SentryLogBatcher.
 /// important:
 /// The <code>dispatchQueue</code> parameter MUST be a serial queue to ensure thread safety.
@@ -2319,6 +2347,14 @@ SWIFT_CLASS("_TtC6Sentry20SentryNSTimerFactory")
 @interface SentryNSTimerFactory : NSObject
 - (NSTimer * _Nonnull)scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^ _Nonnull)(NSTimer * _Nonnull))block;
 - (NSTimer * _Nonnull)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id _Nonnull)aTarget selector:(SEL _Nonnull)aSelector userInfo:(id _Nullable)userInfo repeats:(BOOL)yesOrNo;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSURLRequest;
+SWIFT_CLASS("_TtC6Sentry25SentryNSURLRequestBuilder")
+@interface SentryNSURLRequestBuilder : NSObject
+- (NSURLRequest * _Nullable)createEnvelopeRequest:(SentryEnvelope * _Nonnull)envelope dsn:(SentryDsn * _Nonnull)dsn error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (NSURLRequest * _Nullable)createEnvelopeRequest:(SentryEnvelope * _Nonnull)envelope url:(NSURL * _Nonnull)url error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3087,6 +3123,7 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryScopeObserver_")
 - (void)setEnvironment:(NSString * _Nullable)environment;
 - (void)setFingerprint:(NSArray<NSString *> * _Nullable)fingerprint;
 - (void)setLevel:(SentryLevel)level;
+- (void)setAttributes:(NSDictionary<NSString *, id> * _Nullable)attributes;
 - (void)addSerializedBreadcrumb:(NSDictionary<NSString *, id> * _Nonnull)serializedBreadcrumb;
 - (void)clearBreadcrumbs;
 - (void)clear;
@@ -3417,14 +3454,6 @@ SWIFT_CLASS("_TtC6Sentry40SentryUIViewControllerPerformanceTracker")
 - (void)viewControllerViewDidLayoutSubViews:(UIViewController * _Nonnull)controller callbackToOrigin:(void (^ _Nonnull)(void))callback;
 - (void)reportFullyDisplayed;
 - (SentrySwiftUISpanHelper * _Nonnull)startTimeToDisplayTrackerForScreen:(NSString * _Nonnull)screenName waitForFullDisplay:(BOOL)waitForFullDisplay transactionId:(SentrySpanId * _Nonnull)transactionId SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class NSURLRequest;
-SWIFT_CLASS("_TtC6Sentry23SentryURLRequestFactory")
-@interface SentryURLRequestFactory : NSObject
-+ (NSURLRequest * _Nullable)envelopeRequestWith:(SentryDsn * _Nonnull)dsn data:(NSData * _Nonnull)data error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-+ (NSURLRequest * _Nullable)envelopeRequestWith:(NSURL * _Nonnull)url data:(NSData * _Nonnull)data authHeader:(NSString * _Nullable)authHeader error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 @class SentryUserFeedbackWidgetConfiguration;
@@ -3860,17 +3889,6 @@ SWIFT_CLASS("_TtC6Sentry44SentryWatchdogTerminationAttributesProcessor")
 - (void)setTags:(NSDictionary<NSString *, NSString *> * _Nullable)tags;
 - (void)setExtras:(NSDictionary<NSString *, id> * _Nullable)extras;
 - (void)setFingerprint:(NSArray<NSString *> * _Nullable)fingerprint;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-/// Tracks sessions for release health. For more info see:
-/// https://docs.sentry.io/workflow/releases/health/#session
-SWIFT_CLASS_NAMED("SessionTracker")
-@interface SentrySessionTracker : NSObject
-- (void)start;
-- (void)stop;
-- (void)removeObservers;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -5207,7 +5225,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryDefaultViewRenderer")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class SentrySessionTracker;
 @class SentryDispatchFactory;
 @class SentryNSTimerFactory;
 @class SentryReachability;
@@ -5231,7 +5248,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryDependencyContainer")
 /// Resets all dependencies.
 + (void)reset;
 - (id <SentryApplication> _Nullable)application SWIFT_WARN_UNUSED_RESULT;
-- (SentrySessionTracker * _Nonnull)getSessionTrackerWithOptions:(SentryOptions * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, strong) SentryDispatchQueueWrapper * _Nonnull dispatchQueueWrapper;
 @property (nonatomic, strong) id <SentryRandomProtocol> _Nonnull random;
 @property (nonatomic, strong) SentryThreadWrapper * _Nonnull threadWrapper;
@@ -5302,6 +5318,7 @@ SWIFT_CLASS("_TtC6Sentry21SentryDispatchFactory")
 SWIFT_CLASS("_TtC6Sentry26SentryDispatchQueueWrapper")
 @interface SentryDispatchQueueWrapper : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithName:(char const * _Nonnull)name OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithName:(char const * _Nonnull)name relativePriority:(int32_t)relativePriority OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithName:(char const * _Nonnull)name attributes:(dispatch_queue_attr_t _Nullable)attributes OBJC_DESIGNATED_INITIALIZER;
 @property (nonatomic, readonly, strong) dispatch_queue_t _Nonnull queue;
@@ -5333,6 +5350,38 @@ SWIFT_CLASS("_TtC6Sentry24SentryDisplayLinkWrapper")
 - (void)invalidate;
 - (BOOL)isRunning SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSURL;
+@class NSError;
+/// Represents a Sentry Data Source Name (DSN) which identifies a Sentry project.
+SWIFT_CLASS_NAMED("SentryDsn")
+@interface SentryDsn : NSObject
+/// The parsed URL from the DSN string.
+@property (nonatomic, readonly, copy) NSURL * _Nonnull url;
+/// Initializes a SentryDsn from a DSN string.
+/// \param dsnString The DSN string to parse.
+///
+/// \param error An optional error pointer that will be set if the DSN is invalid.
+///
+///
+/// returns:
+/// A new SentryDsn instance, or nil if the DSN string is invalid.
+- (nullable instancetype)initWithString:(NSString * _Nullable)dsnString didFailWithError:(NSError * _Nullable * _Nullable)error OBJC_DESIGNATED_INITIALIZER;
+/// Generates a SHA1 hash of the DSN URL.
+/// note:
+/// This is internal SDK API, not for public use.
+///
+/// returns:
+/// A hexadecimal string representation of the hash.
+- (NSString * _Nonnull)getHash SWIFT_WARN_UNUSED_RESULT;
+/// Returns the envelope endpoint URL for this DSN.
+///
+/// returns:
+/// The envelope endpoint URL.
+- (NSURL * _Nonnull)getEnvelopeEndpoint SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 SWIFT_CLASS("_TtC6Sentry28SentryEnabledFeaturesBuilder")
@@ -5368,8 +5417,8 @@ SWIFT_CLASS("_TtC6Sentry20SentryEnvelopeHeader")
 /// The event identifier, if available.
 /// An event id exist if the envelope contains an event of items within it are related. i.e
 /// Attachments
-@property (nonatomic, strong) SentryId * _Nullable eventId;
-@property (nonatomic, strong) SentryTraceContext * _Nullable traceContext;
+@property (nonatomic, readonly, strong) SentryId * _Nullable eventId;
+@property (nonatomic, readonly, strong) SentryTraceContext * _Nullable traceContext;
 /// The timestamp when the event was sent from the SDK as string in RFC 3339 format. Used
 /// for clock drift correction of the event timestamp. The time zone must be UTC.
 /// The timestamp should be generated as close as possible to the transmision of the event,
@@ -5385,7 +5434,6 @@ SWIFT_CLASS("_TtC6Sentry20SentryEnvelopeHeader")
 @class SentryAttachment;
 @class SentryReplayEvent;
 @class SentryReplayRecording;
-@class NSURL;
 SWIFT_CLASS("_TtC6Sentry18SentryEnvelopeItem")
 @interface SentryEnvelopeItem : NSObject
 /// The envelope payload.
@@ -5536,12 +5584,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 SWIFT_CLASS("_TtC6Sentry17SentryFeedbackAPI")
@@ -5570,7 +5618,6 @@ SWIFT_CLASS("_TtC6Sentry18SentryFileContents")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-@class NSError;
 SWIFT_CLASS("_TtC6Sentry19SentryFileIOTracker")
 @interface SentryFileIOTracker : NSObject
 - (nonnull instancetype)initWithThreadInspector:(SentryThreadInspector * _Nonnull)threadInspector processInfoWrapper:(id <SentryProcessInfoSource> _Nonnull)processInfoWrapper OBJC_DESIGNATED_INITIALIZER;
@@ -6028,18 +6075,17 @@ SWIFT_CLASS_NAMED("Attribute")
 SWIFT_CLASS("_TtC6Sentry16SentryLogBatcher")
 @interface SentryLogBatcher : NSObject
 /// Convenience initializer with default flush timeout, max log count (100), and buffer size.
-/// important:
-/// The <code>dispatchQueue</code> parameter MUST be a serial queue to ensure thread safety.
-/// Passing a concurrent queue will result in undefined behavior and potential data races.
+/// Creates its own serial dispatch queue with DEFAULT QoS for thread-safe access to mutable state.
+/// note:
+/// Uses DEFAULT priority (not LOW) because captureLogs() is called synchronously during
+/// app lifecycle events (willResignActive, willTerminate) and needs to complete quickly.
 /// note:
 /// Setting <code>maxLogCount</code> to 100. While Replay hard limit is 1000, we keep this lower, as it’s hard to lower once released.
 /// \param options The Sentry configuration options
 ///
-/// \param dispatchQueue A <em>serial</em> dispatch queue wrapper for thread-safe access to mutable state
-///
 /// \param delegate The delegate to handle captured log batches
 ///
-- (nonnull instancetype)initWithOptions:(SentryOptions * _Nonnull)options dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue delegate:(id <SentryLogBatcherDelegate> _Nonnull)delegate;
+- (nonnull instancetype)initWithOptions:(SentryOptions * _Nonnull)options delegate:(id <SentryLogBatcherDelegate> _Nonnull)delegate;
 /// Initializes a new SentryLogBatcher.
 /// important:
 /// The <code>dispatchQueue</code> parameter MUST be a serial queue to ensure thread safety.
@@ -6239,6 +6285,14 @@ SWIFT_CLASS("_TtC6Sentry20SentryNSTimerFactory")
 @interface SentryNSTimerFactory : NSObject
 - (NSTimer * _Nonnull)scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^ _Nonnull)(NSTimer * _Nonnull))block;
 - (NSTimer * _Nonnull)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id _Nonnull)aTarget selector:(SEL _Nonnull)aSelector userInfo:(id _Nullable)userInfo repeats:(BOOL)yesOrNo;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSURLRequest;
+SWIFT_CLASS("_TtC6Sentry25SentryNSURLRequestBuilder")
+@interface SentryNSURLRequestBuilder : NSObject
+- (NSURLRequest * _Nullable)createEnvelopeRequest:(SentryEnvelope * _Nonnull)envelope dsn:(SentryDsn * _Nonnull)dsn error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
+- (NSURLRequest * _Nullable)createEnvelopeRequest:(SentryEnvelope * _Nonnull)envelope url:(NSURL * _Nonnull)url error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -7007,6 +7061,7 @@ SWIFT_PROTOCOL("_TtP6Sentry19SentryScopeObserver_")
 - (void)setEnvironment:(NSString * _Nullable)environment;
 - (void)setFingerprint:(NSArray<NSString *> * _Nullable)fingerprint;
 - (void)setLevel:(SentryLevel)level;
+- (void)setAttributes:(NSDictionary<NSString *, id> * _Nullable)attributes;
 - (void)addSerializedBreadcrumb:(NSDictionary<NSString *, id> * _Nonnull)serializedBreadcrumb;
 - (void)clearBreadcrumbs;
 - (void)clear;
@@ -7337,14 +7392,6 @@ SWIFT_CLASS("_TtC6Sentry40SentryUIViewControllerPerformanceTracker")
 - (void)viewControllerViewDidLayoutSubViews:(UIViewController * _Nonnull)controller callbackToOrigin:(void (^ _Nonnull)(void))callback;
 - (void)reportFullyDisplayed;
 - (SentrySwiftUISpanHelper * _Nonnull)startTimeToDisplayTrackerForScreen:(NSString * _Nonnull)screenName waitForFullDisplay:(BOOL)waitForFullDisplay transactionId:(SentrySpanId * _Nonnull)transactionId SWIFT_WARN_UNUSED_RESULT;
-@end
-
-@class NSURLRequest;
-SWIFT_CLASS("_TtC6Sentry23SentryURLRequestFactory")
-@interface SentryURLRequestFactory : NSObject
-+ (NSURLRequest * _Nullable)envelopeRequestWith:(SentryDsn * _Nonnull)dsn data:(NSData * _Nonnull)data error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-+ (NSURLRequest * _Nullable)envelopeRequestWith:(NSURL * _Nonnull)url data:(NSData * _Nonnull)data authHeader:(NSString * _Nullable)authHeader error:(NSError * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 @class SentryUserFeedbackWidgetConfiguration;
@@ -7780,17 +7827,6 @@ SWIFT_CLASS("_TtC6Sentry44SentryWatchdogTerminationAttributesProcessor")
 - (void)setTags:(NSDictionary<NSString *, NSString *> * _Nullable)tags;
 - (void)setExtras:(NSDictionary<NSString *, id> * _Nullable)extras;
 - (void)setFingerprint:(NSArray<NSString *> * _Nullable)fingerprint;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-/// Tracks sessions for release health. For more info see:
-/// https://docs.sentry.io/workflow/releases/health/#session
-SWIFT_CLASS_NAMED("SessionTracker")
-@interface SentrySessionTracker : NSObject
-- (void)start;
-- (void)stop;
-- (void)removeObservers;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end

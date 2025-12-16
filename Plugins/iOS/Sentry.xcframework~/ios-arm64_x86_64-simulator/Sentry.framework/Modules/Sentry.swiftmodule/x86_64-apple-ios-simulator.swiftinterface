@@ -3,6 +3,7 @@
 // swift-module-flags: -target x86_64-apple-ios15.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Osize -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name Sentry
 // swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1.2
 import AVFoundation
+import CommonCrypto
 import CoreGraphics
 import CoreMedia
 import Darwin
@@ -662,6 +663,13 @@ extension Foundation.Data {
   @objc final public var unexpectedErrorText: Swift.String
   @objc final public var validationErrorMessage: (_ multipleErrors: Swift.Bool) -> Swift.String
   @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(SentryDsn) final public class SentryDsn : ObjectiveC.NSObject {
+  @objc final public let url: Foundation.URL
+  @objc public init?(string dsnString: Swift.String?, didFailWithError error: Foundation.NSErrorPointer)
+  convenience public init(string: Swift.String?) throws
+  @objc final public func getEnvelopeEndpoint() -> Foundation.URL
   @objc deinit
 }
 extension Sentry.SentryFeedback.SentryFeedbackSource : Swift.Equatable {}

@@ -3815,6 +3815,27 @@
             <param name="statusCode">Status code to check.</param>
             <returns>True if the range contains the given status code.</returns>
         </member>
+        <member name="T:Sentry.HttpStatusCodeRangeExtensions">
+            <summary>
+            Extension methods for collections of <see cref="T:Sentry.HttpStatusCodeRange"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.HttpStatusCodeRangeExtensions.ContainsStatusCode(System.Collections.Generic.IEnumerable{Sentry.HttpStatusCodeRange},System.Int32)">
+            <summary>
+            Checks if any range in the collection contains the given status code.
+            </summary>
+            <param name="ranges">Collection of ranges to check.</param>
+            <param name="statusCode">Status code to check.</param>
+            <returns>True if any range contains the given status code.</returns>
+        </member>
+        <member name="M:Sentry.HttpStatusCodeRangeExtensions.ContainsStatusCode(System.Collections.Generic.IEnumerable{Sentry.HttpStatusCodeRange},System.Net.HttpStatusCode)">
+            <summary>
+            Checks if any range in the collection contains the given status code.
+            </summary>
+            <param name="ranges">Collection of ranges to check.</param>
+            <param name="statusCode">Status code to check.</param>
+            <returns>True if any range contains the given status code.</returns>
+        </member>
         <member name="T:Sentry.HubExtensions">
             <summary>
             Extension methods for <see cref="T:Sentry.IHub"/>.
@@ -4680,16 +4701,6 @@
             See https://www.jamescrosswell.dev/posts/catching-async-void-exceptions/ for a detailed explanation
             </summary>
         </member>
-        <member name="M:Sentry.Internal.Extensions.HttpStatusExtensions.EnsureSuccessStatusCode(System.Net.HttpStatusCode)">
-             <summary>
-             This mimics the behaviour of <see cref="M:System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode"/> for netcore3.0 and later
-             by throwing an exception if the status code is outside the 200 range without disposing the content.
-            
-             See https://github.com/getsentry/sentry-dotnet/issues/2684
-             </summary>
-             <param name="statusCode"></param>
-             <exception cref="T:System.Net.Http.HttpRequestException"></exception>
-        </member>
         <member name="M:Sentry.Internal.Extensions.JsonExtensions.GetSafeDateTimeOffset(System.Text.Json.JsonElement,System.String)">
             <summary>
             Safety value to deal with native serialization - allows datetimeoffset to come in as a long or string value
@@ -4925,25 +4936,16 @@
             </summary>
         </member>
         <member name="T:Sentry.Internal.Http.CachingTransport">
-            <summary>
-            Transport that caches envelopes to disk and sends them in the background.
-            </summary>
-            <remarks>
-            <para>
-            Note although this class has a <see cref="M:Sentry.Internal.Http.CachingTransport.DisposeAsync"/>
-            method, it doesn't implement <see cref="T:System.IAsyncDisposable"/> as this caused
-            a dependency issue with Log4Net in some situations.
-            </para>
-            <para>See https://github.com/getsentry/sentry-dotnet/issues/3178</para>
-            </remarks>
-        </member>
-        <member name="M:Sentry.Internal.Http.CachingTransport.MigrateVersion5Cache(System.Threading.CancellationToken)">
-            <summary>
-            When migrating from version 5 to version 6, the cache directory structure changed.
-            In version 5, there were no isolated subdirectories.
-            </summary>
-            <param name="cancellationToken"></param>
-            <returns>An integer return code to facilitate testing.</returns>
+             <summary>
+             A transport that caches envelopes to disk and sends them in the background.
+             </summary>
+             <remarks>
+             Note although this class has a <see cref="M:Sentry.Internal.Http.CachingTransport.DisposeAsync"/>
+             method, it doesn't implement <see cref="T:System.IAsyncDisposable"/> as this caused
+             a dependency issue with Log4Net in some situations.
+            
+             See https://github.com/getsentry/sentry-dotnet/issues/3178
+             </remarks>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -5077,15 +5079,6 @@
             This allows us to test the GarbageCollectionMonitor class without a dependency on System.GC, which is static
             </summary>
         </member>
-        <member name="T:Sentry.Internal.IInitCounter">
-            <summary>
-            This is used internally to track the number of times the SDK has been initialised so that different
-            Hub instances get a different cache directory path, even if they're running in the same process.
-            </summary>
-        </member>
-        <member name="T:Sentry.Internal.InitCounter">
-            <inheritdoc cref="T:Sentry.Internal.IInitCounter"/>
-        </member>
         <member name="M:Sentry.Internal.IStringOrRegexMatcher.IsMatch(Sentry.StringOrRegex,System.String)">
             <summary>
             Evaluates if the given value matches the string or regex.
@@ -5193,15 +5186,6 @@
             <summary>
             When the device was initialized.
             </summary>
-        </member>
-        <member name="M:Sentry.Internal.ReadWriteFileSystem.TryCreateLockFile(System.String,System.IO.Stream@)">
-            <summary>
-            Tries to create or open a file for exclusive access.
-            </summary>
-            <remarks>
-            This method can throw all of the same exceptions that the <see cref="T:System.IO.FileStream"/> constructor can throw. The
-            caller is responsible for handling those exceptions.
-            </remarks>
         </member>
         <member name="T:Sentry.Internal.ScopeObserver">
             <summary>
@@ -9784,7 +9768,7 @@
             The parameters to the template string.
             </summary>
         </member>
-        <member name="P:Sentry.SentryLog.ParentSpanId">
+        <member name="P:Sentry.SentryLog.SpanId">
             <summary>
             The span id of the span that was active when the log was collected.
             </summary>
