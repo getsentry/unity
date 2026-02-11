@@ -1,5 +1,48 @@
 # Changelog
 
+## 4.1.0
+
+### Deprecations
+
+- The time-based log debouncing system (`TimeDebounceBase`, `LogTimeDebounce`, `ErrorTimeDebounce`, `WarningTimeDebounce`) and related options (`EnableLogDebouncing`, `DebounceTimeLog`, `DebounceTimeWarning`, `DebounceTimeError`) are now marked as `[Obsolete]`. Use the new content-based event throttling instead. ([#2479](https://github.com/getsentry/sentry-unity/pull/2479))
+
+### Behavioral Changes
+
+- The SDK no longer refreshes the trace ID when changing active scene. This follows the changes to not do so based on lifecycle events, meaning that the trace ID persists from game start to game end, as intended in `4.0.0`. ([#2502](https://github.com/getsentry/sentry-unity/pull/2502))
+
+### Fixes
+
+- When targeting Xbox, the SDK now properly includes `Sentry.Unity.Native` ([#2529](https://github.com/getsentry/sentry-unity/pull/2529))
+- Fixed IL2CPP line number support for 32-bit Windows and Linux ([#2514](https://github.com/getsentry/sentry-unity/pull/2514))
+- The SDK now specifies the files and directories targeted for debug symbol upload instead of pointing sentry-cli at the build output directory ([#2485](https://github.com/getsentry/sentry-unity/pull/2485))
+- The 'SceneManagerTracingIntegration' properly respects the `AutoSceneTracing` flag again ([#2496](https://github.com/getsentry/sentry-unity/pull/2496))
+- When targeting Android, the capturing native SDK now has its name correctly set ([#2476](https://github.com/getsentry/sentry-unity/pull/2476))
+- Automatically captured transactions and spans now have their `Origin` correctly set. ([#2464](https://github.com/getsentry/sentry-unity/pull/2464))
+
+### Features
+
+- Added Nintendo Switch Native Support. The SDK now automatically syncs the scope - tags, breadcrumbs, context - to the native layer, so native crashes have the same rich context as managed events. ([#2503](https://github.com/getsentry/sentry-unity/pull/2503))
+- [Sentry trace-connected Metrics](https://docs.sentry.io/product/explore/metrics/) are now available as _experimental_. ([#2533](https://github.com/getsentry/sentry-unity/pull/2533))
+- Added content-based error event throttling to prevent repeated errors from consuming quota. The new `IThrottler` interface and `ErrorEventThrottler` implementation deduplicate `LogError`, `LogException`, and `LogAssertion` events based on message + stacktrace fingerprinting. Configurable via the Editor window ("Enable Error Event Throttling" + "Dedupe Window"). Breadcrumbs and structured logs are not affected by default. ([#2479](https://github.com/getsentry/sentry-unity/pull/2479))
+
+### Dependencies
+
+- Bump .NET SDK from v6.0.0 to v6.1.0 ([#2533](https://github.com/getsentry/sentry-unity/pull/2533))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#610)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/6.0.0...6.1.0)
+- Bump Java SDK from v8.28.0 to v8.31.0 ([#2462](https://github.com/getsentry/sentry-unity/pull/2462), [#2481](https://github.com/getsentry/sentry-unity/pull/2481), [#2493](https://github.com/getsentry/sentry-unity/pull/2493))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8310)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.28.0...8.31.0)
+- Bump Native SDK from v0.12.2 to v0.12.6 ([#2471](https://github.com/getsentry/sentry-unity/pull/2471), [#2505](https://github.com/getsentry/sentry-unity/pull/2505), [#2512](https://github.com/getsentry/sentry-unity/pull/2512), [#2524](https://github.com/getsentry/sentry-unity/pull/2524))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0126)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.12.2...0.12.6)
+- Bump Cocoa SDK from v9.1.0 to v9.4.0 ([#2492](https://github.com/getsentry/sentry-unity/pull/2492), [#2507](https://github.com/getsentry/sentry-unity/pull/2507), [#2521](https://github.com/getsentry/sentry-unity/pull/2521))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#940)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/9.1.0...9.4.0)
+- Bump CLI from v2.58.4 to v3.2.0 ([#2474](https://github.com/getsentry/sentry-unity/pull/2474), [#2531](https://github.com/getsentry/sentry-unity/pull/2531))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#320)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.58.4...3.2.0)
+
 ## 4.0.0
 
 ### Breaking Changes
@@ -767,7 +810,6 @@ If you have compilation errors you can find the affected types or overloads miss
 - The `TracePropagationTarget` class has been removed, use the `SubstringOrRegexPattern` class instead. ([#2763](https://github.com/getsentry/sentry-dotnet/pull/2763))
 - The `WithScope` and `WithScopeAsync` methods have been removed. We have discovered that these methods didn't work correctly in certain desktop contexts, especially when using a global scope. ([#2717](https://github.com/getsentry/sentry-dotnet/pull/2717))
   Replace your usage of `WithScope` with overloads of `Capture*` methods:
-
   - `SentrySdk.CaptureEvent(SentryEvent @event, Action<Scope> scopeCallback)`
   - `SentrySdk.CaptureMessage(string message, Action<Scope> scopeCallback)`
   - `SentrySdk.CaptureException(Exception exception, Action<Scope> scopeCallback)`

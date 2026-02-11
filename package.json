@@ -1,9 +1,9 @@
 {
   "name": "io.sentry.unity",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "displayName": "Sentry Unity",
   "description": "Sentry SDK for Unity",
-  "unity": "2019.4",
+  "unity": "2021.3",
   "license": "MIT",
   "keywords": [
     "logging",

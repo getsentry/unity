@@ -2181,9 +2181,14 @@
         </member>
         <member name="T:Sentry.BindableSentryOptions">
             <summary>
-            Contains representations of the subset of properties in SentryOptions that can be set from ConfigurationBindings.
+            Contains representations of the subset of properties in <see cref="T:Sentry.SentryOptions"/> that can be set from ConfigurationBindings.
             Note that all of these properties are nullable, so that if they are not present in configuration, the values from
             the type being bound to will be preserved.
+            </summary>
+        </member>
+        <member name="T:Sentry.BindableSentryOptions.ExperimentalSentryOptions">
+            <summary>
+            Bindable Options for <see cref="T:Sentry.SentryOptions.ExperimentalSentryOptions"/>.
             </summary>
         </member>
         <member name="T:Sentry.Breadcrumb">
@@ -2981,6 +2986,11 @@
             Disabled Logger.
             </summary>
         </member>
+        <member name="P:Sentry.Extensibility.DisabledHub.Metrics">
+            <summary>
+            Disabled Metrics.
+            </summary>
+        </member>
         <member name="T:Sentry.Extensibility.FormRequestPayloadExtractor">
             <summary>
             Form based request extractor.
@@ -3022,6 +3032,11 @@
             </summary>
         </member>
         <member name="P:Sentry.Extensibility.HubAdapter.Logger">
+            <summary>
+            Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
+            </summary>
+        </member>
+        <member name="P:Sentry.Extensibility.HubAdapter.Metrics">
             <summary>
             Forwards the call to <see cref="T:Sentry.SentrySdk"/>.
             </summary>
@@ -3953,6 +3968,15 @@
             <param name="level">The message level.</param>
             <returns>The Id of the event</returns>
         </member>
+        <member name="M:Sentry.HubExtensions.GetTraceIdAndSpanId(Sentry.IHub,Sentry.SentryId@,System.Nullable{Sentry.SpanId}@)">
+            <summary>
+            Get <paramref name="traceId"/> of either the currently active Span, or the current Scope.
+            Get <paramref name="spanId"/> only if there is a currently active Span.
+            </summary>
+            <remarks>
+            Intended for use by <see cref="T:Sentry.SentryLog"/> and <see cref="T:Sentry.SentryMetric`1"/>.
+            </remarks>
+        </member>
         <member name="T:Sentry.IAttachmentContent">
             <summary>
             Attachment content.
@@ -4206,6 +4230,18 @@
             <list type="bullet">
             <item><see cref="P:Sentry.SentryOptions.EnableLogs"/></item>
             <item><see cref="M:Sentry.SentryOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})"/></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:Sentry.IHub.Metrics">
+            <summary>
+            Generates and sends metrics to Sentry.
+            </summary>
+            <remarks>
+            Available options:
+            <list type="bullet">
+            <item><see cref="P:Sentry.SentryOptions.ExperimentalSentryOptions.EnableMetrics"/></item>
+            <item><see cref="M:Sentry.SentryOptions.ExperimentalSentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})"/></item>
             </list>
             </remarks>
         </member>
@@ -4563,6 +4599,137 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Sentry.Internal.BatchBuffer`1">
+            <summary>
+            A wrapper over an <see cref="T:System.Array"/>, intended for reusable buffering for <see cref="T:Sentry.Internal.BatchProcessor`1"/>.
+            </summary>
+            <remarks>
+            Must be attempted to flush via <see cref="M:Sentry.Internal.BatchBuffer`1.TryEnterFlushScope"/> when either the <see cref="P:Sentry.Internal.BatchBuffer`1.Capacity"/> is reached,
+            or when the <see cref="F:Sentry.Internal.BatchBuffer`1._timeout"/> is exceeded.
+            Utilizes a <see cref="T:Sentry.Threading.ScopedCountdownLock"/>, basically used as an inverse <see cref="T:System.Threading.ReaderWriterLockSlim"/>,
+            allowing multiple threads for <see cref="M:Sentry.Internal.BatchBuffer`1.Add(`0)"/> or exclusive access for <see cref="M:Sentry.Internal.BatchBuffer`1.FlushScope.Flush"/>.
+            </remarks>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.#ctor(System.Int32,System.TimeSpan,System.Action{Sentry.Internal.BatchBuffer{`0}},System.String)">
+            <summary>
+            Create a new buffer.
+            </summary>
+            <param name="capacity">Length of the new buffer.</param>
+            <param name="timeout">When the timeout exceeds after an item has been added and the <paramref name="capacity"/> not yet been exceeded, <paramref name="timeoutExceededAction"/> is invoked.</param>
+            <param name="timeoutExceededAction">The operation to execute when the <paramref name="timeout"/> exceeds if the buffer is neither empty nor full.</param>
+            <param name="name">Name of the new buffer.</param>
+        </member>
+        <member name="P:Sentry.Internal.BatchBuffer`1.Name">
+            <summary>
+            Name of the buffer.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.BatchBuffer`1.Capacity">
+            <summary>
+            Maximum number of elements that can be added to the buffer.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.BatchBuffer`1.IsEmpty">
+            <summary>
+            Gets a value indicating whether this buffer is empty.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.BatchBuffer`1.AddCount">
+            <summary>
+            Number of <see cref="M:Sentry.Internal.BatchBuffer`1.Add(`0)"/> operations in progress.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.Add(`0)">
+            <summary>
+            Attempt to add one element to the buffer.
+            Is thread-safe.
+            </summary>
+            <param name="item">Element attempted to be added.</param>
+            <returns>An <see cref="T:Sentry.Internal.BatchBufferAddStatus"/> describing the result of the thread-safe operation.</returns>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.TryEnterFlushScope">
+            <summary>
+            Enters a <see cref="T:Sentry.Internal.BatchBuffer`1.FlushScope"/> used to ensure that only a single flush operation is in progress.
+            </summary>
+            <remarks>
+            Must be disposed to exit.
+            </remarks>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.ExitFlushScope">
+            <summary>
+            Exits the <see cref="T:Sentry.Internal.BatchBuffer`1.FlushScope"/> through <see cref="M:Sentry.Internal.BatchBuffer`1.FlushScope.Dispose"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.OnIntervalElapsed(System.Object)">
+            <summary>
+            Callback when Timer has elapsed after first item has been added and buffer is not full yet.
+            </summary>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.ToArrayAndClear">
+            <summary>
+            Returns a new Array consisting of the elements successfully added.
+            </summary>
+            <returns>An Array with Length of successful additions.</returns>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.ToArrayAndClear(System.Int32)">
+            <summary>
+            Returns a new Array consisting of <paramref name="length"/> elements successfully added.
+            </summary>
+            <param name="length">The Length of the buffer a new Array is created from.</param>
+            <returns>An Array with Length of <paramref name="length"/>.</returns>
+        </member>
+        <member name="M:Sentry.Internal.BatchBuffer`1.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.Internal.BatchBuffer`1.FlushScope">
+            <summary>
+            A scope than ensures only a single <see cref="M:Sentry.Internal.BatchBuffer`1.FlushScope.Flush"/> operation is in progress,
+            and blocks the calling thread until all <see cref="M:Sentry.Internal.BatchBuffer`1.Add(`0)"/> operations have finished.
+            When <see cref="P:Sentry.Internal.BatchBuffer`1.FlushScope.IsEntered"/> is <see langword="true"/>, no more <see cref="M:Sentry.Internal.BatchBuffer`1.Add(`0)"/> can be started,
+            which will then return <see cref="F:Sentry.Internal.BatchBufferAddStatus.IgnoredIsFlushing"/> immediately.
+            </summary>
+            <remarks>
+            Only <see cref="M:Sentry.Internal.BatchBuffer`1.FlushScope.Flush"/> when scope <see cref="P:Sentry.Internal.BatchBuffer`1.FlushScope.IsEntered"/>.
+            </remarks>
+        </member>
+        <member name="T:Sentry.Internal.BatchProcessor`1">
+            <summary>
+            The Sentry Batch Processor.
+            </summary>
+            <remarks>
+            Uses a double buffer strategy to achieve synchronous and lock-free adding.
+            Switches the active buffer either when full or timeout exceeded (after first item added).
+            Items are dropped when both buffers are either full or being flushed.
+            Items are not enqueued when the Hub is disabled (Hub is being or has been disposed).
+            Flushing blocks the calling thread until all pending add operations have completed.
+            <code>
+            Implementation:
+            - When Hub is disabled (i.e. disposed), does not enqueue item
+            - Try to enqueue item into currently active buffer
+              - when currently active buffer is full, try to enqueue item into the other buffer
+              - when the other buffer is also full, or currently being flushed, then the item is dropped and a discarded event is recorded as a client report
+            - Swap currently active buffer when
+              - buffer is full
+              - timeout has exceeded
+            - Batch and Capture items after swapping currently active buffer
+              - wait until all pending add/enqueue operations have completed (required for timeout)
+              - flush the buffer and capture an envelope containing the batched items
+            - After flush, items can be enqueued again into the buffer
+            </code>
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/spans/batch-processor/">Sentry Batch Processor</seealso>
+            <seealso href="https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor/batchprocessor/README.md">OpenTelemetry Batch Processor</seealso>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/">Sentry Logs</seealso>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/">Sentry Metrics</seealso>
+        </member>
+        <member name="M:Sentry.Internal.BatchProcessor`1.OnIntervalElapsed">
+            <summary>
+            Forces invocation of a Timeout of the active buffer.
+            </summary>
+            <remarks>
+            Intended for Testing only.
+            </remarks>
+        </member>
         <member name="M:Sentry.Internal.ClientReport.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
@@ -4658,6 +4825,21 @@
             This was seen in Unity, see https://github.com/getsentry/sentry-unity/issues/845
             </summary>
         </member>
+        <member name="M:Sentry.Internal.DefaultSentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetricType,System.String,``0,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DefaultSentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetricType,System.String,``0,System.String,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DefaultSentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetric{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DefaultSentryMetricEmitter.Flush">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DefaultSentryMetricEmitter.Dispose">
+            <inheritdoc />
+        </member>
         <member name="M:Sentry.Internal.DefaultSentryStructuredLogger.CaptureLog(Sentry.SentryLogLevel,System.String,System.Object[],System.Action{Sentry.SentryLog})">
             <inheritdoc />
         </member>
@@ -4668,6 +4850,18 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.Internal.DefaultSentryStructuredLogger.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DisabledSentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetricType,System.String,``0,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DisabledSentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetricType,System.String,``0,System.String,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DisabledSentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetric{``0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Internal.DisabledSentryMetricEmitter.Flush">
             <inheritdoc />
         </member>
         <member name="M:Sentry.Internal.DisabledSentryStructuredLogger.CaptureLog(Sentry.SentryLogLevel,System.String,System.Object[],System.Action{Sentry.SentryLog})">
@@ -5287,136 +5481,6 @@
             <returns>
             A readable representation of the stack trace.
             </returns>
-        </member>
-        <member name="T:Sentry.Internal.StructuredLogBatchBuffer">
-            <summary>
-            A wrapper over an <see cref="T:System.Array"/>, intended for reusable buffering.
-            </summary>
-            <remarks>
-            Must be attempted to flush via <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.TryEnterFlushScope"/> when either the <see cref="P:Sentry.Internal.StructuredLogBatchBuffer.Capacity"/> is reached,
-            or when the <see cref="F:Sentry.Internal.StructuredLogBatchBuffer._timeout"/> is exceeded.
-            Utilizes a <see cref="T:Sentry.Threading.ScopedCountdownLock"/>, basically used as an inverse <see cref="T:System.Threading.ReaderWriterLockSlim"/>,
-            allowing multiple threads for <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> or exclusive access for <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Flush"/>.
-            </remarks>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.#ctor(System.Int32,System.TimeSpan,System.Action{Sentry.Internal.StructuredLogBatchBuffer},System.String)">
-            <summary>
-            Create a new buffer.
-            </summary>
-            <param name="capacity">Length of the new buffer.</param>
-            <param name="timeout">When the timeout exceeds after an item has been added and the <paramref name="capacity"/> not yet been exceeded, <paramref name="timeoutExceededAction"/> is invoked.</param>
-            <param name="timeoutExceededAction">The operation to execute when the <paramref name="timeout"/> exceeds if the buffer is neither empty nor full.</param>
-            <param name="name">Name of the new buffer.</param>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.Name">
-            <summary>
-            Name of the buffer.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.Capacity">
-            <summary>
-            Maximum number of elements that can be added to the buffer.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.IsEmpty">
-            <summary>
-            Gets a value indicating whether this buffer is empty.
-            </summary>
-        </member>
-        <member name="P:Sentry.Internal.StructuredLogBatchBuffer.AddCount">
-            <summary>
-            Number of <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> operations in progress.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)">
-            <summary>
-            Attempt to add one element to the buffer.
-            Is thread-safe.
-            </summary>
-            <param name="item">Element attempted to be added.</param>
-            <returns>An <see cref="T:Sentry.Internal.StructuredLogBatchBufferAddStatus"/> describing the result of the thread-safe operation.</returns>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.TryEnterFlushScope">
-            <summary>
-            Enters a <see cref="T:Sentry.Internal.StructuredLogBatchBuffer.FlushScope"/> used to ensure that only a single flush operation is in progress.
-            </summary>
-            <remarks>
-            Must be disposed to exit.
-            </remarks>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.ExitFlushScope">
-            <summary>
-            Exits the <see cref="T:Sentry.Internal.StructuredLogBatchBuffer.FlushScope"/> through <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Dispose"/>.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.OnIntervalElapsed(System.Object)">
-            <summary>
-            Callback when Timer has elapsed after first item has been added and buffer is not full yet.
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.ToArrayAndClear">
-            <summary>
-            Returns a new Array consisting of the elements successfully added.
-            </summary>
-            <returns>An Array with Length of successful additions.</returns>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.ToArrayAndClear(System.Int32)">
-            <summary>
-            Returns a new Array consisting of <paramref name="length"/> elements successfully added.
-            </summary>
-            <param name="length">The Length of the buffer a new Array is created from.</param>
-            <returns>An Array with Length of <paramref name="length"/>.</returns>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchBuffer.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:Sentry.Internal.StructuredLogBatchBuffer.FlushScope">
-            <summary>
-            A scope than ensures only a single <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Flush"/> operation is in progress,
-            and blocks the calling thread until all <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> operations have finished.
-            When <see cref="P:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.IsEntered"/> is <see langword="true"/>, no more <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.Add(Sentry.SentryLog)"/> can be started,
-            which will then return <see cref="F:Sentry.Internal.StructuredLogBatchBufferAddStatus.IgnoredIsFlushing"/> immediately.
-            </summary>
-            <remarks>
-            Only <see cref="M:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.Flush"/> when scope <see cref="P:Sentry.Internal.StructuredLogBatchBuffer.FlushScope.IsEntered"/>.
-            </remarks>
-        </member>
-        <member name="T:Sentry.Internal.StructuredLogBatchProcessor">
-            <summary>
-            The Batch Processor for Sentry Logs.
-            </summary>
-            <remarks>
-            Uses a double buffer strategy to achieve synchronous and lock-free adding.
-            Switches the active buffer either when full or timeout exceeded (after first item added).
-            Logs are dropped when both buffers are either full or being flushed.
-            Logs are not enqueued when the Hub is disabled (Hub is being or has been disposed).
-            Flushing blocks the calling thread until all pending add operations have completed.
-            <code>
-            Implementation:
-            - When Hub is disabled (i.e. disposed), does not enqueue log
-            - Try to enqueue log into currently active buffer
-              - when currently active buffer is full, try to enqueue log into the other buffer
-              - when the other buffer is also full, or currently being flushed, then the log is dropped and a discarded event is recorded as a client report
-            - Swap currently active buffer when
-              - buffer is full
-              - timeout has exceeded
-            - Batch and Capture logs after swapping currently active buffer
-              - wait until all pending add/enqueue operations have completed (required for timeout)
-              - flush the buffer and capture an envelope containing the batched logs
-            - After flush, logs can be enqueued again into the buffer
-            </code>
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/">Sentry Logs</seealso>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/spans/batch-processor/">Sentry Batch Processor</seealso>
-            <seealso href="https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor/batchprocessor/README.md">OpenTelemetry Batch Processor</seealso>
-        </member>
-        <member name="M:Sentry.Internal.StructuredLogBatchProcessor.OnIntervalElapsed">
-            <summary>
-            Forces invocation of a Timeout of the active buffer.
-            </summary>
-            <remarks>
-            Intended for Testing only.
-            </remarks>
         </member>
         <member name="T:Sentry.Internal.SystemGCImplementation">
             <summary>
@@ -6916,6 +6980,25 @@
             The method is marked obsolete only to discourage accidental misuse.
             We do not intend to remove it.
             </remarks>
+        </member>
+        <member name="P:Sentry.SentrySdk.Experimental">
+            <summary>
+            Sentry features that are currently in an experimental state.
+            </summary>
+            <remarks>
+            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
+            </remarks>
+        </member>
+        <member name="T:Sentry.SentrySdk.ExperimentalSentrySdk">
+            <summary>
+            Sentry features that are currently in an experimental state.
+            </summary>
+            <remarks>
+            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentrySdk.ExperimentalSentrySdk.Metrics">
+            <inheritdoc cref="P:Sentry.IHub.Metrics" />
         </member>
         <member name="T:Sentry.Protocol.App">
             <summary>
@@ -8510,6 +8593,15 @@
             Parses trace context from JSON.
             </summary>
         </member>
+        <member name="T:Sentry.Protocol.TraceMetric">
+            <summary>
+            Represents the Sentry protocol for Trace-connected Metrics.
+            </summary>
+            <remarks>
+            Sentry Docs: <see href="https://docs.sentry.io/product/explore/metrics/"/>.
+            Sentry Developer Documentation: <see href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>.
+            </remarks>
+        </member>
         <member name="T:Sentry.Reflection.AssemblyExtensions">
             <summary>
             Extension methods to <see cref="T:System.Reflection.Assembly"/>.
@@ -9995,6 +10087,516 @@
         <member name="M:Sentry.SentryMessageHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="T:Sentry.SentryMetric">
+            <summary>
+            Represents a Sentry Trace-connected Metric.
+            </summary>
+            <remarks>
+            Sentry Docs: <see href="https://docs.sentry.io/product/explore/metrics/"/>.
+            Sentry Developer Documentation: <see href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>.
+            Sentry .NET SDK Docs: <see href="https://docs.sentry.io/platforms/dotnet/metrics/"/>.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryMetric.Timestamp">
+            <summary>
+            Timestamp indicating when the metric was recorded.
+            </summary>
+            <remarks>
+            Sent as seconds since the Unix epoch.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryMetric.TraceId">
+            <summary>
+            The trace id of the metric.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMetric.Type">
+            <summary>
+            The type of metric.
+            </summary>
+            <remarks>
+            One of:
+            <list type="table">
+              <listheader>
+                <term>Type</term>
+                <description>Description</description>
+              </listheader>
+              <item>
+                <term>counter</term>
+                <description>A metric that increments counts.</description>
+              </item>
+              <item>
+                <term>gauge</term>
+                <description>A metric that tracks a value that can go up or down.</description>
+              </item>
+              <item>
+                <term>distribution</term>
+                <description>A metric that tracks the statistical distribution of values.</description>
+              </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryMetric.Name">
+            <summary>
+            The name of the metric.
+            </summary>
+            <remarks>
+            This should follow a hierarchical naming convention using dots as separators (e.g., api.response_time, db.query.duration).
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryMetric.Value">
+            <summary>
+            The numeric value of the metric.
+            </summary>
+            <remarks>
+            The interpretation depends on the metric type:
+            <list type="table">
+              <listheader>
+                <term>Type</term>
+                <description>Description</description>
+              </listheader>
+              <item>
+                <term>counter</term>
+                <description>The count to increment by (should default to <see langword="1"/>).</description>
+              </item>
+              <item>
+                <term>gauge</term>
+                <description>The current value.</description>
+              </item>
+              <item>
+                <term>distribution</term>
+                <description>A single measured value.</description>
+              </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryMetric.SpanId">
+            <summary>
+            The span id of the span that was active when the metric was emitted.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryMetric.Unit">
+            <summary>
+            The unit of measurement for the metric value.
+            </summary>
+            <remarks>
+            Only used for <see cref="F:Sentry.SentryMetricType.Gauge"/> and <see cref="F:Sentry.SentryMetricType.Distribution"/>.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryMetric.TryGetValue``1(``0@)">
+            <summary>
+            Gets the metric value if it is of the specified type <typeparamref name="TValue"/>.
+            </summary>
+            <param name="value">When this method returns, contains the metric value, if it is of the specified type <typeparamref name="TValue"/>; otherwise, the <see langword="default"/> value for the type of the <paramref name="value"/> parameter. This parameter is passed uninitialized.</param>
+            <typeparam name="TValue">The numeric type of the metric.</typeparam>
+            <returns><see langword="true"/> if this <see cref="T:Sentry.SentryMetric"/> is of type <typeparamref name="TValue"/>; otherwise, <see langword="false"/>.</returns>
+            <remarks>Supported numeric value types for <typeparamref name="TValue"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetric.TryGetAttribute``1(System.String,``0@)">
+            <summary>
+            Gets the attribute value associated with the specified key.
+            </summary>
+            <remarks>
+            Returns <see langword="true"/> if this <see cref="T:Sentry.SentryMetric"/> contains an attribute with the specified key which is of type <typeparamref name="TAttribute"/> and it's value is not <see langword="null"/>.
+            Otherwise <see langword="false"/>.
+            Supported types:
+            <list type="table">
+              <listheader>
+                <term>Type</term>
+                <description>Range</description>
+              </listheader>
+              <item>
+                <term>string</term>
+                <description><see langword="string"/> and <see langword="char"/></description>
+              </item>
+              <item>
+                <term>boolean</term>
+                <description><see langword="false"/> and <see langword="true"/></description>
+              </item>
+              <item>
+                <term>integer</term>
+                <description>64-bit signed integral numeric types</description>
+              </item>
+              <item>
+                <term>double</term>
+                <description>64-bit floating-point numeric types</description>
+              </item>
+            </list>
+            Unsupported types:
+            <list type="table">
+              <listheader>
+                <term>Type</term>
+                <description>Result</description>
+              </listheader>
+              <item>
+                <term><see langword="object"/></term>
+                <description><c>ToString</c> as <c>"type": "string"</c></description>
+              </item>
+              <item>
+                <term>Collections</term>
+                <description><c>ToString</c> as <c>"type": "string"</c></description>
+              </item>
+              <item>
+                <term><see langword="null"/></term>
+                <description>ignored</description>
+              </item>
+            </list>
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
+        </member>
+        <member name="M:Sentry.SentryMetric.SetAttribute``1(System.String,``0)">
+            <summary>
+            Set a key-value pair of data attached to the metric.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMetric.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc cref="M:Sentry.ISentryJsonSerializable.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)" />
+        </member>
+        <member name="T:Sentry.SentryMetric`1">
+            <summary>
+            Internal generic representation of <see cref="T:Sentry.SentryMetric"/>.
+            </summary>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>
+            We hide some of the generic implementation details from user code.
+            </remarks>
+        </member>
+        <member name="M:Sentry.SentryMetric`1.TryGetValue``1(``0@)">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.SentryMetricEmitter">
+            <summary>
+            Creates and sends metrics to Sentry.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitCounter``1(System.String,``0)">
+            <summary>
+            Increment a counter.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitCounter``1(System.String,``0,Sentry.Scope)">
+            <summary>
+            Increment a counter.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitCounter``1(System.String,``0,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Increment a counter.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitCounter``1(System.String,``0,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Increment a counter.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetricType,System.String,``0,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Buffers a <see href="https://develop.sentry.dev/sdk/telemetry/metrics/">Sentry Metric</see> item
+            via the associated <see href="https://develop.sentry.dev/sdk/telemetry/telemetry-processor/batch-processor/">Batch Processor</see>.
+            </summary>
+            <param name="type">The type of metric.</param>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The numeric value of the metric.</param>
+            <param name="unit">The unit of measurement for the metric value.</param>
+            <param name="attributes">A dictionary of key-value pairs of arbitrary data attached to the metric.</param>
+            <param name="scope">The optional scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetricType,System.String,``0,System.String,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Buffers a <see href="https://develop.sentry.dev/sdk/telemetry/metrics/">Sentry Metric</see> item
+            via the associated <see href="https://develop.sentry.dev/sdk/telemetry/telemetry-processor/batch-processor/">Batch Processor</see>.
+            </summary>
+            <param name="type">The type of metric.</param>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The numeric value of the metric.</param>
+            <param name="unit">The unit of measurement for the metric value.</param>
+            <param name="attributes">A dictionary of key-value pairs of arbitrary data attached to the metric.</param>
+            <param name="scope">The optional scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.CaptureMetric``1(Sentry.SentryMetric{``0})">
+            <summary>
+            Buffers a <see href="https://develop.sentry.dev/sdk/telemetry/metrics/">Sentry Metric</see> item
+            via the associated <see href="https://develop.sentry.dev/sdk/telemetry/telemetry-processor/batch-processor/">Batch Processor</see>.
+            </summary>
+            <param name="metric">The metric.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.Flush">
+            <summary>
+            Clears all buffers for this metrics and causes any buffered metrics to be sent by the underlying <see cref="T:Sentry.ISentryClient"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,System.String)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,Sentry.MeasurementUnit)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,System.String,Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,Sentry.MeasurementUnit,Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,Sentry.MeasurementUnit,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,System.String,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitDistribution``1(System.String,``0,Sentry.MeasurementUnit,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Add a distribution value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,System.String)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,Sentry.MeasurementUnit)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,System.String,Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,Sentry.MeasurementUnit,Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,Sentry.MeasurementUnit,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,System.String,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="M:Sentry.SentryMetricEmitter.EmitGauge``1(System.String,``0,Sentry.MeasurementUnit,System.ReadOnlySpan{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Sentry.Scope)">
+            <summary>
+            Set a gauge value.
+            </summary>
+            <param name="name">The name of the metric.</param>
+            <param name="value">The value of the metric.</param>
+            <param name="unit">The unit of measurement.</param>
+            <param name="attributes">A dictionary of attributes (key-value pairs with type information).</param>
+            <param name="scope">The scope to capture the metric with.</param>
+            <typeparam name="T">The numeric type of the metric.</typeparam>
+            <remarks>Supported numeric value types for <typeparamref name="T"/> are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.</remarks>
+        </member>
+        <member name="T:Sentry.SentryMetricType">
+            <summary>
+            The type of metric.
+            </summary>
+        </member>
+        <member name="F:Sentry.SentryMetricType.Counter">
+            <summary>
+            A metric that increments counts.
+            </summary>
+            <remarks>
+            <see cref="F:Sentry.SentryMetric`1._value"/> represents the count to increment by.
+            By default: <see langword="1"/>.
+            </remarks>
+        </member>
+        <member name="F:Sentry.SentryMetricType.Gauge">
+            <summary>
+            A metric that tracks a value that can go up or down.
+            </summary>
+            <remarks>
+            <see cref="F:Sentry.SentryMetric`1._value"/> represents the current value.
+            </remarks>
+        </member>
+        <member name="F:Sentry.SentryMetricType.Distribution">
+            <summary>
+            A metric that tracks the statistical distribution of values.
+            </summary>
+            <remarks>
+            <see cref="F:Sentry.SentryMetric`1._value"/> represents a single measured value.
+            </remarks>
+        </member>
         <member name="T:Sentry.SentryMonitorInterval">
             <summary>
             Sentry's intervals for monitors
@@ -11091,6 +11693,41 @@
             This method disables that behaviour.
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.Experimental">
+            <summary>
+            Sentry features that are currently in an experimental state.
+            </summary>
+            <remarks>
+            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
+            </remarks>
+        </member>
+        <member name="T:Sentry.SentryOptions.ExperimentalSentryOptions">
+            <summary>
+            Sentry features that are currently in an experimental state.
+            </summary>
+            <remarks>
+            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryOptions.ExperimentalSentryOptions.EnableMetrics">
+            <summary>
+            When set to <see langword="false"/>, the SDK does not generate and send metrics to Sentry via <see cref="T:Sentry.SentrySdk"/>.
+            Defaults to <see langword="true"/>.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
+        </member>
+        <member name="M:Sentry.SentryOptions.ExperimentalSentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})">
+            <summary>
+            Sets a callback function to be invoked before sending the metric to Sentry.
+            When the delegate throws an <see cref="T:System.Exception"/> during invocation, the metric will not be captured.
+            </summary>
+            <remarks>
+            It can be used to modify the metric object before being sent to Sentry.
+            To prevent the metric from being sent to Sentry, return <see langword="null"/>.
+            Supported numeric value types are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
+        </member>
         <member name="T:Sentry.SentryPackage">
             <summary>
             Represents a package used to compose the SDK.
@@ -11720,6 +12357,13 @@
         <member name="P:Sentry.SentryThread.Current">
             <summary>
             An optional flag to indicate that the thread was in the foreground.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryThread.Main">
+            <summary>
+            An optional flag to indicate whether the thread was responsible for rendering
+            the user interface. On mobile and desktop platforms this is oftentimes referred to as the
+            "main thread" or "ui thread".
             </summary>
         </member>
         <member name="P:Sentry.SentryThread.Stacktrace">

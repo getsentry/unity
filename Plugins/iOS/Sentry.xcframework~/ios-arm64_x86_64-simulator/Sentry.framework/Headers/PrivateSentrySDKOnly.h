@@ -13,7 +13,6 @@
 @class SentryEnvelope;
 @class SentryId;
 @class SentrySpanId;
-@class SentrySessionReplayIntegration;
 @class UIView;
 
 @protocol SentryReplayBreadcrumbConverter;
@@ -197,6 +196,9 @@ typedef void (^SentryOnAppStartMeasurementAvailable)(
 + (SentryUser *)userWithDictionary:(NSDictionary *)dictionary;
 
 + (SentryBreadcrumb *)breadcrumbWithDictionary:(NSDictionary *)dictionary;
+
++ (nullable SentryOptions *)optionsWithDictionary:(NSDictionary<NSString *, id> *)options
+                                 didFailWithError:(NSError *_Nullable *_Nullable)error;
 
 @end
 
