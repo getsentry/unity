@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+
+- The currently experimental Metrics are now opt-in by default ([#2546](https://github.com/getsentry/sentry-unity/pull/2546))
+- When targeting Switch, the SDK will no longer cause the build to fail when native libraries are missing but log a warning instead ([#2541](https://github.com/getsentry/sentry-unity/pull/2541))
+- The SDK no longer wrongly disables the org slug field based on assumed the auth-tolken type ([#2537](https://github.com/getsentry/sentry-unity/pull/2537))
+
+### Dependencies
+
+- Bump Cocoa SDK from v9.4.0 to v9.4.1 ([#2540](https://github.com/getsentry/sentry-unity/pull/2540))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#941)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/9.4.0...9.4.1)
+- Bump Native SDK from v0.12.6 to v0.12.7 ([#2543](https://github.com/getsentry/sentry-unity/pull/2543))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0127)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.12.6...0.12.7)
+
 ## 4.1.0
 
 ### Deprecations

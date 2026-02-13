@@ -2378,53 +2378,6 @@ typedef SWIFT_ENUM_NAMED(NSInteger, SentryLogLevel, "Level", open) {
   SentryLogLevelFatal = 5,
 };
 
-@protocol SentryLogBufferDelegate;
-SWIFT_CLASS("_TtC6Sentry15SentryLogBuffer")
-@interface SentryLogBuffer : NSObject
-/// Convenience initializer with default flush timeout, max log count (100), and buffer size.
-/// Creates its own serial dispatch queue with DEFAULT QoS for thread-safe access to mutable state.
-/// note:
-/// Uses DEFAULT priority (not LOW) because captureLogs() is called synchronously during
-/// app lifecycle events (willResignActive, willTerminate) and needs to complete quickly.
-/// note:
-/// Setting <code>maxLogCount</code> to 100. While Replay hard limit is 1000, we keep this lower, as it’s hard to lower once released.
-/// \param dateProvider The current date provider
-///
-/// \param delegate The delegate to handle captured log batches
-///
-- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentryLogBufferDelegate> _Nonnull)delegate;
-/// Initializes a new SentryLogBuffer.
-/// important:
-/// The <code>dispatchQueue</code> parameter MUST be a serial queue to ensure thread safety.
-/// Passing a concurrent queue will result in undefined behavior and potential data races.
-/// note:
-/// Logs are flushed when either <code>maxLogCount</code> or <code>maxBufferSizeBytes</code> limit is reached.
-/// \param flushTimeout The timeout interval after which buffered logs will be flushed
-///
-/// \param maxLogCount Maximum number of logs to batch before triggering an immediate flush.
-///
-/// \param maxBufferSizeBytes The maximum buffer size in bytes before triggering an immediate flush
-///
-/// \param dispatchQueue A <em>serial</em> dispatch queue wrapper for thread-safe access to mutable state
-///
-/// \param delegate The delegate to handle captured log batches
-///
-- (nonnull instancetype)initWithFlushTimeout:(NSTimeInterval)flushTimeout maxLogCount:(NSInteger)maxLogCount maxBufferSizeBytes:(NSInteger)maxBufferSizeBytes dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue delegate:(id <SentryLogBufferDelegate> _Nonnull)delegate OBJC_DESIGNATED_INITIALIZER;
-/// Adds a log to the buffer.
-/// \param log The log to add (should already have scope enrichment applied)
-///
-- (void)addLog:(SentryLog * _Nonnull)log;
-/// Captures buffered logs sync and returns the duration.
-- (NSTimeInterval)captureLogs;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-SWIFT_PROTOCOL("_TtP6Sentry23SentryLogBufferDelegate_")
-@protocol SentryLogBufferDelegate
-- (void)captureLogsData:(NSData * _Nonnull)logsData with:(NSNumber * _Nonnull)count;
-@end
-
 @protocol SentryLoggerDelegate;
 /// <code>SentryLogger</code> provides a structured logging interface that captures log entries
 /// and sends them to Sentry. Supports multiple log levels (trace, debug, info, warn,
@@ -3623,6 +3576,7 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (BOOL)sessionReplayShouldCaptureReplayForError SWIFT_WARN_UNUSED_RESULT;
 - (void)sessionReplayNewSegmentWithReplayEvent:(SentryReplayEvent * _Nonnull)replayEvent replayRecording:(SentryReplayRecording * _Nonnull)replayRecording videoUrl:(NSURL * _Nonnull)videoUrl;
 - (void)sessionReplayStartedWithReplayId:(SentryId * _Nonnull)replayId;
+- (void)sessionReplayEnded;
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
@@ -3665,6 +3619,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (BOOL)sessionReplayShouldCaptureReplayForError SWIFT_WARN_UNUSED_RESULT;
 - (void)sessionReplayNewSegmentWithReplayEvent:(SentryReplayEvent * _Nonnull)replayEvent replayRecording:(SentryReplayRecording * _Nonnull)replayRecording videoUrl:(NSURL * _Nonnull)videoUrl;
 - (void)sessionReplayStartedWithReplayId:(SentryId * _Nonnull)replayId;
+- (void)sessionReplayEnded;
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (void)connectivityChanged:(BOOL)connected typeDescription:(NSString * _Nonnull)typeDescription;
@@ -3719,6 +3674,51 @@ SWIFT_CLASS("_TtC6Sentry12SentrySysctl")
 @property (nonatomic, readonly, copy) NSDate * _Nonnull runtimeInitTimestamp;
 @property (nonatomic, readonly, copy) NSDate * _Nonnull moduleInitializationTimestamp;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// The Telemetry processor is sitting between the client and transport to efficiently deliver telemetry to Sentry (as of 2026-02-04).
+/// Currently used for logs only; planned to cover all telemetry (e.g. metrics) with buffering, rate limiting, client reports, and priority-based sending.
+/// Offline caching is still handled by the transport today, but the long-term goal is to move it here so the transport focuses on sending only.
+/// See dev docs for details (work in progress): https://develop.sentry.dev/sdk/telemetry/telemetry-processor/
+SWIFT_PROTOCOL("_TtP6Sentry24SentryTelemetryProcessor_")
+@protocol SentryTelemetryProcessor
+- (void)addLog:(SentryLog * _Nonnull)log;
+/// Forwards buffered telemetry data to the transport for sending.
+/// Temporary name; will be renamed to <code>flush()</code> once flushing logic moves from SentryMetricsIntegration.
+- (NSTimeInterval)forwardTelemetryData SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@protocol SentryTelemetryProcessorTransport;
+/// Factory for creating telemetry processors.
+/// Unlike integrations (e.g., <code>SentryMetricsIntegration</code>), this factory cannot yet use the full dependency injection pattern
+/// because the <code>SentryTelemetryProcessorTransport</code> is created in <code>SentryClient</code> (Objective-C) and must be passed in explicitly.
+/// <em>Current approach:</em>
+/// <ul>
+///   <li>
+///     Public method: <code>getProcessor(transport:dependencies:)</code> - called from Objective-C with concrete <code>SentryDependencyContainer</code>
+///   </li>
+///   <li>
+///     Internal method: <code>getProcessorInternal(transport:dependencies:)</code> - uses protocol-constrained generics for testability
+///   </li>
+/// </ul>
+/// <em>Future migration path:</em>
+/// Once the transport is resolved via DI, we can refactor to match the integration pattern:
+/// \code
+/// init?(transport: SentryTelemetryProcessorTransport, dependencies: Dependencies)
+///
+/// \endcodeThe internal method is already structured to make this transition straightforward.
+SWIFT_CLASS("_TtC6Sentry31SentryTelemetryProcessorFactory")
+@interface SentryTelemetryProcessorFactory : NSObject
++ (id <SentryTelemetryProcessor> _Nonnull)getProcessorWithTransport:(id <SentryTelemetryProcessorTransport> _Nonnull)transport dependencies:(SentryDependencyContainer * _Nonnull)dependencies SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Lightweight transport abstraction used by the telemetry processor to send envelopes.
+/// Exists because using the Objective-C <code>SentryTransport</code> adapter directly from Swift pulls in many ObjC dependencies
+/// and caused build/compile issues; we only need envelope sending here, so this protocol keeps it minimal.
+SWIFT_PROTOCOL("_TtP6Sentry33SentryTelemetryProcessorTransport_")
+@protocol SentryTelemetryProcessorTransport
+- (void)sendEnvelopeWithEnvelope:(SentryEnvelope * _Nonnull)envelope;
 @end
 
 SWIFT_PROTOCOL("_TtP6Sentry22SentryThreadInspecting_")
@@ -6766,53 +6766,6 @@ typedef SWIFT_ENUM_NAMED(NSInteger, SentryLogLevel, "Level", open) {
   SentryLogLevelFatal = 5,
 };
 
-@protocol SentryLogBufferDelegate;
-SWIFT_CLASS("_TtC6Sentry15SentryLogBuffer")
-@interface SentryLogBuffer : NSObject
-/// Convenience initializer with default flush timeout, max log count (100), and buffer size.
-/// Creates its own serial dispatch queue with DEFAULT QoS for thread-safe access to mutable state.
-/// note:
-/// Uses DEFAULT priority (not LOW) because captureLogs() is called synchronously during
-/// app lifecycle events (willResignActive, willTerminate) and needs to complete quickly.
-/// note:
-/// Setting <code>maxLogCount</code> to 100. While Replay hard limit is 1000, we keep this lower, as it’s hard to lower once released.
-/// \param dateProvider The current date provider
-///
-/// \param delegate The delegate to handle captured log batches
-///
-- (nonnull instancetype)initWithDateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentryLogBufferDelegate> _Nonnull)delegate;
-/// Initializes a new SentryLogBuffer.
-/// important:
-/// The <code>dispatchQueue</code> parameter MUST be a serial queue to ensure thread safety.
-/// Passing a concurrent queue will result in undefined behavior and potential data races.
-/// note:
-/// Logs are flushed when either <code>maxLogCount</code> or <code>maxBufferSizeBytes</code> limit is reached.
-/// \param flushTimeout The timeout interval after which buffered logs will be flushed
-///
-/// \param maxLogCount Maximum number of logs to batch before triggering an immediate flush.
-///
-/// \param maxBufferSizeBytes The maximum buffer size in bytes before triggering an immediate flush
-///
-/// \param dispatchQueue A <em>serial</em> dispatch queue wrapper for thread-safe access to mutable state
-///
-/// \param delegate The delegate to handle captured log batches
-///
-- (nonnull instancetype)initWithFlushTimeout:(NSTimeInterval)flushTimeout maxLogCount:(NSInteger)maxLogCount maxBufferSizeBytes:(NSInteger)maxBufferSizeBytes dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider dispatchQueue:(SentryDispatchQueueWrapper * _Nonnull)dispatchQueue delegate:(id <SentryLogBufferDelegate> _Nonnull)delegate OBJC_DESIGNATED_INITIALIZER;
-/// Adds a log to the buffer.
-/// \param log The log to add (should already have scope enrichment applied)
-///
-- (void)addLog:(SentryLog * _Nonnull)log;
-/// Captures buffered logs sync and returns the duration.
-- (NSTimeInterval)captureLogs;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-@end
-
-SWIFT_PROTOCOL("_TtP6Sentry23SentryLogBufferDelegate_")
-@protocol SentryLogBufferDelegate
-- (void)captureLogsData:(NSData * _Nonnull)logsData with:(NSNumber * _Nonnull)count;
-@end
-
 @protocol SentryLoggerDelegate;
 /// <code>SentryLogger</code> provides a structured logging interface that captures log entries
 /// and sends them to Sentry. Supports multiple log levels (trace, debug, info, warn,
@@ -8011,6 +7964,7 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (BOOL)sessionReplayShouldCaptureReplayForError SWIFT_WARN_UNUSED_RESULT;
 - (void)sessionReplayNewSegmentWithReplayEvent:(SentryReplayEvent * _Nonnull)replayEvent replayRecording:(SentryReplayRecording * _Nonnull)replayRecording videoUrl:(NSURL * _Nonnull)videoUrl;
 - (void)sessionReplayStartedWithReplayId:(SentryId * _Nonnull)replayId;
+- (void)sessionReplayEnded;
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 @end
@@ -8053,6 +8007,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (BOOL)sessionReplayShouldCaptureReplayForError SWIFT_WARN_UNUSED_RESULT;
 - (void)sessionReplayNewSegmentWithReplayEvent:(SentryReplayEvent * _Nonnull)replayEvent replayRecording:(SentryReplayRecording * _Nonnull)replayRecording videoUrl:(NSURL * _Nonnull)videoUrl;
 - (void)sessionReplayStartedWithReplayId:(SentryId * _Nonnull)replayId;
+- (void)sessionReplayEnded;
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (void)connectivityChanged:(BOOL)connected typeDescription:(NSString * _Nonnull)typeDescription;
@@ -8107,6 +8062,51 @@ SWIFT_CLASS("_TtC6Sentry12SentrySysctl")
 @property (nonatomic, readonly, copy) NSDate * _Nonnull runtimeInitTimestamp;
 @property (nonatomic, readonly, copy) NSDate * _Nonnull moduleInitializationTimestamp;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// The Telemetry processor is sitting between the client and transport to efficiently deliver telemetry to Sentry (as of 2026-02-04).
+/// Currently used for logs only; planned to cover all telemetry (e.g. metrics) with buffering, rate limiting, client reports, and priority-based sending.
+/// Offline caching is still handled by the transport today, but the long-term goal is to move it here so the transport focuses on sending only.
+/// See dev docs for details (work in progress): https://develop.sentry.dev/sdk/telemetry/telemetry-processor/
+SWIFT_PROTOCOL("_TtP6Sentry24SentryTelemetryProcessor_")
+@protocol SentryTelemetryProcessor
+- (void)addLog:(SentryLog * _Nonnull)log;
+/// Forwards buffered telemetry data to the transport for sending.
+/// Temporary name; will be renamed to <code>flush()</code> once flushing logic moves from SentryMetricsIntegration.
+- (NSTimeInterval)forwardTelemetryData SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@protocol SentryTelemetryProcessorTransport;
+/// Factory for creating telemetry processors.
+/// Unlike integrations (e.g., <code>SentryMetricsIntegration</code>), this factory cannot yet use the full dependency injection pattern
+/// because the <code>SentryTelemetryProcessorTransport</code> is created in <code>SentryClient</code> (Objective-C) and must be passed in explicitly.
+/// <em>Current approach:</em>
+/// <ul>
+///   <li>
+///     Public method: <code>getProcessor(transport:dependencies:)</code> - called from Objective-C with concrete <code>SentryDependencyContainer</code>
+///   </li>
+///   <li>
+///     Internal method: <code>getProcessorInternal(transport:dependencies:)</code> - uses protocol-constrained generics for testability
+///   </li>
+/// </ul>
+/// <em>Future migration path:</em>
+/// Once the transport is resolved via DI, we can refactor to match the integration pattern:
+/// \code
+/// init?(transport: SentryTelemetryProcessorTransport, dependencies: Dependencies)
+///
+/// \endcodeThe internal method is already structured to make this transition straightforward.
+SWIFT_CLASS("_TtC6Sentry31SentryTelemetryProcessorFactory")
+@interface SentryTelemetryProcessorFactory : NSObject
++ (id <SentryTelemetryProcessor> _Nonnull)getProcessorWithTransport:(id <SentryTelemetryProcessorTransport> _Nonnull)transport dependencies:(SentryDependencyContainer * _Nonnull)dependencies SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Lightweight transport abstraction used by the telemetry processor to send envelopes.
+/// Exists because using the Objective-C <code>SentryTransport</code> adapter directly from Swift pulls in many ObjC dependencies
+/// and caused build/compile issues; we only need envelope sending here, so this protocol keeps it minimal.
+SWIFT_PROTOCOL("_TtP6Sentry33SentryTelemetryProcessorTransport_")
+@protocol SentryTelemetryProcessorTransport
+- (void)sendEnvelopeWithEnvelope:(SentryEnvelope * _Nonnull)envelope;
 @end
 
 SWIFT_PROTOCOL("_TtP6Sentry22SentryThreadInspecting_")
