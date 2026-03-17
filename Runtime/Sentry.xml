@@ -1551,10 +1551,43 @@
             </param>
             <returns>The task object representing the asynchronous operation.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0)" -->
-        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0[])" -->
-        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0,System.Collections.Generic.IEqualityComparer{``0})" -->
-        <!-- Badly formed XML comment ignored for member "M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEqualityComparer{``0},``0[])" -->
+        <member name="M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0)">
+            <summary>
+            Produces a set items excluding <paramref name="item"/> by using the default equality comparer to compare values.
+            </summary>
+            <param name="target">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+            <param name="item">An <see cref="!:TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+            <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0[])">
+            <summary>
+            Produces the set difference of two sequences by using the default equality comparer to compare values.
+            </summary>
+            <param name="target">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+            <param name="item">An <see cref="!:TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+            <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},``0,System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            Produces a set items excluding <paramref name="item"/> by using <paramref name="comparer"/> to compare values.
+            </summary>
+            <param name="target">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+            <param name="item">An <see cref="!:TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
+            <param name="comparer">An <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> to compare values.</param>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+            <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
+        </member>
+        <member name="M:PolyfillExtensions.Except``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEqualityComparer{``0},``0[])">
+            <summary>
+            Produces the set difference of two sequences by <paramref name="comparer"/> to compare values.
+            </summary>
+            <param name="target">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+            <param name="item">An <see cref="!:TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
+            <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+            <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
+        </member>
         <member name="M:PolyfillExtensions.Chunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>
             Split the elements of a sequence into chunks of size at most <paramref name="size"/>.

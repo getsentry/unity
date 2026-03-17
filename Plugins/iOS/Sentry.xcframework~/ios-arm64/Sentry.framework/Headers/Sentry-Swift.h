@@ -1767,6 +1767,8 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 /// API, which allows you to send, view and query counters, gauges and measurements.
 /// @note Default value is @c true.
 @property (nonatomic) BOOL enableMetrics;
+/// When enabled, the SDK uses a more efficient mechanism for detecting watchdog terminations.
+@property (nonatomic) BOOL enableWatchdogTerminationsV2;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -2316,6 +2318,7 @@ SWIFT_CLASS("_TtC6Sentry12SentryLocale")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class SentrySpanId;
 enum SentryLogLevel : NSInteger;
 /// A structured log entry that captures log data with associated attribute metadata.
 /// Use the <code>options.beforeSendLog</code> callback to modify or filter log data.
@@ -2325,6 +2328,8 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @property (nonatomic, copy) NSDate * _Nonnull timestamp;
 /// The trace ID to associate this log with distributed tracing. This will be set to a valid non-empty value during processing.
 @property (nonatomic, strong) SentryId * _Nonnull traceId;
+/// The span ID of the span that was active when the log was collected.
+@property (nonatomic, strong) SentrySpanId * _Nullable spanId;
 /// The severity level of the log entry
 @property (nonatomic) enum SentryLogLevel level;
 /// The main log message content
@@ -2518,6 +2523,20 @@ SWIFT_CLASS("_TtC6Sentry25SentryNSURLRequestBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+/// The Telemetry processor is sitting between the client and transport to efficiently deliver telemetry to Sentry (as of 2026-02-04).
+/// Currently used for logs and metrics only; planned to cover all telemetry with buffering, rate limiting, client reports, and priority-based sending.
+/// Offline caching is still handled by the transport today, but the long-term goal is to move it here so the transport focuses on sending only.
+/// This is an Objective-C compatible subset of the telemetry processor protocol.
+/// Use <code>SentryTelemetryProcessor</code> instead when working in Swift, which adds support for
+/// Swift-only types like <code>SentryMetric</code>.
+/// See dev docs for details (work in progress): https://develop.sentry.dev/sdk/telemetry/telemetry-processor/
+SWIFT_PROTOCOL("_TtP6Sentry28SentryObjCTelemetryProcessor_")
+@protocol SentryObjCTelemetryProcessor
+- (void)addLog:(SentryLog * _Nonnull)log;
+/// Forwards buffered telemetry data to the transport for sending.
+- (NSTimeInterval)forwardTelemetryData SWIFT_WARN_UNUSED_RESULT;
+@end
+
 @class UIImage;
 @class SentryVideoInfo;
 SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
@@ -2543,6 +2562,16 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 - (NSArray<SentryVideoInfo *> * _Nonnull)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+@class NSPredicate;
+/// Used to transform an NSPredicate into a human-friendly string.
+/// This class is used for CoreData and omits variable values
+/// and doesn’t convert CoreData unsupported instructions.
+SWIFT_CLASS("_TtC6Sentry25SentryPredicateDescriptor")
+@interface SentryPredicateDescriptor : NSObject
+- (NSString * _Nonnull)predicateDescription:(NSPredicate * _Nonnull)predicate SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 enum SentryProfileLifecycle : NSInteger;
@@ -2643,7 +2672,6 @@ typedef SWIFT_ENUM(NSInteger, SentryProfileLifecycle, open) {
 };
 
 @class SentryTraceHeader;
-@class SentrySpanId;
 SWIFT_CLASS("_TtC6Sentry24SentryPropagationContext")
 @interface SentryPropagationContext : NSObject
 @property (nonatomic, readonly, strong) SentryId * _Nonnull traceId;
@@ -3358,6 +3386,14 @@ SWIFT_CLASS("_TtC6Sentry12SentrySDKLog")
 /// @return @c YES if the current logging configuration will log statements at the current level,
 /// @c NO if not.
 + (BOOL)willLogAtLevel:(SentryLevel)level SWIFT_WARN_UNUSED_RESULT;
+/// Sets a custom log output handler. This allows hybrid SDKs (React Native, Flutter, etc.)
+/// to intercept SDK log messages and forward them to their respective consoles.
+/// note:
+/// Exposed through <code>PrivateSentrySDKOnly.setLogOutput</code> for hybrid SDK consumption.
+/// \param output A closure to handle log output. If <code>nil</code> is passed (which can happen
+/// from Objective-C callers despite nullability annotations), the default <code>print</code> handler is used.
+///
++ (void)setOutput:(void (^ _Nullable)(NSString * _Nonnull))output;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3373,6 +3409,17 @@ SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 /// Any deviation in the information will cause the breadcrumb or the information itself to be discarded
 /// in order to avoid unknown behavior in the front-end.
 - (id <SentryRRWebEvent> _Nullable)convertFrom:(SentryBreadcrumb * _Nonnull)breadcrumb SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// A storage class to hold the data associated with a single profiler sample.
+SWIFT_CLASS("_TtC6Sentry12SentrySample")
+@interface SentrySample : NSObject
+@property (nonatomic) uint64_t absoluteTimestamp;
+@property (nonatomic) NSTimeInterval absoluteNSDateInterval;
+@property (nonatomic, strong) NSNumber * _Nonnull stackIndex;
+@property (nonatomic) uint64_t threadID;
+@property (nonatomic, copy) NSString * _Nullable queueAddress;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3627,6 +3674,27 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Detects shake gestures by swizzling <code>UIWindow.motionEnded(_:with:)</code> on iOS/iPadOS.
+/// When a shake gesture is detected, posts a <code>.SentryShakeDetected</code> notification.
+/// Use <code>enable()</code> to start detection and <code>disable()</code> to stop it.
+/// Swizzling is performed at most once regardless of how many times <code>enable()</code> is called.
+/// On non-iOS platforms (macOS, tvOS, watchOS), these methods are no-ops.
+SWIFT_CLASS_NAMED("SentryShakeDetector")
+@interface SentryShakeDetector : NSObject
+/// The notification name posted on shake, exposed for ObjC consumers.
+/// In Swift, prefer using <code>.SentryShakeDetected</code> on <code>NSNotification.Name</code> directly.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull shakeDetectedNotification;)
++ (NSNotificationName _Nonnull)shakeDetectedNotification SWIFT_WARN_UNUSED_RESULT;
+/// Enables shake gesture detection. On iOS/iPadOS, swizzles <code>UIWindow.motionEnded(_:with:)</code>
+/// the first time it is called, and from then on posts <code>.SentryShakeDetected</code>
+/// whenever a shake is detected. No-op on non-iOS platforms.
++ (void)enable;
+/// Disables shake gesture detection. Does not un-swizzle <code>UIWindow</code>; it only suppresses
+/// the notification so the overhead is negligible. No-op on non-iOS platforms.
++ (void)disable;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 SWIFT_CLASS("_TtC6Sentry31SentrySwiftIntegrationInstaller")
 @interface SentrySwiftIntegrationInstaller : NSObject
 + (void)installWith:(SentryOptions * _Nonnull)options;
@@ -3676,18 +3744,6 @@ SWIFT_CLASS("_TtC6Sentry12SentrySysctl")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-/// The Telemetry processor is sitting between the client and transport to efficiently deliver telemetry to Sentry (as of 2026-02-04).
-/// Currently used for logs only; planned to cover all telemetry (e.g. metrics) with buffering, rate limiting, client reports, and priority-based sending.
-/// Offline caching is still handled by the transport today, but the long-term goal is to move it here so the transport focuses on sending only.
-/// See dev docs for details (work in progress): https://develop.sentry.dev/sdk/telemetry/telemetry-processor/
-SWIFT_PROTOCOL("_TtP6Sentry24SentryTelemetryProcessor_")
-@protocol SentryTelemetryProcessor
-- (void)addLog:(SentryLog * _Nonnull)log;
-/// Forwards buffered telemetry data to the transport for sending.
-/// Temporary name; will be renamed to <code>flush()</code> once flushing logic moves from SentryMetricsIntegration.
-- (NSTimeInterval)forwardTelemetryData SWIFT_WARN_UNUSED_RESULT;
-@end
-
 @protocol SentryTelemetryProcessorTransport;
 /// Factory for creating telemetry processors.
 /// Unlike integrations (e.g., <code>SentryMetricsIntegration</code>), this factory cannot yet use the full dependency injection pattern
@@ -3709,7 +3765,7 @@ SWIFT_PROTOCOL("_TtP6Sentry24SentryTelemetryProcessor_")
 /// \endcodeThe internal method is already structured to make this transition straightforward.
 SWIFT_CLASS("_TtC6Sentry31SentryTelemetryProcessorFactory")
 @interface SentryTelemetryProcessorFactory : NSObject
-+ (id <SentryTelemetryProcessor> _Nonnull)getProcessorWithTransport:(id <SentryTelemetryProcessorTransport> _Nonnull)transport dependencies:(SentryDependencyContainer * _Nonnull)dependencies SWIFT_WARN_UNUSED_RESULT;
++ (id <SentryObjCTelemetryProcessor> _Nonnull)getProcessorWithTransport:(id <SentryTelemetryProcessorTransport> _Nonnull)transport dependencies:(SentryDependencyContainer * _Nonnull)dependencies SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -6155,6 +6211,8 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 /// API, which allows you to send, view and query counters, gauges and measurements.
 /// @note Default value is @c true.
 @property (nonatomic) BOOL enableMetrics;
+/// When enabled, the SDK uses a more efficient mechanism for detecting watchdog terminations.
+@property (nonatomic) BOOL enableWatchdogTerminationsV2;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -6704,6 +6762,7 @@ SWIFT_CLASS("_TtC6Sentry12SentryLocale")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class SentrySpanId;
 enum SentryLogLevel : NSInteger;
 /// A structured log entry that captures log data with associated attribute metadata.
 /// Use the <code>options.beforeSendLog</code> callback to modify or filter log data.
@@ -6713,6 +6772,8 @@ SWIFT_CLASS("_TtC6Sentry9SentryLog")
 @property (nonatomic, copy) NSDate * _Nonnull timestamp;
 /// The trace ID to associate this log with distributed tracing. This will be set to a valid non-empty value during processing.
 @property (nonatomic, strong) SentryId * _Nonnull traceId;
+/// The span ID of the span that was active when the log was collected.
+@property (nonatomic, strong) SentrySpanId * _Nullable spanId;
 /// The severity level of the log entry
 @property (nonatomic) enum SentryLogLevel level;
 /// The main log message content
@@ -6906,6 +6967,20 @@ SWIFT_CLASS("_TtC6Sentry25SentryNSURLRequestBuilder")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+/// The Telemetry processor is sitting between the client and transport to efficiently deliver telemetry to Sentry (as of 2026-02-04).
+/// Currently used for logs and metrics only; planned to cover all telemetry with buffering, rate limiting, client reports, and priority-based sending.
+/// Offline caching is still handled by the transport today, but the long-term goal is to move it here so the transport focuses on sending only.
+/// This is an Objective-C compatible subset of the telemetry processor protocol.
+/// Use <code>SentryTelemetryProcessor</code> instead when working in Swift, which adds support for
+/// Swift-only types like <code>SentryMetric</code>.
+/// See dev docs for details (work in progress): https://develop.sentry.dev/sdk/telemetry/telemetry-processor/
+SWIFT_PROTOCOL("_TtP6Sentry28SentryObjCTelemetryProcessor_")
+@protocol SentryObjCTelemetryProcessor
+- (void)addLog:(SentryLog * _Nonnull)log;
+/// Forwards buffered telemetry data to the transport for sending.
+- (NSTimeInterval)forwardTelemetryData SWIFT_WARN_UNUSED_RESULT;
+@end
+
 @class UIImage;
 @class SentryVideoInfo;
 SWIFT_PROTOCOL("_TtP6Sentry22SentryReplayVideoMaker_")
@@ -6931,6 +7006,16 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 - (NSArray<SentryVideoInfo *> * _Nonnull)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+@class NSPredicate;
+/// Used to transform an NSPredicate into a human-friendly string.
+/// This class is used for CoreData and omits variable values
+/// and doesn’t convert CoreData unsupported instructions.
+SWIFT_CLASS("_TtC6Sentry25SentryPredicateDescriptor")
+@interface SentryPredicateDescriptor : NSObject
+- (NSString * _Nonnull)predicateDescription:(NSPredicate * _Nonnull)predicate SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 enum SentryProfileLifecycle : NSInteger;
@@ -7031,7 +7116,6 @@ typedef SWIFT_ENUM(NSInteger, SentryProfileLifecycle, open) {
 };
 
 @class SentryTraceHeader;
-@class SentrySpanId;
 SWIFT_CLASS("_TtC6Sentry24SentryPropagationContext")
 @interface SentryPropagationContext : NSObject
 @property (nonatomic, readonly, strong) SentryId * _Nonnull traceId;
@@ -7746,6 +7830,14 @@ SWIFT_CLASS("_TtC6Sentry12SentrySDKLog")
 /// @return @c YES if the current logging configuration will log statements at the current level,
 /// @c NO if not.
 + (BOOL)willLogAtLevel:(SentryLevel)level SWIFT_WARN_UNUSED_RESULT;
+/// Sets a custom log output handler. This allows hybrid SDKs (React Native, Flutter, etc.)
+/// to intercept SDK log messages and forward them to their respective consoles.
+/// note:
+/// Exposed through <code>PrivateSentrySDKOnly.setLogOutput</code> for hybrid SDK consumption.
+/// \param output A closure to handle log output. If <code>nil</code> is passed (which can happen
+/// from Objective-C callers despite nullability annotations), the default <code>print</code> handler is used.
+///
++ (void)setOutput:(void (^ _Nullable)(NSString * _Nonnull))output;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -7761,6 +7853,17 @@ SWIFT_CLASS("_TtC6Sentry34SentrySRDefaultBreadcrumbConverter")
 /// Any deviation in the information will cause the breadcrumb or the information itself to be discarded
 /// in order to avoid unknown behavior in the front-end.
 - (id <SentryRRWebEvent> _Nullable)convertFrom:(SentryBreadcrumb * _Nonnull)breadcrumb SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// A storage class to hold the data associated with a single profiler sample.
+SWIFT_CLASS("_TtC6Sentry12SentrySample")
+@interface SentrySample : NSObject
+@property (nonatomic) uint64_t absoluteTimestamp;
+@property (nonatomic) NSTimeInterval absoluteNSDateInterval;
+@property (nonatomic, strong) NSNumber * _Nonnull stackIndex;
+@property (nonatomic) uint64_t threadID;
+@property (nonatomic, copy) NSString * _Nullable queueAddress;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -8015,6 +8118,27 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Detects shake gestures by swizzling <code>UIWindow.motionEnded(_:with:)</code> on iOS/iPadOS.
+/// When a shake gesture is detected, posts a <code>.SentryShakeDetected</code> notification.
+/// Use <code>enable()</code> to start detection and <code>disable()</code> to stop it.
+/// Swizzling is performed at most once regardless of how many times <code>enable()</code> is called.
+/// On non-iOS platforms (macOS, tvOS, watchOS), these methods are no-ops.
+SWIFT_CLASS_NAMED("SentryShakeDetector")
+@interface SentryShakeDetector : NSObject
+/// The notification name posted on shake, exposed for ObjC consumers.
+/// In Swift, prefer using <code>.SentryShakeDetected</code> on <code>NSNotification.Name</code> directly.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull shakeDetectedNotification;)
++ (NSNotificationName _Nonnull)shakeDetectedNotification SWIFT_WARN_UNUSED_RESULT;
+/// Enables shake gesture detection. On iOS/iPadOS, swizzles <code>UIWindow.motionEnded(_:with:)</code>
+/// the first time it is called, and from then on posts <code>.SentryShakeDetected</code>
+/// whenever a shake is detected. No-op on non-iOS platforms.
++ (void)enable;
+/// Disables shake gesture detection. Does not un-swizzle <code>UIWindow</code>; it only suppresses
+/// the notification so the overhead is negligible. No-op on non-iOS platforms.
++ (void)disable;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 SWIFT_CLASS("_TtC6Sentry31SentrySwiftIntegrationInstaller")
 @interface SentrySwiftIntegrationInstaller : NSObject
 + (void)installWith:(SentryOptions * _Nonnull)options;
@@ -8064,18 +8188,6 @@ SWIFT_CLASS("_TtC6Sentry12SentrySysctl")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-/// The Telemetry processor is sitting between the client and transport to efficiently deliver telemetry to Sentry (as of 2026-02-04).
-/// Currently used for logs only; planned to cover all telemetry (e.g. metrics) with buffering, rate limiting, client reports, and priority-based sending.
-/// Offline caching is still handled by the transport today, but the long-term goal is to move it here so the transport focuses on sending only.
-/// See dev docs for details (work in progress): https://develop.sentry.dev/sdk/telemetry/telemetry-processor/
-SWIFT_PROTOCOL("_TtP6Sentry24SentryTelemetryProcessor_")
-@protocol SentryTelemetryProcessor
-- (void)addLog:(SentryLog * _Nonnull)log;
-/// Forwards buffered telemetry data to the transport for sending.
-/// Temporary name; will be renamed to <code>flush()</code> once flushing logic moves from SentryMetricsIntegration.
-- (NSTimeInterval)forwardTelemetryData SWIFT_WARN_UNUSED_RESULT;
-@end
-
 @protocol SentryTelemetryProcessorTransport;
 /// Factory for creating telemetry processors.
 /// Unlike integrations (e.g., <code>SentryMetricsIntegration</code>), this factory cannot yet use the full dependency injection pattern
@@ -8097,7 +8209,7 @@ SWIFT_PROTOCOL("_TtP6Sentry24SentryTelemetryProcessor_")
 /// \endcodeThe internal method is already structured to make this transition straightforward.
 SWIFT_CLASS("_TtC6Sentry31SentryTelemetryProcessorFactory")
 @interface SentryTelemetryProcessorFactory : NSObject
-+ (id <SentryTelemetryProcessor> _Nonnull)getProcessorWithTransport:(id <SentryTelemetryProcessorTransport> _Nonnull)transport dependencies:(SentryDependencyContainer * _Nonnull)dependencies SWIFT_WARN_UNUSED_RESULT;
++ (id <SentryObjCTelemetryProcessor> _Nonnull)getProcessorWithTransport:(id <SentryTelemetryProcessorTransport> _Nonnull)transport dependencies:(SentryDependencyContainer * _Nonnull)dependencies SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
