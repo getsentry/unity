@@ -2219,11 +2219,6 @@
             the type being bound to will be preserved.
             </summary>
         </member>
-        <member name="T:Sentry.BindableSentryOptions.ExperimentalSentryOptions">
-            <summary>
-            Bindable Options for <see cref="T:Sentry.SentryOptions.ExperimentalSentryOptions"/>.
-            </summary>
-        </member>
         <member name="T:Sentry.Breadcrumb">
             <summary>
             Series of application events.
@@ -2345,6 +2340,11 @@
             Attachment sourced from a provided byte array.
             </summary>
         </member>
+        <member name="P:Sentry.ByteAttachmentContent.Bytes">
+            <summary>
+            The raw bytes of the attachment.
+            </summary>
+        </member>
         <member name="M:Sentry.ByteAttachmentContent.#ctor(System.Byte[])">
             <summary>
             Creates a new instance of <see cref="T:Sentry.ByteAttachmentContent"/>.
@@ -2395,6 +2395,11 @@
         <member name="F:Sentry.CaptureFeedbackResult.EmptyMessage">
             <summary>
             Capture failed because the <see cref="P:Sentry.SentryFeedback.Message"/> message is empty.
+            </summary>
+        </member>
+        <member name="F:Sentry.CaptureFeedbackResult.DroppedByEventProcessor">
+            <summary>
+            The <see cref="T:Sentry.SentryFeedback"/> was discarded by an event processor.
             </summary>
         </member>
         <member name="T:Sentry.CompilerServices.BuildProperties">
@@ -3565,6 +3570,11 @@
             Attachment sourced from the file system.
             </summary>
         </member>
+        <member name="P:Sentry.FileAttachmentContent.FilePath">
+            <summary>
+            The path to the file to attach.
+            </summary>
+        </member>
         <member name="M:Sentry.FileAttachmentContent.#ctor(System.String)">
             <summary>
             Creates a new instance of <see cref="T:Sentry.FileAttachmentContent"/>.
@@ -4273,8 +4283,8 @@
             <remarks>
             Available options:
             <list type="bullet">
-            <item><see cref="P:Sentry.SentryOptions.ExperimentalSentryOptions.EnableMetrics"/></item>
-            <item><see cref="M:Sentry.SentryOptions.ExperimentalSentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})"/></item>
+            <item><see cref="P:Sentry.SentryOptions.EnableMetrics"/></item>
+            <item><see cref="M:Sentry.SentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})"/></item>
             </list>
             </remarks>
         </member>
@@ -5647,6 +5657,16 @@
             Sets the current trace
             </summary>
         </member>
+        <member name="M:Sentry.IScopeObserver.AddAttachment(Sentry.SentryAttachment)">
+            <summary>
+            Adds an attachment.
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.ClearAttachments">
+            <summary>
+            Clears all attachments.
+            </summary>
+        </member>
         <member name="T:Sentry.ISentryClient">
             <summary>
             Sentry Client interface.
@@ -6646,6 +6666,9 @@
         <member name="P:Sentry.SentrySdk.Logger">
             <inheritdoc cref="P:Sentry.IHub.Logger" />
         </member>
+        <member name="P:Sentry.SentrySdk.Metrics">
+            <inheritdoc cref="P:Sentry.IHub.Metrics" />
+        </member>
         <member name="M:Sentry.SentrySdk.PushScope``1(``0)">
             <summary>
             Creates a new scope that will terminate when disposed.
@@ -7013,25 +7036,6 @@
             The method is marked obsolete only to discourage accidental misuse.
             We do not intend to remove it.
             </remarks>
-        </member>
-        <member name="P:Sentry.SentrySdk.Experimental">
-            <summary>
-            Sentry features that are currently in an experimental state.
-            </summary>
-            <remarks>
-            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
-            </remarks>
-        </member>
-        <member name="T:Sentry.SentrySdk.ExperimentalSentrySdk">
-            <summary>
-            Sentry features that are currently in an experimental state.
-            </summary>
-            <remarks>
-            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentrySdk.ExperimentalSentrySdk.Metrics">
-            <inheritdoc cref="P:Sentry.IHub.Metrics" />
         </member>
         <member name="T:Sentry.Protocol.App">
             <summary>
@@ -11029,6 +11033,25 @@
             </remarks>
             <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
         </member>
+        <member name="P:Sentry.SentryOptions.EnableMetrics">
+            <summary>
+            When set to <see langword="false"/>, the SDK does not generate and send metrics to Sentry via <see cref="P:Sentry.SentrySdk.Metrics"/>.
+            Defaults to <see langword="true"/>.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
+        </member>
+        <member name="M:Sentry.SentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})">
+            <summary>
+            Sets a callback function to be invoked before sending the metric to Sentry.
+            When the delegate throws an <see cref="T:System.Exception"/> during invocation, the metric will not be captured.
+            </summary>
+            <remarks>
+            It can be used to modify the metric object before being sent to Sentry.
+            To prevent the metric from being sent to Sentry, return <see langword="null"/>.
+            Supported numeric value types are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
+        </member>
         <member name="P:Sentry.SentryOptions.MaxQueueItems">
             <summary>
             The maximum number of events to keep while the worker attempts to send them.
@@ -11725,41 +11748,6 @@
             By default, any queued events (i.e: captures errors) are flushed on <see cref="E:System.AppDomain.ProcessExit"/>.
             This method disables that behaviour.
             </summary>
-        </member>
-        <member name="P:Sentry.SentryOptions.Experimental">
-            <summary>
-            Sentry features that are currently in an experimental state.
-            </summary>
-            <remarks>
-            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
-            </remarks>
-        </member>
-        <member name="T:Sentry.SentryOptions.ExperimentalSentryOptions">
-            <summary>
-            Sentry features that are currently in an experimental state.
-            </summary>
-            <remarks>
-            Experimental features are subject to binary, source and behavioral breaking changes in future updates.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryOptions.ExperimentalSentryOptions.EnableMetrics">
-            <summary>
-            When set to <see langword="false"/>, the SDK does not generate and send metrics to Sentry via <see cref="T:Sentry.SentrySdk"/>.
-            Defaults to <see langword="true"/>.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
-        </member>
-        <member name="M:Sentry.SentryOptions.ExperimentalSentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})">
-            <summary>
-            Sets a callback function to be invoked before sending the metric to Sentry.
-            When the delegate throws an <see cref="T:System.Exception"/> during invocation, the metric will not be captured.
-            </summary>
-            <remarks>
-            It can be used to modify the metric object before being sent to Sentry.
-            To prevent the metric from being sent to Sentry, return <see langword="null"/>.
-            Supported numeric value types are <see langword="byte"/>, <see langword="short"/>, <see langword="int"/>, <see langword="long"/>, <see langword="float"/>, and <see langword="double"/>.
-            </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
         </member>
         <member name="T:Sentry.SentryPackage">
             <summary>
