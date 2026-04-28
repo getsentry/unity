@@ -1911,12 +1911,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// API for interacting with the feature User Feedback
@@ -6474,12 +6474,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// API for interacting with the feature User Feedback
