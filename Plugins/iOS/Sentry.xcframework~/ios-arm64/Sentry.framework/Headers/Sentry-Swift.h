@@ -351,7 +351,6 @@ SWIFT_CLASS_NAMED("DefaultRateLimits")
 @protocol SentryRandomProtocol;
 @class SentryThreadWrapper;
 @protocol SentryProcessInfoSource;
-@class SentrySessionReplayEnvironmentChecker;
 @class SentryDispatchQueueWrapper;
 @protocol SentryNSNotificationCenterWrapper;
 @class SentryBinaryImageCache;
@@ -369,8 +368,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryThread
 + (SentryThreadWrapper * _Nonnull)threadWrapper SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) id <SentryProcessInfoSource> _Nonnull processInfoWrapper;)
 + (id <SentryProcessInfoSource> _Nonnull)processInfoWrapper SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentrySessionReplayEnvironmentChecker * _Nonnull sessionReplayEnvironmentChecker;)
-+ (SentrySessionReplayEnvironmentChecker * _Nonnull)sessionReplayEnvironmentChecker SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryDispatchQueueWrapper * _Nonnull dispatchQueueWrapper;)
 + (SentryDispatchQueueWrapper * _Nonnull)dispatchQueueWrapper SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) id <SentryNSNotificationCenterWrapper> _Nonnull notificationCenterWrapper;)
@@ -583,6 +580,12 @@ SWIFT_CLASS_NAMED("Options")
 /// Stack traces are only attached for the current thread.
 /// @note This feature is enabled by default.
 @property (nonatomic) BOOL attachStacktrace;
+/// When enabled, all threads are attached with full stack traces to all captured events.
+/// This requires suspending all threads briefly to collect their stack traces.
+/// When disabled (the default), only the current thread gets a stack trace.
+/// @note <code>attachStacktrace</code> must also be enabled for this to have any effect.
+/// @note Default is <code>false</code>.
+@property (nonatomic) BOOL attachAllThreads;
 /// The maximum size for each attachment in bytes.
 /// @note Default is 200 MiB (200 ✕ 1024 ✕ 1024 bytes).
 /// @note Please also check the maximum attachment size of relay to make sure your attachments don’t
@@ -838,6 +841,22 @@ SWIFT_CLASS_NAMED("Options")
 /// The Spotlight URL. Defaults to http://localhost:8969/stream. For more information see
 /// https://spotlightjs.com/
 @property (nonatomic, copy) NSString * _Nonnull spotlightUrl;
+/// If set to <code>true</code>, the SDK will only continue a trace if the organization ID of the incoming
+/// trace found in the baggage header matches the organization ID of the current Sentry client.
+/// The client’s organization ID is extracted from the DSN or can be set with the <code>orgId</code> option.
+/// If the organization IDs do not match, the SDK will start a new trace instead of continuing
+/// the incoming one. This is useful to prevent traces of unknown third-party services from being
+/// continued in your application.
+/// @note Default value is @c false.
+@property (nonatomic) BOOL strictTraceContinuation;
+/// The organization ID for your Sentry project.
+/// The SDK will try to extract the organization ID from the DSN. If it cannot be found, or if
+/// you need to override it, you can provide the ID with this option. The organization ID is used
+/// for trace propagation and for features like <code>strictTraceContinuation</code>.
+@property (nonatomic, copy) NSString * _Nullable orgId;
+/// Returns the effective organization ID, preferring the explicit <code>orgId</code> option over the
+/// DSN-extracted value.
+@property (nonatomic, readonly, copy) NSString * _Nullable effectiveOrgId;
 /// Options for experimental features that are subject to change.
 @property (nonatomic, strong) SentryExperimentalOptions * _Nonnull experimental;
 @property (nonatomic, strong) SentryUserFeedbackConfiguration * _Nullable userFeedbackConfiguration;
@@ -846,6 +865,10 @@ SWIFT_CLASS_NAMED("Options")
 + (BOOL)isValidSampleRate:(NSNumber * _Nonnull)rate SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull defaultEnvironment;)
 + (NSString * _Nonnull)defaultEnvironment SWIFT_WARN_UNUSED_RESULT;
+/// When enabled, the SDK sends metrics to Sentry. Metrics can be captured using the <code>SentrySDK/metrics</code>
+/// API, which allows you to send, view and query counters, gauges and measurements.
+/// @note Default value is @c true.
+@property (nonatomic) BOOL enableMetrics;
 @end
 
 SWIFT_CLASS("_TtC6Sentry27PlaceholderProcessInfoClass")
@@ -868,6 +891,7 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryProcessInfoSource_")
 @property (nonatomic, readonly) BOOL isiOSAppOnMac SWIFT_AVAILABILITY(macos,introduced=12.0);
 @property (nonatomic, readonly) BOOL isMacCatalystApp SWIFT_AVAILABILITY(macos,introduced=12.0);
 @property (nonatomic, readonly) BOOL isiOSAppOnVisionOS;
+@property (nonatomic, readonly) BOOL isLowPowerModeEnabled SWIFT_AVAILABILITY(macos,introduced=12.0);
 @end
 
 @interface NSProcessInfo (SWIFT_EXTENSION(Sentry)) <SentryProcessInfoSource>
@@ -1533,7 +1557,6 @@ SWIFT_CLASS("_TtC6Sentry28SentryDefaultUIDeviceWrapper")
 @class SentryDispatchFactory;
 @class SentryNSTimerFactory;
 @class SentryReachability;
-@protocol SentrySessionReplayEnvironmentCheckerProvider;
 @class SentryExtraContextProvider;
 @protocol SentryEventContextEnricher;
 @class SentryThreadsafeApplication;
@@ -1568,7 +1591,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryDependencyContainer")
 @property (nonatomic, strong) id <SentryRateLimits> _Nonnull rateLimits;
 @property (nonatomic, strong) SentryReachability * _Nonnull reachability;
 @property (nonatomic, strong) SentrySysctl * _Nonnull sysctlWrapper;
-@property (nonatomic, strong) id <SentrySessionReplayEnvironmentCheckerProvider> _Nonnull sessionReplayEnvironmentChecker;
 @property (nonatomic, strong) SentryDebugImageProvider * _Nonnull debugImageProvider;
 @property (nonatomic, strong) id <SentryObjCRuntimeWrapper> _Nonnull objcRuntimeWrapper;
 @property (nonatomic, strong) SentryExtraContextProvider * _Nonnull extraContextProvider;
@@ -1696,6 +1718,10 @@ SWIFT_CLASS_NAMED("SentryDsn")
 /// returns:
 /// The envelope endpoint URL.
 - (NSURL * _Nonnull)getEnvelopeEndpoint SWIFT_WARN_UNUSED_RESULT;
+/// Extracts the organization ID from the DSN host.
+/// For example, given a DSN with host <code>o123.ingest.sentry.io</code>, this returns <code>"123"</code>.
+/// Returns <code>nil</code> if the host does not match the expected pattern.
+@property (nonatomic, readonly, copy) NSString * _Nullable orgId;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -1834,32 +1860,14 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 /// experiment:
 /// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future major release.
 @property (nonatomic) BOOL enableUnhandledCPPExceptionsV2;
-/// Forces enabling of session replay in unreliable environments.
-/// Due to internal changes with the release of Liquid Glass on iOS 26.0, the masking of text and images can not be reliably guaranteed.
-/// Therefore the SDK uses a defensive programming approach to disable the session replay integration by default, unless the environment is detected as reliable.
-/// Indicators for reliable environments include:
-/// important:
-/// This flag allows to re-enable the session replay integration on iOS 26.0 and later, but please be aware that text and images may not be masked as expected.
-/// note:
-/// See <a href="https://github.com/getsentry/sentry-cocoa/issues/6389">GitHub issues #6389</a> for more information.
-/// <ul>
-///   <li>
-///     Running on an older version of iOS that doesn’t have Liquid Glass (iOS 18 or earlier)
-///   </li>
-///   <li>
-///     UIDesignRequiresCompatibility is explicitly set to YES in Info.plist
-///   </li>
-///   <li>
-///     The app was built with Xcode < 26.0 (DTXcode < 2600)
-///   </li>
-/// </ul>
-@property (nonatomic) BOOL enableSessionReplayInUnreliableEnvironment;
-/// When enabled, the SDK sends metrics to Sentry. Metrics can be captured using the SentrySDK.metrics
-/// API, which allows you to send, view and query counters, gauges and measurements.
-/// @note Default value is @c true.
-@property (nonatomic) BOOL enableMetrics;
 /// When enabled, the SDK uses a more efficient mechanism for detecting watchdog terminations.
 @property (nonatomic) BOOL enableWatchdogTerminationsV2;
+/// Enables network detail capture for Session Replay.
+/// When enabled, the SDK can capture request and response headers and bodies for network
+/// requests during session replay. You must also configure
+/// <code>options.sessionReplay.networkDetailAllowUrls</code> with URL patterns to specify which
+/// requests should be captured.
+@property (nonatomic) BOOL enableReplayNetworkDetailsCapturing;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -1874,6 +1882,8 @@ typedef SWIFT_ENUM(NSInteger, SentryExtensionType, open) {
   SentryExtensionTypeAction = 2,
 /// Share extensions
   SentryExtensionTypeShare = 3,
+/// Notification Service extensions
+  SentryExtensionTypeNotificationService = 4,
 };
 
 SWIFT_CLASS("_TtC6Sentry26SentryExtraContextProvider")
@@ -2613,6 +2623,12 @@ SWIFT_CLASS("_TtC6Sentry24SentryMigrateSessionInit")
 SWIFT_CLASS("_TtC6Sentry27SentryMobileProvisionParser")
 @interface SentryMobileProvisionParser : NSObject
 @property (nonatomic, readonly) BOOL mobileProvisionProfileProvisionsAllDevices;
+/// Whether the provisioning profile allows debugging (<code>get-task-allow</code> entitlement).
+/// Its boolean value determines whether a debugger can attach to the app.
+/// Development profiles set this to <code>true</code>; distribution profiles set it to <code>false</code>.
+/// See: https://developer.apple.com/library/archive/technotes/tn2415/_index.html
+/// See: https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles
+@property (nonatomic, readonly) BOOL mobileProvisionProfileAllowsDebugging;
 - (nonnull instancetype)init;
 - (BOOL)hasEmbeddedMobileProvisionProfile SWIFT_WARN_UNUSED_RESULT;
 @end
@@ -2788,6 +2804,29 @@ SWIFT_CLASS("_TtC6Sentry24SentryPropagationContext")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTraceId:(SentryId * _Nonnull)traceId spanId:(SentrySpanId * _Nonnull)spanId OBJC_DESIGNATED_INITIALIZER;
 - (NSDictionary<NSString *, NSString *> * _Nonnull)traceContextForEvent SWIFT_WARN_UNUSED_RESULT;
+/// Determines whether a trace should be continued based on the incoming baggage org ID
+/// and the SDK options.
+/// This method is intentionally not called from the Cocoa SDK’s own production code because
+/// the Cocoa SDK is a mobile client SDK that does not receive incoming HTTP requests with
+/// trace headers. It is exposed as a public utility for:
+/// <ul>
+///   <li>
+///     Hybrid SDKs (React Native, Flutter, Capacitor) that handle inbound trace validation
+///     in their JS/Dart layer and use the Cocoa SDK for options storage and outbound propagation
+///   </li>
+///   <li>
+///     Any consumer that needs to validate incoming traces against org ID
+///   </li>
+/// </ul>
+/// Decision matrix:
+/// | Baggage org | SDK org | strict=false | strict=true |
+/// |———––|———|———––|———––|
+/// | 1           | 1       | Continue    | Continue    |
+/// | None        | 1       | Continue    | New trace   |
+/// | 1           | None    | Continue    | New trace   |
+/// | None        | None    | Continue    | Continue    |
+/// | 1           | 2       | New trace   | New trace   |
++ (BOOL)shouldContinueTraceWithOptions:(SentryOptions * _Nonnull)options baggageOrgId:(NSString * _Nullable)baggageOrgId SWIFT_WARN_UNUSED_RESULT;
 @end
 
 SWIFT_PROTOCOL_NAMED("SentryRRWebEventProtocol")
@@ -2927,6 +2966,59 @@ SWIFT_CLASS("_TtC6Sentry17SentryReplayEvent")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 - (nonnull instancetype)initWithLevel:(SentryLevel)level SWIFT_UNAVAILABLE;
+@end
+
+/// Main container for network request/response tracking.
+/// ObjC callers (SentryNetworkTracker) create this object and populate it
+/// via <code>setRequest</code>/<code>setResponse</code>. Swift callers (SentrySRDefaultBreadcrumbConverter)
+/// consume it via <code>serialize()</code>.
+/// important:
+/// <code>setRequest</code> and <code>setResponse</code> can be called concurrently from
+/// <code>SentryNetworkTracker</code> because they write to independent properties.
+/// Adding shared mutable state between will require adding synchronization.
+SWIFT_CLASS("_TtC6Sentry26SentryReplayNetworkDetails")
+@interface SentryReplayNetworkDetails : NSObject
+/// Key used to store network details in breadcrumb data dictionary.
+/// The __sentry key prefix strips this from event serialization.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull replayNetworkDetailsKey;)
++ (NSString * _Nonnull)replayNetworkDetailsKey SWIFT_WARN_UNUSED_RESULT;
+/// Creates a new instance with the given HTTP method.
+- (nonnull instancetype)initWithMethod:(NSString * _Nullable)method OBJC_DESIGNATED_INITIALIZER;
+/// Sets request details from raw body data.
+/// Parses the body data based on content type (JSON, form-urlencoded, text)
+/// and applies size limits and truncation warnings automatically.
+/// \param size Request body size in bytes, or nil if unknown.
+///
+/// \param bodyData Raw body bytes, or nil if body capture is disabled or unavailable.
+///
+/// \param contentType MIME content type for body parsing (e.g. “application/json”).
+///
+/// \param allHeaders All headers from the request (e.g. from <code>NSURLRequest.allHTTPHeaderFields</code>).
+///
+/// \param configuredHeaders Header names to extract, matched case-insensitively.
+///
+- (void)setRequestWithSize:(NSNumber * _Nullable)size bodyData:(NSData * _Nullable)bodyData contentType:(NSString * _Nullable)contentType allHeaders:(NSDictionary<NSString *, id> * _Nullable)allHeaders configuredHeaders:(NSArray<NSString *> * _Nullable)configuredHeaders;
+/// Sets response details from raw body data.
+/// Parses the body data based on content type (JSON, form-urlencoded, text)
+/// and applies size limits and truncation warnings automatically.
+/// \param statusCode HTTP status code.
+///
+/// \param size Response body size in bytes, or nil if unknown.
+///
+/// \param bodyData Raw body bytes, or nil if body capture is disabled or unavailable.
+///
+/// \param contentType MIME content type for body parsing (e.g. “application/json”).
+///
+/// \param allHeaders All headers from the response (e.g. from <code>NSHTTPURLResponse.allHeaderFields</code>).
+///
+/// \param configuredHeaders Header names to extract, matched case-insensitively.
+///
+- (void)setResponseWithStatusCode:(NSInteger)statusCode size:(NSNumber * _Nullable)size bodyData:(NSData * _Nullable)bodyData contentType:(NSString * _Nullable)contentType allHeaders:(NSDictionary<NSString *, id> * _Nullable)allHeaders configuredHeaders:(NSArray<NSString *> * _Nullable)configuredHeaders;
+/// Serializes to dictionary for inclusion in breadcrumb data.
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 enum SentryReplayQuality : NSInteger;
@@ -3077,6 +3169,56 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// note:
 /// See <code>SentryReplayOptions.DefaultValues.enableFastViewRendering</code> for the default value.
 @property (nonatomic) BOOL enableFastViewRendering;
+/// Whether to capture request and response bodies for allowed URLs.
+/// When <code>true</code> (default), bodies will be captured and parsed (JSON bodies are
+/// parsed for structured display in the Sentry UI).
+/// When <code>false</code>, only headers and metadata will be captured for allowed URLs.
+/// Default: <code>true</code>
+/// note:
+/// This setting only applies when <code>networkDetailAllowUrls</code> is non-empty.
+/// note:
+/// Bodies are automatically truncated to 150KB to prevent excessive memory usage.
+/// note:
+/// Requires <code>options.experimental.enableReplayNetworkDetailsCapturing</code> to be <code>true</code>.
+@property (nonatomic) BOOL networkCaptureBodies;
+/// Request headers to capture for allowed URLs during session replay.
+/// Specifies which HTTP request headers should be captured and included in session replay
+/// network details. Header matching is case-insensitive (e.g., “content-type”, “Content-Type”,
+/// and “CoNtEnT-tYpE” are all equivalent).
+/// Default (always included): <code>["Content-Type", "Content-Length", "Accept"]</code>
+/// Example:
+/// \code
+/// options.sessionReplay.networkRequestHeaders = [
+///     "Authorization",
+///     "User-Agent"
+/// ]
+///
+/// \endcodenote:
+/// This setting only applies when <code>networkDetailAllowUrls</code> is non-empty.
+/// note:
+/// Header names preserve the case seen on the request, not the case specified here.
+/// note:
+/// Requires <code>options.experimental.enableReplayNetworkDetailsCapturing</code> to be <code>true</code>.
+@property (nonatomic, copy) NSArray<NSString *> * _Nonnull networkRequestHeaders;
+/// Response headers to capture for allowed URLs during session replay.
+/// Specifies which HTTP response headers should be captured and included in session replay
+/// network details. Header matching is case-insensitive (e.g., “content-type”, “Content-Type”,
+/// and “CoNtEnT-tYpE” are all equivalent).
+/// Default (always included): <code>["Content-Type", "Content-Length", "Accept"]</code>
+/// Example:
+/// \code
+/// options.sessionReplay.networkResponseHeaders = [
+///     "Cache-Control",    // Custom header
+///     "Set-Cookie"        // Custom header
+/// ]
+///
+/// \endcodenote:
+/// This setting only applies when <code>networkDetailAllowUrls</code> is non-empty.
+/// note:
+/// Header names preserve the case seen on the response, not the case specified here.
+/// note:
+/// Requires <code>options.experimental.enableReplayNetworkDetailsCapturing</code> to be <code>true</code>.
+@property (nonatomic, copy) NSArray<NSString *> * _Nonnull networkResponseHeaders;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 /// note:
@@ -3100,6 +3242,13 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// note:
 /// See  <code>SentryReplayOptions.DefaultValues.maximumDuration</code> for the default value.
 @property (nonatomic) NSTimeInterval maximumDuration;
+/// Determines if network detail capture is enabled for a given URL.
+/// \param urlString The URL string to check
+///
+///
+/// returns:
+/// <code>true</code> if network details should be captured for this URL, <code>false</code> otherwise
+- (BOOL)isNetworkDetailCaptureEnabledFor:(NSString * _Nonnull)urlString SWIFT_WARN_UNUSED_RESULT;
 /// Initialize session replay options disabled
 /// note:
 /// This initializer is added for Objective-C compatibility, as constructors with default values
@@ -3212,6 +3361,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureEvent:(SentryEvent * _Nonnull)event withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures a manually created event and sends it to Sentry, with a per-call override for
+/// attaching all threads with stack traces.
+/// \param event The event to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureEvent:(SentryEvent * _Nonnull)event attachAllThreads:(BOOL)attachAllThreads;
 /// Creates a transaction, binds it to the hub and returns the instance.
 /// \param name The transaction name.
 ///
@@ -3295,6 +3454,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureError:(NSError * _Nonnull)error withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures an error event and sends it to Sentry, with a per-call override for attaching all
+/// threads with stack traces.
+/// \param error The error to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureError:(NSError * _Nonnull)error attachAllThreads:(BOOL)attachAllThreads;
 /// Captures an exception event and sends it to Sentry.
 /// \param exception The exception to send to Sentry.
 ///
@@ -3322,6 +3491,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureException:(NSException * _Nonnull)exception withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures an exception event and sends it to Sentry, with a per-call override for attaching
+/// all threads with stack traces.
+/// \param exception The exception to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureException:(NSException * _Nonnull)exception attachAllThreads:(BOOL)attachAllThreads;
 /// Captures a message event and sends it to Sentry.
 /// \param message The message to send to Sentry.
 ///
@@ -3349,6 +3528,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureMessage:(NSString * _Nonnull)message withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures a message event and sends it to Sentry, with a per-call override for attaching all
+/// threads with stack traces.
+/// \param message The message to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureMessage:(NSString * _Nonnull)message attachAllThreads:(BOOL)attachAllThreads;
 /// Captures user feedback that was manually gathered and sends it to Sentry.
 /// warning:
 /// This is an experimental feature and may still have bugs.
@@ -3726,7 +3915,6 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
 - (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
-+ (BOOL)shouldEnableSessionReplayWithEnvironmentChecker:(id <SentrySessionReplayEnvironmentCheckerProvider> _Nonnull)environmentChecker experimentalOptions:(SentryExperimentalOptions * _Nonnull)experimentalOptions SWIFT_WARN_UNUSED_RESULT;
 - (void)startWithRootView:(UIView * _Nullable)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -3745,22 +3933,6 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (void)sessionReplayEnded;
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
-@end
-
-SWIFT_PROTOCOL("_TtP6Sentry45SentrySessionReplayEnvironmentCheckerProvider_")
-@protocol SentrySessionReplayEnvironmentCheckerProvider
-/// Checks if the runtime environment is considered unreliable with regards to Session Replay masking.
-///
-/// returns:
-/// <code>true</code> if reliable, otherwise <code>false</code>
-- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
-@end
-
-SWIFT_CLASS("_TtC6Sentry37SentrySessionReplayEnvironmentChecker")
-@interface SentrySessionReplayEnvironmentChecker : NSObject <SentrySessionReplayEnvironmentCheckerProvider>
-- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 SWIFT_CLASS("_TtC6Sentry30SentrySessionReplayIntegration")
@@ -4914,7 +5086,6 @@ SWIFT_CLASS_NAMED("DefaultRateLimits")
 @protocol SentryRandomProtocol;
 @class SentryThreadWrapper;
 @protocol SentryProcessInfoSource;
-@class SentrySessionReplayEnvironmentChecker;
 @class SentryDispatchQueueWrapper;
 @protocol SentryNSNotificationCenterWrapper;
 @class SentryBinaryImageCache;
@@ -4932,8 +5103,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryThread
 + (SentryThreadWrapper * _Nonnull)threadWrapper SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) id <SentryProcessInfoSource> _Nonnull processInfoWrapper;)
 + (id <SentryProcessInfoSource> _Nonnull)processInfoWrapper SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentrySessionReplayEnvironmentChecker * _Nonnull sessionReplayEnvironmentChecker;)
-+ (SentrySessionReplayEnvironmentChecker * _Nonnull)sessionReplayEnvironmentChecker SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryDispatchQueueWrapper * _Nonnull dispatchQueueWrapper;)
 + (SentryDispatchQueueWrapper * _Nonnull)dispatchQueueWrapper SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) id <SentryNSNotificationCenterWrapper> _Nonnull notificationCenterWrapper;)
@@ -5146,6 +5315,12 @@ SWIFT_CLASS_NAMED("Options")
 /// Stack traces are only attached for the current thread.
 /// @note This feature is enabled by default.
 @property (nonatomic) BOOL attachStacktrace;
+/// When enabled, all threads are attached with full stack traces to all captured events.
+/// This requires suspending all threads briefly to collect their stack traces.
+/// When disabled (the default), only the current thread gets a stack trace.
+/// @note <code>attachStacktrace</code> must also be enabled for this to have any effect.
+/// @note Default is <code>false</code>.
+@property (nonatomic) BOOL attachAllThreads;
 /// The maximum size for each attachment in bytes.
 /// @note Default is 200 MiB (200 ✕ 1024 ✕ 1024 bytes).
 /// @note Please also check the maximum attachment size of relay to make sure your attachments don’t
@@ -5401,6 +5576,22 @@ SWIFT_CLASS_NAMED("Options")
 /// The Spotlight URL. Defaults to http://localhost:8969/stream. For more information see
 /// https://spotlightjs.com/
 @property (nonatomic, copy) NSString * _Nonnull spotlightUrl;
+/// If set to <code>true</code>, the SDK will only continue a trace if the organization ID of the incoming
+/// trace found in the baggage header matches the organization ID of the current Sentry client.
+/// The client’s organization ID is extracted from the DSN or can be set with the <code>orgId</code> option.
+/// If the organization IDs do not match, the SDK will start a new trace instead of continuing
+/// the incoming one. This is useful to prevent traces of unknown third-party services from being
+/// continued in your application.
+/// @note Default value is @c false.
+@property (nonatomic) BOOL strictTraceContinuation;
+/// The organization ID for your Sentry project.
+/// The SDK will try to extract the organization ID from the DSN. If it cannot be found, or if
+/// you need to override it, you can provide the ID with this option. The organization ID is used
+/// for trace propagation and for features like <code>strictTraceContinuation</code>.
+@property (nonatomic, copy) NSString * _Nullable orgId;
+/// Returns the effective organization ID, preferring the explicit <code>orgId</code> option over the
+/// DSN-extracted value.
+@property (nonatomic, readonly, copy) NSString * _Nullable effectiveOrgId;
 /// Options for experimental features that are subject to change.
 @property (nonatomic, strong) SentryExperimentalOptions * _Nonnull experimental;
 @property (nonatomic, strong) SentryUserFeedbackConfiguration * _Nullable userFeedbackConfiguration;
@@ -5409,6 +5600,10 @@ SWIFT_CLASS_NAMED("Options")
 + (BOOL)isValidSampleRate:(NSNumber * _Nonnull)rate SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull defaultEnvironment;)
 + (NSString * _Nonnull)defaultEnvironment SWIFT_WARN_UNUSED_RESULT;
+/// When enabled, the SDK sends metrics to Sentry. Metrics can be captured using the <code>SentrySDK/metrics</code>
+/// API, which allows you to send, view and query counters, gauges and measurements.
+/// @note Default value is @c true.
+@property (nonatomic) BOOL enableMetrics;
 @end
 
 SWIFT_CLASS("_TtC6Sentry27PlaceholderProcessInfoClass")
@@ -5431,6 +5626,7 @@ SWIFT_PROTOCOL("_TtP6Sentry23SentryProcessInfoSource_")
 @property (nonatomic, readonly) BOOL isiOSAppOnMac SWIFT_AVAILABILITY(macos,introduced=12.0);
 @property (nonatomic, readonly) BOOL isMacCatalystApp SWIFT_AVAILABILITY(macos,introduced=12.0);
 @property (nonatomic, readonly) BOOL isiOSAppOnVisionOS;
+@property (nonatomic, readonly) BOOL isLowPowerModeEnabled SWIFT_AVAILABILITY(macos,introduced=12.0);
 @end
 
 @interface NSProcessInfo (SWIFT_EXTENSION(Sentry)) <SentryProcessInfoSource>
@@ -6096,7 +6292,6 @@ SWIFT_CLASS("_TtC6Sentry28SentryDefaultUIDeviceWrapper")
 @class SentryDispatchFactory;
 @class SentryNSTimerFactory;
 @class SentryReachability;
-@protocol SentrySessionReplayEnvironmentCheckerProvider;
 @class SentryExtraContextProvider;
 @protocol SentryEventContextEnricher;
 @class SentryThreadsafeApplication;
@@ -6131,7 +6326,6 @@ SWIFT_CLASS("_TtC6Sentry25SentryDependencyContainer")
 @property (nonatomic, strong) id <SentryRateLimits> _Nonnull rateLimits;
 @property (nonatomic, strong) SentryReachability * _Nonnull reachability;
 @property (nonatomic, strong) SentrySysctl * _Nonnull sysctlWrapper;
-@property (nonatomic, strong) id <SentrySessionReplayEnvironmentCheckerProvider> _Nonnull sessionReplayEnvironmentChecker;
 @property (nonatomic, strong) SentryDebugImageProvider * _Nonnull debugImageProvider;
 @property (nonatomic, strong) id <SentryObjCRuntimeWrapper> _Nonnull objcRuntimeWrapper;
 @property (nonatomic, strong) SentryExtraContextProvider * _Nonnull extraContextProvider;
@@ -6259,6 +6453,10 @@ SWIFT_CLASS_NAMED("SentryDsn")
 /// returns:
 /// The envelope endpoint URL.
 - (NSURL * _Nonnull)getEnvelopeEndpoint SWIFT_WARN_UNUSED_RESULT;
+/// Extracts the organization ID from the DSN host.
+/// For example, given a DSN with host <code>o123.ingest.sentry.io</code>, this returns <code>"123"</code>.
+/// Returns <code>nil</code> if the host does not match the expected pattern.
+@property (nonatomic, readonly, copy) NSString * _Nullable orgId;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
@@ -6397,32 +6595,14 @@ SWIFT_CLASS("_TtC6Sentry25SentryExperimentalOptions")
 /// experiment:
 /// This is an experimental feature and is therefore disabled by default. We’ll enable it by default in a future major release.
 @property (nonatomic) BOOL enableUnhandledCPPExceptionsV2;
-/// Forces enabling of session replay in unreliable environments.
-/// Due to internal changes with the release of Liquid Glass on iOS 26.0, the masking of text and images can not be reliably guaranteed.
-/// Therefore the SDK uses a defensive programming approach to disable the session replay integration by default, unless the environment is detected as reliable.
-/// Indicators for reliable environments include:
-/// important:
-/// This flag allows to re-enable the session replay integration on iOS 26.0 and later, but please be aware that text and images may not be masked as expected.
-/// note:
-/// See <a href="https://github.com/getsentry/sentry-cocoa/issues/6389">GitHub issues #6389</a> for more information.
-/// <ul>
-///   <li>
-///     Running on an older version of iOS that doesn’t have Liquid Glass (iOS 18 or earlier)
-///   </li>
-///   <li>
-///     UIDesignRequiresCompatibility is explicitly set to YES in Info.plist
-///   </li>
-///   <li>
-///     The app was built with Xcode < 26.0 (DTXcode < 2600)
-///   </li>
-/// </ul>
-@property (nonatomic) BOOL enableSessionReplayInUnreliableEnvironment;
-/// When enabled, the SDK sends metrics to Sentry. Metrics can be captured using the SentrySDK.metrics
-/// API, which allows you to send, view and query counters, gauges and measurements.
-/// @note Default value is @c true.
-@property (nonatomic) BOOL enableMetrics;
 /// When enabled, the SDK uses a more efficient mechanism for detecting watchdog terminations.
 @property (nonatomic) BOOL enableWatchdogTerminationsV2;
+/// Enables network detail capture for Session Replay.
+/// When enabled, the SDK can capture request and response headers and bodies for network
+/// requests during session replay. You must also configure
+/// <code>options.sessionReplay.networkDetailAllowUrls</code> with URL patterns to specify which
+/// requests should be captured.
+@property (nonatomic) BOOL enableReplayNetworkDetailsCapturing;
 - (void)validateOptions:(NSDictionary<NSString *, id> * _Nullable)options;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -6437,6 +6617,8 @@ typedef SWIFT_ENUM(NSInteger, SentryExtensionType, open) {
   SentryExtensionTypeAction = 2,
 /// Share extensions
   SentryExtensionTypeShare = 3,
+/// Notification Service extensions
+  SentryExtensionTypeNotificationService = 4,
 };
 
 SWIFT_CLASS("_TtC6Sentry26SentryExtraContextProvider")
@@ -7176,6 +7358,12 @@ SWIFT_CLASS("_TtC6Sentry24SentryMigrateSessionInit")
 SWIFT_CLASS("_TtC6Sentry27SentryMobileProvisionParser")
 @interface SentryMobileProvisionParser : NSObject
 @property (nonatomic, readonly) BOOL mobileProvisionProfileProvisionsAllDevices;
+/// Whether the provisioning profile allows debugging (<code>get-task-allow</code> entitlement).
+/// Its boolean value determines whether a debugger can attach to the app.
+/// Development profiles set this to <code>true</code>; distribution profiles set it to <code>false</code>.
+/// See: https://developer.apple.com/library/archive/technotes/tn2415/_index.html
+/// See: https://developer.apple.com/documentation/technotes/tn3125-inside-code-signing-provisioning-profiles
+@property (nonatomic, readonly) BOOL mobileProvisionProfileAllowsDebugging;
 - (nonnull instancetype)init;
 - (BOOL)hasEmbeddedMobileProvisionProfile SWIFT_WARN_UNUSED_RESULT;
 @end
@@ -7351,6 +7539,29 @@ SWIFT_CLASS("_TtC6Sentry24SentryPropagationContext")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithTraceId:(SentryId * _Nonnull)traceId spanId:(SentrySpanId * _Nonnull)spanId OBJC_DESIGNATED_INITIALIZER;
 - (NSDictionary<NSString *, NSString *> * _Nonnull)traceContextForEvent SWIFT_WARN_UNUSED_RESULT;
+/// Determines whether a trace should be continued based on the incoming baggage org ID
+/// and the SDK options.
+/// This method is intentionally not called from the Cocoa SDK’s own production code because
+/// the Cocoa SDK is a mobile client SDK that does not receive incoming HTTP requests with
+/// trace headers. It is exposed as a public utility for:
+/// <ul>
+///   <li>
+///     Hybrid SDKs (React Native, Flutter, Capacitor) that handle inbound trace validation
+///     in their JS/Dart layer and use the Cocoa SDK for options storage and outbound propagation
+///   </li>
+///   <li>
+///     Any consumer that needs to validate incoming traces against org ID
+///   </li>
+/// </ul>
+/// Decision matrix:
+/// | Baggage org | SDK org | strict=false | strict=true |
+/// |———––|———|———––|———––|
+/// | 1           | 1       | Continue    | Continue    |
+/// | None        | 1       | Continue    | New trace   |
+/// | 1           | None    | Continue    | New trace   |
+/// | None        | None    | Continue    | Continue    |
+/// | 1           | 2       | New trace   | New trace   |
++ (BOOL)shouldContinueTraceWithOptions:(SentryOptions * _Nonnull)options baggageOrgId:(NSString * _Nullable)baggageOrgId SWIFT_WARN_UNUSED_RESULT;
 @end
 
 SWIFT_PROTOCOL_NAMED("SentryRRWebEventProtocol")
@@ -7490,6 +7701,59 @@ SWIFT_CLASS("_TtC6Sentry17SentryReplayEvent")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 - (nonnull instancetype)initWithLevel:(SentryLevel)level SWIFT_UNAVAILABLE;
+@end
+
+/// Main container for network request/response tracking.
+/// ObjC callers (SentryNetworkTracker) create this object and populate it
+/// via <code>setRequest</code>/<code>setResponse</code>. Swift callers (SentrySRDefaultBreadcrumbConverter)
+/// consume it via <code>serialize()</code>.
+/// important:
+/// <code>setRequest</code> and <code>setResponse</code> can be called concurrently from
+/// <code>SentryNetworkTracker</code> because they write to independent properties.
+/// Adding shared mutable state between will require adding synchronization.
+SWIFT_CLASS("_TtC6Sentry26SentryReplayNetworkDetails")
+@interface SentryReplayNetworkDetails : NSObject
+/// Key used to store network details in breadcrumb data dictionary.
+/// The __sentry key prefix strips this from event serialization.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull replayNetworkDetailsKey;)
++ (NSString * _Nonnull)replayNetworkDetailsKey SWIFT_WARN_UNUSED_RESULT;
+/// Creates a new instance with the given HTTP method.
+- (nonnull instancetype)initWithMethod:(NSString * _Nullable)method OBJC_DESIGNATED_INITIALIZER;
+/// Sets request details from raw body data.
+/// Parses the body data based on content type (JSON, form-urlencoded, text)
+/// and applies size limits and truncation warnings automatically.
+/// \param size Request body size in bytes, or nil if unknown.
+///
+/// \param bodyData Raw body bytes, or nil if body capture is disabled or unavailable.
+///
+/// \param contentType MIME content type for body parsing (e.g. “application/json”).
+///
+/// \param allHeaders All headers from the request (e.g. from <code>NSURLRequest.allHTTPHeaderFields</code>).
+///
+/// \param configuredHeaders Header names to extract, matched case-insensitively.
+///
+- (void)setRequestWithSize:(NSNumber * _Nullable)size bodyData:(NSData * _Nullable)bodyData contentType:(NSString * _Nullable)contentType allHeaders:(NSDictionary<NSString *, id> * _Nullable)allHeaders configuredHeaders:(NSArray<NSString *> * _Nullable)configuredHeaders;
+/// Sets response details from raw body data.
+/// Parses the body data based on content type (JSON, form-urlencoded, text)
+/// and applies size limits and truncation warnings automatically.
+/// \param statusCode HTTP status code.
+///
+/// \param size Response body size in bytes, or nil if unknown.
+///
+/// \param bodyData Raw body bytes, or nil if body capture is disabled or unavailable.
+///
+/// \param contentType MIME content type for body parsing (e.g. “application/json”).
+///
+/// \param allHeaders All headers from the response (e.g. from <code>NSHTTPURLResponse.allHeaderFields</code>).
+///
+/// \param configuredHeaders Header names to extract, matched case-insensitively.
+///
+- (void)setResponseWithStatusCode:(NSInteger)statusCode size:(NSNumber * _Nullable)size bodyData:(NSData * _Nullable)bodyData contentType:(NSString * _Nullable)contentType allHeaders:(NSDictionary<NSString *, id> * _Nullable)allHeaders configuredHeaders:(NSArray<NSString *> * _Nullable)configuredHeaders;
+/// Serializes to dictionary for inclusion in breadcrumb data.
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 enum SentryReplayQuality : NSInteger;
@@ -7640,6 +7904,56 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// note:
 /// See <code>SentryReplayOptions.DefaultValues.enableFastViewRendering</code> for the default value.
 @property (nonatomic) BOOL enableFastViewRendering;
+/// Whether to capture request and response bodies for allowed URLs.
+/// When <code>true</code> (default), bodies will be captured and parsed (JSON bodies are
+/// parsed for structured display in the Sentry UI).
+/// When <code>false</code>, only headers and metadata will be captured for allowed URLs.
+/// Default: <code>true</code>
+/// note:
+/// This setting only applies when <code>networkDetailAllowUrls</code> is non-empty.
+/// note:
+/// Bodies are automatically truncated to 150KB to prevent excessive memory usage.
+/// note:
+/// Requires <code>options.experimental.enableReplayNetworkDetailsCapturing</code> to be <code>true</code>.
+@property (nonatomic) BOOL networkCaptureBodies;
+/// Request headers to capture for allowed URLs during session replay.
+/// Specifies which HTTP request headers should be captured and included in session replay
+/// network details. Header matching is case-insensitive (e.g., “content-type”, “Content-Type”,
+/// and “CoNtEnT-tYpE” are all equivalent).
+/// Default (always included): <code>["Content-Type", "Content-Length", "Accept"]</code>
+/// Example:
+/// \code
+/// options.sessionReplay.networkRequestHeaders = [
+///     "Authorization",
+///     "User-Agent"
+/// ]
+///
+/// \endcodenote:
+/// This setting only applies when <code>networkDetailAllowUrls</code> is non-empty.
+/// note:
+/// Header names preserve the case seen on the request, not the case specified here.
+/// note:
+/// Requires <code>options.experimental.enableReplayNetworkDetailsCapturing</code> to be <code>true</code>.
+@property (nonatomic, copy) NSArray<NSString *> * _Nonnull networkRequestHeaders;
+/// Response headers to capture for allowed URLs during session replay.
+/// Specifies which HTTP response headers should be captured and included in session replay
+/// network details. Header matching is case-insensitive (e.g., “content-type”, “Content-Type”,
+/// and “CoNtEnT-tYpE” are all equivalent).
+/// Default (always included): <code>["Content-Type", "Content-Length", "Accept"]</code>
+/// Example:
+/// \code
+/// options.sessionReplay.networkResponseHeaders = [
+///     "Cache-Control",    // Custom header
+///     "Set-Cookie"        // Custom header
+/// ]
+///
+/// \endcodenote:
+/// This setting only applies when <code>networkDetailAllowUrls</code> is non-empty.
+/// note:
+/// Header names preserve the case seen on the response, not the case specified here.
+/// note:
+/// Requires <code>options.experimental.enableReplayNetworkDetailsCapturing</code> to be <code>true</code>.
+@property (nonatomic, copy) NSArray<NSString *> * _Nonnull networkResponseHeaders;
 /// Defines the quality of the session replay.
 /// Higher bit rates better quality, but also bigger files to transfer.
 /// note:
@@ -7663,6 +7977,13 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// note:
 /// See  <code>SentryReplayOptions.DefaultValues.maximumDuration</code> for the default value.
 @property (nonatomic) NSTimeInterval maximumDuration;
+/// Determines if network detail capture is enabled for a given URL.
+/// \param urlString The URL string to check
+///
+///
+/// returns:
+/// <code>true</code> if network details should be captured for this URL, <code>false</code> otherwise
+- (BOOL)isNetworkDetailCaptureEnabledFor:(NSString * _Nonnull)urlString SWIFT_WARN_UNUSED_RESULT;
 /// Initialize session replay options disabled
 /// note:
 /// This initializer is added for Objective-C compatibility, as constructors with default values
@@ -7775,6 +8096,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureEvent:(SentryEvent * _Nonnull)event withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures a manually created event and sends it to Sentry, with a per-call override for
+/// attaching all threads with stack traces.
+/// \param event The event to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureEvent:(SentryEvent * _Nonnull)event attachAllThreads:(BOOL)attachAllThreads;
 /// Creates a transaction, binds it to the hub and returns the instance.
 /// \param name The transaction name.
 ///
@@ -7858,6 +8189,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureError:(NSError * _Nonnull)error withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures an error event and sends it to Sentry, with a per-call override for attaching all
+/// threads with stack traces.
+/// \param error The error to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureError:(NSError * _Nonnull)error attachAllThreads:(BOOL)attachAllThreads;
 /// Captures an exception event and sends it to Sentry.
 /// \param exception The exception to send to Sentry.
 ///
@@ -7885,6 +8226,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureException:(NSException * _Nonnull)exception withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures an exception event and sends it to Sentry, with a per-call override for attaching
+/// all threads with stack traces.
+/// \param exception The exception to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureException:(NSException * _Nonnull)exception attachAllThreads:(BOOL)attachAllThreads;
 /// Captures a message event and sends it to Sentry.
 /// \param message The message to send to Sentry.
 ///
@@ -7912,6 +8263,16 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// returns:
 /// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
 + (SentryId * _Nonnull)captureMessage:(NSString * _Nonnull)message withScopeBlock:(void (^ _Nonnull)(SentryScope * _Nonnull))block;
+/// Captures a message event and sends it to Sentry, with a per-call override for attaching all
+/// threads with stack traces.
+/// \param message The message to send to Sentry.
+///
+/// \param attachAllThreads Whether to attach all threads with full stack traces. Overrides <code>Options.attachAllThreads</code>.
+///
+///
+/// returns:
+/// The <code>SentryId</code> of the event or <code>SentryId.empty</code> if the event is not sent.
++ (SentryId * _Nonnull)captureMessage:(NSString * _Nonnull)message attachAllThreads:(BOOL)attachAllThreads;
 /// Captures user feedback that was manually gathered and sends it to Sentry.
 /// warning:
 /// This is an experimental feature and may still have bugs.
@@ -8289,7 +8650,6 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
 - (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
-+ (BOOL)shouldEnableSessionReplayWithEnvironmentChecker:(id <SentrySessionReplayEnvironmentCheckerProvider> _Nonnull)environmentChecker experimentalOptions:(SentryExperimentalOptions * _Nonnull)experimentalOptions SWIFT_WARN_UNUSED_RESULT;
 - (void)startWithRootView:(UIView * _Nullable)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -8308,22 +8668,6 @@ SWIFT_PROTOCOL("_TtP6Sentry27SentrySessionReplayDelegate_")
 - (void)sessionReplayEnded;
 - (NSArray<SentryBreadcrumb *> * _Nonnull)breadcrumbsForSessionReplay SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nullable)currentScreenNameForSessionReplay SWIFT_WARN_UNUSED_RESULT;
-@end
-
-SWIFT_PROTOCOL("_TtP6Sentry45SentrySessionReplayEnvironmentCheckerProvider_")
-@protocol SentrySessionReplayEnvironmentCheckerProvider
-/// Checks if the runtime environment is considered unreliable with regards to Session Replay masking.
-///
-/// returns:
-/// <code>true</code> if reliable, otherwise <code>false</code>
-- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
-@end
-
-SWIFT_CLASS("_TtC6Sentry37SentrySessionReplayEnvironmentChecker")
-@interface SentrySessionReplayEnvironmentChecker : NSObject <SentrySessionReplayEnvironmentCheckerProvider>
-- (BOOL)isReliable SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 SWIFT_CLASS("_TtC6Sentry30SentrySessionReplayIntegration")

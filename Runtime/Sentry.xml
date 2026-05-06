@@ -4576,6 +4576,12 @@
             <param name="hub">The hub.</param>
             <param name="options">The options.</param>
         </member>
+        <member name="T:Sentry.Integrations.ISentryTracingIntegration">
+            <summary>
+            Marker interface to indicate that an integration provides native Sentry tracing capabilities. We do NOT initialise
+            these integrations when using OTEL instrumentation.
+            </summary>
+        </member>
         <member name="M:Sentry.Internal.BackgroundWorker.EnqueueEnvelope(Sentry.Protocol.Envelopes.Envelope)">
             <inheritdoc />
         </member>
@@ -4777,6 +4783,14 @@
             <summary>
             Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
             </summary>
+        </member>
+        <member name="T:Sentry.Internal.ConcurrentBagLite`1">
+             <summary>
+             A minimal replacement for <see cref="T:System.Collections.Concurrent.ConcurrentBag`1"/>.
+            
+             We're using this to avoid the same class of memory leak that <see cref="T:Sentry.Internal.ConcurrentQueueLite`1"/>
+             was introduced to avoid. See https://github.com/getsentry/sentry-dotnet/issues/5113
+             </summary>
         </member>
         <member name="T:Sentry.Internal.ConcurrentQueueLite`1">
              <summary>
@@ -5310,6 +5324,12 @@
             Useful when recovering from failures while sending client reports.
             </remarks>
             <param name="report">The client report to load.</param>
+        </member>
+        <member name="M:Sentry.Internal.IExternalPropagationContext.Snapshot">
+            <summary>
+            Returns a snapshot of this context with all values fixed at the current instant.
+            Non-Activity-based implementations can return <c>this</c> since their values are already stable.
+            </summary>
         </member>
         <member name="T:Sentry.Internal.IGCImplementation">
             <summary>
@@ -6517,6 +6537,161 @@
             </summary>
             <param name="runtime">The runtime instance to check.</param>
             <returns>True if it's Browser WASM, otherwise false.</returns>
+        </member>
+        <member name="T:Sentry.SentryEvent">
+            <summary>
+            An event to be sent to Sentry.
+            </summary>
+            <seealso href="https://develop.sentry.dev/sdk/event-payloads/" />
+        </member>
+        <member name="P:Sentry.SentryEvent.IsCaptured">
+            <summary>
+            Indicates whether this event was actually captured and sent to Sentry.
+            Used by the Unity SDK's async screenshot capture to avoid sending orphaned attachments.
+            Defaults to false (safe: if unset, attachments are skipped rather than orphaned).
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryEvent.Exception">
+            <summary>
+            The <see cref="T:System.Exception"/> used to create this event.
+            </summary>
+            <remarks>
+            The information from this exception is used by the Sentry SDK
+            to add the relevant data to the event prior to sending to Sentry.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryEvent.EventId">
+            <summary>
+            The unique identifier of this event.
+            </summary>
+            <remarks>
+            Hexadecimal string representing a uuid4 value.
+            The length is exactly 32 characters (no dashes!).
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryEvent.Timestamp">
+            <summary>
+            Indicates when the event was created.
+            </summary>
+            <example>2018-04-03T17:41:36</example>
+        </member>
+        <member name="P:Sentry.SentryEvent.Message">
+            <summary>
+            Gets the structured message that describes this event.
+            </summary>
+            <remarks>
+            This helps Sentry group events together as the grouping happens
+            on the template message instead of the result string message.
+            </remarks>
+            <example>
+            SentryMessage will have a template like: 'user {0} logged in'
+            Or structured logging template: '{user} has logged in'
+            </example>
+        </member>
+        <member name="P:Sentry.SentryEvent.Logger">
+            <summary>
+            Name of the logger (or source) of the event.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryEvent.Platform">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.ServerName">
+            <summary>
+            Identifies the computer from which the event was recorded.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryEvent.Release">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Distribution">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.SentryExceptions">
+            <summary>
+            The Sentry Exception interface.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryEvent.SentryThreads">
+            <summary>
+            The Sentry Thread interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/threads/"/>
+        </member>
+        <member name="P:Sentry.SentryEvent.DebugImages">
+            <summary>
+            The Sentry Debug Meta Images interface.
+            </summary>
+            <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta#debug-images"/>
+        </member>
+        <member name="P:Sentry.SentryEvent.Modules">
+            <summary>
+            A list of relevant modules and their versions.
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryEvent.Level">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.TransactionName">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Request">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Contexts">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.User">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Environment">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Sdk">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Fingerprint">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Breadcrumbs">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Extra">
+            <inheritdoc />
+        </member>
+        <member name="P:Sentry.SentryEvent.Tags">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryEvent.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.SentryEvent" />.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryEvent.#ctor(System.Exception)">
+            <summary>
+            Creates a Sentry event with optional Exception details and default values like Id and Timestamp.
+            </summary>
+            <param name="exception">The exception.</param>
+        </member>
+        <member name="M:Sentry.SentryEvent.AddBreadcrumb(Sentry.Breadcrumb)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryEvent.SetExtra(System.String,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryEvent.SetTag(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryEvent.UnsetTag(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryEvent.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.SentryEvent.FromJson(System.Text.Json.JsonElement)">
+            <summary>
+            Parses from JSON.
+            </summary>
         </member>
         <member name="T:Sentry.SentrySdk">
             <summary>
@@ -9423,154 +9598,6 @@
         <member name="P:Sentry.SentryContexts.Values">
             <inheritdoc/>
         </member>
-        <member name="T:Sentry.SentryEvent">
-            <summary>
-            An event to be sent to Sentry.
-            </summary>
-            <seealso href="https://develop.sentry.dev/sdk/event-payloads/" />
-        </member>
-        <member name="P:Sentry.SentryEvent.Exception">
-            <summary>
-            The <see cref="T:System.Exception"/> used to create this event.
-            </summary>
-            <remarks>
-            The information from this exception is used by the Sentry SDK
-            to add the relevant data to the event prior to sending to Sentry.
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryEvent.EventId">
-            <summary>
-            The unique identifier of this event.
-            </summary>
-            <remarks>
-            Hexadecimal string representing a uuid4 value.
-            The length is exactly 32 characters (no dashes!).
-            </remarks>
-        </member>
-        <member name="P:Sentry.SentryEvent.Timestamp">
-            <summary>
-            Indicates when the event was created.
-            </summary>
-            <example>2018-04-03T17:41:36</example>
-        </member>
-        <member name="P:Sentry.SentryEvent.Message">
-            <summary>
-            Gets the structured message that describes this event.
-            </summary>
-            <remarks>
-            This helps Sentry group events together as the grouping happens
-            on the template message instead of the result string message.
-            </remarks>
-            <example>
-            SentryMessage will have a template like: 'user {0} logged in'
-            Or structured logging template: '{user} has logged in'
-            </example>
-        </member>
-        <member name="P:Sentry.SentryEvent.Logger">
-            <summary>
-            Name of the logger (or source) of the event.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryEvent.Platform">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.ServerName">
-            <summary>
-            Identifies the computer from which the event was recorded.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryEvent.Release">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Distribution">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.SentryExceptions">
-            <summary>
-            The Sentry Exception interface.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryEvent.SentryThreads">
-            <summary>
-            The Sentry Thread interface.
-            </summary>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/threads/"/>
-        </member>
-        <member name="P:Sentry.SentryEvent.DebugImages">
-            <summary>
-            The Sentry Debug Meta Images interface.
-            </summary>
-            <see href="https://develop.sentry.dev/sdk/event-payloads/debugmeta#debug-images"/>
-        </member>
-        <member name="P:Sentry.SentryEvent.Modules">
-            <summary>
-            A list of relevant modules and their versions.
-            </summary>
-        </member>
-        <member name="P:Sentry.SentryEvent.Level">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.TransactionName">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Request">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Contexts">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.User">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Environment">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Sdk">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Fingerprint">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Breadcrumbs">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Extra">
-            <inheritdoc />
-        </member>
-        <member name="P:Sentry.SentryEvent.Tags">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryEvent.#ctor">
-            <summary>
-            Creates a new instance of <see cref="T:Sentry.SentryEvent" />.
-            </summary>
-        </member>
-        <member name="M:Sentry.SentryEvent.#ctor(System.Exception)">
-            <summary>
-            Creates a Sentry event with optional Exception details and default values like Id and Timestamp.
-            </summary>
-            <param name="exception">The exception.</param>
-        </member>
-        <member name="M:Sentry.SentryEvent.AddBreadcrumb(Sentry.Breadcrumb)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryEvent.SetExtra(System.String,System.Object)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryEvent.SetTag(System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryEvent.UnsetTag(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryEvent.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
-            <inheritdoc />
-        </member>
-        <member name="M:Sentry.SentryEvent.FromJson(System.Text.Json.JsonElement)">
-            <summary>
-            Parses from JSON.
-            </summary>
-        </member>
         <member name="T:Sentry.SentryFeedback">
             <summary>
             Sentry User Feedback.
@@ -11192,6 +11219,12 @@
             <para>Defaults to 500-599 (Server error responses only).</para>
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.TraceIgnoreStatusCodes">
+            <summary>
+            <para>Transactions will be dropped if the HTTP Response status code matches any of the configured ranges.</para>
+            <para>Defaults to an empty collection (all transactions are captured regardless of status code).</para>
+            </summary>
+        </member>
         <member name="P:Sentry.SentryOptions.FailedRequestTargets">
             <summary>
             <para>The SDK will only capture HTTP Client errors if the HTTP Request URL is a match for any of the failedRequestsTargets.</para>
@@ -11403,6 +11436,19 @@
             <para>
                 Defaults to <see cref="F:Sentry.Instrumenter.Sentry"/>
             </para>
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.DisableSentryTracing">
+            <summary>
+            During the transition period to OTLP we give SDK users the option to keep using Sentry's tracing in conjunction
+            with OTEL instrumentation. Setting this to true will disable Sentry's tracing entirely, which is the recommended
+            setting but would be a major change in behaviour, so we've made it opt-in for now.
+            TODO: Remove this option in a future major release and make it true / non-optional when using OTEL (i.e. implied by the Instrumenter)
+            </summary>
+        </member>
+        <member name="P:Sentry.SentryOptions.ExternalPropagationContext">
+            <summary>
+            An optional external propagation context - used when using Sentry with OLTP
             </summary>
         </member>
         <member name="P:Sentry.SentryOptions.DisableSentryHttpMessageHandler">
