@@ -114,6 +114,18 @@ void sentry_options_set_enable_metrics(void* options, int enable_metrics)
     (void)enable_metrics;
 }
 
+void sentry_options_set_enable_logs(void* options, int enable_logs)
+{
+    (void)options;
+    (void)enable_logs;
+}
+
+void sentry_options_set_shutdown_timeout(void* options, uint64_t shutdown_timeout)
+{
+    (void)options;
+    (void)shutdown_timeout;
+}
+
 void sentry_options_set_logger(void* options, void* logger, void* userdata)
 {
     (void)options;

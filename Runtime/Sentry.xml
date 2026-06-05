@@ -2160,6 +2160,15 @@
             <param name="member">The MemberInfo to find on the current Type.</param>
             <returns>An object representing the member on the current Type that matches the specified member.</returns>
         </member>
+        <member name="M:PolyfillExtensions.TryWriteBytes(System.Guid,System.Span{System.Byte},System.Boolean,System.Int32@)">
+            <summary>
+            Polyfill for Guid.TryWriteBytes on older TFMs (.NET Framework, .NET Standard 2.0/2.1, .NET 5–7).
+            </summary>
+            <remarks>
+            On .NET 8+, this method exists natively on Guid.
+            On older TFMs, we provide a shim that handles byte-order conversion.
+            </remarks>
+        </member>
         <member name="T:Sentry.BaggageHeader">
             <summary>
             Baggage Header for dynamic sampling.
@@ -2513,6 +2522,12 @@
         <member name="P:Sentry.Dsn.ApiBaseUri">
             <summary>
             Sentry API's base URI.
+            </summary>
+        </member>
+        <member name="P:Sentry.Dsn.OrgId">
+            <summary>
+            The organization ID parsed from the DSN host (e.g., <c>o1</c> in <c>o1.ingest.us.sentry.io</c> yields <c>"1"</c>).
+            Returns <c>null</c> if no org ID is present in the DSN.
             </summary>
         </member>
         <member name="T:Sentry.DsnAttribute">
@@ -8683,6 +8698,66 @@
             Timestamp in nanoseconds relative to the profile start.
             </summary>
         </member>
+        <member name="M:Sentry.Protocol.SentryAttributes.TryGetAttribute``1(System.String,``0@)">
+            <summary>
+            Gets the attribute value associated with the specified key.
+            </summary>
+            <remarks>
+            Returns <see langword="true"/> if this attribute collection contains an attribute with the specified key which is of type <typeparamref name="TAttribute"/> and it's value is not <see langword="null"/>.
+            Otherwise <see langword="false"/>.
+            Supported types:
+            <list type="table">
+              <listheader>
+                <term>Type</term>
+                <description>Range</description>
+              </listheader>
+              <item>
+                <term>string</term>
+                <description><see langword="string"/> and <see langword="char"/></description>
+              </item>
+              <item>
+                <term>boolean</term>
+                <description><see langword="false"/> and <see langword="true"/></description>
+              </item>
+              <item>
+                <term>integer</term>
+                <description>64-bit signed integral numeric types</description>
+              </item>
+              <item>
+                <term>double</term>
+                <description>64-bit floating-point numeric types</description>
+              </item>
+            </list>
+            Unsupported types:
+            <list type="table">
+              <listheader>
+                <term>Type</term>
+                <description>Result</description>
+              </listheader>
+              <item>
+                <term><see langword="object"/></term>
+                <description><c>ToString</c> as <c>"type": "string"</c></description>
+              </item>
+              <item>
+                <term>Collections</term>
+                <description><c>ToString</c> as <c>"type": "string"</c></description>
+              </item>
+              <item>
+                <term><see langword="null"/></term>
+                <description>ignored</description>
+              </item>
+            </list>
+            </remarks>
+            <seealso href="https://develop.sentry.dev/sdk/foundations/state-management/scopes/attributes/"/>
+        </member>
+        <member name="M:Sentry.Protocol.SentryAttributes.SetAttribute``1(System.String,``0)">
+            <summary>
+            Set a key-value pair in this attribute collection.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.SentryAttributes.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc cref="M:Sentry.ISentryJsonSerializable.WriteTo(System.Text.Json.Utf8JsonWriter,Sentry.Extensibility.IDiagnosticLogger)" />
+        </member>
         <member name="T:Sentry.Protocol.SentryException">
             <summary>
             Sentry Exception interface.
@@ -10992,6 +11067,11 @@
             The Data Source Name of a given project in Sentry.
             </summary>
         </member>
+        <member name="M:Sentry.SentryOptions.GetEffectiveOrgId">
+            <summary>
+            Returns the effective org ID, preferring <see cref="P:Sentry.SentryOptions.OrgId"/> if set, otherwise falling back to the DSN-parsed value.
+            </summary>
+        </member>
         <member name="M:Sentry.SentryOptions.SetBeforeSend(System.Func{Sentry.SentryEvent,Sentry.SentryHint,Sentry.SentryEvent})">
             <summary>
             Configures a callback function to be invoked before sending an event to Sentry
@@ -11366,6 +11446,28 @@
             for interoperability with services that support OpenTelemetry standards.
             </remarks>
             <seealso href="https://develop.sentry.dev/sdk/telemetry/traces/#propagatetraceparent"/>
+        </member>
+        <member name="P:Sentry.SentryOptions.StrictTraceContinuation">
+            <summary>
+            Controls trace continuation from third-party services that happen to be instrumented by Sentry.
+            </summary>
+            <remarks>
+            When enabled, the SDK will require org IDs from baggage to match for continuing the trace.
+            If the incoming trace does not contain an org ID and this option is <c>true</c>, a new trace will be started.
+            When disabled (default), incoming traces without org IDs will be continued as normal,
+            but mismatched org IDs will always cause a new trace to be started regardless of this setting.
+            </remarks>
+        </member>
+        <member name="P:Sentry.SentryOptions.OrgId">
+            <summary>
+            Configures the org ID used for trace propagation and features like <see cref="P:Sentry.SentryOptions.StrictTraceContinuation"/>.
+            </summary>
+            <remarks>
+            In most cases the org ID is already parsed from the DSN (e.g., <c>o1</c> in
+            <c>https://key@o1.ingest.us.sentry.io/123</c> yields org ID <c>"1"</c>).
+            Use this option when non-standard Sentry DSNs are used, such as self-hosted or when using a local Relay.
+            When set, this value overrides the org ID parsed from the DSN.
+            </remarks>
         </member>
         <member name="P:Sentry.SentryOptions.StackTraceMode">
             <summary>
