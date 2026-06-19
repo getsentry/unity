@@ -863,6 +863,9 @@ SWIFT_CLASS_NAMED("Options")
 @property (nonatomic, strong) SentryExperimentalOptions * _Nonnull experimental;
 @property (nonatomic, strong) SentryUserFeedbackConfiguration * _Nullable userFeedbackConfiguration;
 /// A block that configures the user feedback feature.
+/// Use this to customize the form shown by <code>SentrySDK.feedback.show()</code>,
+/// <code>SentrySDK.FeedbackForm</code>, or <code>sentryFeedback(isPresented:)</code>. Configure the deprecated
+/// managed widget only via <code>SentryUserFeedbackConfiguration.configureWidget</code>.
 @property (nonatomic, copy) void (^ _Nullable configureUserFeedback)(SentryUserFeedbackConfiguration * _Nonnull) SWIFT_AVAILABILITY(ios_app_extension,unavailable);
 + (BOOL)isValidSampleRate:(NSNumber * _Nonnull)rate SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull defaultEnvironment;)
@@ -1940,12 +1943,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// API for interacting with the feature User Feedback
@@ -1956,13 +1959,19 @@ SWIFT_CLASS("_TtC6Sentry17SentryFeedbackAPI")
 /// This is an experimental feature and may still have bugs.
 /// seealso:
 /// See <code>SentryOptions.configureUserFeedback</code> to configure the widget.
-- (void)showWidget SWIFT_AVAILABILITY(ios_app_extension,unavailable);
+/// seealso:
+/// Present the feedback form from your own UI using <code>show(screenshot:)</code> or
+/// <code>SentrySDK.FeedbackForm</code> instead.
+- (void)showWidget SWIFT_DEPRECATED_MSG("The Sentry-managed User Feedback widget is deprecated and will be removed in v10. Present the feedback form from your own UI using SentrySDK.feedback.show(), SentrySDK.FeedbackForm, or sentryFeedback(isPresented:) instead.") SWIFT_AVAILABILITY(ios_app_extension,unavailable);
 /// Hide the feedback widget button.
 /// warning:
 /// This is an experimental feature and may still have bugs.
 /// seealso:
 /// See <code>SentryOptions.configureUserFeedback</code> to configure the widget.
-- (void)hideWidget SWIFT_AVAILABILITY(ios_app_extension,unavailable);
+/// seealso:
+/// Present the feedback form from your own UI using <code>show(screenshot:)</code> or
+/// <code>SentrySDK.FeedbackForm</code> instead.
+- (void)hideWidget SWIFT_DEPRECATED_MSG("The Sentry-managed User Feedback widget is deprecated and will be removed in v10. Present the feedback form from your own UI using SentrySDK.feedback.show(), SentrySDK.FeedbackForm, or sentryFeedback(isPresented:) instead.") SWIFT_AVAILABILITY(ios_app_extension,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -3561,15 +3570,17 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// warning:
 /// This is an experimental feature and may still have bugs.
 /// note:
-/// If you’d prefer not to have to build the UI required to gather the feedback from the user,
-/// see <code>SentryOptions.configureUserFeedback</code> to customize a fully managed integration. See
-/// https://docs.sentry.io/platforms/apple/user-feedback/ for more information.
+/// If you’d prefer not to build the UI required to gather the feedback from the user,
+/// configure the managed form with <code>SentryOptions.configureUserFeedback</code> and present it with
+/// <code>SentrySDK.feedback.show()</code>, <code>SentrySDK.FeedbackForm</code>, or SwiftUI’s
+/// <code>sentryFeedback(isPresented:)</code>. See https://docs.sentry.io/platforms/apple/user-feedback/
+/// for more information.
 /// \param feedback The feedback to send to Sentry.
 ///
 + (void)captureFeedback:(SentryFeedback * _Nonnull)feedback;
 /// The API for capturing user feedback.
 /// Use this to programmatically show the feedback form or access feedback-related functionality.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryFeedbackAPI * _Nonnull feedback;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryFeedbackAPI * _Nonnull feedback SWIFT_AVAILABILITY(ios_app_extension,unavailable);)
 + (SentryFeedbackAPI * _Nonnull)feedback SWIFT_WARN_UNUSED_RESULT;
 /// Adds a <code>Breadcrumb</code> to the current <code>Scope</code> of the current <code>Hub</code>. If the total number of breadcrumbs
 /// exceeds the <code>SentryOptions.maxBreadcrumbs</code> the SDK removes the oldest breadcrumb.
@@ -3631,39 +3642,38 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///
 /// https://docs.sentry.io/platforms/cocoa/performance/instrumentation/automatic-instrumentation/#time-to-full-display
 + (void)reportFullyDisplayed;
-/// Extends the app launch measurement beyond the default end point.
+/// Extends the app launch measurement beyond the default end point and returns
+/// the extended app launch span.
 /// Call this method after <code>start(options:)</code> but before didFinishLaunching notification is posted
 /// so the SDK doesn’t finish the app start transaction automatically.
-/// For UIKit apps this should be called before UIApplication.application(_:didFinishLaunchingWithOptions:)
-/// finishes:
+/// The returned span can be used to add child spans that break down the extended
+/// launch period. Call <code>finish()</code> on the returned span (or call <code>finishExtendedAppLaunch()</code>)
+/// when the app is fully launched.
 /// \code
 /// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 ///     SentrySDK.start(configureOptions: { options in
 ///         ...
 ///         options.experimental.enableStandaloneAppStartTracing = true
 ///     })
-///     SentrySDK.extendAppLaunch()
+///     let appStartSpan = SentrySDK.extendAppLaunch()
+///
+///     let configSpan = appStartSpan?.startChild(operation: "app.init", description: "fetch remote config")
+///     fetchRemoteConfig()
+///     configSpan?.finish()
+///
+///     appStartSpan?.finish()
 ///     return true
 /// }
 ///
-/// \endcodeFor SwiftUI apps, you can call <code>extendAppLaunch()</code> in the constructor of your <code>App</code>
-/// \code
-/// @main
-/// struct SwiftUIApp: App {
-///     init() {
-///         SentrySDK.start(configureOptions: { options in
-///             ...
-///             options.experimental.enableStandaloneAppStartTracing = true
-///         })
-///         SentrySDK.extendAppLaunch()
-///     }
-/// }
-///
-/// \endcodeLater, call <code>finishExtendedAppLaunch()</code> to mark the app as fully launched.
-/// note:
+/// \endcodenote:
 /// This only has an effect when Standalone App Start tracing is enabled.
-+ (void)extendAppLaunch;
+///
+/// returns:
+/// The extended app launch span, or <code>nil</code> if the SDK is not started or the
+/// app start transaction was already created.
++ (id <SentrySpan> _Nullable)extendAppLaunch;
 /// Finishes a previously extended app launch and sends the app start transaction.
+/// This is equivalent to calling <code>finish()</code> on the span returned by <code>extendAppLaunch()</code>.
 /// If <code>extendAppLaunch()</code> was not called, or the extended launch was already
 /// finished, this method does nothing.
 + (void)finishExtendedAppLaunch;
@@ -4219,6 +4229,8 @@ SWIFT_CLASS("_TtC6Sentry40SentryUIViewControllerPerformanceTracker")
 @class SentryUserFeedbackThemeConfiguration;
 /// The settings to use for how the user feedback form is presented, what data is required and how
 /// it’s submitted, and some auxiliary hooks to customize the workflow.
+/// Use this to customize the form shown by <code>SentrySDK.feedback.show()</code>,
+/// <code>SentrySDK.FeedbackForm</code>, or <code>sentryFeedback(isPresented:)</code>.
 SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 @interface SentryUserFeedbackConfiguration : NSObject
 /// Whether or not to show animations, like for presenting and dismissing the form.
@@ -4227,7 +4239,13 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 @property (nonatomic) BOOL animations;
 /// Configuration settings specific to the managed widget that displays the UI form.
 /// note:
-/// Default: <code>nil</code> to use the default widget settings.
+/// Default: <code>nil</code>. Set this only to configure the managed widget; unspecified widget values use the default widget settings.
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
 /// Use a shake gesture to display the form.
 /// note:
@@ -4246,8 +4264,15 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// If this is set, <code>configureWidget</code> is ignored.
 /// note:
 /// Default: <code>nil</code>
+/// <ul>
+///   <li>
+///     deprecated: The custom User Feedback button configuration is deprecated and will be removed in v10. Add your own button action and call <code>SentrySDK.feedback.show()</code> instead.
+///   </li>
+/// </ul>
 @property (nonatomic, strong) UIButton * _Nullable customButton;
 /// Configuration settings specific to the managed UI form to gather user input.
+/// note:
+/// Used when the form is shown with <code>SentrySDK.feedback.show()</code>, <code>SentrySDK.FeedbackForm</code>, <code>sentryFeedback(isPresented:)</code>, the widget, or a custom button.
 /// note:
 /// Default: <code>nil</code>
 @property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
@@ -4371,17 +4396,11 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// note:
 /// Default: <code>"Send Bug Report"</code>
 @property (nonatomic, copy) NSString * _Nonnull submitButtonLabel;
-/// The accessibility label of the form’s “Submit” button.
-/// note:
-/// Default: <code>submitButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nonnull submitButtonAccessibilityLabel;
 /// The label of cancel buttons used in the feedback form.
 /// note:
 /// Default: <code>"Cancel"</code>
 @property (nonatomic, copy) NSString * _Nonnull cancelButtonLabel;
-/// The accessibility label of the form’s “Cancel” button.
-/// note:
-/// Default: <code>cancelButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nonnull cancelButtonAccessibilityLabel;
 /// Message shown to the user when an unexpected error happens while submitting feedback.
 /// note:
@@ -4392,6 +4411,49 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// Default: <code>"You must provide all required information before submitting. Please check the following field(s)"</code>
 @property (nonatomic, copy) NSString * _Nonnull (^ _Nonnull validationErrorMessage)(BOOL);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UITraitCollection;
+@class NSBundle;
+/// A view controller that displays the Sentry user feedback form.
+/// If the managed User Feedback integration is installed, the SDK temporarily hides the feedback widget while this
+/// controller is visible.
+/// warning:
+/// This is an experimental feature and may still have bugs.
+SWIFT_CLASS("_TtC6Sentry32SentryUserFeedbackFormController") SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController : UIViewController
+- (void)traitCollectionDidChange:(UITraitCollection * _Nullable)previousTraitCollection;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
+- (void)didMoveToParentViewController:(UIViewController * _Nullable)parent;
+/// Unavailable. Use <code>init()</code> or <code>init(screenshot:configure:)</code> instead.
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE_MSG("Use init() or init(screenshot:configure:) instead.");
+/// Unavailable. Use <code>init()</code> or <code>init(screenshot:configure:)</code> instead.
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE_MSG("Use init() or init(screenshot:configure:) instead.");
+@end
+
+@class UIPresentationController;
+SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController (SWIFT_EXTENSION(Sentry)) <UIAdaptivePresentationControllerDelegate>
+/// Notifies feedback lifecycle callbacks when the user dismisses the form interactively.
+- (void)presentationControllerDidDismiss:(UIPresentationController * _Nonnull)presentationController;
+@end
+
+@class UITextView;
+SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController (SWIFT_EXTENSION(Sentry)) <UITextViewDelegate>
+/// Updates validation state when the feedback message changes.
+- (void)textViewDidChange:(UITextView * _Nonnull)textView;
+@end
+
+@class UITextField;
+SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController (SWIFT_EXTENSION(Sentry)) <UITextFieldDelegate>
+/// Handles the return key for feedback form text fields.
+- (BOOL)textFieldShouldReturn:(UITextField * _Nonnull)textField SWIFT_WARN_UNUSED_RESULT;
+/// Updates validation state when feedback form text fields change.
+- (void)textFieldDidChangeSelection:(UITextField * _Nonnull)textField;
 @end
 
 SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackFormViewModel")
@@ -4425,9 +4487,6 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 /// note:
 /// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
 @property (nonatomic, strong) UIColor * _Nonnull submitBackground;
-/// Foreground color for the cancel and screenshot buttons.
-/// note:
-/// Default: Same as <code>foreground</code> for both dark and light modes
 @property (nonatomic, strong) UIColor * _Nonnull buttonForeground;
 /// Background color for the form cancel and screenshot buttons in light and dark modes.
 /// note:
@@ -4454,6 +4513,8 @@ SWIFT_CLASS("_TtCC6Sentry36SentryUserFeedbackThemeConfiguration29SentryFormEleme
 @end
 
 /// Settings for whether to show the widget and how it should appear.
+/// note:
+/// The managed widget is deprecated and will be removed in v10.
 SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 @interface SentryUserFeedbackWidgetConfiguration : NSObject
 /// Automatically inject the widget button into the application UI.
@@ -4461,31 +4522,73 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// Default: <code>true</code>
 /// warning:
 /// Does not currently work for SwiftUI apps. See https://docs.sentry.io/platforms/apple/user-feedback/#swiftui
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) BOOL autoInject;
 /// The label of the injected button that opens up the feedback form when clicked. If <code>nil</code>, no
 /// text is displayed and only the icon image is shown.
 /// note:
 /// Default: <code>"Report a Bug"</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic, copy) NSString * _Nullable labelText;
 /// Whether or not to show our icon along with the text in the button.
 /// note:
 /// Default: <code>true</code>.
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) BOOL showIcon;
 /// The accessibility label of the injected button that opens up the feedback form when clicked.
 /// note:
 /// Default: <code>labelText</code> value
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
 /// The window level of the widget.
 /// note:
 /// Default: <code>UIWindow.Level.normal + 1</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) UIWindowLevel windowLevel;
 /// The location for positioning the widget.
 /// note:
 /// Default: <code>[.bottom, .right]</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) NSDirectionalRectEdge location;
 /// The distance to use from the widget button to the <code>safeAreaLayoutGuide</code> of the root view in the widget’s container window.
 /// note:
 /// Default: <code>UIOffset.zero</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) UIOffset layoutUIOffset;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -5666,6 +5769,9 @@ SWIFT_CLASS_NAMED("Options")
 @property (nonatomic, strong) SentryExperimentalOptions * _Nonnull experimental;
 @property (nonatomic, strong) SentryUserFeedbackConfiguration * _Nullable userFeedbackConfiguration;
 /// A block that configures the user feedback feature.
+/// Use this to customize the form shown by <code>SentrySDK.feedback.show()</code>,
+/// <code>SentrySDK.FeedbackForm</code>, or <code>sentryFeedback(isPresented:)</code>. Configure the deprecated
+/// managed widget only via <code>SentryUserFeedbackConfiguration.configureWidget</code>.
 @property (nonatomic, copy) void (^ _Nullable configureUserFeedback)(SentryUserFeedbackConfiguration * _Nonnull) SWIFT_AVAILABILITY(ios_app_extension,unavailable);
 + (BOOL)isValidSampleRate:(NSNumber * _Nonnull)rate SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull defaultEnvironment;)
@@ -6743,12 +6849,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// API for interacting with the feature User Feedback
@@ -6759,13 +6865,19 @@ SWIFT_CLASS("_TtC6Sentry17SentryFeedbackAPI")
 /// This is an experimental feature and may still have bugs.
 /// seealso:
 /// See <code>SentryOptions.configureUserFeedback</code> to configure the widget.
-- (void)showWidget SWIFT_AVAILABILITY(ios_app_extension,unavailable);
+/// seealso:
+/// Present the feedback form from your own UI using <code>show(screenshot:)</code> or
+/// <code>SentrySDK.FeedbackForm</code> instead.
+- (void)showWidget SWIFT_DEPRECATED_MSG("The Sentry-managed User Feedback widget is deprecated and will be removed in v10. Present the feedback form from your own UI using SentrySDK.feedback.show(), SentrySDK.FeedbackForm, or sentryFeedback(isPresented:) instead.") SWIFT_AVAILABILITY(ios_app_extension,unavailable);
 /// Hide the feedback widget button.
 /// warning:
 /// This is an experimental feature and may still have bugs.
 /// seealso:
 /// See <code>SentryOptions.configureUserFeedback</code> to configure the widget.
-- (void)hideWidget SWIFT_AVAILABILITY(ios_app_extension,unavailable);
+/// seealso:
+/// Present the feedback form from your own UI using <code>show(screenshot:)</code> or
+/// <code>SentrySDK.FeedbackForm</code> instead.
+- (void)hideWidget SWIFT_DEPRECATED_MSG("The Sentry-managed User Feedback widget is deprecated and will be removed in v10. Present the feedback form from your own UI using SentrySDK.feedback.show(), SentrySDK.FeedbackForm, or sentryFeedback(isPresented:) instead.") SWIFT_AVAILABILITY(ios_app_extension,unavailable);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -8364,15 +8476,17 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryLogger
 /// warning:
 /// This is an experimental feature and may still have bugs.
 /// note:
-/// If you’d prefer not to have to build the UI required to gather the feedback from the user,
-/// see <code>SentryOptions.configureUserFeedback</code> to customize a fully managed integration. See
-/// https://docs.sentry.io/platforms/apple/user-feedback/ for more information.
+/// If you’d prefer not to build the UI required to gather the feedback from the user,
+/// configure the managed form with <code>SentryOptions.configureUserFeedback</code> and present it with
+/// <code>SentrySDK.feedback.show()</code>, <code>SentrySDK.FeedbackForm</code>, or SwiftUI’s
+/// <code>sentryFeedback(isPresented:)</code>. See https://docs.sentry.io/platforms/apple/user-feedback/
+/// for more information.
 /// \param feedback The feedback to send to Sentry.
 ///
 + (void)captureFeedback:(SentryFeedback * _Nonnull)feedback;
 /// The API for capturing user feedback.
 /// Use this to programmatically show the feedback form or access feedback-related functionality.
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryFeedbackAPI * _Nonnull feedback;)
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryFeedbackAPI * _Nonnull feedback SWIFT_AVAILABILITY(ios_app_extension,unavailable);)
 + (SentryFeedbackAPI * _Nonnull)feedback SWIFT_WARN_UNUSED_RESULT;
 /// Adds a <code>Breadcrumb</code> to the current <code>Scope</code> of the current <code>Hub</code>. If the total number of breadcrumbs
 /// exceeds the <code>SentryOptions.maxBreadcrumbs</code> the SDK removes the oldest breadcrumb.
@@ -8434,39 +8548,38 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///
 /// https://docs.sentry.io/platforms/cocoa/performance/instrumentation/automatic-instrumentation/#time-to-full-display
 + (void)reportFullyDisplayed;
-/// Extends the app launch measurement beyond the default end point.
+/// Extends the app launch measurement beyond the default end point and returns
+/// the extended app launch span.
 /// Call this method after <code>start(options:)</code> but before didFinishLaunching notification is posted
 /// so the SDK doesn’t finish the app start transaction automatically.
-/// For UIKit apps this should be called before UIApplication.application(_:didFinishLaunchingWithOptions:)
-/// finishes:
+/// The returned span can be used to add child spans that break down the extended
+/// launch period. Call <code>finish()</code> on the returned span (or call <code>finishExtendedAppLaunch()</code>)
+/// when the app is fully launched.
 /// \code
 /// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 ///     SentrySDK.start(configureOptions: { options in
 ///         ...
 ///         options.experimental.enableStandaloneAppStartTracing = true
 ///     })
-///     SentrySDK.extendAppLaunch()
+///     let appStartSpan = SentrySDK.extendAppLaunch()
+///
+///     let configSpan = appStartSpan?.startChild(operation: "app.init", description: "fetch remote config")
+///     fetchRemoteConfig()
+///     configSpan?.finish()
+///
+///     appStartSpan?.finish()
 ///     return true
 /// }
 ///
-/// \endcodeFor SwiftUI apps, you can call <code>extendAppLaunch()</code> in the constructor of your <code>App</code>
-/// \code
-/// @main
-/// struct SwiftUIApp: App {
-///     init() {
-///         SentrySDK.start(configureOptions: { options in
-///             ...
-///             options.experimental.enableStandaloneAppStartTracing = true
-///         })
-///         SentrySDK.extendAppLaunch()
-///     }
-/// }
-///
-/// \endcodeLater, call <code>finishExtendedAppLaunch()</code> to mark the app as fully launched.
-/// note:
+/// \endcodenote:
 /// This only has an effect when Standalone App Start tracing is enabled.
-+ (void)extendAppLaunch;
+///
+/// returns:
+/// The extended app launch span, or <code>nil</code> if the SDK is not started or the
+/// app start transaction was already created.
++ (id <SentrySpan> _Nullable)extendAppLaunch;
 /// Finishes a previously extended app launch and sends the app start transaction.
+/// This is equivalent to calling <code>finish()</code> on the span returned by <code>extendAppLaunch()</code>.
 /// If <code>extendAppLaunch()</code> was not called, or the extended launch was already
 /// finished, this method does nothing.
 + (void)finishExtendedAppLaunch;
@@ -9022,6 +9135,8 @@ SWIFT_CLASS("_TtC6Sentry40SentryUIViewControllerPerformanceTracker")
 @class SentryUserFeedbackThemeConfiguration;
 /// The settings to use for how the user feedback form is presented, what data is required and how
 /// it’s submitted, and some auxiliary hooks to customize the workflow.
+/// Use this to customize the form shown by <code>SentrySDK.feedback.show()</code>,
+/// <code>SentrySDK.FeedbackForm</code>, or <code>sentryFeedback(isPresented:)</code>.
 SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 @interface SentryUserFeedbackConfiguration : NSObject
 /// Whether or not to show animations, like for presenting and dismissing the form.
@@ -9030,7 +9145,13 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 @property (nonatomic) BOOL animations;
 /// Configuration settings specific to the managed widget that displays the UI form.
 /// note:
-/// Default: <code>nil</code> to use the default widget settings.
+/// Default: <code>nil</code>. Set this only to configure the managed widget; unspecified widget values use the default widget settings.
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic, copy) void (^ _Nullable configureWidget)(SentryUserFeedbackWidgetConfiguration * _Nonnull);
 /// Use a shake gesture to display the form.
 /// note:
@@ -9049,8 +9170,15 @@ SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackConfiguration")
 /// If this is set, <code>configureWidget</code> is ignored.
 /// note:
 /// Default: <code>nil</code>
+/// <ul>
+///   <li>
+///     deprecated: The custom User Feedback button configuration is deprecated and will be removed in v10. Add your own button action and call <code>SentrySDK.feedback.show()</code> instead.
+///   </li>
+/// </ul>
 @property (nonatomic, strong) UIButton * _Nullable customButton;
 /// Configuration settings specific to the managed UI form to gather user input.
+/// note:
+/// Used when the form is shown with <code>SentrySDK.feedback.show()</code>, <code>SentrySDK.FeedbackForm</code>, <code>sentryFeedback(isPresented:)</code>, the widget, or a custom button.
 /// note:
 /// Default: <code>nil</code>
 @property (nonatomic, copy) void (^ _Nullable configureForm)(SentryUserFeedbackFormConfiguration * _Nonnull);
@@ -9174,17 +9302,11 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// note:
 /// Default: <code>"Send Bug Report"</code>
 @property (nonatomic, copy) NSString * _Nonnull submitButtonLabel;
-/// The accessibility label of the form’s “Submit” button.
-/// note:
-/// Default: <code>submitButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nonnull submitButtonAccessibilityLabel;
 /// The label of cancel buttons used in the feedback form.
 /// note:
 /// Default: <code>"Cancel"</code>
 @property (nonatomic, copy) NSString * _Nonnull cancelButtonLabel;
-/// The accessibility label of the form’s “Cancel” button.
-/// note:
-/// Default: <code>cancelButtonLabel</code> value
 @property (nonatomic, copy) NSString * _Nonnull cancelButtonAccessibilityLabel;
 /// Message shown to the user when an unexpected error happens while submitting feedback.
 /// note:
@@ -9195,6 +9317,49 @@ SWIFT_CLASS("_TtC6Sentry35SentryUserFeedbackFormConfiguration")
 /// Default: <code>"You must provide all required information before submitting. Please check the following field(s)"</code>
 @property (nonatomic, copy) NSString * _Nonnull (^ _Nonnull validationErrorMessage)(BOOL);
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UITraitCollection;
+@class NSBundle;
+/// A view controller that displays the Sentry user feedback form.
+/// If the managed User Feedback integration is installed, the SDK temporarily hides the feedback widget while this
+/// controller is visible.
+/// warning:
+/// This is an experimental feature and may still have bugs.
+SWIFT_CLASS("_TtC6Sentry32SentryUserFeedbackFormController") SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController : UIViewController
+- (void)traitCollectionDidChange:(UITraitCollection * _Nullable)previousTraitCollection;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
+- (void)didMoveToParentViewController:(UIViewController * _Nullable)parent;
+/// Unavailable. Use <code>init()</code> or <code>init(screenshot:configure:)</code> instead.
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE_MSG("Use init() or init(screenshot:configure:) instead.");
+/// Unavailable. Use <code>init()</code> or <code>init(screenshot:configure:)</code> instead.
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE_MSG("Use init() or init(screenshot:configure:) instead.");
+@end
+
+@class UIPresentationController;
+SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController (SWIFT_EXTENSION(Sentry)) <UIAdaptivePresentationControllerDelegate>
+/// Notifies feedback lifecycle callbacks when the user dismisses the form interactively.
+- (void)presentationControllerDidDismiss:(UIPresentationController * _Nonnull)presentationController;
+@end
+
+@class UITextView;
+SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController (SWIFT_EXTENSION(Sentry)) <UITextViewDelegate>
+/// Updates validation state when the feedback message changes.
+- (void)textViewDidChange:(UITextView * _Nonnull)textView;
+@end
+
+@class UITextField;
+SWIFT_AVAILABILITY(ios_app_extension,unavailable)
+@interface SentryUserFeedbackFormController (SWIFT_EXTENSION(Sentry)) <UITextFieldDelegate>
+/// Handles the return key for feedback form text fields.
+- (BOOL)textFieldShouldReturn:(UITextField * _Nonnull)textField SWIFT_WARN_UNUSED_RESULT;
+/// Updates validation state when feedback form text fields change.
+- (void)textFieldDidChangeSelection:(UITextField * _Nonnull)textField;
 @end
 
 SWIFT_CLASS("_TtC6Sentry31SentryUserFeedbackFormViewModel")
@@ -9228,9 +9393,6 @@ SWIFT_CLASS("_TtC6Sentry36SentryUserFeedbackThemeConfiguration")
 /// note:
 /// Default: <code>rgb(88, 74, 192)</code> for both light and dark modes
 @property (nonatomic, strong) UIColor * _Nonnull submitBackground;
-/// Foreground color for the cancel and screenshot buttons.
-/// note:
-/// Default: Same as <code>foreground</code> for both dark and light modes
 @property (nonatomic, strong) UIColor * _Nonnull buttonForeground;
 /// Background color for the form cancel and screenshot buttons in light and dark modes.
 /// note:
@@ -9257,6 +9419,8 @@ SWIFT_CLASS("_TtCC6Sentry36SentryUserFeedbackThemeConfiguration29SentryFormEleme
 @end
 
 /// Settings for whether to show the widget and how it should appear.
+/// note:
+/// The managed widget is deprecated and will be removed in v10.
 SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 @interface SentryUserFeedbackWidgetConfiguration : NSObject
 /// Automatically inject the widget button into the application UI.
@@ -9264,31 +9428,73 @@ SWIFT_CLASS("_TtC6Sentry37SentryUserFeedbackWidgetConfiguration")
 /// Default: <code>true</code>
 /// warning:
 /// Does not currently work for SwiftUI apps. See https://docs.sentry.io/platforms/apple/user-feedback/#swiftui
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) BOOL autoInject;
 /// The label of the injected button that opens up the feedback form when clicked. If <code>nil</code>, no
 /// text is displayed and only the icon image is shown.
 /// note:
 /// Default: <code>"Report a Bug"</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic, copy) NSString * _Nullable labelText;
 /// Whether or not to show our icon along with the text in the button.
 /// note:
 /// Default: <code>true</code>.
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) BOOL showIcon;
 /// The accessibility label of the injected button that opens up the feedback form when clicked.
 /// note:
 /// Default: <code>labelText</code> value
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic, copy) NSString * _Nullable widgetAccessibilityLabel;
 /// The window level of the widget.
 /// note:
 /// Default: <code>UIWindow.Level.normal + 1</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) UIWindowLevel windowLevel;
 /// The location for positioning the widget.
 /// note:
 /// Default: <code>[.bottom, .right]</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) NSDirectionalRectEdge location;
 /// The distance to use from the widget button to the <code>safeAreaLayoutGuide</code> of the root view in the widget’s container window.
 /// note:
 /// Default: <code>UIOffset.zero</code>
+/// <ul>
+///   <li>
+///     deprecated: The managed widget is deprecated and will be removed in v10. Present the
+///     feedback form from your own UI instead.
+///   </li>
+/// </ul>
 @property (nonatomic) UIOffset layoutUIOffset;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
