@@ -358,8 +358,6 @@ SWIFT_CLASS_NAMED("DefaultRateLimits")
 @class SentrySysctl;
 @class SentryDefaultCurrentDateProvider;
 @class SentryDefaultUIDeviceWrapper;
-@class SentryThreadInspector;
-@class SentryFileIOTracker;
 SWIFT_CLASS_NAMED("Dependencies")
 @interface SentryDependencies : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) id <SentryRandomProtocol> _Nonnull random;)
@@ -382,12 +380,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryDefaul
 + (SentryDefaultCurrentDateProvider * _Nonnull)dateProvider SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryDefaultUIDeviceWrapper * _Nonnull uiDeviceWrapper;)
 + (SentryDefaultUIDeviceWrapper * _Nonnull)uiDeviceWrapper SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryThreadInspector * _Nonnull threadInspector;)
-+ (SentryThreadInspector * _Nonnull)threadInspector SWIFT_WARN_UNUSED_RESULT;
-+ (void)setThreadInspector:(SentryThreadInspector * _Nonnull)value;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryFileIOTracker * _Nonnull fileIOTracker;)
-+ (SentryFileIOTracker * _Nonnull)fileIOTracker SWIFT_WARN_UNUSED_RESULT;
-+ (void)setFileIOTracker:(SentryFileIOTracker * _Nonnull)value;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1575,6 +1567,8 @@ SWIFT_CLASS("_TtC6Sentry28SentryDefaultUIDeviceWrapper")
 
 @class SentryDispatchFactory;
 @class SentryNSTimerFactory;
+@class SentryFileIOTracker;
+@class SentryThreadInspector;
 @class SentryReachability;
 @class SentryExtraContextProvider;
 @protocol SentryEventContextEnricher;
@@ -1591,6 +1585,7 @@ SWIFT_CLASS("_TtC6Sentry28SentryDefaultUIDeviceWrapper")
 @class SentryGlobalEventProcessor;
 SWIFT_CLASS("_TtC6Sentry25SentryDependencyContainer")
 @interface SentryDependencyContainer : NSObject
+@property (nonatomic, strong) SentryOptions * _Nullable startOptions;
 + (SentryDependencyContainer * _Nonnull)sharedInstance SWIFT_WARN_UNUSED_RESULT;
 /// Resets all dependencies.
 + (void)reset;
@@ -1695,18 +1690,7 @@ SWIFT_CLASS("_TtC6Sentry24SentryDisplayLinkWrapper")
 @property (nonatomic, readonly) CFTimeInterval targetTimestamp;
 - (void)linkWithTarget:(id _Nonnull)target selector:(SEL _Nonnull)sel;
 - (void)invalidate;
-- (BOOL)isRunning SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-SWIFT_PROTOCOL("_TtP6Sentry30SentryReplayDisplayLinkWrapper_")
-@protocol SentryReplayDisplayLinkWrapper
-- (BOOL)isRunning SWIFT_WARN_UNUSED_RESULT;
-- (void)invalidate;
-- (void)linkWithTarget:(id _Nonnull)withTarget selector:(SEL _Nonnull)selector;
-@end
-
-@interface SentryDisplayLinkWrapper (SWIFT_EXTENSION(Sentry)) <SentryReplayDisplayLinkWrapper>
 @end
 
 @class NSURL;
@@ -1921,6 +1905,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryExtraPackages")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+SWIFT_CLASS_NAMED("SentryFeatureFlagBufferWrapper")
+@interface SentryFeatureFlagBufferWrapper : NSObject
++ (SentryFeatureFlagBufferWrapper * _Nonnull)scopeBuffer SWIFT_WARN_UNUSED_RESULT;
++ (SentryFeatureFlagBufferWrapper * _Nonnull)spanBuffer SWIFT_WARN_UNUSED_RESULT;
+- (void)removeAll;
+- (SentryFeatureFlagBufferWrapper * _Nonnull)copyBuffer SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nullable)serializeForContext SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serializeForSpanData SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 enum SentryFeedbackSource : NSInteger;
 SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 @interface SentryFeedback : NSObject
@@ -1943,12 +1939,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// API for interacting with the feature User Feedback
@@ -2710,7 +2706,6 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 - (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath processingQueue:(SentryDispatchQueueWrapper * _Nonnull)processingQueue assetWorkerQueue:(SentryDispatchQueueWrapper * _Nonnull)assetWorkerQueue;
 - (void)addFrameAsyncWithTimestamp:(NSDate * _Nonnull)timestamp maskedViewImage:(UIImage * _Nonnull)maskedViewImage forScreen:(NSString * _Nullable)screen;
 - (void)releaseFramesUntil:(NSDate * _Nonnull)date;
-@property (nonatomic, readonly, copy) NSDate * _Nullable oldestFrameDate;
 - (void)createVideoInBackgroundWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end completion:(void (^ _Nonnull)(NSArray<SentryVideoInfo *> * _Nonnull))completion;
 - (NSArray<SentryVideoInfo *> * _Nonnull)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -2941,9 +2936,9 @@ SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
 /// contains any of these strings, the subtree will be ignored. For example, “MyView” will match
 /// “MyApp.MyView”, “MyViewSubclass”, “Some.MyView.Container”, etc.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 @property (nonatomic, copy) NSSet<NSString *> * _Nonnull excludedViewClasses;
 /// A set of view type identifier strings that should be included in subtree traversal.
 /// View types exactly matching these strings will be removed from the excluded set, allowing their subtrees
@@ -2952,9 +2947,9 @@ SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
 /// must exactly equal one of these strings. For example, “MyApp.MyView” will only match exactly “MyApp.MyView”,
 /// not “MyApp.MyViewSubclass”.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+.
 /// note:
 /// Included patterns use exact matching (not partial) to prevent accidental matches. For example,
@@ -3116,9 +3111,9 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 @property (nonatomic, copy) NSSet<NSString *> * _Nonnull excludedViewClasses;
 /// A set of view type identifier strings that should be included in subtree traversal.
 /// View types exactly matching these strings will be removed from the excluded set, allowing their subtrees
@@ -3130,9 +3125,9 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+
 /// by calling <code>includeViewTypeInSubtreeTraversal("CameraUI.ChromeSwiftUIView")</code>.
 /// note:
@@ -3143,7 +3138,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Adds a view type pattern to the excluded set, preventing matching views’ subtrees from being traversed.
 /// note:
 /// This method adds the pattern to <code>excludedViewClasses</code>, which is then combined with
-/// default excluded types (defined in <code>SentryUIRedactBuilder</code>) and filtered by <code>includedViewClasses</code>
+/// default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and filtered by <code>includedViewClasses</code>
 /// to produce the final set.
 /// \param viewType The view type identifier pattern (as a string) to exclude from subtree traversal.
 /// Matching uses partial string containment: if a view’s class name contains this string,
@@ -3154,7 +3149,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Adds a view type to the included set, allowing its subtree to be traversed.
 /// note:
 /// This method adds the view type to <code>includedViewClasses</code>, which filters the combined set
-/// of default excluded types (defined in <code>SentryUIRedactBuilder</code>) and <code>excludedViewClasses</code>.
+/// of default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and <code>excludedViewClasses</code>.
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+.
 /// note:
 /// Included patterns use exact matching (not partial) to prevent accidental matches.
@@ -3642,12 +3637,11 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///
 /// https://docs.sentry.io/platforms/cocoa/performance/instrumentation/automatic-instrumentation/#time-to-full-display
 + (void)reportFullyDisplayed;
-/// Extends the app launch measurement beyond the default end point and returns
-/// the extended app launch span.
+/// Extends the app launch measurement beyond the default end point.
 /// Call this method after <code>start(options:)</code> but before didFinishLaunching notification is posted
 /// so the SDK doesn’t finish the app start transaction automatically.
-/// The returned span can be used to add child spans that break down the extended
-/// launch period. Call <code>finish()</code> on the returned span (or call <code>finishExtendedAppLaunch()</code>)
+/// Use <code>getExtendedAppStartSpan()</code> to retrieve the span and add child spans that break
+/// down the extended launch period. Call <code>finish()</code> on that span (or call <code>finishExtendedAppStart()</code>)
 /// when the app is fully launched.
 /// \code
 /// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -3655,8 +3649,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///         ...
 ///         options.experimental.enableStandaloneAppStartTracing = true
 ///     })
-///     let appStartSpan = SentrySDK.extendAppLaunch()
+///     SentrySDK.extendAppStart()
 ///
+///     let appStartSpan = SentrySDK.getExtendedAppStartSpan()
 ///     let configSpan = appStartSpan?.startChild(operation: "app.init", description: "fetch remote config")
 ///     fetchRemoteConfig()
 ///     configSpan?.finish()
@@ -3667,16 +3662,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///
 /// \endcodenote:
 /// This only has an effect when Standalone App Start tracing is enabled.
-///
-/// returns:
-/// The extended app launch span, or <code>nil</code> if the SDK is not started or the
-/// app start transaction was already created.
-+ (id <SentrySpan> _Nullable)extendAppLaunch;
++ (void)extendAppStart;
+/// Returns the extended app start span, or <code>nil</code> if <code>extendAppStart()</code> was not called,
+/// the SDK is not started, or the app start transaction was already created.
++ (id <SentrySpan> _Nullable)getExtendedAppStartSpan SWIFT_WARN_UNUSED_RESULT;
 /// Finishes a previously extended app launch and sends the app start transaction.
-/// This is equivalent to calling <code>finish()</code> on the span returned by <code>extendAppLaunch()</code>.
-/// If <code>extendAppLaunch()</code> was not called, or the extended launch was already
+/// This is equivalent to calling <code>finish()</code> on the span returned by <code>getExtendedAppStartSpan()</code>.
+/// If <code>extendAppStart()</code> was not called, or the extended launch was already
 /// finished, this method does nothing.
-+ (void)finishExtendedAppLaunch;
++ (void)finishExtendedAppStart;
 /// Pauses sending detected app hangs to Sentry.
 /// This method doesn’t close the detection of app hangs. Instead, the app hang detection
 /// will ignore detected app hangs until you call <code>resumeAppHangTracking</code>.
@@ -3794,6 +3788,16 @@ SWIFT_CLASS("_TtC6Sentry12SentrySample")
 @property (nonatomic) uint64_t threadID;
 @property (nonatomic, copy) NSString * _Nullable queueAddress;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+SWIFT_CLASS("_TtC6Sentry21SentrySamplerDecision")
+@interface SentrySamplerDecision : NSObject
+@property (nonatomic, readonly) SentrySampleDecision decision;
+@property (nonatomic, readonly, strong) NSNumber * _Nullable sampleRand;
+@property (nonatomic, readonly, strong) NSNumber * _Nullable sampleRate;
+- (nonnull instancetype)initWithDecision:(SentrySampleDecision)decision forSampleRate:(NSNumber * _Nullable)sampleRate withSampleRand:(NSNumber * _Nullable)sampleRand OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryScopeObserver_")
@@ -3972,8 +3976,6 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 @protocol SentryViewScreenshotProvider;
-@class SentryTouchTracker;
-@protocol SentrySessionReplayDelegate;
 SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @interface SentrySessionReplay : NSObject
 @property (nonatomic, readonly) BOOL isFullSession;
@@ -3981,7 +3983,6 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable replayTags;
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
-- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nullable)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -4717,9 +4718,9 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 @property (nonatomic, readonly, copy) NSSet<NSString *> * _Nonnull excludedViewClasses;
 /// A set of view type identifier strings that should be included in subtree traversal.
 /// View types exactly matching these strings will be removed from the excluded set, allowing their subtrees
@@ -4731,9 +4732,9 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+
 /// by calling <code>includeViewTypeInSubtreeTraversal("CameraUI.ChromeSwiftUIView")</code>.
 /// note:
@@ -4744,7 +4745,7 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// Adds a view type pattern to the excluded set, preventing matching views’ subtrees from being traversed.
 /// note:
 /// This method adds the pattern to <code>excludedViewClasses</code>, which is then combined with
-/// default excluded types (defined in <code>SentryUIRedactBuilder</code>) and filtered by <code>includedViewClasses</code>
+/// default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and filtered by <code>includedViewClasses</code>
 /// to produce the final set.
 /// \param viewType The view type identifier pattern (as a string) to exclude from subtree traversal.
 /// Matching uses partial string containment: if a view’s class name contains this string,
@@ -4755,7 +4756,7 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// Adds a view type to the included set, allowing its subtree to be traversed.
 /// note:
 /// This method adds the view type to <code>includedViewClasses</code>, which filters the combined set
-/// of default excluded types (defined in <code>SentryUIRedactBuilder</code>) and <code>excludedViewClasses</code>.
+/// of default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and <code>excludedViewClasses</code>.
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+.
 /// note:
 /// Included patterns use exact matching (not partial) to prevent accidental matches.
@@ -5264,8 +5265,6 @@ SWIFT_CLASS_NAMED("DefaultRateLimits")
 @class SentrySysctl;
 @class SentryDefaultCurrentDateProvider;
 @class SentryDefaultUIDeviceWrapper;
-@class SentryThreadInspector;
-@class SentryFileIOTracker;
 SWIFT_CLASS_NAMED("Dependencies")
 @interface SentryDependencies : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) id <SentryRandomProtocol> _Nonnull random;)
@@ -5288,12 +5287,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryDefaul
 + (SentryDefaultCurrentDateProvider * _Nonnull)dateProvider SWIFT_WARN_UNUSED_RESULT;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SentryDefaultUIDeviceWrapper * _Nonnull uiDeviceWrapper;)
 + (SentryDefaultUIDeviceWrapper * _Nonnull)uiDeviceWrapper SWIFT_WARN_UNUSED_RESULT;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryThreadInspector * _Nonnull threadInspector;)
-+ (SentryThreadInspector * _Nonnull)threadInspector SWIFT_WARN_UNUSED_RESULT;
-+ (void)setThreadInspector:(SentryThreadInspector * _Nonnull)value;
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, strong) SentryFileIOTracker * _Nonnull fileIOTracker;)
-+ (SentryFileIOTracker * _Nonnull)fileIOTracker SWIFT_WARN_UNUSED_RESULT;
-+ (void)setFileIOTracker:(SentryFileIOTracker * _Nonnull)value;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -6481,6 +6474,8 @@ SWIFT_CLASS("_TtC6Sentry28SentryDefaultUIDeviceWrapper")
 
 @class SentryDispatchFactory;
 @class SentryNSTimerFactory;
+@class SentryFileIOTracker;
+@class SentryThreadInspector;
 @class SentryReachability;
 @class SentryExtraContextProvider;
 @protocol SentryEventContextEnricher;
@@ -6497,6 +6492,7 @@ SWIFT_CLASS("_TtC6Sentry28SentryDefaultUIDeviceWrapper")
 @class SentryGlobalEventProcessor;
 SWIFT_CLASS("_TtC6Sentry25SentryDependencyContainer")
 @interface SentryDependencyContainer : NSObject
+@property (nonatomic, strong) SentryOptions * _Nullable startOptions;
 + (SentryDependencyContainer * _Nonnull)sharedInstance SWIFT_WARN_UNUSED_RESULT;
 /// Resets all dependencies.
 + (void)reset;
@@ -6601,18 +6597,7 @@ SWIFT_CLASS("_TtC6Sentry24SentryDisplayLinkWrapper")
 @property (nonatomic, readonly) CFTimeInterval targetTimestamp;
 - (void)linkWithTarget:(id _Nonnull)target selector:(SEL _Nonnull)sel;
 - (void)invalidate;
-- (BOOL)isRunning SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-SWIFT_PROTOCOL("_TtP6Sentry30SentryReplayDisplayLinkWrapper_")
-@protocol SentryReplayDisplayLinkWrapper
-- (BOOL)isRunning SWIFT_WARN_UNUSED_RESULT;
-- (void)invalidate;
-- (void)linkWithTarget:(id _Nonnull)withTarget selector:(SEL _Nonnull)selector;
-@end
-
-@interface SentryDisplayLinkWrapper (SWIFT_EXTENSION(Sentry)) <SentryReplayDisplayLinkWrapper>
 @end
 
 @class NSURL;
@@ -6827,6 +6812,18 @@ SWIFT_CLASS("_TtC6Sentry19SentryExtraPackages")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+SWIFT_CLASS_NAMED("SentryFeatureFlagBufferWrapper")
+@interface SentryFeatureFlagBufferWrapper : NSObject
++ (SentryFeatureFlagBufferWrapper * _Nonnull)scopeBuffer SWIFT_WARN_UNUSED_RESULT;
++ (SentryFeatureFlagBufferWrapper * _Nonnull)spanBuffer SWIFT_WARN_UNUSED_RESULT;
+- (void)removeAll;
+- (SentryFeatureFlagBufferWrapper * _Nonnull)copyBuffer SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nullable)serializeForContext SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serializeForSpanData SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 enum SentryFeedbackSource : NSInteger;
 SWIFT_CLASS("_TtC6Sentry14SentryFeedback")
 @interface SentryFeedback : NSObject
@@ -6849,12 +6846,12 @@ typedef SWIFT_ENUM(NSInteger, SentryFeedbackSource, open) {
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
+/// Returns all attachments for inclusion in the feedback envelope.
+- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @interface SentryFeedback (SWIFT_EXTENSION(Sentry))
-/// Returns all attachments for inclusion in the feedback envelope.
-- (NSArray<SentryAttachment *> * _Nonnull)attachmentsForEnvelope SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<NSString *, id> * _Nonnull)serialize SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// API for interacting with the feature User Feedback
@@ -7616,7 +7613,6 @@ SWIFT_CLASS("_TtC6Sentry20SentryOnDemandReplay")
 - (nonnull instancetype)initWithContentFrom:(NSString * _Nonnull)outputPath processingQueue:(SentryDispatchQueueWrapper * _Nonnull)processingQueue assetWorkerQueue:(SentryDispatchQueueWrapper * _Nonnull)assetWorkerQueue;
 - (void)addFrameAsyncWithTimestamp:(NSDate * _Nonnull)timestamp maskedViewImage:(UIImage * _Nonnull)maskedViewImage forScreen:(NSString * _Nullable)screen;
 - (void)releaseFramesUntil:(NSDate * _Nonnull)date;
-@property (nonatomic, readonly, copy) NSDate * _Nullable oldestFrameDate;
 - (void)createVideoInBackgroundWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end completion:(void (^ _Nonnull)(NSArray<SentryVideoInfo *> * _Nonnull))completion;
 - (NSArray<SentryVideoInfo *> * _Nonnull)createVideoWithBeginning:(NSDate * _Nonnull)beginning end:(NSDate * _Nonnull)end SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -7847,9 +7843,9 @@ SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
 /// contains any of these strings, the subtree will be ignored. For example, “MyView” will match
 /// “MyApp.MyView”, “MyViewSubclass”, “Some.MyView.Container”, etc.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 @property (nonatomic, copy) NSSet<NSString *> * _Nonnull excludedViewClasses;
 /// A set of view type identifier strings that should be included in subtree traversal.
 /// View types exactly matching these strings will be removed from the excluded set, allowing their subtrees
@@ -7858,9 +7854,9 @@ SWIFT_CLASS("_TtC6Sentry26SentryRedactDefaultOptions")
 /// must exactly equal one of these strings. For example, “MyApp.MyView” will only match exactly “MyApp.MyView”,
 /// not “MyApp.MyViewSubclass”.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+.
 /// note:
 /// Included patterns use exact matching (not partial) to prevent accidental matches. For example,
@@ -8022,9 +8018,9 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 @property (nonatomic, copy) NSSet<NSString *> * _Nonnull excludedViewClasses;
 /// A set of view type identifier strings that should be included in subtree traversal.
 /// View types exactly matching these strings will be removed from the excluded set, allowing their subtrees
@@ -8036,9 +8032,9 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+
 /// by calling <code>includeViewTypeInSubtreeTraversal("CameraUI.ChromeSwiftUIView")</code>.
 /// note:
@@ -8049,7 +8045,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Adds a view type pattern to the excluded set, preventing matching views’ subtrees from being traversed.
 /// note:
 /// This method adds the pattern to <code>excludedViewClasses</code>, which is then combined with
-/// default excluded types (defined in <code>SentryUIRedactBuilder</code>) and filtered by <code>includedViewClasses</code>
+/// default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and filtered by <code>includedViewClasses</code>
 /// to produce the final set.
 /// \param viewType The view type identifier pattern (as a string) to exclude from subtree traversal.
 /// Matching uses partial string containment: if a view’s class name contains this string,
@@ -8060,7 +8056,7 @@ SWIFT_CLASS("_TtC6Sentry19SentryReplayOptions")
 /// Adds a view type to the included set, allowing its subtree to be traversed.
 /// note:
 /// This method adds the view type to <code>includedViewClasses</code>, which filters the combined set
-/// of default excluded types (defined in <code>SentryUIRedactBuilder</code>) and <code>excludedViewClasses</code>.
+/// of default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and <code>excludedViewClasses</code>.
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+.
 /// note:
 /// Included patterns use exact matching (not partial) to prevent accidental matches.
@@ -8548,12 +8544,11 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///
 /// https://docs.sentry.io/platforms/cocoa/performance/instrumentation/automatic-instrumentation/#time-to-full-display
 + (void)reportFullyDisplayed;
-/// Extends the app launch measurement beyond the default end point and returns
-/// the extended app launch span.
+/// Extends the app launch measurement beyond the default end point.
 /// Call this method after <code>start(options:)</code> but before didFinishLaunching notification is posted
 /// so the SDK doesn’t finish the app start transaction automatically.
-/// The returned span can be used to add child spans that break down the extended
-/// launch period. Call <code>finish()</code> on the returned span (or call <code>finishExtendedAppLaunch()</code>)
+/// Use <code>getExtendedAppStartSpan()</code> to retrieve the span and add child spans that break
+/// down the extended launch period. Call <code>finish()</code> on that span (or call <code>finishExtendedAppStart()</code>)
 /// when the app is fully launched.
 /// \code
 /// func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -8561,8 +8556,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///         ...
 ///         options.experimental.enableStandaloneAppStartTracing = true
 ///     })
-///     let appStartSpan = SentrySDK.extendAppLaunch()
+///     SentrySDK.extendAppStart()
 ///
+///     let appStartSpan = SentrySDK.getExtendedAppStartSpan()
 ///     let configSpan = appStartSpan?.startChild(operation: "app.init", description: "fetch remote config")
 ///     fetchRemoteConfig()
 ///     configSpan?.finish()
@@ -8573,16 +8569,15 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL detectedStartUp
 ///
 /// \endcodenote:
 /// This only has an effect when Standalone App Start tracing is enabled.
-///
-/// returns:
-/// The extended app launch span, or <code>nil</code> if the SDK is not started or the
-/// app start transaction was already created.
-+ (id <SentrySpan> _Nullable)extendAppLaunch;
++ (void)extendAppStart;
+/// Returns the extended app start span, or <code>nil</code> if <code>extendAppStart()</code> was not called,
+/// the SDK is not started, or the app start transaction was already created.
++ (id <SentrySpan> _Nullable)getExtendedAppStartSpan SWIFT_WARN_UNUSED_RESULT;
 /// Finishes a previously extended app launch and sends the app start transaction.
-/// This is equivalent to calling <code>finish()</code> on the span returned by <code>extendAppLaunch()</code>.
-/// If <code>extendAppLaunch()</code> was not called, or the extended launch was already
+/// This is equivalent to calling <code>finish()</code> on the span returned by <code>getExtendedAppStartSpan()</code>.
+/// If <code>extendAppStart()</code> was not called, or the extended launch was already
 /// finished, this method does nothing.
-+ (void)finishExtendedAppLaunch;
++ (void)finishExtendedAppStart;
 /// Pauses sending detected app hangs to Sentry.
 /// This method doesn’t close the detection of app hangs. Instead, the app hang detection
 /// will ignore detected app hangs until you call <code>resumeAppHangTracking</code>.
@@ -8700,6 +8695,16 @@ SWIFT_CLASS("_TtC6Sentry12SentrySample")
 @property (nonatomic) uint64_t threadID;
 @property (nonatomic, copy) NSString * _Nullable queueAddress;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+SWIFT_CLASS("_TtC6Sentry21SentrySamplerDecision")
+@interface SentrySamplerDecision : NSObject
+@property (nonatomic, readonly) SentrySampleDecision decision;
+@property (nonatomic, readonly, strong) NSNumber * _Nullable sampleRand;
+@property (nonatomic, readonly, strong) NSNumber * _Nullable sampleRate;
+- (nonnull instancetype)initWithDecision:(SentrySampleDecision)decision forSampleRate:(NSNumber * _Nullable)sampleRate withSampleRand:(NSNumber * _Nullable)sampleRand OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 SWIFT_PROTOCOL("_TtP6Sentry19SentryScopeObserver_")
@@ -8878,8 +8883,6 @@ SWIFT_PROTOCOL("_TtP6Sentry21SentrySessionListener_")
 @end
 
 @protocol SentryViewScreenshotProvider;
-@class SentryTouchTracker;
-@protocol SentrySessionReplayDelegate;
 SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @interface SentrySessionReplay : NSObject
 @property (nonatomic, readonly) BOOL isFullSession;
@@ -8887,7 +8890,6 @@ SWIFT_CLASS("_TtC6Sentry19SentrySessionReplay")
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable replayTags;
 @property (nonatomic, strong) id <SentryViewScreenshotProvider> _Nonnull screenshotProvider;
 @property (nonatomic, strong) id <SentryReplayBreadcrumbConverter> _Nonnull breadcrumbConverter;
-- (nonnull instancetype)initWithReplayOptions:(SentryReplayOptions * _Nonnull)replayOptions replayFolderPath:(NSURL * _Nonnull)replayFolderPath screenshotProvider:(id <SentryViewScreenshotProvider> _Nonnull)screenshotProvider replayMaker:(id <SentryReplayVideoMaker> _Nonnull)replayMaker breadcrumbConverter:(id <SentryReplayBreadcrumbConverter> _Nonnull)breadcrumbConverter touchTracker:(SentryTouchTracker * _Nullable)touchTracker dateProvider:(id <SentryCurrentDateProvider> _Nonnull)dateProvider delegate:(id <SentrySessionReplayDelegate> _Nonnull)delegate displayLinkWrapper:(id <SentryReplayDisplayLinkWrapper> _Nonnull)displayLinkWrapper OBJC_DESIGNATED_INITIALIZER;
 - (void)startWithRootView:(UIView * _Nullable)rootView fullSession:(BOOL)fullSession;
 - (void)pauseSessionMode;
 - (void)pause;
@@ -9623,9 +9625,9 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 @property (nonatomic, readonly, copy) NSSet<NSString *> * _Nonnull excludedViewClasses;
 /// A set of view type identifier strings that should be included in subtree traversal.
 /// View types exactly matching these strings will be removed from the excluded set, allowing their subtrees
@@ -9637,9 +9639,9 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// You should use the methods <code>excludeViewTypeFromSubtreeTraversal(_:)</code> and <code>includeViewTypeInSubtreeTraversal(_:)</code>
 /// to add and remove view types, so you do not accidentally remove our defaults.
 /// note:
-/// The final set of excluded view types is computed by <code>SentryUIRedactBuilder</code> using the formula:
+/// The final set of excluded view types is computed by <code>SentryViewSubtreeTraversal</code> using the formula:
 /// <em>Default View Classes + Excluded View Classes - Included View Classes</em>
-/// Default view classes are defined in <code>SentryUIRedactBuilder</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
+/// Default view classes are defined in <code>SentryViewSubtreeTraversal</code> (e.g., <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+).
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+
 /// by calling <code>includeViewTypeInSubtreeTraversal("CameraUI.ChromeSwiftUIView")</code>.
 /// note:
@@ -9650,7 +9652,7 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// Adds a view type pattern to the excluded set, preventing matching views’ subtrees from being traversed.
 /// note:
 /// This method adds the pattern to <code>excludedViewClasses</code>, which is then combined with
-/// default excluded types (defined in <code>SentryUIRedactBuilder</code>) and filtered by <code>includedViewClasses</code>
+/// default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and filtered by <code>includedViewClasses</code>
 /// to produce the final set.
 /// \param viewType The view type identifier pattern (as a string) to exclude from subtree traversal.
 /// Matching uses partial string containment: if a view’s class name contains this string,
@@ -9661,7 +9663,7 @@ SWIFT_CLASS("_TtC6Sentry27SentryViewScreenshotOptions")
 /// Adds a view type to the included set, allowing its subtree to be traversed.
 /// note:
 /// This method adds the view type to <code>includedViewClasses</code>, which filters the combined set
-/// of default excluded types (defined in <code>SentryUIRedactBuilder</code>) and <code>excludedViewClasses</code>.
+/// of default excluded types (defined in <code>SentryViewSubtreeTraversal</code>) and <code>excludedViewClasses</code>.
 /// For example, you can use this to re-enable traversal for <code>CameraUI.ChromeSwiftUIView</code> on iOS 26+.
 /// note:
 /// Included patterns use exact matching (not partial) to prevent accidental matches.
