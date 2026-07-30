@@ -2411,6 +2411,12 @@
             The <see cref="T:Sentry.SentryFeedback"/> was discarded by an event processor.
             </summary>
         </member>
+        <member name="F:Sentry.CaptureFeedbackResult.DroppedByBeforeSendFeedback">
+            <summary>
+            The <see cref="T:Sentry.SentryFeedback"/> was discarded by the <c>BeforeSendFeedback</c> callback
+            either by returning null or by throwing an exception.
+            </summary>
+        </member>
         <member name="T:Sentry.CompilerServices.BuildProperties">
             <summary>
             This class is not meant for external usage
@@ -3939,6 +3945,28 @@
             Starts a span or transaction if a transaction is not already active on the scope
             </summary>
         </member>
+        <member name="M:Sentry.HubExtensions.RecordTransaction(Sentry.IHub,System.String,System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SentryId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Action{Sentry.ITransactionRecorder})">
+            <summary>
+            Records a transaction that has already completed elsewhere — for example, spans measured on another
+            machine or process and replayed through a proxy. Timing is supplied explicitly rather than measured
+            live, so unlike <see cref="M:Sentry.HubExtensions.StartTransaction(Sentry.IHub,System.String,System.String)"/> there is no stopwatch, idle timer,
+            or sampling decision involved; the transaction is materialized and captured once when
+            <paramref name="configure"/> returns.
+            </summary>
+            <param name="hub">The hub.</param>
+            <param name="name">The transaction name.</param>
+            <param name="operation">The transaction operation.</param>
+            <param name="startTimestamp">When the transaction started.</param>
+            <param name="duration">How long the transaction ran. Must not be negative.</param>
+            <param name="traceId">Optional trace id to preserve from the originating system; generated when omitted.</param>
+            <param name="spanId">Optional root span id to preserve; generated when omitted.</param>
+            <param name="parentSpanId">Optional parent span id, when continuing a trace from another service.</param>
+            <param name="configure">
+            Optional callback to set metadata, configure the capture scope, and record the span tree via
+            <see cref="M:Sentry.ISpanRecorder.RecordSpan(System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SpanId},System.Action{Sentry.ISpanRecorder})"/>.
+            </param>
+            <returns>The event id of the captured transaction.</returns>
+        </member>
         <member name="M:Sentry.HubExtensions.AddBreadcrumb(Sentry.IHub,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel)">
             <summary>
             Adds a breadcrumb to the current scope.
@@ -4794,6 +4822,11 @@
             Intended for Testing only.
             </remarks>
         </member>
+        <member name="P:Sentry.Internal.BatchProcessor`1.DiscardCategory">
+            <summary>
+            The data category used when recording dropped items as client reports.
+            </summary>
+        </member>
         <member name="M:Sentry.Internal.ClientReport.FromJson(System.Text.Json.JsonElement)">
             <summary>
             Parses <see cref="T:Sentry.Internal.ClientReport"/> from <paramref name="json"/>.
@@ -5475,6 +5508,29 @@
             Exposes settings that are read from multiple places, such as environment variables, options, attributes, or defaults.
             </summary>
         </member>
+        <member name="T:Sentry.Internal.SpanRecorderBase">
+            <summary>
+            Base <see cref="T:Sentry.ISpanRecorder"/> for a node in a recorded transaction tree. Holds the owning
+            <see cref="T:Sentry.TransactionTracer"/> (which new child spans are created on) and the node this recorder
+            represents (a <see cref="T:Sentry.SpanTracer"/>, or the transaction tracer itself for the root), proxying metadata
+            straight through to it.
+            </summary>
+        </member>
+        <member name="P:Sentry.Internal.SpanRecorderBase.Owner">
+            <summary>The transaction that owns the whole tree; child spans are created on it.</summary>
+        </member>
+        <member name="T:Sentry.Internal.SpanRecorder">
+            <summary>
+            <see cref="T:Sentry.ISpanRecorder"/> backed by a <see cref="T:Sentry.SpanTracer"/> whose timing has been set explicitly.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.TransactionRecorder">
+            <summary>
+            <see cref="T:Sentry.ITransactionRecorder"/> backed by a <see cref="T:Sentry.TransactionTracer"/> whose timing has been set
+            explicitly. The tracer is never <c>Finish()</c>-ed (which would reset the live scope); instead the caller
+            converts it to a <see cref="T:Sentry.SentryTransaction"/> and captures it directly.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.IStackFrame">
             <summary>
             Mockable variant of the Diagnostics.StackFrame.
@@ -5690,6 +5746,11 @@
         <member name="M:Sentry.IScopeObserver.SetTrace(Sentry.SentryId,Sentry.SpanId)">
             <summary>
             Sets the current trace
+            </summary>
+        </member>
+        <member name="M:Sentry.IScopeObserver.SetEnvironment(System.String)">
+            <summary>
+            Sets the environment.
             </summary>
         </member>
         <member name="M:Sentry.IScopeObserver.AddAttachment(Sentry.SentryAttachment)">
@@ -6072,6 +6133,85 @@
         </member>
         <member name="M:Sentry.SpanDataExtensions.SetMeasurement(Sentry.ISpanData,System.String,System.Double,Sentry.MeasurementUnit)">
             <inheritdoc cref="M:Sentry.SpanDataExtensions.SetMeasurement(Sentry.ISpanData,System.String,System.Int32,Sentry.MeasurementUnit)" />
+        </member>
+        <member name="T:Sentry.ISpanRecorder">
+            <summary>
+            Builds a span while recording a transaction that has already completed elsewhere (for example, work
+            measured on another machine and replayed through a proxy). Unlike <see cref="T:Sentry.ISpan"/>, timing is supplied
+            up-front rather than measured live, so a recorded span can never be left half-specified.
+            </summary>
+            <remarks>
+            Obtained from <see cref="T:Sentry.ITransactionRecorder"/> or a parent <see cref="T:Sentry.ISpanRecorder"/> via
+            <see cref="M:Sentry.ISpanRecorder.RecordSpan(System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SpanId},System.Action{Sentry.ISpanRecorder})"/>.
+            See <see cref="M:Sentry.HubExtensions.RecordTransaction(Sentry.IHub,System.String,System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SentryId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Action{Sentry.ITransactionRecorder})"/>.
+            </remarks>
+        </member>
+        <member name="P:Sentry.ISpanRecorder.SpanId">
+            <summary>
+            The span's id. When not overridden at creation, one is generated.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISpanRecorder.Description">
+            <summary>
+            Span description.
+            </summary>
+        </member>
+        <member name="P:Sentry.ISpanRecorder.Status">
+            <summary>
+            Span status. Defaults to <see cref="F:Sentry.SpanStatus.Ok"/> when not set.
+            </summary>
+        </member>
+        <member name="M:Sentry.ISpanRecorder.SetTag(System.String,System.String)">
+            <summary>
+            Sets a tag on the span.
+            </summary>
+        </member>
+        <member name="M:Sentry.ISpanRecorder.SetData(System.String,System.Object)">
+            <summary>
+            Sets arbitrary data on the span.
+            </summary>
+        </member>
+        <member name="M:Sentry.ISpanRecorder.RecordSpan(System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SpanId},System.Action{Sentry.ISpanRecorder})">
+            <summary>
+            Records a child span nested under this one. The parent is structural (this span), so no parent id
+            needs to be supplied. Pass <paramref name="spanId"/> to preserve an id from the originating system.
+            </summary>
+            <param name="operation">The span operation.</param>
+            <param name="startTimestamp">When the child span started.</param>
+            <param name="duration">How long the child span ran. Must not be negative.</param>
+            <param name="spanId">Optional span id to preserve; generated when omitted.</param>
+            <param name="configure">Optional callback to set metadata and record further nested spans.</param>
+            <returns>The recorder for the child span.</returns>
+        </member>
+        <member name="T:Sentry.ITransactionRecorder">
+            <summary>
+            Builds a transaction (and its span tree) that has already completed elsewhere. Obtained inside the
+            <c>configure</c> callback of <see cref="M:Sentry.HubExtensions.RecordTransaction(Sentry.IHub,System.String,System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SentryId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Action{Sentry.ITransactionRecorder})"/>. When the callback returns, the
+            whole tree is materialized and captured once — no live tracing, stopwatch, or sampling roll is involved.
+            </summary>
+        </member>
+        <member name="P:Sentry.ITransactionRecorder.TraceId">
+            <summary>
+            The trace this transaction belongs to. Set at creation (via <see cref="M:Sentry.HubExtensions.RecordTransaction(Sentry.IHub,System.String,System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SentryId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Action{Sentry.ITransactionRecorder})"/>)
+            and inherited by every recorded span.
+            </summary>
+        </member>
+        <member name="P:Sentry.ITransactionRecorder.Release">
+            <summary>
+            The release that produced this transaction. Useful when the origin system differs from this process.
+            </summary>
+        </member>
+        <member name="P:Sentry.ITransactionRecorder.Environment">
+            <summary>
+            The environment the transaction ran in. Useful when the origin system differs from this process.
+            </summary>
+        </member>
+        <member name="M:Sentry.ITransactionRecorder.ConfigureScope(System.Action{Sentry.Scope})">
+            <summary>
+            Configures the (clean) scope the recorded transaction is captured against. Use this to set data that
+            was captured alongside the original trace — user, tags, contexts, breadcrumbs — without inheriting the
+            current process's live scope.
+            </summary>
         </member>
         <member name="T:Sentry.ITransactionContext">
             <summary>
@@ -7154,6 +7294,13 @@
             Starts a transaction.
             </summary>
         </member>
+        <member name="M:Sentry.SentrySdk.RecordTransaction(System.String,System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SentryId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Action{Sentry.ITransactionRecorder})">
+            <summary>
+            Records a transaction that has already completed elsewhere — for example, spans measured on another
+            machine or process and replayed through a proxy. See
+            <see cref="M:Sentry.HubExtensions.RecordTransaction(Sentry.IHub,System.String,System.String,System.DateTimeOffset,System.TimeSpan,System.Nullable{Sentry.SentryId},System.Nullable{Sentry.SpanId},System.Nullable{Sentry.SpanId},System.Action{Sentry.ITransactionRecorder})"/>.
+            </summary>
+        </member>
         <member name="M:Sentry.SentrySdk.BindException(System.Exception,Sentry.ISpan)">
             <summary>
             Binds specified exception the specified span.
@@ -7756,9 +7903,9 @@
             Creates an envelope that contains a single feedback event.
             </summary>
         </member>
-        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.SentryTransaction)">
+        <member name="M:Sentry.Protocol.Envelopes.Envelope.FromTransaction(Sentry.SentryTransaction,Sentry.Extensibility.IDiagnosticLogger,System.Collections.Generic.IReadOnlyCollection{Sentry.SentryAttachment})">
             <summary>
-            Creates an envelope that contains a single transaction.
+            Creates an envelope that contains a single transaction and optional attachments.
             </summary>
         </member>
         <member name="M:Sentry.Protocol.Envelopes.Envelope.FromCodeLocations(Sentry.Protocol.Metrics.CodeLocations)">
@@ -9308,7 +9455,18 @@
             Attachment content type.
             </summary>
         </member>
+        <member name="P:Sentry.SentryAttachment.AddToTransactions">
+            <summary>
+            Whether the attachment should be added to transactions.
+            Defaults to <c>false</c>.
+            </summary>
+        </member>
         <member name="M:Sentry.SentryAttachment.#ctor(Sentry.AttachmentType,Sentry.IAttachmentContent,System.String,System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.SentryAttachment"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryAttachment.#ctor(Sentry.AttachmentType,Sentry.IAttachmentContent,System.String,System.String,System.Boolean)">
             <summary>
             Initializes an instance of <see cref="T:Sentry.SentryAttachment"/>.
             </summary>
@@ -9672,6 +9830,82 @@
         </member>
         <member name="P:Sentry.SentryContexts.Values">
             <inheritdoc/>
+        </member>
+        <member name="T:Sentry.SentryEventExtensions">
+            <summary>
+            Extension methods for <see cref="T:Sentry.SentryEvent"/>.
+            </summary>
+        </member>
+        <member name="M:Sentry.SentryEventExtensions.IsFromUnhandledException(Sentry.SentryEvent)">
+             <summary>
+             Determines whether this event was created from an unhandled exception.
+             </summary>
+             <param name="event">The Sentry event.</param>
+             <returns>
+             <c>true</c> if the event was created from an unhandled exception; otherwise, <c>false</c>.
+             </returns>
+             <remarks>
+             An unhandled exception is one that was not caught by application code and was instead
+             captured by the Sentry SDK through hooks like UnhandledExceptionHandler, ASP.NET Core
+             middleware, or other integration points. By default, Sentry marks exceptions as handled
+             unless explicitly captured through one of these unhandled exception hooks.
+            
+             This is useful for filtering events in callbacks like BeforeSend, where you may want to
+             treat unhandled exceptions differently from handled ones (e.g., always send unhandled
+             exceptions even if they match a filter that would normally exclude them).
+             </remarks>
+             <example>
+             <code>
+             options.SetBeforeSend((@event, hint) =>
+             {
+                 // Always send unhandled exceptions, even if they're network timeouts
+                 if (@event.IsFromUnhandledException())
+                 {
+                     return @event;
+                 }
+            
+                 // Filter out handled network timeout exceptions
+                 if (@event.Exception is HttpRequestException)
+                 {
+                     return null;
+                 }
+            
+                 return @event;
+             });
+             </code>
+             </example>
+        </member>
+        <member name="M:Sentry.SentryEventExtensions.IsFromTerminalException(Sentry.SentryEvent)">
+             <summary>
+             Determines whether this event was created from a terminal exception.
+             </summary>
+             <param name="event">The Sentry event.</param>
+             <returns>
+             <c>true</c> if the event was created from a terminal exception; otherwise, <c>false</c>.
+             </returns>
+             <remarks>
+             A terminal exception is an unhandled exception that caused the application to crash or
+             terminate. This excludes unhandled exceptions that were explicitly marked as non-terminal,
+             such as those captured by UnobservedTaskException handlers or certain Unity SDK integrations.
+            
+             In most cases, an unhandled exception is terminal. However, some integrations may capture
+             unhandled exceptions that don't actually crash the app (e.g., unobserved task exceptions)
+             and mark them with Terminal = false.
+             </remarks>
+             <example>
+             <code>
+             options.SetBeforeSend((@event, hint) =>
+             {
+                 // Only send terminal exceptions for certain exception types
+                 if (@event.Exception is NetworkException &amp;&amp; !@event.IsFromTerminalException())
+                 {
+                     return null; // Don't send non-terminal network exceptions
+                 }
+            
+                 return @event;
+             });
+             </code>
+             </example>
         </member>
         <member name="T:Sentry.SentryFeedback">
             <summary>
@@ -10913,6 +11147,18 @@
             List of substrings or regular expression patterns to filter out tags
             </summary>
         </member>
+        <member name="P:Sentry.SentryOptions.IgnoreTransactions">
+            <summary>
+            A list of transaction names to be ignored. A transaction whose name matches any of the
+            given substrings or regular expression patterns will not be sent to Sentry.
+            </summary>
+            <remarks>
+            Matching transactions are dropped before the BeforeSendTransaction callback runs, so that
+            callback is not invoked for them. This mirrors the behavior of the <c>ignoreTransactions</c>
+            option in the Sentry JavaScript and Python SDKs, where the built-in filter runs ahead of the
+            user's <c>before_send_transaction</c> hook.
+            </remarks>
+        </member>
         <member name="P:Sentry.SentryOptions.BackgroundWorker">
             <summary>
             The worker used by the client to pass envelopes.
@@ -11103,6 +11349,20 @@
             Configures a callback to invoke before sending a transaction to Sentry
             </summary>
             <param name="beforeSendTransaction">The callback</param>
+        </member>
+        <member name="M:Sentry.SentryOptions.SetBeforeSendFeedback(System.Func{Sentry.SentryEvent,Sentry.SentryHint,Sentry.SentryEvent})">
+            <summary>
+            Configures a callback to invoke before sending user feedback to Sentry.
+            Return null or throw to drop the feedback.
+            </summary>
+            <param name="beforeSendFeedback">The callback</param>
+        </member>
+        <member name="M:Sentry.SentryOptions.SetBeforeSendFeedback(System.Func{Sentry.SentryEvent,Sentry.SentryEvent})">
+            <summary>
+            Configures a callback to invoke before sending user feedback to Sentry.
+            Return null or throw to drop the feedback.
+            </summary>
+            <param name="beforeSendFeedback">The callback</param>
         </member>
         <member name="M:Sentry.SentryOptions.SetBeforeBreadcrumb(System.Func{Sentry.Breadcrumb,Sentry.SentryHint,Sentry.Breadcrumb})">
             <summary>
@@ -13718,7 +13978,14 @@
             <summary>
             Initializes an instance of <see cref="T:Sentry.ViewHierarchyAttachment"/>.
             </summary>
-            /// <param name="content">The view hierarchy attachment</param>
+            <param name="content">The view hierarchy attachment</param>
+        </member>
+        <member name="M:Sentry.ViewHierarchyAttachment.#ctor(Sentry.IAttachmentContent,System.Boolean)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.ViewHierarchyAttachment"/>.
+            </summary>
+            <param name="content">The view hierarchy attachment</param>
+            <param name="addToTransactions">Whether the attachment should be added to transactions.</param>
         </member>
         <member name="T:Sentry.ViewHierarchyNode">
             <summary>
