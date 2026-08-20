@@ -1,6 +1,6 @@
 #if !UNITY_EDITOR
 
-#if UNITY_IOS || (UNITY_STANDALONE_OSX && ENABLE_IL2CPP)
+#if UNITY_IOS
 #define SENTRY_NATIVE_COCOA
 #endif
 
@@ -8,7 +8,11 @@
 #define SENTRY_NATIVE_ANDROID
 #endif
 
-#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || UNITY_GAMECORE || UNITY_PS5
+#if UNITY_STANDALONE_OSX
+#define SENTRY_NATIVE_MACOS
+#endif
+
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_GAMECORE || UNITY_PS5
 #define SENTRY_NATIVE
 #endif
 
@@ -22,7 +26,7 @@
 
 #endif
 
-#if ENABLE_IL2CPP && (SENTRY_NATIVE_COCOA || SENTRY_NATIVE_ANDROID || SENTRY_NATIVE)
+#if ENABLE_IL2CPP && (SENTRY_NATIVE_COCOA || SENTRY_NATIVE_ANDROID || SENTRY_NATIVE_MACOS || SENTRY_NATIVE)
 #define IL2CPP_LINENUMBER_SUPPORT
 #endif
 
@@ -35,13 +39,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-#if UNITY_STANDALONE_OSX
-#if SENTRY_NATIVE_COCOA
-using Sentry.Unity.iOS;
-#endif
-#if SENTRY_NATIVE
-using Sentry.Unity.Native;
-#endif
+#if SENTRY_NATIVE_MACOS
+using Sentry.Unity.MacOS;
 #elif SENTRY_NATIVE_COCOA
 using Sentry.Unity.iOS;
 #elif SENTRY_NATIVE_ANDROID
@@ -88,8 +87,8 @@ namespace Sentry.Unity
             {
                 // If the SDK is not `enabled` we're closing down the native layer as well. This is especially relevant
                 // in a `built-time-initialization` scenario where the native SDKs self-initialize.
-#if UNITY_STANDALONE_OSX
-                CloseMacosBackend(options);
+#if SENTRY_NATIVE_MACOS
+                SentryNativeMacos.Close(options);
 #elif SENTRY_NATIVE_COCOA
                 SentryNativeCocoa.Close(options);
 #elif SENTRY_NATIVE_ANDROID
@@ -103,8 +102,8 @@ namespace Sentry.Unity
             SentryPlatformServices.CollectMainThreadData();
             SentryPlatformServices.UnityInfo = new SentryUnityInfo();
 
-#if UNITY_STANDALONE_OSX
-            SentryPlatformServices.PlatformConfiguration = ConfigureMacosBackend;
+#if SENTRY_NATIVE_MACOS
+            SentryPlatformServices.PlatformConfiguration = SentryNativeMacos.Configure;
 #elif SENTRY_NATIVE_COCOA
             SentryPlatformServices.PlatformConfiguration = SentryNativeCocoa.Configure;
 #elif SENTRY_NATIVE_ANDROID
@@ -118,44 +117,12 @@ namespace Sentry.Unity
 #endif
         }
 
-#if UNITY_STANDALONE_OSX
-        private static void ConfigureMacosBackend(SentryUnityOptions options)
-        {
-#if SENTRY_NATIVE
-            if (options.Experimental.MacosBackend == MacosBackend.Native)
-            {
-                SentryNative.Configure(options);
-                return;
-            }
-#endif
-#if SENTRY_NATIVE_COCOA
-            SentryNativeCocoa.Configure(options);
-#else
-            options.DiagnosticLogger?.LogWarning(
-                "MacosBackend is set to Cocoa, but Cocoa requires IL2CPP. " +
-                "Native crash reporting is disabled. Set MacosBackend to Native or enable IL2CPP.");
-#endif
-        }
-
-        private static void CloseMacosBackend(SentryUnityOptions options)
-        {
-            if (options is null)
-            {
-                return;
-            }
-#if SENTRY_NATIVE_COCOA
-            if (options.Experimental.MacosBackend == MacosBackend.Cocoa)
-            {
-                SentryNativeCocoa.Close(options);
-            }
-#endif
-            // Native: nothing to do — SentryNative registers its own close callback at Configure time.
-        }
-#endif
     }
 
     public class SentryUnityInfo : ISentryUnityInfo
     {
+        private readonly FrameTiming[] _frameTimings = new FrameTiming[1];
+
         public bool IL2CPP
         {
             get =>
@@ -167,6 +134,23 @@ namespace Sentry.Unity
         }
 
         public Il2CppMethods Il2CppMethods => _il2CppMethods;
+
+        public bool TryGetFrameThreadTimings(out double gameThreadTime, out double renderThreadTime)
+        {
+#if UNITY_2022_3_OR_NEWER
+            FrameTimingManager.CaptureFrameTimings();
+            if (FrameTimingManager.GetLatestTimings(1, _frameTimings) > 0)
+            {
+                var timing = _frameTimings[0];
+                gameThreadTime = timing.cpuMainThreadFrameTime;
+                renderThreadTime = timing.cpuRenderThreadFrameTime;
+                return true;
+            }
+#endif
+            gameThreadTime = 0.0;
+            renderThreadTime = 0.0;
+            return false;
+        }
 
         private Il2CppMethods _il2CppMethods
             // Lowest supported version to have all required methods below

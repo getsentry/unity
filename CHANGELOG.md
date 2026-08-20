@@ -1,5 +1,30 @@
 # Changelog
 
+## 4.9.0
+
+### Features
+
+- The SDK now provides line number support for managed exceptions for Unity 6.5 and newer ([#2805](https://github.com/getsentry/sentry-unity/pull/2805))
+- Added experimental auto game-metrics. When enabled, the SDK periodically collects common performance metrics and sends them to Sentry via the metrics API. ([#2777](https://github.com/getsentry/sentry-unity/pull/2777))
+
+### Dependencies
+
+- Bump Cocoa SDK from v9.23.0 to v9.26.0 ([#2792](https://github.com/getsentry/sentry-unity/pull/2792), [#2801](https://github.com/getsentry/sentry-unity/pull/2801), [#2811](https://github.com/getsentry/sentry-unity/pull/2811))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#9260)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/9.23.0...9.26.0)
+- Bump Java SDK from v8.52.0-9-g983e0f0a5 to v8.52.0 ([#2800](https://github.com/getsentry/sentry-unity/pull/2800))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8520)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.52.0-9-g983e0f0a5...8.52.0)
+- Bump Cocoa SDK from v9.23.0 to v9.25.0 ([#2792](https://github.com/getsentry/sentry-unity/pull/2792), [#2801](https://github.com/getsentry/sentry-unity/pull/2801))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#9250)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/9.23.0...9.25.0)
+- Bump Java SDK from v8.52.0-9-g983e0f0a5 to v8.53.0 ([#2800](https://github.com/getsentry/sentry-unity/pull/2800), [#2810](https://github.com/getsentry/sentry-unity/pull/2810))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8530)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.52.0-9-g983e0f0a5...8.53.0)
+- Bump Native SDK from v0.16.1 to v0.16.2 ([#2806](https://github.com/getsentry/sentry-unity/pull/2806))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0162)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.16.1...0.16.2)
+
 ## 4.8.0
 
 ### Behavioural Changes and Deprecations
