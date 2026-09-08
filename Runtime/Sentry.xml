@@ -3591,6 +3591,11 @@
             Attachment sourced from the file system.
             </summary>
         </member>
+        <member name="P:Sentry.FileAttachmentContent.DeleteOnClose">
+            <summary>
+            Whether to delete the file when the stream is closed.
+            </summary>
+        </member>
         <member name="P:Sentry.FileAttachmentContent.FilePath">
             <summary>
             The path to the file to attach.
@@ -3608,6 +3613,14 @@
             </summary>
             <param name="filePath">The path to the file to attach.</param>
             <param name="readFileAsynchronously">Whether to use async file I/O to read the file.</param>
+        </member>
+        <member name="M:Sentry.FileAttachmentContent.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a new instance of <see cref="T:Sentry.FileAttachmentContent"/>.
+            </summary>
+            <param name="filePath">The path to the file to attach.</param>
+            <param name="readFileAsynchronously">Whether to use async file I/O to read the file.</param>
+            <param name="deleteOnClose">Whether to delete the file when the stream is closed.</param>
         </member>
         <member name="M:Sentry.FileAttachmentContent.GetStream">
             <inheritdoc />
@@ -4029,6 +4042,20 @@
             <param name="configureScope">The callback to configure the scope.</param>
             <returns>The Id of the event</returns>
         </member>
+        <member name="M:Sentry.HubExtensions.CaptureException(Sentry.IHub,System.Exception,System.Boolean,System.Boolean,System.Action{Sentry.Scope})">
+            <summary>
+            Captures the exception with a configurable scope callback, explicitly marking it as handled or unhandled
+            and whether it terminated the application.
+            </summary>
+            <param name="hub">The Sentry hub.</param>
+            <param name="ex">The exception.</param>
+            <param name="handled">Whether the exception was handled. Recorded on the exception, overriding any flag
+            previously set on it, including one set via <see cref="M:SentryExceptionExtensions.SetSentryMechanism(System.Exception,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})"/>.</param>
+            <param name="terminal">Whether the app crashed. Only used when <paramref name="handled"/> is
+            <c>false</c>. If <c>true</c>, the session ends as crashed and the active transaction is aborted.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event</returns>
+        </member>
         <member name="M:Sentry.HubExtensions.CaptureFeedback(Sentry.IHub,Sentry.SentryFeedback,System.Action{Sentry.Scope},Sentry.SentryHint)">
             <summary>
             Captures feedback from the user.
@@ -4314,7 +4341,6 @@
             <remarks>
             Available options:
             <list type="bullet">
-            <item><see cref="P:Sentry.SentryOptions.EnableLogs"/></item>
             <item><see cref="M:Sentry.SentryOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})"/></item>
             </list>
             </remarks>
@@ -4326,7 +4352,6 @@
             <remarks>
             Available options:
             <list type="bullet">
-            <item><see cref="P:Sentry.SentryOptions.EnableMetrics"/></item>
             <item><see cref="M:Sentry.SentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})"/></item>
             </list>
             </remarks>
@@ -5323,7 +5348,8 @@
         </member>
         <member name="T:Sentry.Internal.Http.RetryAfterHandler">
             <summary>
-            Retry After Handler which short-circuit requests following an HTTP 429.
+            Retry After Handler which short-circuits requests following an HTTP 429 that carries no per-category
+            rate limits. Responses that do carry them are left to the transport to apply per envelope item.
             </summary>
             <seealso href="https://tools.ietf.org/html/rfc6585#section-4" />
             <seealso href="https://develop.sentry.dev/sdk/overview/#writing-an-sdk"/>
@@ -5495,6 +5521,35 @@
         <member name="T:Sentry.Internal.ScopeObserver">
             <summary>
             Scope Observer wrapper for the common behaviour accross platforms.
+            </summary>
+        </member>
+        <member name="T:Sentry.Internal.SentrySdkNamespaces">
+            <summary>
+            Identifies logger names that belong to the Sentry SDK itself, so the logging integrations can
+            skip them rather than feeding the SDK's own output back into Sentry.
+            </summary>
+            <remarks>
+            The <c>PackageRoots</c> half of this class is generated from <c>.craft.yml</c> - see the
+            <c>GenerateSentrySdkNamespaces</c> target in <c>Sentry.csproj</c>.
+            </remarks>
+        </member>
+        <member name="F:Sentry.Internal.SentrySdkNamespaces.CoreNames">
+             <summary>
+             The core <c>Sentry</c> package can't be matched by prefix the way the other packages can:
+             all of its types live directly under <c>Sentry.</c>, and so does application code that
+             happens to use that namespace (<c>Sentry.Samples.*</c>, <c>Sentry.MyApp.*</c>). Matching on
+             <c>Sentry.</c> would therefore silently discard the user's own logs.
+            
+             Core has no logging dependency of its own, so the only name it ever logs under is the one
+             <c>MelDiagnosticLogger</c> (in Sentry.Extensions.Logging) gets from
+             <c>ILogger&lt;ISentryClient&gt;</c>. Matching that exactly is enough.
+             </summary>
+        </member>
+        <member name="M:Sentry.Internal.SentrySdkNamespaces.IsSentrySdk(System.String)">
+            <summary>
+            Whether <paramref name="loggerName"/> - a Serilog <c>SourceContext</c>, a
+            <c>Microsoft.Extensions.Logging</c> category, or an equivalent from another framework -
+            belongs to the Sentry SDK.
             </summary>
         </member>
         <member name="T:Sentry.Internal.SentryStopwatch">
@@ -7171,6 +7226,17 @@
             <param name="exception">The exception.</param>
             <returns>The Id of the event.</returns>
         </member>
+        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception,System.Boolean,System.Boolean)">
+            <summary>
+            Captures the exception, explicitly marking it as handled or unhandled.
+            </summary>
+            <param name="exception">The exception.</param>
+            <param name="handled">Whether the exception was handled. Recorded on the exception, overriding any flag
+            previously set on it, including one set via <see cref="M:SentryExceptionExtensions.SetSentryMechanism(System.Exception,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})"/>.</param>
+            <param name="terminal">Whether the app crashed. Only used when <paramref name="handled"/> is
+            <c>false</c>. If <c>true</c>, the session ends as crashed and the active transaction is aborted.</param>
+            <returns>The Id of the event.</returns>
+        </member>
         <member name="M:Sentry.SentrySdk.CaptureException(System.Exception,System.Action{Sentry.Scope})">
             <summary>
             Captures the exception with a configurable scope.
@@ -7179,6 +7245,22 @@
             This allows modifying a scope without affecting other events.
             </remarks>
             <param name="exception">The exception.</param>
+            <param name="configureScope">The callback to configure the scope.</param>
+            <returns>The Id of the event.</returns>
+        </member>
+        <member name="M:Sentry.SentrySdk.CaptureException(System.Exception,System.Boolean,System.Boolean,System.Action{Sentry.Scope})">
+            <summary>
+            Captures the exception with a configurable scope, explicitly marking it as handled or unhandled and
+            whether it terminated the application.
+            </summary>
+            <remarks>
+            This allows modifying a scope without affecting other events.
+            </remarks>
+            <param name="exception">The exception.</param>
+            <param name="handled">Whether the exception was handled. Recorded on the exception, overriding any flag
+            previously set on it, including one set via <see cref="M:SentryExceptionExtensions.SetSentryMechanism(System.Exception,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})"/>.</param>
+            <param name="terminal">Whether the app crashed. Only used when <paramref name="handled"/> is
+            <c>false</c>. If <c>true</c>, the session ends as crashed and the active transaction is aborted.</param>
             <param name="configureScope">The callback to configure the scope.</param>
             <returns>The Id of the event.</returns>
         </member>
@@ -7852,6 +7934,43 @@
             <inheritdoc />
         </member>
         <member name="M:Sentry.Protocol.Envelopes.AsyncJsonSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.AttachmentSerializable">
+            <summary>
+            Represents attachment content that obtains a stream for each serialization.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.AttachmentSerializable.#ctor(Sentry.IAttachmentContent)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.AttachmentSerializable"/>.
+            </summary>
+            <param name="content">The attachment content to serialize.</param>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.AttachmentSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.AttachmentSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:Sentry.Protocol.Envelopes.BufferedStreamSerializable">
+            <summary>
+            Represents stream content that is buffered lazily for repeated serialization.
+            </summary>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.BufferedStreamSerializable.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes an instance of <see cref="T:Sentry.Protocol.Envelopes.BufferedStreamSerializable"/>.
+            </summary>
+            <param name="source">The source stream to buffer.</param>
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.BufferedStreamSerializable.SerializeAsync(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.BufferedStreamSerializable.Serialize(System.IO.Stream,Sentry.Extensibility.IDiagnosticLogger)">
+            <inheritdoc />
+        </member>
+        <member name="M:Sentry.Protocol.Envelopes.BufferedStreamSerializable.Dispose">
             <inheritdoc />
         </member>
         <member name="T:Sentry.Protocol.Envelopes.Envelope">
@@ -9430,6 +9549,13 @@
             A JSON attachment containing the View Hierarchy
             </summary>
         </member>
+        <member name="F:Sentry.AttachmentType.HeapDump">
+            <summary>
+            A .gcdump file captured when a configured memory threshold is exceeded.
+            Used internally to allow the SDK to clean up the file from disk if it can't be sent to Sentry
+            (e.g. because it exceeds the attachment size limit).
+            </summary>
+        </member>
         <member name="T:Sentry.SentryAttachment">
             <summary>
             Sentry attachment.
@@ -9614,6 +9740,19 @@
             </summary>
             <param name="client">The Sentry client.</param>
             <param name="ex">The exception.</param>
+            <returns>The Id of the event</returns>
+        </member>
+        <member name="M:Sentry.SentryClientExtensions.CaptureException(Sentry.ISentryClient,System.Exception,System.Boolean,System.Boolean)">
+            <summary>
+            Captures the exception, explicitly marking it as handled or unhandled.
+            </summary>
+            <param name="client">The Sentry client.</param>
+            <param name="ex">The exception.</param>
+            <param name="handled">Whether the exception was handled. Recorded on the exception, overriding any flag
+            previously set on it, including one set via <see cref="M:SentryExceptionExtensions.SetSentryMechanism(System.Exception,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})"/>.</param>
+            <param name="terminal">Whether the app crashed. Only used when <paramref name="handled"/> is
+            <c>false</c>. If <c>true</c>, the session ends as crashed, aborting the active transaction on
+            <see cref="T:Sentry.IHub"/> clients.</param>
             <returns>The Id of the event</returns>
         </member>
         <member name="M:Sentry.SentryClientExtensions.CaptureMessage(Sentry.ISentryClient,System.String,Sentry.SentryLevel)">
@@ -11384,9 +11523,14 @@
         </member>
         <member name="P:Sentry.SentryOptions.EnableLogs">
             <summary>
-            When set to <see langword="true"/>, logs are sent to Sentry.
-            Defaults to <see langword="false"/>.
+            When set to <see langword="true"/>, logs captured by the logging integrations
+            (<c>Sentry.Extensions.Logging</c>, <c>Sentry.Serilog</c>, <c>Sentry.NLog</c>, <c>Sentry.Log4Net</c>)
+            are sent to Sentry. Defaults to <see langword="false"/>.
             </summary>
+            <remarks>
+            This option does not apply to logs created directly via <see cref="T:Sentry.SentryStructuredLogger"/>
+            (typically <c>SentrySdk.Logger</c>), which are always sent.
+            </remarks>
             <seealso href="https://develop.sentry.dev/sdk/telemetry/logs/"/>
         </member>
         <member name="M:Sentry.SentryOptions.SetBeforeSendLog(System.Func{Sentry.SentryLog,Sentry.SentryLog})">
@@ -11402,9 +11546,12 @@
         </member>
         <member name="P:Sentry.SentryOptions.EnableMetrics">
             <summary>
-            When set to <see langword="false"/>, the SDK does not generate and send metrics to Sentry via <see cref="P:Sentry.SentrySdk.Metrics"/>.
-            Defaults to <see langword="true"/>.
+            Metrics are always sent to Sentry via <see cref="P:Sentry.SentrySdk.Metrics"/>.
             </summary>
+            <remarks>
+            This option no longer has any effect. The getter always returns <see langword="true"/> and the setter is ignored.
+            To filter or drop metrics, use <see cref="M:Sentry.SentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})"/> and return <see langword="null"/>.
+            </remarks>
             <seealso href="https://develop.sentry.dev/sdk/telemetry/metrics/"/>
         </member>
         <member name="M:Sentry.SentryOptions.SetBeforeSendMetric(System.Func{Sentry.SentryMetric,Sentry.SentryMetric})">
@@ -14074,6 +14221,16 @@
             <param name="description">An optional human-readable description of the mechanism.</param>
             <param name="handled">An optional flag indicating whether the exception was handled by the mechanism.</param>
             <param name="terminal">An optional flag indicating whether the exception is considered terminal.</param>
+        </member>
+        <member name="M:SentryExceptionExtensions.RecordMechanismFlags(System.Exception,System.Boolean,System.Boolean)">
+            <summary>
+            Records the mechanism flags for an explicit user capture, fully overriding any previously set values.
+            </summary>
+            <remarks>
+            <c>Terminal</c> is only meaningful when the exception is unhandled, so it is removed when
+            <paramref name="handled"/> is <c>true</c> rather than left over from an earlier
+            <see cref="M:SentryExceptionExtensions.SetSentryMechanism(System.Exception,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})"/> call. Mirrors that method's null-removes semantics.
+            </remarks>
         </member>
     </members>
 </doc>

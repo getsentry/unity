@@ -1,5 +1,41 @@
 # Changelog
 
+## 4.10.0
+
+### Behavioural Changes and Deprecations
+
+- The `EnableMetrics` option is now marked as `[Obsolete]` and no longer has any effect, following the .NET SDK where metrics are always enabled. Disable the individual `Auto*Metrics` options instead, or filter emitted metrics with `SetBeforeSendMetric`. ([#2828](https://github.com/getsentry/sentry-unity/pull/2828))
+- The runtime assembly is now compiled for any platform except CloudRendering, EmbeddedLinux, PS4, tvOS and Xbox One, instead of an explicit allowlist. Platforms without a dedicated integration, like visionOS and the dedicated server targets now run the SDK in managed-only mode. ([#2834](https://github.com/getsentry/sentry-unity/pull/2834))
+
+### Features
+
+- Added Nintendo Switch 2 support. The SDK now correctly recognises the platform, providing native support and automatic debug symbol upload. Switch 2 shares the existing `SwitchNativeSupportEnabled` option. ([#2834](https://github.com/getsentry/sentry-unity/pull/2834))
+
+### Fixes
+
+- Hardened the `UnityLogger` to no longer throw when failing to format a log message. ([#2832](https://github.com/getsentry/sentry-unity/pull/2832))
+- IL2CPP line numbers now work on Android x86/x86_64 builds. il2cpp fails to report the image UUID there, so the SDK falls back to looking the debug image up by name ([#2817](https://github.com/getsentry/sentry-unity/pull/2817))
+- When targeting WebGL or Nintendo Switch without native support, `UnityWebRequestTransport` no longer opens a connection while the platform reports no network, and backs off exponentially (1s up to 300s) after a connection error instead of retrying on every envelope. ([#2833](https://github.com/getsentry/sentry-unity/pull/2833))
+- When targeting Nintendo Switch, the SDK now utilizes sentry-switch to poll the network status before sending. ([#2833](https://github.com/getsentry/sentry-unity/pull/2833))
+
+### Dependencies
+
+- Bump .NET SDK from v6.8.0 to v6.10.0 ([#2815](https://github.com/getsentry/sentry-unity/pull/2815), [#2828](https://github.com/getsentry/sentry-unity/pull/2828))
+  - [changelog](https://github.com/getsentry/sentry-dotnet/blob/main/CHANGELOG.md#6100)
+  - [diff](https://github.com/getsentry/sentry-dotnet/compare/6.8.0...6.10.0)
+- Bump Native SDK from v0.16.2 to v0.16.5 ([#2820](https://github.com/getsentry/sentry-unity/pull/2820), [#2826](https://github.com/getsentry/sentry-unity/pull/2826))
+  - [changelog](https://github.com/getsentry/sentry-native/blob/master/CHANGELOG.md#0165)
+  - [diff](https://github.com/getsentry/sentry-native/compare/0.16.2...0.16.5)
+- Bump Java SDK from v8.53.0 to v8.55.0 ([#2822](https://github.com/getsentry/sentry-unity/pull/2822), [#2829](https://github.com/getsentry/sentry-unity/pull/2829))
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md#8550)
+  - [diff](https://github.com/getsentry/sentry-java/compare/8.53.0...8.55.0)
+- Bump Cocoa SDK from v9.26.0 to v9.27.0 ([#2823](https://github.com/getsentry/sentry-unity/pull/2823), [#2830](https://github.com/getsentry/sentry-unity/pull/2830))
+  - [changelog](https://github.com/getsentry/sentry-cocoa/blob/main/CHANGELOG.md#9270)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/9.26.0...9.27.0)
+- Bump CLI from v3.6.2 to v3.7.0 ([#2824](https://github.com/getsentry/sentry-unity/pull/2824))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#370)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/3.6.2...3.7.0)
+
 ## 4.9.0
 
 ### Features
