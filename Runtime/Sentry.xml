@@ -3758,6 +3758,11 @@
             Used for HttpResponseMessage hints
             </summary>
         </member>
+        <member name="F:Sentry.HintTypes.Exception">
+            <summary>
+            Used for the <see cref="T:System.Exception"/> that a breadcrumb was created from
+            </summary>
+        </member>
         <member name="T:Sentry.Http.HttpTransportBase">
             <summary>
             Provides a base class for Sentry HTTP transports.  Used internally by the Sentry SDK,
@@ -4002,6 +4007,22 @@
             <param name="type">Breadcrumb type.</param>
             <param name="data">Additional data.</param>
             <param name="level">Breadcrumb level.</param>
+            <remarks>
+            This method is to be used by integrations to allow testing.
+            </remarks>
+        </member>
+        <member name="M:Sentry.HubExtensions.AddBreadcrumb(Sentry.IHub,Sentry.Infrastructure.ISystemClock,System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String},Sentry.BreadcrumbLevel,Sentry.SentryHint)">
+            <summary>
+            Adds a breadcrumb using a custom <see cref="T:Sentry.Infrastructure.ISystemClock"/> which allows better testability.
+            </summary>
+            <param name="hub">The Hub which holds the scope stack.</param>
+            <param name="clock">The system clock.</param>
+            <param name="message">The message.</param>
+            <param name="category">Category.</param>
+            <param name="type">Breadcrumb type.</param>
+            <param name="data">Additional data.</param>
+            <param name="level">Breadcrumb level.</param>
+            <param name="hint">A hint provided with the breadcrumb in the BeforeBreadcrumb callback.</param>
             <remarks>
             This method is to be used by integrations to allow testing.
             </remarks>
@@ -5103,6 +5124,21 @@
             This rest of the information is obtained from the Module.
             </summary>
         </member>
+        <member name="M:Sentry.Internal.Extensions.StreamExtensions.ReadLineAsync(System.IO.Stream,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Reads a single line from the stream.
+            </summary>
+            <param name="stream">The stream to read from.</param>
+            <param name="maxLength">
+            When supplied, the maximum number of bytes the line may occupy. Callers that know what a
+            reasonable length looks like should pass it, so that a corrupt stream containing no newline
+            fails fast instead of being buffered into memory in its entirety.
+            </param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <exception cref="T:System.IO.InvalidDataException">
+            No newline was found within <paramref name="maxLength"/> bytes.
+            </exception>
+        </member>
         <member name="M:Sentry.Internal.Extensions.StringExtensions.NullIfWhitespace(System.String)">
             <summary>
             Returns <c>null</c> if <paramref name="str"/> is <c>null</c> or contains only whitespace.
@@ -5270,6 +5306,11 @@
             
              See https://github.com/getsentry/sentry-dotnet/issues/3178
              </remarks>
+        </member>
+        <member name="M:Sentry.Internal.Http.CachingTransport.TryReadContentsForLogging(System.String)">
+            <summary>
+            Only corrupt files get here and they can be huge, so don't read the whole thing
+            </summary>
         </member>
         <member name="T:Sentry.Internal.Http.DefaultSentryHttpClientFactory">
             <summary>
@@ -7978,6 +8019,12 @@
             Envelope.
             </summary>
         </member>
+        <member name="F:Sentry.Protocol.Envelopes.Envelope.MaxHeaderLineLength">
+            <summary>
+            The envelope header is a single short JSON object.
+            Bounding the read stops us buffering a whole corrupt file into memory.
+            </summary>
+        </member>
         <member name="P:Sentry.Protocol.Envelopes.Envelope.Header">
             <summary>
             Header associated with the envelope.
@@ -8072,6 +8119,12 @@
         <member name="T:Sentry.Protocol.Envelopes.EnvelopeItem">
             <summary>
             Envelope item.
+            </summary>
+        </member>
+        <member name="F:Sentry.Protocol.Envelopes.EnvelopeItem.MaxHeaderLineLength">
+            <summary>
+            An item header is a single short JSON object.
+            Bounding the read stops us buffering a whole corrupt file into memory.
             </summary>
         </member>
         <member name="P:Sentry.Protocol.Envelopes.EnvelopeItem.Header">
@@ -13665,6 +13718,11 @@
             Stores either a plain string or a Regular Expression, typically to match against filters in the SentryOptions
             </summary>
         </member>
+        <member name="P:Sentry.StringOrRegex.IsRegex">
+            <summary>
+            Whether this instance contains a regular expression.
+            </summary>
+        </member>
         <member name="M:Sentry.StringOrRegex.#ctor(System.String)">
             <summary>
             Constructs a <see cref="T:Sentry.StringOrRegex"/> instance.
@@ -14194,6 +14252,12 @@
         <member name="T:SentryExceptionExtensions">
             <summary>
             Extends Exception with formatted data that can be used by Sentry SDK.
+            </summary>
+        </member>
+        <member name="M:SentryExceptionExtensions.ToHint(System.Exception)">
+            <summary>
+            Creates a <see cref="T:Sentry.SentryHint"/> carrying the exception that a breadcrumb was created from, or
+            <see langword="null"/> if there is no exception.
             </summary>
         </member>
         <member name="M:SentryExceptionExtensions.AddSentryTag(System.Exception,System.String,System.String)">
