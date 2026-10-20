@@ -1,5 +1,5 @@
 ---
 triple:          'arm64-apple-darwin'
-binary-path:     'XCFrameworkBuildPath/framework/SentryObjC/iphoneos/SentryObjC.framework/SentryObjC'
+binary-path:     '/Users/runner/work/sentry-unity/sentry-unity/temp/sentry-cocoa/4f135c52afeeb1d6937eb93824c7ec1cddcaa372/framework/SentryObjC/iphoneos/SentryObjC.framework/SentryObjC'
 relocations:     []
 ...
