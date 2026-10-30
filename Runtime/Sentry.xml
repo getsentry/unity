@@ -4102,6 +4102,72 @@
             <param name="level">The message level.</param>
             <returns>The Id of the event</returns>
         </member>
+        <member name="M:Sentry.HubExtensions.WithMonitor(Sentry.IHub,System.String,System.Action,System.Action{Sentry.SentryMonitorOptions})">
+            <summary>
+            Runs <paramref name="job"/> and reports it to the cron monitor <paramref name="monitorSlug"/>: an
+            in-progress check-in before the job starts, then an ok or error check-in with the job's duration.
+            Exceptions thrown by the job are rethrown.
+            </summary>
+            <remarks>
+            The job runs in its own scope. Unless a span is active, each run gets a new trace, shared by its check-ins
+            and any events captured while it runs.
+            </remarks>
+            <example>
+            <code>
+            hub.WithMonitor("nightly-cleanup", () => Cleanup(), options =>
+            {
+                options.Interval("0 3 * * *");
+                options.CheckInMargin = TimeSpan.FromMinutes(5);
+            });
+            </code>
+            </example>
+            <param name="hub">The Sentry hub.</param>
+            <param name="monitorSlug">The slug of the monitor.</param>
+            <param name="job">The job to run.</param>
+            <param name="configureMonitorOptions">
+            Optional monitor config, sent with the in-progress check-in. Sentry creates or updates the monitor from it.
+            </param>
+        </member>
+        <member name="M:Sentry.HubExtensions.WithMonitor``1(Sentry.IHub,System.String,System.Func{``0},System.Action{Sentry.SentryMonitorOptions})">
+            <inheritdoc cref="M:Sentry.HubExtensions.WithMonitor(Sentry.IHub,System.String,System.Action,System.Action{Sentry.SentryMonitorOptions})"/>
+            <returns>The value returned by <paramref name="job"/>.</returns>
+            <remarks>
+            The job runs in its own scope. Unless a span is active, each run gets a new trace, shared by its check-ins
+            and any events captured while it runs.
+            For a job that returns a task, use <c>WithMonitorAsync</c>.
+            </remarks>
+            <exception cref="T:System.ArgumentException"><typeparamref name="T"/> is a <see cref="T:System.Threading.Tasks.Task"/> or <see cref="T:System.Threading.Tasks.ValueTask"/> type.</exception>
+        </member>
+        <member name="M:Sentry.HubExtensions.WithMonitorAsync(Sentry.IHub,System.String,System.Func{System.Threading.Tasks.Task},System.Action{Sentry.SentryMonitorOptions})">
+            <summary>
+            Runs <paramref name="job"/> and reports it to the cron monitor <paramref name="monitorSlug"/>: an
+            in-progress check-in before the job starts, then an ok or error check-in with the job's duration
+            once the returned task completes. Exceptions thrown by the job are rethrown.
+            </summary>
+            <remarks>
+            The job runs in its own scope. Unless a span is active, each run gets a new trace, shared by its check-ins
+            and any events captured while it runs.
+            </remarks>
+            <example>
+            <code>
+            await hub.WithMonitorAsync("nightly-cleanup", async () => await CleanupAsync(), options =>
+            {
+                options.Interval("0 3 * * *");
+                options.CheckInMargin = TimeSpan.FromMinutes(5);
+            });
+            </code>
+            </example>
+            <param name="hub">The Sentry hub.</param>
+            <param name="monitorSlug">The slug of the monitor.</param>
+            <param name="job">The job to run.</param>
+            <param name="configureMonitorOptions">
+            Optional monitor config, sent with the in-progress check-in. Sentry creates or updates the monitor from it.
+            </param>
+        </member>
+        <member name="M:Sentry.HubExtensions.WithMonitorAsync``1(Sentry.IHub,System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Action{Sentry.SentryMonitorOptions})">
+            <inheritdoc cref="M:Sentry.HubExtensions.WithMonitorAsync(Sentry.IHub,System.String,System.Func{System.Threading.Tasks.Task},System.Action{Sentry.SentryMonitorOptions})"/>
+            <returns>The value returned by <paramref name="job"/>.</returns>
+        </member>
         <member name="M:Sentry.HubExtensions.GetTraceIdAndSpanId(Sentry.IHub,Sentry.SentryId@,System.Nullable{Sentry.SpanId}@)">
             <summary>
             Get <paramref name="traceId"/> of either the currently active Span, or the current Scope.
@@ -4894,6 +4960,12 @@
              See https://github.com/getsentry/sentry-dotnet/issues/2516
              </summary>
         </member>
+        <member name="M:Sentry.Internal.ConcurrentQueueLite`1.EnqueueRange(Sentry.Internal.ConcurrentQueueLite{`0})">
+            <summary>
+            Appends all the items in <paramref name="source"/> to this queue.
+            Intended for populating a queue that is not yet shared with other threads.
+            </summary>
+        </member>
         <member name="T:Sentry.Internal.Constants">
             <summary>
             Internal Constant Values.
@@ -4930,6 +5002,14 @@
             <remarks>
             WriteScope() is called in a new Task (background thread from a pool).
             It's also only used once. For changes in the scope done during the execution, ScopeObserver is used
+            </remarks>
+        </member>
+        <member name="T:Sentry.Internal.CrontabValidator">
+            <summary>
+            Validates the crontab format Sentry accepts for monitor schedules.
+            </summary>
+            <remarks>
+            Also compiled into Sentry.Hangfire, which can't see Sentry's internals because it isn't strong-named.
             </remarks>
         </member>
         <member name="T:Sentry.Internal.DebugStackTrace">
@@ -5035,24 +5115,6 @@
             </summary>
             <param name="email">The email address to validate.</param>
             <returns>True if the email is valid, false otherwise.</returns>
-        </member>
-        <member name="T:Sentry.Internal.ExceptionHandlingSynchronizationContext">
-            <summary>
-            See https://www.jamescrosswell.dev/posts/catching-async-void-exceptions/ for a detailed explanation
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.ExceptionHandlingSynchronizationContext.#ctor(System.Action{System.Exception},System.Threading.SynchronizationContext)">
-            <summary>
-            See https://www.jamescrosswell.dev/posts/catching-async-void-exceptions/ for a detailed explanation
-            </summary>
-        </member>
-        <member name="M:Sentry.Internal.Extensions.JsonExtensions.GetSafeDateTimeOffset(System.Text.Json.JsonElement,System.String)">
-            <summary>
-            Safety value to deal with native serialization - allows datetimeoffset to come in as a long or string value
-            </summary>
-            <param name="json"></param>
-            <param name="propertyName"></param>
-            <returns></returns>
         </member>
         <member name="P:Sentry.Internal.Extensions.SentryJsonContext.Boolean">
             <summary>
@@ -5493,6 +5555,19 @@
             </summary>
             <param name="module">A Module instance</param>
             <returns>module.Name, if this is available. module.ScopeName otherwise</returns>
+        </member>
+        <member name="T:Sentry.Internal.MonitorSlug">
+            <summary>
+            Builds monitor slugs the way Sentry's slugify_monitor_slug does, so Sentry shows the same slug.
+            </summary>
+            <remarks>
+            Also compiled into Sentry.Hangfire, which can't see Sentry's internals because it isn't strong-named.
+            </remarks>
+        </member>
+        <member name="M:Sentry.Internal.MonitorSlug.From(System.String)">
+            <summary>
+            Returns the slug of <paramref name="value"/>, or <c>null</c> when nothing usable is left.
+            </summary>
         </member>
         <member name="T:Sentry.Internal.NoOpSpan">
             <summary>
@@ -7381,6 +7456,70 @@
             <param name="configureMonitorOptions">The optional monitor config used to create a Check-In programmatically.</param>
             <returns>The ID of the check-in.</returns>
         </member>
+        <member name="M:Sentry.SentrySdk.WithMonitor(System.String,System.Action,System.Action{Sentry.SentryMonitorOptions})">
+            <summary>
+            Runs <paramref name="job"/> and reports it to the cron monitor <paramref name="monitorSlug"/>: an
+            in-progress check-in before the job starts, then an ok or error check-in with the job's duration.
+            Exceptions thrown by the job are rethrown.
+            </summary>
+            <remarks>
+            The job runs in its own scope. Unless a span is active, each run gets a new trace, shared by its check-ins
+            and any events captured while it runs.
+            </remarks>
+            <example>
+            <code>
+            SentrySdk.WithMonitor("nightly-cleanup", () => Cleanup(), options =>
+            {
+                options.Interval("0 3 * * *");
+                options.CheckInMargin = TimeSpan.FromMinutes(5);
+            });
+            </code>
+            </example>
+            <param name="monitorSlug">The slug of the monitor.</param>
+            <param name="job">The job to run.</param>
+            <param name="configureMonitorOptions">
+            Optional monitor config, sent with the in-progress check-in. Sentry creates or updates the monitor from it.
+            </param>
+        </member>
+        <member name="M:Sentry.SentrySdk.WithMonitor``1(System.String,System.Func{``0},System.Action{Sentry.SentryMonitorOptions})">
+            <inheritdoc cref="M:Sentry.SentrySdk.WithMonitor(System.String,System.Action,System.Action{Sentry.SentryMonitorOptions})"/>
+            <returns>The value returned by <paramref name="job"/>.</returns>
+            <remarks>
+            The job runs in its own scope. Unless a span is active, each run gets a new trace, shared by its check-ins
+            and any events captured while it runs.
+            For a job that returns a task, use <c>WithMonitorAsync</c>.
+            </remarks>
+            <exception cref="T:System.ArgumentException"><typeparamref name="T"/> is a <see cref="T:System.Threading.Tasks.Task"/> or <see cref="T:System.Threading.Tasks.ValueTask"/> type.</exception>
+        </member>
+        <member name="M:Sentry.SentrySdk.WithMonitorAsync(System.String,System.Func{System.Threading.Tasks.Task},System.Action{Sentry.SentryMonitorOptions})">
+            <summary>
+            Runs <paramref name="job"/> and reports it to the cron monitor <paramref name="monitorSlug"/>: an
+            in-progress check-in before the job starts, then an ok or error check-in with the job's duration
+            once the returned task completes. Exceptions thrown by the job are rethrown.
+            </summary>
+            <remarks>
+            The job runs in its own scope. Unless a span is active, each run gets a new trace, shared by its check-ins
+            and any events captured while it runs.
+            </remarks>
+            <example>
+            <code>
+            await SentrySdk.WithMonitorAsync("nightly-cleanup", async () => await CleanupAsync(), options =>
+            {
+                options.Interval("0 3 * * *");
+                options.CheckInMargin = TimeSpan.FromMinutes(5);
+            });
+            </code>
+            </example>
+            <param name="monitorSlug">The slug of the monitor.</param>
+            <param name="job">The job to run.</param>
+            <param name="configureMonitorOptions">
+            Optional monitor config, sent with the in-progress check-in. Sentry creates or updates the monitor from it.
+            </param>
+        </member>
+        <member name="M:Sentry.SentrySdk.WithMonitorAsync``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Action{Sentry.SentryMonitorOptions})">
+            <inheritdoc cref="M:Sentry.SentrySdk.WithMonitorAsync(System.String,System.Func{System.Threading.Tasks.Task},System.Action{Sentry.SentryMonitorOptions})"/>
+            <returns>The value returned by <paramref name="job"/>.</returns>
+        </member>
         <member name="M:Sentry.SentrySdk.StartSpan(System.String,System.String)">
             <summary>
             Starts a transaction if there is not already one active on the scope, otherwise starts a new child span on the
@@ -7765,6 +7904,22 @@
             <summary>
             True if the device has a internet connection.
             </summary>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ConnectionType">
+            <summary>
+            The type of the internet connection.
+            </summary>
+            <example>
+            wifi, ethernet, cellular
+            </example>
+        </member>
+        <member name="P:Sentry.Protocol.Device.ConnectionEffectiveType">
+            <summary>
+            The generation of the cellular network technology, if the connection is cellular.
+            </summary>
+            <example>
+            2g, 3g, 4g, 5g
+            </example>
         </member>
         <member name="P:Sentry.Protocol.Device.Orientation">
             <summary>
@@ -11905,7 +12060,7 @@
             The default value is <c>false</c>. Set to <c>true</c> to enable W3C Trace Context propagation
             for interoperability with services that support OpenTelemetry standards.
             </remarks>
-            <seealso href="https://develop.sentry.dev/sdk/telemetry/traces/#propagatetraceparent"/>
+            <seealso href="https://docs.sentry.io/platforms/dotnet/configuration/options/#PropagateTraceparent"/>
         </member>
         <member name="P:Sentry.SentryOptions.StrictTraceContinuation">
             <summary>
@@ -13723,6 +13878,11 @@
             Whether this instance contains a regular expression.
             </summary>
         </member>
+        <member name="P:Sentry.StringOrRegex.Regex">
+            <summary>
+            The regular expression, or <c>null</c> when this instance contains a plain string.
+            </summary>
+        </member>
         <member name="M:Sentry.StringOrRegex.#ctor(System.String)">
             <summary>
             Constructs a <see cref="T:Sentry.StringOrRegex"/> instance.
@@ -13746,7 +13906,7 @@
         </member>
         <member name="M:Sentry.StringOrRegex.op_Implicit(System.Text.RegularExpressions.Regex)~Sentry.StringOrRegex">
             <summary>
-            Implicitly converts a <see cref="T:System.Text.RegularExpressions.Regex"/> to a <see cref="T:Sentry.StringOrRegex"/>.
+            Implicitly converts a <see cref="P:Sentry.StringOrRegex.Regex"/> to a <see cref="T:Sentry.StringOrRegex"/>.
             </summary>
             <param name="regex"></param>
         </member>
